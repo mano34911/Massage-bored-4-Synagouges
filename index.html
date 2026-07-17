@@ -213,7 +213,7 @@ body {
 <div class="date">5 June 2026 | ט׳ סיון תשפ״ו</div>
 
 <div class="times">
-<div id="liveclock" class="live-clock">שעה נוכחית (ניו יורק): --:--:--</div>
+<div id="liveclock" class="live-clock">שעה נוכחית: 07:12:33</div>
 
 <div>נץ: 05:34</div>
 <div>שחרית: 06:15</div>
@@ -261,24 +261,6 @@ Emmanuel Hileah ✡ עמנואל חלא ✡ ורד ואריאל יהודה ✡ �
 </div>
 
 <script type="text/javascript">
-function updateEasternClock() {
-  var clock = document.getElementById("liveclock");
-  if (!clock) return;
-
-  var easternTime = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true
-  }).format(new Date());
-
-  clock.textContent = "שעה נוכחית (ניו יורק): " + easternTime;
-}
-
-setInterval(updateEasternClock, 1000);
-updateEasternClock();
-
 function playMusicNow() {
   var audio = document.getElementById("bgMusic");
   if (!audio) return;
@@ -301,7 +283,6 @@ function tryAutoMusic() {
 }
 
 window.onload = function() {
-  updateEasternClock();
   tryAutoMusic();
   setTimeout(tryAutoMusic, 500);
   setTimeout(tryAutoMusic, 1500);
