@@ -2,171 +2,91 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>לוח בית הכנסת אליהו הנביא</title>
 <style>
-:root{
-  --black:#030303;--panel:#080808;--frame:#171717;--white:#f8fbff;
-  --cyan:#55f4ff;--yellow:#ffe33f;--green:#5cff83;--amber:#ffc928;
-}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
-body{display:grid;place-items:center;padding:1.2vmin;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--white)}
-.board{
-  position:relative;width:min(98vw,1770px);height:min(96vh,900px);min-height:0;aspect-ratio:16/7.5;
-  border:clamp(10px,1.25vw,24px) solid var(--frame);border-radius:8px;
-  box-shadow:0 14px 45px #000,inset 0 0 0 2px #333;
-  background:radial-gradient(circle at 50% 38%,#111 0,#060606 52%,#020202 100%);
-  padding:clamp(12px,1.25vw,24px);overflow:hidden;
-  display:grid;gap:clamp(6px,.65vw,13px);
-  grid-template-columns:1fr 1.65fr 1fr;
-  grid-template-rows:minmax(52px,.62fr) minmax(120px,1.35fr) minmax(105px,.88fr) minmax(86px,.72fr) minmax(42px,.42fr);
-}
-.board:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.20;z-index:10;
- background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.2px);background-size:5px 5px;mix-blend-mode:screen}
-.cell{min-width:0;min-height:0;overflow:hidden;position:relative;z-index:2}
-.led{font-weight:800;letter-spacing:.025em;text-shadow:0 0 5px currentColor,0 0 12px currentColor}
-.cyan{color:var(--cyan)}.yellow{color:var(--yellow)}.green{color:var(--green)}.white{color:var(--white)}
-.top-left{grid-column:3;grid-row:1;text-align:right;display:flex;flex-direction:column;justify-content:center}
-.top-center{grid-column:2;grid-row:1;text-align:center;display:flex;align-items:center;justify-content:center}
-.top-right{grid-column:1;grid-row:1;text-align:left;direction:ltr;display:flex;align-items:center}
-.greg{font-size:clamp(20px,2.1vw,42px);white-space:nowrap}
-.synagogue{font-size:clamp(18px,2vw,40px);white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
-.next-fast-title{font-size:clamp(18px,1.8vw,36px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.day{grid-column:3;grid-row:2;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(34px,4.4vw,78px);line-height:.94}
-.clock{grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;direction:ltr;
- font-family:Consolas,"Courier New",monospace;font-size:clamp(52px,5.74vw,106px);font-weight:500;line-height:.9;white-space:nowrap;max-width:100%;overflow:hidden}
-.parasha{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
-.parasha-label{font-size:clamp(21px,2.15vw,42px)}
-.parasha-name{font-size:clamp(38px,4.3vw,78px);line-height:1;margin-top:.08em;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.fast-box{grid-column:1;grid-row:1/3;align-self:end;margin-bottom:clamp(4px,.5vw,10px);text-align:center;pointer-events:none}
-.fast-name{font-size:clamp(17px,1.65vw,33px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.fast-date{font-size:clamp(14px,1.25vw,25px);margin-top:.15em}
-.zmanim{grid-column:1/4;grid-row:3;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px dotted #5b4a08;border-bottom:2px dotted #5b4a08}
-.zman{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.22vw .35vw;min-width:0;border-inline-start:1px dotted #5b4a08}
-.zman:first-child{border-inline-start:0}
-.z-label{font-size:clamp(12px,1.18vw,23px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center;white-space:normal}
-.z-time{font-family:Consolas,"Courier New",monospace;font-size:clamp(20px,2.1vw,38px);direction:ltr;line-height:1.1;white-space:nowrap}
-.info-row{grid-column:1/4;grid-row:4;display:grid;grid-template-columns:1fr 1.45fr 1fr;border:2px solid #6a5708}
-.info{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;padding:.22vw .65vw;border-inline-start:1px dotted #6a5708;overflow:hidden}
-.info:first-child{border-inline-start:0}
-.info-label{font-size:clamp(13px,1.22vw,24px);line-height:1.05}
-.info-value{font-size:clamp(19px,2vw,36px);margin-top:.15em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ticker-wrap{grid-column:1/4;grid-row:5;overflow:hidden;display:flex;align-items:center;direction:ltr;border-top:1px solid #222}
-.ticker{display:inline-block;min-width:max-content;padding-inline:2rem;font-size:clamp(14px,1.4vw,27px);animation:move 28s linear infinite;direction:rtl;white-space:nowrap}
-@keyframes move{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
-.credit{position:absolute;left:9px;bottom:3px;color:#555;font:10px Arial;z-index:3}
-@media(max-width:850px){
- body{padding:0}.board{width:100vw;height:100vh;aspect-ratio:auto;min-height:0;border-width:7px;border-radius:0;padding:7px;gap:5px;grid-template-rows:minmax(42px,.58fr) minmax(95px,1.18fr) minmax(96px,.9fr) minmax(76px,.68fr) minmax(38px,.4fr)}
- .clock{font-size:clamp(36px,8vw,64px)}.day{font-size:clamp(28px,7vw,54px)}.parasha-name{font-size:clamp(30px,7vw,56px)}.zmanim{grid-template-columns:repeat(7,minmax(0,1fr))}.z-label{font-size:clamp(8px,1.75vw,15px)}.z-time{font-size:clamp(13px,2.7vw,24px)}.info-label{font-size:clamp(10px,2vw,17px)}.info-value{font-size:clamp(14px,3vw,25px)}.ticker{font-size:clamp(12px,2.3vw,20px)}
-}
-@media(max-height:620px) and (orientation:landscape){
- .board{height:98vh;width:99vw;aspect-ratio:auto;border-width:7px;padding:7px;gap:4px;grid-template-rows:44px minmax(92px,1fr) 104px 72px 36px}
- .greg,.synagogue,.next-fast-title{font-size:clamp(16px,2vw,30px)}
- .clock{font-size:clamp(40px,6vw,76px)}.day{font-size:clamp(28px,4.4vw,54px)}.parasha-label{font-size:clamp(15px,1.8vw,26px)}.parasha-name{font-size:clamp(30px,4vw,56px)}
- .fast-name{font-size:clamp(13px,1.5vw,21px)}.fast-date{font-size:clamp(11px,1.1vw,17px)}
- .z-label{font-size:clamp(10px,1.15vw,17px)}.z-time{font-size:clamp(17px,2vw,29px)}
- .info-label{font-size:clamp(11px,1.15vw,18px)}.info-value{font-size:clamp(16px,1.9vw,28px)}.ticker{font-size:clamp(12px,1.35vw,20px)}
-}
+:root{--bg:#000;--panel:#050505;--frame1:#282828;--frame2:#090909;--white:#f8fbff;--cyan:#39f5ff;--yellow:#ffe11f;--green:#66ff55;--line:#8b7600}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;background:#000;overflow:hidden}
+body{display:grid;place-items:center;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--white)}
+.board{position:relative;width:min(100vw,1600px);height:min(100vh,960px);aspect-ratio:5/3;background:radial-gradient(circle at 50% 32%,#111 0,#050505 56%,#010101 100%);border:clamp(8px,1.2vw,20px) solid var(--frame1);box-shadow:inset 0 0 0 7px var(--frame2),inset 0 0 0 9px #333,0 12px 30px #000;padding:clamp(18px,2vw,34px) clamp(22px,2.5vw,42px);overflow:hidden;display:grid;grid-template-rows:30% 31% 18% 12% 9%;gap:0}
+.board:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.22;background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.15px);background-size:5px 5px;mix-blend-mode:screen}
+.led{font-weight:800;letter-spacing:.02em;text-shadow:0 0 5px currentColor,0 0 12px currentColor}.cyan{color:var(--cyan)}.yellow{color:var(--yellow)}.green{color:var(--green)}.white{color:var(--white)}
+.top{display:grid;grid-template-columns:1fr 1.55fr 1fr;direction:ltr;min-height:0}
+.top>section{direction:rtl;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.leftBlock{align-items:flex-start!important}.rightBlock{align-items:flex-end!important}
+.greg{font-size:clamp(25px,2.55vw,46px);direction:ltr;white-space:nowrap}.day{font-size:clamp(34px,3.55vw,65px);line-height:1;margin-top:.25em;white-space:nowrap}
+.fastSmall{margin-top:.55em;padding-top:.42em;border-top:3px dotted var(--line);width:92%;text-align:center}.fastLabel{font-size:clamp(20px,2.15vw,38px)}.fastStart{font-size:clamp(25px,2.75vw,48px);direction:ltr;margin-top:.12em}
+.centerTitle{font-size:clamp(20px,2.1vw,38px);white-space:nowrap}.clock{font-family:Consolas,"Courier New",monospace;font-size:clamp(62px,7.4vw,122px);font-weight:500;line-height:.9;direction:ltr;white-space:nowrap;margin-top:.24em}
+.synagogue{font-size:clamp(24px,2.55vw,46px);white-space:nowrap}.parashaLabel{font-size:clamp(21px,2.1vw,38px);margin-top:.3em}.parasha{font-size:clamp(38px,4.2vw,76px);line-height:.95;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.fastBox{margin-top:.42em;padding-top:.38em;border-top:3px dotted var(--line);width:92%;text-align:center}.fastName{font-size:clamp(20px,2.15vw,38px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.fastDate{font-size:clamp(16px,1.55vw,28px);margin-top:.18em;white-space:nowrap}
+.zmanim{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));direction:ltr;border-top:3px dotted var(--line);border-bottom:3px dotted var(--line);min-height:0}
+.zman{direction:rtl;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:.3em .25em;border-right:2px dotted var(--line);overflow:hidden}.zman:last-child{border-right:0}.zlabel{font-size:clamp(16px,1.75vw,31px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center}.zicon{font-size:clamp(20px,2.1vw,38px);line-height:1;margin:.12em 0}.ztime{font-family:Consolas,"Courier New",monospace;font-size:clamp(25px,2.8vw,50px);direction:ltr;white-space:nowrap}
+.bottomInfo{display:grid;grid-template-columns:1fr 2.15fr 1fr;direction:ltr;border:3px solid var(--line);min-height:0}
+.info{direction:rtl;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;border-right:2px dotted var(--line);padding:.15em .55em}.info:last-child{border-right:0}.infoLabel{font-size:clamp(16px,1.7vw,30px)}.infoValue{font-size:clamp(24px,2.55vw,46px);line-height:1.05;margin-top:.08em;white-space:nowrap}.hebrewDate{font-size:clamp(31px,3.25vw,59px);white-space:nowrap}.symbols{font-size:clamp(24px,2.7vw,48px);margin-inline:.35em}
+.tickerRow{display:flex;align-items:center;min-height:0;border-top:1px solid #222;overflow:hidden;direction:ltr}.speaker{font-size:clamp(22px,2.55vw,45px);margin-right:.5em}.tickerViewport{overflow:hidden;flex:1}.ticker{display:inline-block;min-width:max-content;white-space:nowrap;font-size:clamp(17px,1.85vw,33px);direction:rtl;animation:scroll 28s linear infinite}.ticker:hover{animation-play-state:paused}@keyframes scroll{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@media(max-aspect-ratio:5/3){.board{width:100vw;height:auto;max-height:100vh}}@media(min-aspect-ratio:5/3){.board{height:100vh;width:auto;max-width:100vw}}
+@media(max-height:650px){.board{padding:10px 16px;grid-template-rows:29% 31% 18% 13% 9%}.clock{font-size:clamp(48px,7vw,88px)}.zlabel{font-size:clamp(12px,1.55vw,22px)}.ztime{font-size:clamp(19px,2.45vw,35px)}.infoLabel{font-size:clamp(12px,1.45vw,21px)}.infoValue{font-size:clamp(18px,2.15vw,31px)}.hebrewDate{font-size:clamp(24px,2.75vw,40px)}.ticker{font-size:clamp(13px,1.55vw,23px)}}
 </style>
 </head>
 <body>
-<main class="board" aria-label="לוח מידע דיגיטלי לבית הכנסת">
-  <section class="cell top-left">
-    <div id="gregDate" class="greg led cyan">--.--.----</div>
-  </section>
-  <section class="cell top-center"><div id="synagogue" class="synagogue led yellow">בית הכנסת אליהו הנביא</div></section>
-  <section class="cell top-right"><div id="nextFastTitle" class="next-fast-title led cyan">הצום הבא</div></section>
+<main class="board" aria-label="לוח בית הכנסת">
+  <div class="top">
+    <section class="leftBlock">
+      <div id="gregDate" class="greg led cyan">01.08.2026</div>
+      <div id="dayName" class="day led white">ליל שלישי</div>
+      <div class="fastSmall"><div class="fastLabel led yellow">תחילת הצום</div><div id="fastStart" class="fastStart led white">--:--</div></div>
+    </section>
+    <section>
+      <div id="hebrewTop" class="centerTitle led yellow">ה׳ אב תשפ״ו</div>
+      <div id="clock" class="clock led white">22:38:55</div>
+    </section>
+    <section class="rightBlock">
+      <div class="synagogue led cyan">ירושלים</div>
+      <div class="parashaLabel led white">פרשת השבוע</div>
+      <div id="parasha" class="parasha led white">שלח</div>
+      <div class="fastBox"><div id="fastName" class="fastName led yellow">צום חזון</div><div id="fastDate" class="fastDate led white">יום ראשון י׳ אב</div></div>
+    </section>
+  </div>
 
-  <section id="dayName" class="cell day led white">יום</section>
-  <section id="clock" class="cell clock led white" aria-label="השעה הנוכחית">00:00:00</section>
-  <section class="cell parasha">
-    <div class="parasha-label led white">פרשת השבוע</div>
-    <div id="parasha" class="parasha-name led white">טוען</div>
-  </section>
-  <section class="fast-box cell">
-    <div id="fastName" class="fast-name led yellow">מחפש צום קרוב...</div>
-    <div id="fastDate" class="fast-date led white"></div>
-  </section>
-
-  <section class="zmanim cell">
-    <div class="zman"><div class="z-label led yellow">עלות השחר</div><div id="alot" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">זריחה</div><div id="sunrise" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">סוף זמן<br>קריאת שמע</div><div id="shema" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">חצות</div><div id="chatzot" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">מנחה גדולה</div><div id="mincha" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">שקיעה</div><div id="sunset" class="z-time led white">--:--</div></div>
-    <div class="zman"><div class="z-label led yellow">צאת<br>הכוכבים</div><div id="tzeit" class="z-time led white">--:--</div></div>
-  </section>
-
-  <section class="info-row cell">
-    <div class="info"><div><div class="info-label led yellow">תחילת הצום</div><div id="fastStart" class="info-value led white">אין צום קרוב</div></div></div>
-    <div class="info"><div><div id="hebrewDate" class="info-value led white">טוען תאריך עברי...</div></div></div>
-    <div class="info"><div><div class="info-label led yellow">הדלקת נרות</div><div id="candles" class="info-value led white">--:--</div></div></div>
+  <section class="zmanim">
+    <div class="zman"><div class="zlabel led yellow">עלות השחר</div><div class="zicon led yellow">🌅</div><div id="alot" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">זריחה</div><div class="zicon led yellow">☀</div><div id="sunrise" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">סוף זמן<br>קריאת שמע</div><div class="zicon led white">▣</div><div id="shema" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">חצות</div><div class="zicon led yellow">🌅</div><div id="chatzot" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">מנחה גדולה</div><div class="zicon led yellow">☀</div><div id="mincha" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">שקיעה</div><div class="zicon led yellow">🌄</div><div id="sunset" class="ztime led white">--:--</div></div>
+    <div class="zman"><div class="zlabel led yellow">צאת<br>הכוכבים</div><div class="zicon led white">✦⋆✦</div><div id="tzeit" class="ztime led white">--:--</div></div>
   </section>
 
-  <section class="ticker-wrap cell"><div id="ticker" class="ticker led green">ברוכים הבאים לבית הכנסת אליהו הנביא • הלוח מתעדכן אוטומטית לפי שעון ניו יורק</div></section>
-  <div class="credit">Calendar data: Hebcal.com</div>
+  <section class="bottomInfo">
+    <div class="info"><div><div class="infoLabel led yellow">הדלקת נרות</div><div id="candles" class="infoValue led white">--:--</div></div></div>
+    <div class="info"><span class="symbols led yellow">✡</span><div id="hebrewDate" class="hebrewDate led white">שבת שלום!</div><span class="symbols led yellow">✡</span></div>
+    <div class="info"><div><div class="infoLabel led yellow">מוצ״ש</div><div id="havdalah" class="infoValue led white">--:--</div></div></div>
+  </section>
+
+  <section class="tickerRow"><div class="speaker led cyan">🔊</div><div class="tickerViewport"><div id="ticker" class="ticker led green">ברוכים הבאים לבית הכנסת אליהו הנביא • שיעור גמרא במוצ״ש 21:15 • לעילוי נשמת זהבה חלא בת דינה</div></div></section>
 </main>
 <script>
-(()=>{
-'use strict';
-const CFG={timeZone:'America/New_York',geonameId:5128581,name:'בית הכנסת אליהו הנביא'};
-const $=id=>document.getElementById(id);
-const dayNames=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
-let lastDate='';
-
-function parts(date=new Date()){
- const f=new Intl.DateTimeFormat('en-CA',{timeZone:CFG.timeZone,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
- return Object.fromEntries(f.formatToParts(date).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]));
-}
-function dateKey(date=new Date()){const p=parts(date);return `${p.year}-${p.month}-${p.day}`}
-function addDays(ymd,n){const [y,m,d]=ymd.split('-').map(Number);const x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
-function showTime(iso){if(!iso)return '--:--';const d=new Date(iso);if(Number.isNaN(d.getTime()))return '--:--';return new Intl.DateTimeFormat('en-GB',{timeZone:CFG.timeZone,hour:'2-digit',minute:'2-digit',hour12:false}).format(d)}
-function choose(o,names){for(const n of names)if(o&&o[n])return o[n];return null}
-function clockTick(){
- const p=parts();const hh=p.hour==='24'?'00':p.hour;
- $('clock').textContent=`${hh}:${p.minute}:${p.second}`;
- $('gregDate').textContent=`${p.month}.${p.day}.${p.year}`;
- const idx=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday);$('dayName').textContent=dayNames[Math.max(0,idx)];
- const today=`${p.year}-${p.month}-${p.day}`;if(lastDate&&today!==lastDate)refresh();lastDate=today;
-}
-function hebrewDate(){
- try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:CFG.timeZone,day:'numeric',month:'long',year:'numeric'}).format(new Date())}
- catch{$('hebrewDate').textContent='תאריך עברי'}
-}
-async function json(url){const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error(String(r.status));return r.json()}
-async function zmanimFor(day){return json(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${CFG.geonameId}&date=${day}`)}
-async function loadTodayZmanim(){
- const d=await zmanimFor(dateKey());const t=d.times||{};
- $('alot').textContent=showTime(choose(t,['alotHaShachar','alotHaShachar72']));
- $('sunrise').textContent=showTime(t.sunrise);$('shema').textContent=showTime(choose(t,['sofZmanShma','sofZmanShmaMGA']));
- $('chatzot').textContent=showTime(t.chatzot);$('mincha').textContent=showTime(t.minchaGedola);
- $('sunset').textContent=showTime(t.sunset);$('tzeit').textContent=showTime(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']));
-}
-async function loadShabbat(){
- const d=await json(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${CFG.geonameId}&M=on&leyning=off&lg=he`);const items=d.items||[];
- const p=items.find(x=>x.category==='parashat');const c=items.find(x=>x.category==='candles');const h=items.find(x=>x.category==='havdalah');
- $('parasha').textContent=(p?.hebrew||p?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?showTime(c.date):'--:--';
- const text=[p?.hebrew,c&&`הדלקת נרות ${showTime(c.date)}`,h&&`צאת השבת ${showTime(h.date)}`,'ברוכים הבאים לבית הכנסת אליהו הנביא'].filter(Boolean).join('  •  ');$('ticker').textContent=text;
-}
-function isLongFast(item){const s=`${item.title||''} ${item.hebrew||''}`;return /Tish'a B'Av|Tisha B'Av|Yom Kippur|תשעה באב|יום כיפור/i.test(s)}
-async function loadNextFast(){
- const start=dateKey(),end=addDays(start,120);
- const url=`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${CFG.geonameId}`;
- const d=await json(url);const fast=(d.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);
- if(!fast){$('fastName').textContent='אין צום בתקופה הקרובה';$('fastDate').textContent='';$('fastStart').textContent='אין צום קרוב';return}
- const fastDay=String(fast.date).slice(0,10);$('fastName').textContent=fast.hebrew||fast.title||'צום';
- const [y,m,dd]=fastDay.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:CFG.timeZone,day:'numeric',month:'long'}).format(new Date(Date.UTC(y,m-1,dd,12)));
- let z;if(isLongFast(fast)){z=await zmanimFor(addDays(fastDay,-1));$('fastStart').textContent=showTime(z.times?.sunset)}
- else{z=await zmanimFor(fastDay);$('fastStart').textContent=showTime(choose(z.times||{},['alotHaShachar','alotHaShachar72']))}
-}
-async function refresh(){
- hebrewDate();const jobs=[loadTodayZmanim(),loadShabbat(),loadNextFast()];
- const results=await Promise.allSettled(jobs);if(results.some(x=>x.status==='rejected')){$('ticker').textContent='השעון ממשיך לפעול • חלק מהמידע דורש חיבור לאינטרנט • נסה לרענן את הדף'}
-}
-$('synagogue').textContent=CFG.name;clockTick();setInterval(clockTick,1000);refresh();setInterval(refresh,30*60*1000);
+(()=>{'use strict';
+const CFG={tz:'America/New_York',geo:5128581}; const $=id=>document.getElementById(id);
+const days=['יום ראשון','יום שני','יום שלישי','יום רביעי','יום חמישי','יום שישי','שבת קודש'];
+function p(d=new Date()){const f=new Intl.DateTimeFormat('en-CA',{timeZone:CFG.tz,year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});return Object.fromEntries(f.formatToParts(d).filter(x=>x.type!=='literal').map(x=>[x.type,x.value]))}
+function ymd(){const x=p();return `${x.year}-${x.month}-${x.day}`} function add(s,n){const [y,m,d]=s.split('-').map(Number),x=new Date(Date.UTC(y,m-1,d+n,12));return x.toISOString().slice(0,10)}
+function tm(iso){if(!iso)return'--:--';return new Intl.DateTimeFormat('en-GB',{timeZone:CFG.tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(iso))}
+function choose(o,a){for(const k of a)if(o&&o[k])return o[k]}
+function tick(){const x=p(),h=x.hour==='24'?'00':x.hour;$('clock').textContent=`${h}:${x.minute}:${x.second}`;$('gregDate').textContent=`${x.month}.${x.day}.${x.year}`;const i=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(x.weekday);$('dayName').textContent=(h>='18'&&i<6)?`ליל ${days[(i+1)%7].replace('יום ','')}`:days[i];try{const hd=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:CFG.tz,day:'numeric',month:'long',year:'numeric'}).format(new Date());$('hebrewTop').textContent=hd}catch{}}
+async function j(u){const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return r.json()}
+async function load(){try{
+ const z=await j(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${CFG.geo}&date=${ymd()}`),t=z.times||{};
+ $('alot').textContent=tm(choose(t,['alotHaShachar','alotHaShachar72']));$('sunrise').textContent=tm(t.sunrise);$('shema').textContent=tm(choose(t,['sofZmanShma','sofZmanShmaMGA']));$('chatzot').textContent=tm(t.chatzot);$('mincha').textContent=tm(t.minchaGedola);$('sunset').textContent=tm(t.sunset);$('tzeit').textContent=tm(choose(t,['tzeit7083deg','tzeit85deg','tzeit42min']));
+ const s=await j(`https://www.hebcal.com/shabbat?cfg=json&geonameid=${CFG.geo}&M=on&leyning=off&lg=he`),it=s.items||[],par=it.find(x=>x.category==='parashat'),c=it.find(x=>x.category==='candles'),h=it.find(x=>x.category==='havdalah');
+ $('parasha').textContent=(par?.hebrew||par?.title||'שבת').replace(/^פרשת\s+/,'');$('candles').textContent=c?tm(c.date):'--:--';$('havdalah').textContent=h?tm(h.date):'--:--';
+ const hd=new Intl.DateTimeFormat('he-u-ca-hebrew',{timeZone:CFG.tz,day:'numeric',month:'long'}).format(new Date());$('hebrewDate').textContent=hd;
+ const start=ymd(),end=add(start,120),cal=await j(`https://www.hebcal.com/hebcal?v=1&cfg=json&start=${start}&end=${end}&maj=on&min=on&mod=on&nx=on&mf=on&lg=he&geo=geoname&geonameid=${CFG.geo}`),f=(cal.items||[]).find(x=>x.category==='fast'&&String(x.date).slice(0,10)>=start);
+ if(f){const fd=String(f.date).slice(0,10);$('fastName').textContent=f.hebrew||f.title;const [Y,M,D]=fd.split('-').map(Number);$('fastDate').textContent=new Intl.DateTimeFormat('he-IL',{weekday:'long',day:'numeric',month:'long'}).format(new Date(Date.UTC(Y,M-1,D,12)));const long=/יום כיפור|תשעה באב|Yom Kippur|Tish/i.test(`${f.hebrew||''}${f.title||''}`),fz=await j(`https://www.hebcal.com/zmanim?cfg=json&geonameid=${CFG.geo}&date=${long?add(fd,-1):fd}`);$('fastStart').textContent=tm(long?fz.times?.sunset:choose(fz.times||{},['alotHaShachar','alotHaShachar72']))}else{$('fastName').textContent='אין צום קרוב';$('fastDate').textContent='';$('fastStart').textContent='--:--'}
+ $('ticker').textContent=[`ברוכים הבאים לבית הכנסת אליהו הנביא`,par?.hebrew&&`פרשת ${$('parasha').textContent}`,c&&`הדלקת נרות ${tm(c.date)}`,h&&`מוצ״ש ${tm(h.date)}`,'לעילוי נשמת זהבה חלא בת דינה'].filter(Boolean).join(' • ')
+ }catch(e){$('ticker').textContent='השעון פעיל • לעדכון זמני היום נדרש חיבור לאינטרנט'}}
+ tick();setInterval(tick,1000);load();setInterval(load,30*60*1000);
 })();
 </script>
-</body>
-</html>
+</body></html>
