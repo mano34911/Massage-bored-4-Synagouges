@@ -13,14 +13,14 @@
 html,body{margin:0;width:100%;height:100%;background:#000;overflow:hidden}
 body{display:grid;place-items:center;padding:1.2vmin;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--white)}
 .board{
-  position:relative;width:min(98vw,1770px);height:min(96vh,760px);min-height:520px;
+  position:relative;width:min(98vw,1770px);height:min(96vh,900px);min-height:0;aspect-ratio:16/7.5;
   border:clamp(10px,1.25vw,24px) solid var(--frame);border-radius:8px;
   box-shadow:0 14px 45px #000,inset 0 0 0 2px #333;
   background:radial-gradient(circle at 50% 38%,#111 0,#060606 52%,#020202 100%);
   padding:clamp(12px,1.25vw,24px);overflow:hidden;
   display:grid;gap:clamp(6px,.65vw,13px);
   grid-template-columns:1fr 1.65fr 1fr;
-  grid-template-rows:.62fr 1.55fr .78fr .82fr .48fr;
+  grid-template-rows:minmax(52px,.62fr) minmax(120px,1.35fr) minmax(105px,.88fr) minmax(86px,.72fr) minmax(42px,.42fr);
 }
 .board:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.20;z-index:10;
  background-image:radial-gradient(circle,rgba(255,255,255,.65) 0 1px,transparent 1.2px);background-size:5px 5px;mix-blend-mode:screen}
@@ -33,32 +33,40 @@ body{display:grid;place-items:center;padding:1.2vmin;font-family:Arial,"Noto San
 .greg{font-size:clamp(20px,2.1vw,42px);white-space:nowrap}
 .synagogue{font-size:clamp(18px,2vw,40px);white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
 .next-fast-title{font-size:clamp(18px,1.8vw,36px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.day{grid-column:3;grid-row:2;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(40px,5.2vw,92px);line-height:.98}
+.day{grid-column:3;grid-row:2;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(34px,4.4vw,78px);line-height:.94}
 .clock{grid-column:2;grid-row:2;display:flex;align-items:center;justify-content:center;direction:ltr;
- font-family:Consolas,"Courier New",monospace;font-size:clamp(74px,8.2vw,152px);font-weight:500;line-height:.9;white-space:nowrap}
+ font-family:Consolas,"Courier New",monospace;font-size:clamp(52px,5.74vw,106px);font-weight:500;line-height:.9;white-space:nowrap;max-width:100%;overflow:hidden}
 .parasha{grid-column:1;grid-row:2;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
 .parasha-label{font-size:clamp(21px,2.15vw,42px)}
-.parasha-name{font-size:clamp(46px,5.2vw,94px);line-height:1;margin-top:.08em;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.parasha-name{font-size:clamp(38px,4.3vw,78px);line-height:1;margin-top:.08em;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .fast-box{grid-column:1;grid-row:1/3;align-self:end;margin-bottom:clamp(4px,.5vw,10px);text-align:center;pointer-events:none}
 .fast-name{font-size:clamp(17px,1.65vw,33px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fast-date{font-size:clamp(14px,1.25vw,25px);margin-top:.15em}
 .zmanim{grid-column:1/4;grid-row:3;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border-top:2px dotted #5b4a08;border-bottom:2px dotted #5b4a08}
 .zman{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:.22vw .35vw;min-width:0;border-inline-start:1px dotted #5b4a08}
 .zman:first-child{border-inline-start:0}
-.z-label{font-size:clamp(13px,1.34vw,27px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center;white-space:normal}
-.z-time{font-family:Consolas,"Courier New",monospace;font-size:clamp(22px,2.45vw,45px);direction:ltr;line-height:1.1;white-space:nowrap}
+.z-label{font-size:clamp(12px,1.18vw,23px);line-height:1.05;min-height:2.1em;display:flex;align-items:center;justify-content:center;white-space:normal}
+.z-time{font-family:Consolas,"Courier New",monospace;font-size:clamp(20px,2.1vw,38px);direction:ltr;line-height:1.1;white-space:nowrap}
 .info-row{grid-column:1/4;grid-row:4;display:grid;grid-template-columns:1fr 1.45fr 1fr;border:2px solid #6a5708}
-.info{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;padding:.4vw .8vw;border-inline-start:1px dotted #6a5708;overflow:hidden}
+.info{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;padding:.22vw .65vw;border-inline-start:1px dotted #6a5708;overflow:hidden}
 .info:first-child{border-inline-start:0}
-.info-label{font-size:clamp(15px,1.45vw,29px);line-height:1.05}
-.info-value{font-size:clamp(22px,2.4vw,44px);margin-top:.15em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.info-label{font-size:clamp(13px,1.22vw,24px);line-height:1.05}
+.info-value{font-size:clamp(19px,2vw,36px);margin-top:.15em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ticker-wrap{grid-column:1/4;grid-row:5;overflow:hidden;display:flex;align-items:center;direction:ltr;border-top:1px solid #222}
-.ticker{display:inline-block;min-width:max-content;padding-inline:2rem;font-size:clamp(17px,1.65vw,32px);animation:move 28s linear infinite;direction:rtl;white-space:nowrap}
+.ticker{display:inline-block;min-width:max-content;padding-inline:2rem;font-size:clamp(14px,1.4vw,27px);animation:move 28s linear infinite;direction:rtl;white-space:nowrap}
 @keyframes move{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 .credit{position:absolute;left:9px;bottom:3px;color:#555;font:10px Arial;z-index:3}
 @media(max-width:850px){
- body{padding:0}.board{width:100vw;height:100vh;min-height:0;border-width:8px;border-radius:0;padding:10px;grid-template-rows:.6fr 1.35fr .9fr .82fr .48fr}
- .clock{font-size:clamp(58px,14vw,108px)}.zmanim{grid-template-columns:repeat(7,minmax(0,1fr))}.z-label{font-size:clamp(9px,2vw,17px)}.z-time{font-size:clamp(14px,3.2vw,27px)}
+ body{padding:0}.board{width:100vw;height:100vh;aspect-ratio:auto;min-height:0;border-width:7px;border-radius:0;padding:7px;gap:5px;grid-template-rows:minmax(42px,.58fr) minmax(95px,1.18fr) minmax(96px,.9fr) minmax(76px,.68fr) minmax(38px,.4fr)}
+ .clock{font-size:clamp(36px,8vw,64px)}.day{font-size:clamp(28px,7vw,54px)}.parasha-name{font-size:clamp(30px,7vw,56px)}.zmanim{grid-template-columns:repeat(7,minmax(0,1fr))}.z-label{font-size:clamp(8px,1.75vw,15px)}.z-time{font-size:clamp(13px,2.7vw,24px)}.info-label{font-size:clamp(10px,2vw,17px)}.info-value{font-size:clamp(14px,3vw,25px)}.ticker{font-size:clamp(12px,2.3vw,20px)}
+}
+@media(max-height:620px) and (orientation:landscape){
+ .board{height:98vh;width:99vw;aspect-ratio:auto;border-width:7px;padding:7px;gap:4px;grid-template-rows:44px minmax(92px,1fr) 104px 72px 36px}
+ .greg,.synagogue,.next-fast-title{font-size:clamp(16px,2vw,30px)}
+ .clock{font-size:clamp(40px,6vw,76px)}.day{font-size:clamp(28px,4.4vw,54px)}.parasha-label{font-size:clamp(15px,1.8vw,26px)}.parasha-name{font-size:clamp(30px,4vw,56px)}
+ .fast-name{font-size:clamp(13px,1.5vw,21px)}.fast-date{font-size:clamp(11px,1.1vw,17px)}
+ .z-label{font-size:clamp(10px,1.15vw,17px)}.z-time{font-size:clamp(17px,2vw,29px)}
+ .info-label{font-size:clamp(11px,1.15vw,18px)}.info-value{font-size:clamp(16px,1.9vw,28px)}.ticker{font-size:clamp(12px,1.35vw,20px)}
 }
 </style>
 </head>
@@ -71,7 +79,7 @@ body{display:grid;place-items:center;padding:1.2vmin;font-family:Arial,"Noto San
   <section class="cell top-right"><div id="nextFastTitle" class="next-fast-title led cyan">הצום הבא</div></section>
 
   <section id="dayName" class="cell day led white">יום</section>
-  <section id="clock" class="cell clock led white">00:00:00</section>
+  <section id="clock" class="cell clock led white" aria-label="השעה הנוכחית">00:00:00</section>
   <section class="cell parasha">
     <div class="parasha-label led white">פרשת השבוע</div>
     <div id="parasha" class="parasha-name led white">טוען</div>
