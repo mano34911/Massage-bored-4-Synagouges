@@ -210,10 +210,10 @@ body {
 </div>
 
 
-<div class="date">5 June 2026 | ט׳ סיון תשפ״ו</div>
+<div id="currentDate" class="date"></div>
 
 <div class="times">
-<div id="liveclock" class="live-clock">שעה נוכחית: 07:12:33</div>
+<div id="liveclock" class="live-clock">שעה נוכחית: --:--:--</div>
 
 <div>נץ: 05:34</div>
 <div>שחרית: 06:15</div>
@@ -261,6 +261,42 @@ Emmanuel Hileah ✡ עמנואל חלא ✡ ורד ואריאל יהודה ✡ �
 </div>
 
 <script type="text/javascript">
+function updateEasternDateTime() {
+  var now = new Date();
+  var timeZone = "America/New_York";
+
+  var timeText = new Intl.DateTimeFormat("en-US", {
+    timeZone: timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true
+  }).format(now);
+
+  var englishDate = new Intl.DateTimeFormat("en-US", {
+    timeZone: timeZone,
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric"
+  }).format(now);
+
+  var hebrewDate = new Intl.DateTimeFormat("he-IL-u-ca-hebrew", {
+    timeZone: timeZone,
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  }).format(now);
+
+  var clock = document.getElementById("liveclock");
+  var dateBox = document.getElementById("currentDate");
+  if (clock) clock.textContent = "שעה נוכחית: " + timeText;
+  if (dateBox) dateBox.textContent = englishDate + " | " + hebrewDate;
+}
+
+updateEasternDateTime();
+setInterval(updateEasternDateTime, 1000);
+
 function playMusicNow() {
   var audio = document.getElementById("bgMusic");
   if (!audio) return;
