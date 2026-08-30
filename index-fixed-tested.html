@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>בית הכנסת בית תורה — לוח מודעות דיגיטלי</title>
+<style>
+*{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#070b12;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+:root{--navy:#071e51;--navy2:#0d326f;--gold:#b87d16;--gold2:#f2cf72;--cream:#fffaf0;--ink:#111}
+.page{position:absolute;inset:0;display:none;padding:8px;background:linear-gradient(#fffdf7,#f4e4bc);border:4px solid var(--gold)}
+.page.active{display:block}
+#mainPage{direction:ltr}
+.header{height:126px;display:grid;grid-template-columns:310px 1fr 310px;gap:10px;margin-bottom:10px}
+.clock,.titleBox,.card,.center,.footer{border:2px solid var(--gold);box-shadow:inset 0 0 0 2px #ffe69c,0 2px 6px #0005}
+.clock{border-radius:28px;background:linear-gradient(var(--navy2),var(--navy));color:white;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative}
+.city{font-weight:1000;color:var(--gold2);font-size:24px;letter-spacing:.5px}.time{font-size:50px;font-weight:1000;line-height:1.05}
+.gear{position:absolute;right:12px;top:9px;font-size:32px;opacity:.8}
+.titleBox{border-radius:28px;background:linear-gradient(#fff,#f5ead3);display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--navy)}
+.titleBox h1{margin:0;font-size:46px;line-height:1;font-weight:1000}.rabbi{font-size:24px;color:#76500e;font-weight:900;margin-top:8px}.date{font-size:16px;color:#60410d;margin-top:5px;font-weight:800}
+.grid{height:calc(100vh - 194px);display:grid;grid-template-columns:310px 1fr 310px;gap:10px}
+.side{display:grid;grid-template-rows:1fr 132px;gap:10px;min-height:0;direction:rtl}
+.card{border-radius:22px;background:linear-gradient(#fffefb,#f5e6bd);overflow:hidden;min-height:0}
+.card h2{margin:8px 10px 5px;padding:7px;background:linear-gradient(#edc866,#8d570b);border-radius:18px;color:#fff4cc;text-align:center;font-size:27px;line-height:1;text-shadow:0 1px #4d2d00}
+.row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;margin:0 12px;padding:6px 2px;border-bottom:1px dotted #997b4d;font-size:19px;font-weight:900;line-height:1.05}.row:last-child{border-bottom:0}.row b{direction:ltr;min-width:86px;text-align:left}.red{color:#bd2118}
+.center{direction:rtl;border-radius:95px 95px 35px 35px;background:linear-gradient(to bottom,var(--navy) 0 12%,transparent 12% 86%,var(--navy) 86%),linear-gradient(#fffdf7,#f4e2b4);position:relative;overflow:hidden;padding:118px 40px 50px;text-align:center}
+.medallion{position:absolute;top:7px;left:50%;transform:translateX(-50%);width:158px;height:158px;border-radius:50%;border:7px solid #dfac3e;background:radial-gradient(circle at 40% 25%,#143b80,var(--navy) 72%);color:#efc967;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:1000;box-shadow:inset 0 0 0 2px #825b15}
+.parashaLabel{font-size:20px;color:#76500e;font-weight:900}.parasha{font-size:54px;color:var(--navy);font-weight:1000;margin:4px 0 55px}
+.info{width:92%;margin:auto;border:2px solid #b47b19;border-radius:22px;background:#fffaf0cc;padding:5px 14px}
+.infoRow{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:9px;border-bottom:1px dotted #a98a54;font-size:18px;font-weight:850}.infoRow:last-child{border:0}.infoRow strong{color:#75500e}
+.smallText{height:76px;display:flex;align-items:center;justify-content:center;padding:4px 18px;text-align:center;color:#5b3b09;font-size:20px;font-weight:900;line-height:1.35}
+.footer{height:42px;margin-top:8px;border-radius:18px;background:linear-gradient(var(--navy2),var(--navy));color:#fff4d1;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;direction:rtl}
+.feature{display:flex!important;flex-direction:column;align-items:center;justify-content:center;color:#fff;background:radial-gradient(circle at 50% 35%,#173d7d,#061634 70%);border:5px solid #d8a334}
+.feature:not(.active){display:none!important}
+.featureTitle{font-size:58px;color:#f3cf70;font-weight:1000;margin-bottom:25px;text-shadow:0 3px 8px #000}
+.featureBox{width:min(1100px,88vw);height:min(600px,70vh);border:3px solid #d8a334;border-radius:32px;background:#fffaf0;color:#111;box-shadow:0 0 28px #e8bc5266,inset 0 0 25px #d8a33433;padding:28px;overflow:hidden}
+.candles{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;height:100%;align-content:center}
+.candle{text-align:center;color:#4f3508;font-size:21px;font-weight:900}.flame{font-size:70px;filter:drop-shadow(0 0 12px #ffb300);animation:flicker .8s infinite alternate}.candleBase{width:44px;height:100px;background:linear-gradient(90deg,#f5e6c4,#fff,#e4cf9f);border-radius:8px 8px 4px 4px;margin:-10px auto 8px;box-shadow:0 0 12px #fff8}
+@keyframes flicker{to{transform:scale(.94) rotate(2deg);filter:drop-shadow(0 0 18px #ff7b00)}}
+.shiurContent{height:100%;overflow:hidden;position:relative;text-align:right;direction:rtl;font-size:29px;line-height:1.75;color:#17244a}
+.scrollInner{position:absolute;width:100%;animation:slowScroll 28s linear infinite}
+@keyframes slowScroll{0%{transform:translateY(70%)}100%{transform:translateY(-100%)}}
+.badge{position:absolute;bottom:14px;left:18px;color:#f3cf70;font-size:14px;opacity:.75}
+@media(max-width:1050px){.header,.grid{grid-template-columns:230px 1fr 230px}.titleBox h1{font-size:34px}.time{font-size:38px}.row{font-size:15px}.card h2{font-size:22px}.parasha{font-size:42px}.infoRow{font-size:15px}}
+</style>
+</head>
+<body>
+<section id="mainPage" class="page active">
+  <div class="header">
+    <div class="clock"><div class="city">NEW YORK</div><div id="nyClock" class="time">--:--:--</div></div>
+    <div class="titleBox"><h1>בית הכנסת בית תורה</h1><div class="rabbi">הרב ברוך</div><div class="date"><span id="hebDate">טוען...</span> • <span id="gregDate"></span></div></div>
+    <div class="clock"><span class="gear">⚙</span><div class="city">JERUSALEM</div><div id="ilClock" class="time">--:--:--</div></div>
+  </div>
+  <div class="grid">
+    <aside class="side">
+      <div class="card"><h2>זמני היום</h2>
+        <div class="row"><span>זריחה</span><b id="sunrise">6:38 AM</b></div>
+        <div class="row"><span>סוף זמן קריאת שמע</span><b id="shema">9:27 AM</b></div>
+        <div class="row"><span>חצות</span><b id="chatzot">12:10 PM</b></div>
+        <div class="row"><span>מנחה גדולה</span><b id="minchaGedola">12:40 PM</b></div>
+        <div class="row"><span>שקיעה</span><b id="sunset">7:32 PM</b></div>
+        <div class="row"><span>צאת הכוכבים</span><b id="tzeit">8:06 PM</b></div>
+        <div class="row"><span>הדלקת נרות</span><b id="candles" class="red">7:13 PM</b></div>
+        <div class="row"><span>צאת שבת</span><b id="havdalah" class="red">8:12 PM</b></div>
+      </div>
+      <div class="card"><h2>הודעות</h2><div id="announcement" class="smallText">ברוכים הבאים לבית הכנסת</div></div>
+    </aside>
+    <main class="center">
+      <div class="medallion">לכבוד תורה</div>
+      <div class="parashaLabel">פרשת השבוע</div>
+      <div id="parasha" class="parasha">טוען...</div>
+      <div class="info">
+        <div class="infoRow"><div><strong>תחנון שחרית:</strong> <span id="tachanun">אומרים</span></div><div><strong>פרשת השבוע:</strong> <span id="parashaSmall">טוען...</span></div></div>
+        <div class="infoRow"><div><strong>גבורות:</strong> <span id="gevurot">מוריד הטל</span></div><div><strong>תחנון מנחה:</strong> <span id="tachanunMincha">אומרים</span></div></div>
+        <div class="infoRow"><div><strong>הלל:</strong> <span id="hallel">אין הלל</span></div><div><strong>ברכת השנים:</strong> <span id="birkat">ותן ברכה</span></div></div>
+      </div>
+    </main>
+    <aside class="side">
+      <div class="card"><h2>זמני התפילות</h2>
+        <div class="row"><span>שחרית</span><b>7:00 AM</b></div>
+        <div class="row"><span>מנחה</span><b>4:00 PM</b></div>
+        <div class="row"><span>ערבית</span><b>8:30 PM</b></div>
+        <div class="row"><span>שיעור תורה</span><b>9:15 PM</b></div>
+        <div class="row"><span>שחרית שבת</span><b>9:00 AM</b></div>
+        <div class="row"><span>מנחה שבת</span><b>6:30 PM</b></div>
+        <div class="row"><span>ערבית ליל שבת</span><b>7:30 PM</b></div>
+        <div class="row"><span>הבדלה</span><b>9:00 PM</b></div>
+      </div>
+      <div class="card"><h2>מזל טוב</h2><div class="smallText">ברכת מזל טוב לחברי הקהילה</div></div>
+    </aside>
+  </div>
+  <div class="footer">בית הכנסת בית תורה • לוח מודעות דיגיטלי</div>
+</section>
+
+<section id="candlePage" class="page feature">
+  <div class="featureTitle">נרות נשמה</div>
+  <div class="featureBox">
+    <div class="candles">
+      <div class="candle"><div class="flame">🔥</div><div class="candleBase"></div>לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+      <div class="candle"><div class="flame">🔥</div><div class="candleBase"></div>נר נשמה</div>
+      <div class="candle"><div class="flame">🔥</div><div class="candleBase"></div>נר נשמה</div>
+      <div class="candle"><div class="flame">🔥</div><div class="candleBase"></div>נר נשמה</div>
+      <div class="candle"><div class="flame">🔥</div><div class="candleBase"></div>נר נשמה</div>
+    </div>
+  </div>
+  <div class="badge">העמוד מתחלף אוטומטית</div>
+</section>
+
+<section id="shiurPage" class="page feature">
+  <div class="featureTitle">שיעור יומי</div>
+  <div class="featureBox">
+    <div class="shiurContent"><div class="scrollInner">
+      <h2>שיעור יומי — תורה, הלכה ומוסר</h2>
+      <p><b>פסוק:</b> ״בכל דרכיך דעהו והוא יישר אורחותיך״.</p>
+      <p><b>הלכה למעשה:</b> מתחילים את היום בכוונה טובה, בברכה ובתפילה, ומשתדלים שכל מעשה יהיה לשם שמים.</p>
+      <p><b>מוסר:</b> מילה טובה לאדם אחר יכולה לשנות את כל היום שלו. חסד קטן שנעשה בשמחה הוא דבר גדול.</p>
+      <p><b>חסידות:</b> עבודת ה׳ אינה רק בשעת התפילה. גם בעבודה, בבית ובדרך אפשר לגלות קדושה כאשר פועלים ביושר, באמונה ובאהבת ישראל.</p>
+      <p><b>נקודה ליום:</b> לבחור היום מצווה אחת ולעשות אותה בשמחה ובהידור.</p>
+    </div></div>
+  </div>
+  <div class="badge">העמוד מתחלף אוטומטית</div>
+</section>
+
+<script>
+"use strict";
+const ROTATE_MS=30000;
+const pages=["mainPage","candlePage","shiurPage"];
+let pageIndex=0;
+function showPage(i){
+  pages.forEach((id,n)=>document.getElementById(id).classList.toggle("active",n===i));
+  pageIndex=i;
+}
+setInterval(()=>showPage((pageIndex+1)%pages.length),ROTATE_MS);
+
+function clocks(){
+  const now=new Date();
+  document.getElementById("nyClock").textContent=new Intl.DateTimeFormat("en-US",{timeZone:"America/New_York",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);
+  document.getElementById("ilClock").textContent=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);
+  document.getElementById("gregDate").textContent=new Intl.DateTimeFormat("he-IL",{timeZone:"America/New_York",year:"numeric",month:"long",day:"numeric"}).format(now);
+}
+clocks(); setInterval(clocks,1000);
+
+function setHebrewFallback(){
+  try{
+    document.getElementById("hebDate").textContent=new Intl.DateTimeFormat("he-IL-u-ca-hebrew",{timeZone:"America/New_York",day:"numeric",month:"long",year:"numeric"}).format(new Date());
+  }catch(e){document.getElementById("hebDate").textContent="";}
+}
+setHebrewFallback();
+
+async function loadJewishCalendar(){
+  try{
+    const d=new Date();
+    const y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate();
+    const url=`https://www.hebcal.com/hebcal?v=1&cfg=json&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on&geo=city&city=US-New_York&b=18&M=on&s=on&year=${y}&month=${m}`;
+    const data=await fetch(url).then(r=>r.json());
+    const today=`${y}-${String(m).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+    const items=data.items||[];
+    const parshiot=items.filter(x=>x.category==="parashat");
+    let p=parshiot.find(x=>x.date>=today)||parshiot[0];
+    if(p){
+      const name=(p.hebrew||p.title||"").replace(/^פרשת\s*/,"");
+      document.getElementById("parasha").textContent="פרשת "+name;
+      document.getElementById("parashaSmall").textContent="פרשת "+name;
+    }
+    const todayItems=items.filter(x=>x.date===today);
+    const names=todayItems.map(x=>x.hebrew||x.title||"").join(" • ");
+    const noTachanun=/ראש חודש|חנוכה|פורים|פסח|שבועות|סוכות|שמיני עצרת|שמחת תורה|ט״ו בשבט|ל״ג בעומר|תשעה באב|יום כיפור|ראש השנה/.test(names);
+    document.getElementById("tachanun").textContent=noTachanun?"אין אומרים":"אומרים";
+    document.getElementById("tachanunMincha").textContent=noTachanun?"אין אומרים":"אומרים";
+    const fullHallel=/חנוכה|שבועות|סוכות|שמיני עצרת|שמחת תורה/.test(names);
+    const halfHallel=/ראש חודש|פסח/.test(names);
+    document.getElementById("hallel").textContent=fullHallel?"הלל שלם":halfHallel?"חצי הלל":"אין הלל";
+  }catch(e){console.warn("Hebcal update unavailable; safe defaults remain.",e)}
+}
+loadJewishCalendar();
+
+// Seasonal prayer text, approximate civil-date fallback; Hebcal content above handles holiday changes.
+(function seasonal(){
+ const d=new Date(), mo=d.getMonth()+1, da=d.getDate();
+ const summer=(mo>4&&mo<10)||(mo===4&&da>=15)||(mo===10&&da<7);
+ document.getElementById("gevurot").textContent=summer?"מוריד הטל":"משיב הרוח ומוריד הגשם";
+ document.getElementById("birkat").textContent=summer?"ותן ברכה":"ותן טל ומטר לברכה";
+})();
+</script>
+</body></html>
