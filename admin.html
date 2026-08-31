@@ -36,7 +36,7 @@ function saveAll(silent=false){
       s[k]=$(k).type==='number' ? Number(raw || defaults[k] || 0) : raw;
     }
   });
-  s.candleNames=$('candleNames').value.split(/\n+/).map(x=>x.trim()).filter(Boolean).slice(0,20);
+  s.candleNames=$('candleNames').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);
   s.zmanim={};
   ['alot','sunrise','shema','chatzot','minchaGedola','sunset','tzeit','candles','shabbatOut'].forEach(k=>{
     s.zmanim[k]=$('z_'+k).value;

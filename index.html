@@ -199,31 +199,35 @@ body{position:relative}
 .shiurText .green{color:#17824b}.shiurText .purple{color:#693c8f}.shiurText .redText{color:#b51f26}
 @media(max-width:700px) and (orientation:portrait){
   .candleGrid{grid-template-columns:repeat(2,1fr)}
-  .candle:nth-child(n+7){display:none}
   .specialFrame{height:97vh;padding:15px}
 }
 
 
-/* Candle page fit + adjustable scroll */
-#candlePage .specialFrame{width:min(92vw,1180px);height:min(88vh,760px);padding:clamp(10px,2vw,26px)}
-#candlePage .specialTitle{font-size:clamp(30px,5vw,64px);margin-bottom:8px}
-.candleViewport{height:calc(100% - 76px);overflow:hidden;position:relative}
-.candleScroll{min-height:100%;animation:candleFloat var(--candle-scroll-speed,26s) ease-in-out infinite alternate}
-@keyframes candleFloat{from{transform:translateY(1%)}to{transform:translateY(-5%)}}
-#candlePage .candleGrid{height:auto;min-height:100%;grid-template-columns:repeat(4,1fr);gap:clamp(4px,1.1vw,14px);padding:4px 0 12px}
-#candlePage .candle{min-height:125px;padding:4px}
-#candlePage .flame{width:24px;height:39px}
-#candlePage .wax{width:42px;height:68px}
-#candlePage .candleName{font-size:clamp(14px,1.8vw,23px);margin-top:7px;line-height:1.1}
+/* Candle page — large memorial names, unlimited candles, richer flames, slow upward scroll */
+#candlePage .specialFrame{width:min(94vw,1260px);height:min(91vh,820px);padding:clamp(10px,2vw,26px)}
+#candlePage .specialTitle{font-size:clamp(34px,5.4vw,70px);margin-bottom:8px;color:#ffd86b;text-shadow:0 0 10px #ffb300aa,0 3px 10px #000}
+.candleViewport{height:calc(100% - 82px);overflow:hidden;position:relative;mask-image:linear-gradient(to bottom,transparent 0,#000 5%,#000 94%,transparent 100%)}
+.candleScroll{min-height:100%;will-change:transform;animation:candleUp var(--candle-scroll-speed,45s) linear infinite}
+@keyframes candleUp{from{transform:translateY(12vh)}to{transform:translateY(calc(-100% + 12vh))}}
+#candlePage .candleGrid{height:auto;min-height:100%;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px);padding:16px 8px 55vh;align-content:start}
+#candlePage .candle{min-height:235px;padding:10px 6px;filter:drop-shadow(0 8px 12px #0008)}
+#candlePage .flame{width:44px;height:72px;background:radial-gradient(ellipse at 50% 68%,#ffffff 0 12%,#fff7a8 13% 27%,#58d8ff 28% 39%,#ffbd35 40% 62%,#ff5a2f 63% 82%,#b82cff 83% 100%);box-shadow:0 0 20px #fff6b8,0 0 42px #ffb21f,0 0 72px #45cfff,0 0 100px #9f4dff;animation:flicker .72s ease-in-out infinite alternate}
+#candlePage .wax{width:72px;height:118px;border-radius:14px 14px 18px 18px;background:linear-gradient(90deg,#d9f5ff 0%,#ffffff 35%,#fff3c9 62%,#e3d3ff 100%);border:2px solid #fff8d6;box-shadow:inset 0 0 18px #fff,0 8px 24px #0009,0 0 28px #6fd8ff55}
+#candlePage .candleName{font-size:clamp(28px,3.6vw,46px);margin-top:14px;line-height:1.13;font-weight:950;color:#ffe36d;text-shadow:0 2px 4px #000,0 0 9px currentColor;overflow-wrap:anywhere}
+#candlePage .candle:nth-child(3n+2) .candleName{color:#7ee9ff}
+#candlePage .candle:nth-child(3n) .candleName{color:#ff9de1}
+#candlePage .candle:nth-child(4n+2) .flame{filter:hue-rotate(24deg)}
+#candlePage .candle:nth-child(4n+3) .flame{filter:hue-rotate(310deg)}
+#candlePage .candle:nth-child(4n) .flame{filter:hue-rotate(65deg)}
 @media(max-width:700px) and (orientation:portrait){
- #candlePage .specialFrame{width:94vw;height:90vh;padding:10px}
- #candlePage .specialTitle{font-size:34px;margin-bottom:4px}
- #candlePage .candleViewport{height:calc(100% - 52px)}
- #candlePage .candleGrid{grid-template-columns:repeat(2,1fr);gap:3px}
- #candlePage .candle{min-height:105px}
- #candlePage .wax{height:55px;width:36px}
- #candlePage .flame{width:21px;height:34px}
- #candlePage .candleName{font-size:13px}
+ #candlePage .specialFrame{width:95vw;height:92vh;padding:10px}
+ #candlePage .specialTitle{font-size:38px;margin-bottom:4px}
+ #candlePage .candleViewport{height:calc(100% - 58px)}
+ #candlePage .candleGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding-bottom:55vh}
+ #candlePage .candle{min-height:205px}
+ #candlePage .wax{height:104px;width:64px}
+ #candlePage .flame{width:39px;height:64px}
+ #candlePage .candleName{font-size:clamp(26px,7vw,36px);line-height:1.08}
 }
 
 .adminGear{position:fixed;left:10px;bottom:10px;z-index:99999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,31,87,.9);border:2px solid #d7a62d;color:#fff;font-size:25px;text-decoration:none;box-shadow:0 2px 10px #0008}.adminGear:active{transform:scale(.94)}
@@ -402,7 +406,7 @@ function applyAdminSettings(){
   ['parasha','center1','center2','center3','center4','center5','tachanun','parashaInfo','gevurot','hallel','centerWelcome','centerMotto','centerBlessing'].forEach(k=>setText(k==='parasha'?'parashaText':k,settings[k]));
   setText('centerMemorial',settings.memorial);setText('footerMemorial',settings.memorial);
   const zm=settings.zmanim||{};const zmids={alot:'zAlot',sunrise:'zSunrise',shema:'zShema',chatzot:'zChatzot',minchaGedola:'zMinchaGedola',sunset:'zSunset',tzeit:'zTzeit',candles:'zCandles',shabbatOut:'zShabbatOut'};Object.keys(zmids).forEach(k=>setText(zmids[k],zm[k]||''));
-  setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.slice(0,20).map(n=>`<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(n||'נר נשמה')}</div></div>`).join('')}
+  setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.map(n=>`<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(n||'נר נשמה')}</div></div>`).join('')}
   setText('shiurTitle',settings.shiurTitle);setText('shiurPasuk',settings.shiurPasuk);setText('shiurHalacha',settings.shiurHalacha);setText('shiurMussar',settings.shiurMussar);setText('shiurTakeaway',settings.shiurTakeaway);setText('shiurMemorial',settings.shiurMemorial);
 }
 function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
