@@ -237,6 +237,12 @@ body{position:relative}
 .prayerTitle{text-align:center;color:#f7d66b;font-size:clamp(34px,5vw,70px);font-weight:900;margin-bottom:12px}.prayerViewport{height:calc(100% - 95px);overflow:hidden;background:#fff8df;color:#241d11;border-radius:20px;padding:20px}.prayerScroll{white-space:pre-wrap;text-align:right;font-size:clamp(22px,3vw,42px);line-height:1.65;font-weight:700;animation:prayerUp var(--prayer-scroll-speed,90s) linear infinite}@keyframes prayerUp{from{transform:translateY(80%)}to{transform:translateY(-105%)}}
 .prayerClose{position:absolute;left:18px;top:14px;background:#b51f26;color:#fff;border:2px solid #fff;border-radius:50%;width:46px;height:46px;font-size:24px;font-weight:900}
 
+
+/* Approved neon Star of David + white doves */
+.center::before,.center::after{content:"🕊️";position:absolute;z-index:6;top:3.5%;font-size:clamp(34px,6vw,82px);filter:drop-shadow(0 4px 4px #0006);animation:doveFloat 3s ease-in-out infinite alternate}.center::before{left:4%;transform:scaleX(-1)}.center::after{right:4%}@keyframes doveFloat{from{margin-top:-3px}to{margin-top:6px}}
+.medallion{display:grid;place-items:center;overflow:visible}
+.medallion::before{content:"✡";font-family:Arial,sans-serif;font-size:clamp(72px,14vw,145px);line-height:1;color:#35e9ff;text-shadow:0 0 5px #fff,0 0 12px currentColor,0 0 28px currentColor,0 0 48px currentColor;animation:starColors 5s linear infinite}
+@keyframes starColors{0%{color:#ff2be6}20%{color:#32e9ff}40%{color:#386dff}60%{color:#38ff96}80%{color:#ffd52e}100%{color:#ff2be6}}
 </style>
 </head>
 <body>
