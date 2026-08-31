@@ -1,6 +1,8 @@
 <!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ניהול לוח בית הכנסת</title><style>
 *{box-sizing:border-box}body{margin:0;background:#061b48;color:#241d11;font-family:Arial,"Noto Sans Hebrew",sans-serif;padding:12px}.wrap{max-width:1150px;margin:auto;background:#fff8df;border:4px solid #d7a62d;border-radius:24px;box-shadow:0 0 0 3px #fff0a4;padding:16px}.top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.top h1{margin:0;color:#0b2f72;font-size:clamp(28px,5vw,48px)}.nav{display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;background:#fff8df;padding:10px 0;z-index:5}.nav button,.btn{border:0;border-radius:11px;padding:11px 14px;font-weight:900;cursor:pointer;background:#0b2f72;color:white}.btn.gold{background:#d7a62d;color:#2b210f}.btn.red{background:#a91e24}.btn.green{background:#17824b}.btn.gray{background:#ddd6c1;color:#132c60;text-decoration:none}.section{border:2px solid #d6bf78;border-radius:18px;padding:14px;margin:14px 0;background:#fffdf3}.section h2{color:#0b2f72;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}label{font-weight:900;color:#6a4b10}input,textarea,select{width:100%;padding:10px;border:2px solid #cab46d;border-radius:9px;font:inherit;background:white;margin-top:5px}textarea{min-height:80px;resize:vertical}.wide{grid-column:1/-1}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status{font-weight:900;color:#17824b;min-height:24px;text-align:center}.speedRow{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:end}.speedRow input[type=range]{padding:0}.small{font-size:12px;color:#6b6251}.hidden{display:none}@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.wide{grid-column:auto}.wrap{padding:10px}.nav button{padding:9px 10px;font-size:13px}}
-</style></head><body><div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1><a class="btn gray" href="index.html" target="messageBoard">חזרה ללוח</a></div>
+.nav button:active,.btn:active{transform:scale(.97)}
+.nav button:focus,.btn:focus{outline:3px solid #f0c933;outline-offset:2px}
+</style></head><body><div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1><a class="btn gray" href="index.html">חזרה ללוח</a></div>
 <div class="nav"><button type="button" onclick="go('general')">ראשי</button><button type="button" onclick="go('prayers')">תפילות</button><button type="button" onclick="go('zmanim')">זמני היום</button><button type="button" onclick="go('center')">מרכז</button><button type="button" onclick="go('candles')">נרות</button><button type="button" onclick="go('shiur')">שיעור יומי</button><button type="button" onclick="go('speed')">מהירות וסיבוב</button><button type="button" onclick="go('control')">שליטה מיידית</button></div>
 
 <section id="general" class="section"><h2>הגדרות כלליות וכל הקופסאות הצדדיות</h2><div class="grid"><label>שם בית הכנסת<input id="synagogue"></label><label>שם הרב<input id="rabbi"></label><label>מזל טוב<textarea id="mazal"></textarea></label><label>הודעות<textarea id="announcement"></textarea></label><label class="wide">שורת הנצחה תחתונה<input id="memorial"></label></div></section>
@@ -12,15 +14,15 @@
 
 <section id="center" class="section"><h2>הקופסה המרכזית — כל שורה ניתנת לעריכה</h2><div class="grid"><label>פרשת השבוע<input id="parasha"></label><label>פרשה בקופסת מידע<input id="parashaInfo"></label><label>תחנון<input id="tachanun"></label><label>גבורות / מוריד הטל<input id="gevurot"></label><label>הלל<input id="hallel"></label><label>ברוכים הבאים<input id="centerWelcome"></label><label class="wide">שורה ירוקה<textarea id="center1"></textarea></label><label class="wide">שורה כחולה<textarea id="center2"></textarea></label><label class="wide">שורה סגולה<textarea id="center3"></textarea></label><label class="wide">שורה אדומה<textarea id="center4"></textarea></label><label class="wide">שורה טורקיז<textarea id="center5"></textarea></label><label>מוטו<input id="centerMotto"></label><label>ברכה<input id="centerBlessing"></label></div></section>
 
-<section id="candles" class="section"><h2>ניהול דף נרות</h2><div class="grid"><label class="wide">כותרת דף נרות<input id="candleTitle"></label><label class="wide">שמות לנרות — שם אחד בכל שורה<textarea id="candleNames" style="min-height:220px"></textarea><span class="small">עד 20 שמות.</span></label></div><div class="actions"><button type="button" class="btn" onclick="saveAll();cmd('showCandle')">שמור והצג נרות עכשיו</button></div></section>
+<section id="candles" class="section"><h2>ניהול דף נרות</h2><div class="grid"><label class="wide">כותרת דף נרות<input id="candleTitle"></label><label class="wide">שמות לנרות — שם אחד בכל שורה<textarea id="candleNames" style="min-height:220px"></textarea><span class="small">עד 20 שמות.</span></label></div><div class="actions"><button type="button" class="btn" onclick="cmd('showCandle')">שמור והצג נרות עכשיו</button></div></section>
 
-<section id="shiur" class="section"><h2>ניהול שיעור יומי</h2><div class="grid"><label>כותרת<input id="shiurTitle"></label><label>פסוק היום<textarea id="shiurPasuk"></textarea></label><label class="wide">הלכה למעשה<textarea id="shiurHalacha"></textarea></label><label class="wide">מוסר וחסידות<textarea id="shiurMussar"></textarea></label><label class="wide">המסר להיום<textarea id="shiurTakeaway"></textarea></label><label class="wide">הנצחה בדף השיעור<input id="shiurMemorial"></label></div><div class="actions"><button type="button" class="btn" onclick="saveAll();cmd('showShiur')">שמור והצג שיעור עכשיו</button></div></section>
+<section id="shiur" class="section"><h2>ניהול שיעור יומי</h2><div class="grid"><label>כותרת<input id="shiurTitle"></label><label>פסוק היום<textarea id="shiurPasuk"></textarea></label><label class="wide">הלכה למעשה<textarea id="shiurHalacha"></textarea></label><label class="wide">מוסר וחסידות<textarea id="shiurMussar"></textarea></label><label class="wide">המסר להיום<textarea id="shiurTakeaway"></textarea></label><label class="wide">הנצחה בדף השיעור<input id="shiurMemorial"></label></div><div class="actions"><button type="button" class="btn" onclick="cmd('showShiur')">שמור והצג שיעור עכשיו</button></div></section>
 
 <section id="speed" class="section"><h2>מהירות גלילה וזמן סיבוב לכל דף</h2><div class="grid"><label>מהירות גלילה — ראשי (שניות)<input id="mainScroll" type="number" min="5" max="300"></label><label>מהירות תנועת נרות<input id="candleScroll" type="number" min="5" max="300"></label><label>מהירות גלילת שיעור<input id="shiurScroll" type="number" min="5" max="300"></label><label>מהירות גלילת תפילה<input id="prayerScroll" type="number" min="10" max="600"></label><label>זמן עמוד ראשי<input id="mainDuration" type="number" min="3" max="300"></label><label>זמן דף נרות<input id="candleDuration" type="number" min="3" max="300"></label><label>זמן שיעור יומי<input id="shiurDuration" type="number" min="3" max="300"></label></div></section>
 
 <section id="control" class="section"><h2>כפתורי שליטה מיידית</h2><div class="small">הכפתורים שומרים קודם את השינויים, שולחים אותם ללוח, ואז פותחים/ממקדים את הלוח כדי שתראה את התוצאה מיד.</div><div class="actions"><button type="button" class="btn green" onclick="cmd('startAll')">▶ הפעל הכל</button><button type="button" class="btn red" onclick="cmd('stopAll')">■ עצור הכל</button><button type="button" class="btn" onclick="cmd('showMain')">עמוד ראשי</button><button type="button" class="btn" onclick="cmd('showCandle')">נרות</button><button type="button" class="btn" onclick="cmd('showShiur')">שיעור יומי</button><button type="button" class="btn red" onclick="cmd('hidePrayer')">סגור תפילה</button></div></section>
 
-<div class="actions"><button type="button" class="btn green" onclick="saveAll()">💾 שמור את כל ההגדרות</button><button type="button" class="btn gold" onclick="loadAll()">↻ טען מחדש</button><button type="button" class="btn red" onclick="resetAll()">איפוס לברירת מחדל</button><a class="btn gray" href="index.html" target="messageBoard">חזרה ללוח</a></div><div id="status" class="status"></div></div>
+<div class="actions"><button type="button" class="btn green" onclick="saveAll()">💾 שמור את כל ההגדרות</button><button type="button" class="btn gold" onclick="loadAll()">↻ טען מחדש</button><button type="button" class="btn red" onclick="resetAll()">איפוס לברירת מחדל</button><a class="btn gray" href="index.html">חזרה ללוח</a></div><div id="status" class="status"></div></div>
 <script>
 const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב ברוך',shacharit:'7:00 AM',mincha:'4:00 PM',maariv:'8:30 PM',shiurTime:'9:15 PM',shabbatShacharit:'9:00 AM',shabbatMincha:'6:30 PM',shabbatMaariv:'7:30 PM',havdalah:'9:00 PM',mazal:'ברכת מזל טוב לחברי הקהילה',announcement:'ברוכים הבאים לבית הכנסת\nנא להתעדכן בהודעות הקהילה',parasha:'פרשת נצבים־וילך',center1:'ברכת מזל טוב לכל המתפללים ובני הקהילה',center2:'יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים',center3:'שבוע טוב ומבורך לכל משפחות בית הכנסת',center4:'זמני התפילה והשיעורים מתעדכנים בלוח',center5:'נא לעקוב אחר ההודעות החשובות של הקהילה',tachanun:'אומרים',parashaInfo:'נצבים־וילך',gevurot:'מוריד הטל',hallel:'אין הלל',centerWelcome:'ברוכים הבאים לבית הכנסת בית תורה',centerMotto:'תפילה • תורה • חסד • אחדות',centerBlessing:'שנזכה לשנה טובה ומתוקה ולבשורות טובות',memorial:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',zmanim:{alot:'5:02 AM',sunrise:'6:38 AM',shema:'9:27 AM',chatzot:'12:10 PM',minchaGedola:'12:40 PM',sunset:'7:32 PM',tzeit:'8:06 PM',candles:'7:13 PM',shabbatOut:'8:12 PM'},candleTitle:'🕯️ נרות נשמה 🕯️',candleNames:['לעילוי נשמת זהבה חלא בת דינה זצ״ל','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה'],shiurTitle:'📖 שיעור יומי',shiurPasuk:'״שויתי ה׳ לנגדי תמיד״',shiurHalacha:'צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.',shiurMussar:'מעט אור דוחה הרבה מן החושך. כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.',shiurTakeaway:'להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.',shiurMemorial:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}};
 const $=id=>document.getElementById(id);function data(){try{return Object.assign({},defaults,JSON.parse(localStorage.getItem('mb_full_settings')||'{}'))}catch(e){return structuredClone(defaults)}}
@@ -52,20 +54,32 @@ function saveAll(silent=false){
   return s;
 }
 const adminChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('mb_admin_channel') : null;
+
 function cmd(action){
   saveAll(true);
-  const command={action,at:Date.now(),id:String(Date.now())+'_'+Math.random().toString(36).slice(2)};
+
+  const command={
+    action:action,
+    at:Date.now(),
+    id:String(Date.now())+'_'+Math.random().toString(36).slice(2)
+  };
+
   localStorage.setItem('mb_command',JSON.stringify(command));
-  if(adminChannel) adminChannel.postMessage(command);
+
+  try{ if(adminChannel) adminChannel.postMessage(command); }catch(e){}
   try{
-    if(window.opener && !window.opener.closed) window.opener.postMessage({type:'mb_command',command},location.origin);
+    if(window.opener && !window.opener.closed){
+      window.opener.postMessage({type:'mb_command',command:command},location.origin);
+    }
   }catch(e){}
-  flash('הפקודה בוצעה ✓');
-  // Immediate-display commands open/focus the board so the result is visible now.
-  if(/^show|^hidePrayer$|^startAll$|^stopAll$/.test(action)){
-    window.open('index.html','messageBoard');
-  }
+
+  flash('הפקודה נשמרה — עובר ללוח ✓');
+
+  setTimeout(function(){
+    window.location.href='index.html';
+  },120);
 }
+
 function resetAll(){
   if(!confirm('לאפס את כל ההגדרות?'))return;
   localStorage.setItem('mb_full_settings',JSON.stringify(defaults));
@@ -74,5 +88,17 @@ function resetAll(){
   loadAll();
   flash('אופס לברירת מחדל');
 }
-function flash(t){$('status').textContent=t;setTimeout(()=>$('status').textContent='',1800)}function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}loadAll();
+function flash(t){
+  const s=$('status');
+  if(!s) return;
+  s.textContent=t;
+  setTimeout(function(){s.textContent=''},1800);
+}
+function go(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  try{el.scrollIntoView({behavior:'smooth',block:'start'});}
+  catch(e){el.scrollIntoView(true);}
+}
+loadAll();
 </script></body></html>
