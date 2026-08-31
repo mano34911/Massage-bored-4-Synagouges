@@ -2,7 +2,13 @@
 *{box-sizing:border-box}body{margin:0;background:#061b48;color:#241d11;font-family:Arial,"Noto Sans Hebrew",sans-serif;padding:12px}.wrap{max-width:1150px;margin:auto;background:#fff8df;border:4px solid #d7a62d;border-radius:24px;box-shadow:0 0 0 3px #fff0a4;padding:16px}.top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.top h1{margin:0;color:#0b2f72;font-size:clamp(28px,5vw,48px)}.nav{display:flex;gap:7px;flex-wrap:wrap;position:sticky;top:0;background:#fff8df;padding:10px 0;z-index:5}.nav button,.btn{border:0;border-radius:11px;padding:11px 14px;font-weight:900;cursor:pointer;background:#0b2f72;color:white}.btn.gold{background:#d7a62d;color:#2b210f}.btn.red{background:#a91e24}.btn.green{background:#17824b}.btn.gray{background:#ddd6c1;color:#132c60;text-decoration:none}.section{border:2px solid #d6bf78;border-radius:18px;padding:14px;margin:14px 0;background:#fffdf3}.section h2{color:#0b2f72;margin:0 0 12px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}label{font-weight:900;color:#6a4b10}input,textarea,select{width:100%;padding:10px;border:2px solid #cab46d;border-radius:9px;font:inherit;background:white;margin-top:5px}textarea{min-height:80px;resize:vertical}.wide{grid-column:1/-1}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.status{font-weight:900;color:#17824b;min-height:24px;text-align:center}.speedRow{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:end}.speedRow input[type=range]{padding:0}.small{font-size:12px;color:#6b6251}.hidden{display:none}@media(max-width:700px){.grid,.grid3{grid-template-columns:1fr}.wide{grid-column:auto}.wrap{padding:10px}.nav button{padding:9px 10px;font-size:13px}}
 .nav button:active,.btn:active{transform:scale(.97)}
 .nav button:focus,.btn:focus{outline:3px solid #f0c933;outline-offset:2px}
-</style></head><body><div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1><a class="btn gray" href="index.html">חזרה ללוח</a></div>
+</style></head><body>
+
+<div id="tenantAccountBar" style="position:fixed;left:10px;top:10px;z-index:999999;background:#071f50;color:#fff;border:2px solid #d7a62d;border-radius:12px;padding:8px 12px;font:700 13px Arial;box-shadow:0 3px 12px #0008;max-width:320px">
+  <span id="tenantAccountText">Account loading…</span>
+  <button type="button" onclick="logoutApp()" style="margin-right:8px;border:1px solid #fff;background:#8b1117;color:#fff;border-radius:8px;padding:5px 9px;font-weight:800">Logout</button>
+</div>
+<div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1><a class="btn gray" href="index.html">חזרה ללוח</a></div>
 <div class="nav"><button type="button" onclick="go('general')">ראשי</button><button type="button" onclick="go('prayers')">תפילות</button><button type="button" onclick="go('zmanim')">זמני היום</button><button type="button" onclick="go('center')">מרכז</button><button type="button" onclick="go('candles')">נרות</button><button type="button" onclick="go('shiur')">שיעור יומי</button><button type="button" onclick="go('speed')">מהירות וסיבוב</button><button type="button" onclick="go('control')">שליטה מיידית</button></div>
 
 <section id="general" class="section"><h2>הגדרות כלליות וכל הקופסאות הצדדיות</h2><div class="grid"><label>שם בית הכנסת<input id="synagogue"></label><label>שם הרב<input id="rabbi"></label><label>מזל טוב<textarea id="mazal"></textarea></label><label>הודעות<textarea id="announcement"></textarea></label><label class="wide">שורת הנצחה תחתונה<input id="memorial"></label></div></section>
@@ -263,4 +269,83 @@ function go(id){
   catch(e){el.scrollIntoView(true);}
 }
 loadAll();
-</script></body></html>
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+
+
+<script>
+let currentSynagogue=null;
+let currentSynagogueId=null;
+
+async function tenantSaveSettings(settingsObject){
+  if(!currentSynagogueId || !appConfigured()) return;
+  const sb=getSupabase();
+  const payload=structuredClone(settingsObject||{});
+  const {error:e1}=await sb.from("synagogue_settings").upsert({
+    synagogue_id: currentSynagogueId,
+    settings: payload,
+    updated_at: new Date().toISOString()
+  });
+  const {error:e2}=await sb.from("synagogues").update({
+    synagogue_name: payload.synagogue || currentSynagogue.synagogue_name,
+    rabbi_name: payload.rabbi || currentSynagogue.rabbi_name,
+    updated_at: new Date().toISOString()
+  }).eq("id",currentSynagogueId);
+  if(e1||e2){
+    console.error(e1||e2);
+    const st=document.getElementById("status");
+    if(st) st.textContent="Database save failed";
+  }
+}
+
+async function initTenantAdmin(){
+  if(!appConfigured()){
+    document.getElementById("tenantAccountText").textContent="Supabase not configured";
+    return;
+  }
+  const sb=getSupabase();
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href="login.html"; return; }
+
+  const {data:profile,error:pe}=await sb.from("profiles").select("role").eq("user_id",session.user.id).single();
+  if(pe){ console.error(pe); location.href="login.html"; return; }
+  if(profile.role==="master"){ location.href="master-admin.html"; return; }
+
+  const {data:syn,error:se}=await sb.from("synagogues").select("*").eq("owner_user_id",session.user.id).single();
+  if(se||!syn){ console.error(se); location.href="pending.html"; return; }
+
+  currentSynagogue=syn; currentSynagogueId=syn.id;
+  const access=memberAccessState(syn);
+  document.getElementById("tenantAccountText").textContent=
+    `${syn.synagogue_name} • ${access.label} • ${money(syn.price_monthly_cents)}/month`;
+
+  if(!access.allowed){
+    location.href="pending.html";
+    return;
+  }
+
+  const {data:row,error:re}=await sb.from("synagogue_settings").select("settings").eq("synagogue_id",syn.id).single();
+  if(re && re.code!=="PGRST116") console.error(re);
+  const remote=(row&&row.settings)||{};
+  remote.synagogue=remote.synagogue||syn.synagogue_name;
+  remote.rabbi=remote.rabbi||syn.rabbi_name||"";
+  localStorage.setItem("mb_full_settings",JSON.stringify(remote));
+  if(remote.prayerTexts){
+    Object.entries(remote.prayerTexts).forEach(([k,v])=>localStorage.setItem("prayer_"+k,v||""));
+  }
+  loadAll();
+}
+
+const __legacySaveAll=window.saveAll;
+window.saveAll=function(silent=false){
+  const s=__legacySaveAll(silent);
+  tenantSaveSettings(s);
+  return s;
+};
+
+window.addEventListener("DOMContentLoaded",initTenantAdmin);
+</script>
+
+</body></html>
