@@ -203,6 +203,7 @@ body{position:relative}
   .specialFrame{height:97vh;padding:15px}
 }
 
+.adminGear{position:fixed;left:10px;bottom:10px;z-index:99999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,31,87,.9);border:2px solid #d7a62d;color:#fff;font-size:25px;text-decoration:none;box-shadow:0 2px 10px #0008}.adminGear:active{transform:scale(.94)}
 </style>
 </head>
 <body>
@@ -346,13 +347,16 @@ const rotationPages=[
   document.getElementById('shiurPage')
 ];
 let rotationIndex=0;
+const rotationDurations=[20000,10000,20000];
 function rotateBoardPage(){
   rotationPages[rotationIndex].classList.remove('active');
   rotationIndex=(rotationIndex+1)%rotationPages.length;
   rotationPages[rotationIndex].classList.add('active');
+  setTimeout(rotateBoardPage,rotationDurations[rotationIndex]);
 }
-setInterval(rotateBoardPage,10000);
+setTimeout(rotateBoardPage,rotationDurations[0]);
 
 </script>
+<a class="adminGear" href="admin.html" title="Admin" aria-label="Admin">⚙️</a>
 </body>
 </html>
