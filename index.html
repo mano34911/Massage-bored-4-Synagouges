@@ -526,12 +526,7 @@ async function initTenantBoard(){
   const {data,error}=await sb.rpc("get_public_board",{p_slug:slug});
   if(error){ console.error(error); return; }
   if(!data){
-    const ov=document.getElementById("prayerOverlay");
-    if(ov){
-      document.getElementById("prayerTitle").textContent="Message Board";
-      document.getElementById("prayerScroll").textContent="This synagogue account is inactive or its free trial has expired.";
-      ov.classList.add("show");
-    }
+    location.href="payment.html?s="+encodeURIComponent(slug);
     return;
   }
   const row=Array.isArray(data)?data[0]:data;

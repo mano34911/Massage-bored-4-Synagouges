@@ -241,13 +241,14 @@
 
       <div class="success" id="successBox">
         <h3>Subscription Activated ✓</h3>
-        <p>Your membership signup was approved by PayPal.</p>
+        <p>Your PayPal subscription signup was approved.</p>
         <p>Subscription ID:</p>
         <div class="subid" id="subscriptionId"></div>
+        <p><strong>Important:</strong> PayPal approval is recorded here. Your secure server/webhook must verify the subscription before the account is marked active.</p>
       </div>
 
       <div class="bottom">
-        <a class="return" href="index.html">Return to Message Board</a>
+        <a class="return" href="login.html">Return to Member Login</a>
         <div class="terms">
           Your 7-day free trial and $25/month billing schedule are controlled by the PayPal subscription plan associated with this page.
         </div>
@@ -284,7 +285,7 @@
         // Later this can be replaced/extended with Firebase or your backend.
         try {
           localStorage.setItem('paypalSubscriptionID', subscriptionID);
-          localStorage.setItem('subscriptionStatus', 'ACTIVE');
+          localStorage.setItem('subscriptionStatus', 'PAYPAL_APPROVED');
           localStorage.setItem('subscriptionPlanID', PLAN_ID);
           localStorage.setItem('subscriptionApprovedAt', new Date().toISOString());
         } catch (e) {}

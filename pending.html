@@ -20,6 +20,9 @@ async function check(){
  if(!s){statusText.textContent="Registration pending";return;}
  const a=memberAccessState(s);
  if(a.allowed){location.href="admin.html";return;}
+ if(s.status==="trial" && s.trial_ends_at && new Date(s.trial_ends_at).getTime() <= Date.now()){
+   location.href="payment.html?s="+encodeURIComponent(s.slug||""); return;
+ }
  if(s.status==="pending") statusText.textContent="Waiting for approval";
  else if(s.status==="suspended") statusText.textContent="Account suspended";
  else if(s.status==="deleted") statusText.textContent="Account deleted";

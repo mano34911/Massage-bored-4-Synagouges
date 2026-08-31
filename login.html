@@ -27,7 +27,11 @@ async function login(){
     const {data:s}=await sb.from("synagogues").select("*").eq("owner_user_id",uid).single();
     if(!s){location.href="pending.html";return;}
     const a=memberAccessState(s);
-    location.href=a.allowed?"admin.html":"pending.html";
+    if(a.allowed){ location.href="admin.html"; return; }
+    if(s.status==="trial" && s.trial_ends_at && new Date(s.trial_ends_at).getTime() <= Date.now()){
+      location.href="payment.html?s="+encodeURIComponent(s.slug||""); return;
+    }
+    location.href="pending.html";
   }catch(e){msg.textContent=e.message||String(e);}
 }
 </script></body></html>

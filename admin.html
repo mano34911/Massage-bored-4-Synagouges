@@ -322,7 +322,11 @@ async function initTenantAdmin(){
     `${syn.synagogue_name} • ${access.label} • ${money(syn.price_monthly_cents)}/month`;
 
   if(!access.allowed){
-    location.href="pending.html";
+    if(syn.status==="trial" && syn.trial_ends_at && new Date(syn.trial_ends_at).getTime() <= Date.now()){
+      location.href="payment.html?s="+encodeURIComponent(syn.slug||"");
+    } else {
+      location.href="pending.html";
+    }
     return;
   }
 
