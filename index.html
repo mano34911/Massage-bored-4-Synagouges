@@ -227,6 +227,12 @@ body{position:relative}
 }
 
 .adminGear{position:fixed;left:10px;bottom:10px;z-index:99999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,31,87,.9);border:2px solid #d7a62d;color:#fff;font-size:25px;text-decoration:none;box-shadow:0 2px 10px #0008}.adminGear:active{transform:scale(.94)}
+
+.prayerOverlay{position:fixed;inset:0;z-index:99998;background:rgba(2,10,30,.97);display:none;padding:3vh 4vw;color:#fff}
+.prayerOverlay.show{display:block}.prayerPanel{height:94vh;border:4px solid #d7a62d;border-radius:28px;background:#071f50;padding:20px;overflow:hidden;box-shadow:inset 0 0 0 3px #fff0a4}
+.prayerTitle{text-align:center;color:#f7d66b;font-size:clamp(34px,5vw,70px);font-weight:900;margin-bottom:12px}.prayerViewport{height:calc(100% - 95px);overflow:hidden;background:#fff8df;color:#241d11;border-radius:20px;padding:20px}.prayerScroll{white-space:pre-wrap;text-align:right;font-size:clamp(22px,3vw,42px);line-height:1.65;font-weight:700;animation:prayerUp var(--prayer-scroll-speed,90s) linear infinite}@keyframes prayerUp{from{transform:translateY(80%)}to{transform:translateY(-105%)}}
+.prayerClose{position:absolute;left:18px;top:14px;background:#b51f26;color:#fff;border:2px solid #fff;border-radius:50%;width:46px;height:46px;font-size:24px;font-weight:900}
+
 </style>
 </head>
 <body>
@@ -234,8 +240,8 @@ body{position:relative}
   <header class="header">
     <div class="clock goldFrame"><div class="city">JERUSALEM</div><div class="time" id="ilTime">--:--:--</div></div>
     <div class="titlebox goldFrame">
-      <h1>בית הכנסת בית תורה</h1>
-      <div class="rabbi">הרב ברוך</div>
+      <h1 id="synagogueName">בית הכנסת בית תורה</h1>
+      <div class="rabbi" id="rabbiName">הרב ברוך</div>
       <div class="date" id="dateLine">יום ראשון • 17 באלול 5786 • 30 באוגוסט 2026</div>
     </div>
     <div class="clock goldFrame"><div class="city">NEW YORK</div><div class="time" id="nyTime">--:--:--</div></div>
@@ -246,19 +252,19 @@ body{position:relative}
       <div class="sideBox goldFrame">
         <h2>זמני תפילה</h2>
         <div class="rows">
-          <div class="row"><span>שחרית</span><span>7:00 AM</span></div>
-          <div class="row"><span>מנחה</span><span>4:00 PM</span></div>
-          <div class="row"><span>ערבית</span><span>8:30 PM</span></div>
-          <div class="row"><span>שיעור תורה</span><span>9:15 PM</span></div>
-          <div class="row"><span>שחרית שבת</span><span>9:00 AM</span></div>
-          <div class="row"><span>מנחה שבת</span><span>6:30 PM</span></div>
-          <div class="row"><span>ערבית ליל שבת</span><span>7:30 PM</span></div>
-          <div class="row"><span>הבדלה</span><span>9:00 PM</span></div>
+          <div class="row"><span>שחרית</span><span id="pShacharit">7:00 AM</span></div>
+          <div class="row"><span>מנחה</span><span id="pMincha">4:00 PM</span></div>
+          <div class="row"><span>ערבית</span><span id="pMaariv">8:30 PM</span></div>
+          <div class="row"><span>שיעור תורה</span><span id="pShiur">9:15 PM</span></div>
+          <div class="row"><span>שחרית שבת</span><span id="pShabbatShacharit">9:00 AM</span></div>
+          <div class="row"><span>מנחה שבת</span><span id="pShabbatMincha">6:30 PM</span></div>
+          <div class="row"><span>ערבית ליל שבת</span><span id="pShabbatMaariv">7:30 PM</span></div>
+          <div class="row"><span>הבדלה</span><span id="pHavdalah">9:00 PM</span></div>
         </div>
       </div>
       <div class="sideBox goldFrame">
         <h2>מזל טוב</h2>
-        <div class="smallText">ברכת מזל טוב לחברי הקהילה</div>
+        <div class="smallText" id="mazalText">ברכת מזל טוב לחברי הקהילה</div>
       </div>
     </section>
 
@@ -267,25 +273,25 @@ body{position:relative}
       <div class="scrollWindow">
         <div class="scroller">
           <div class="big goldText">פרשת השבוע</div>
-          <div class="big blue">פרשת נצבים־וילך</div>
-          <div class="medium green">ברכת מזל טוב לכל המתפללים ובני הקהילה</div>
-          <div class="medium blue">יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים</div>
-          <div class="medium purple">שבוע טוב ומבורך לכל משפחות בית הכנסת</div>
-          <div class="medium redText">זמני התפילה והשיעורים מתעדכנים בלוח</div>
-          <div class="medium teal">נא לעקוב אחר ההודעות החשובות של הקהילה</div>
+          <div class="big blue" id="parashaText">פרשת נצבים־וילך</div>
+          <div class="medium green" id="center1">ברכת מזל טוב לכל המתפללים ובני הקהילה</div>
+          <div class="medium blue" id="center2">יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים</div>
+          <div class="medium purple" id="center3">שבוע טוב ומבורך לכל משפחות בית הכנסת</div>
+          <div class="medium redText" id="center4">זמני התפילה והשיעורים מתעדכנים בלוח</div>
+          <div class="medium teal" id="center5">נא לעקוב אחר ההודעות החשובות של הקהילה</div>
 
           <div class="infoCard">
-            <div><b>תחנון שחרית:</b> אומרים</div>
-            <div><b>פרשת השבוע:</b> נצבים־וילך</div>
-            <div><b>גבורות:</b> מוריד הטל</div>
-            <div><b>הלל:</b> אין הלל</div>
+            <div><b>תחנון שחרית:</b> <span id="tachanun">אומרים</span></div>
+            <div><b>פרשת השבוע:</b> <span id="parashaInfo">נצבים־וילך</span></div>
+            <div><b>גבורות:</b> <span id="gevurot">מוריד הטל</span></div>
+            <div><b>הלל:</b> <span id="hallel">אין הלל</span></div>
           </div>
 
-          <div class="medium green">ברוכים הבאים לבית הכנסת בית תורה</div>
-          <div class="medium goldText">תפילה • תורה • חסד • אחדות</div>
-          <div class="medium blue">שנזכה לשנה טובה ומתוקה ולבשורות טובות</div>
+          <div class="medium green" id="centerWelcome">ברוכים הבאים לבית הכנסת בית תורה</div>
+          <div class="medium goldText" id="centerMotto">תפילה • תורה • חסד • אחדות</div>
+          <div class="medium blue" id="centerBlessing">שנזכה לשנה טובה ומתוקה ולבשורות טובות</div>
 
-          <div class="memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+          <div class="memorial" id="centerMemorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
         </div>
       </div>
     </section>
@@ -294,33 +300,33 @@ body{position:relative}
       <div class="sideBox goldFrame">
         <h2>זמני היום</h2>
         <div class="rows">
-          <div class="row"><span>עלות השחר</span><span>5:02 AM</span></div>
-          <div class="row"><span>זריחה</span><span>6:38 AM</span></div>
-          <div class="row"><span>סוף זמן ק״ש</span><span>9:27 AM</span></div>
-          <div class="row"><span>חצות</span><span>12:10 PM</span></div>
-          <div class="row"><span>מנחה גדולה</span><span>12:40 PM</span></div>
-          <div class="row"><span>שקיעה</span><span>7:32 PM</span></div>
-          <div class="row"><span>צאת הכוכבים</span><span>8:06 PM</span></div>
-          <div class="row"><span class="red">הדלקת נרות</span><span class="red">7:13 PM</span></div>
-          <div class="row"><span class="red">צאת שבת</span><span class="red">8:12 PM</span></div>
+          <div class="row"><span>עלות השחר</span><span id="zAlot">5:02 AM</span></div>
+          <div class="row"><span>זריחה</span><span id="zSunrise">6:38 AM</span></div>
+          <div class="row"><span>סוף זמן ק״ש</span><span id="zShema">9:27 AM</span></div>
+          <div class="row"><span>חצות</span><span id="zChatzot">12:10 PM</span></div>
+          <div class="row"><span>מנחה גדולה</span><span id="zMinchaGedola">12:40 PM</span></div>
+          <div class="row"><span>שקיעה</span><span id="zSunset">7:32 PM</span></div>
+          <div class="row"><span>צאת הכוכבים</span><span id="zTzeit">8:06 PM</span></div>
+          <div class="row"><span class="red">הדלקת נרות</span><span class="red" id="zCandles">7:13 PM</span></div>
+          <div class="row"><span class="red">צאת שבת</span><span class="red" id="zShabbatOut">8:12 PM</span></div>
         </div>
       </div>
       <div class="sideBox goldFrame">
         <h2>הודעות</h2>
-        <div class="smallText">ברוכים הבאים לבית הכנסת<br>נא להתעדכן בהודעות הקהילה</div>
+        <div class="smallText" id="announcementText">ברוכים הבאים לבית הכנסת<br>נא להתעדכן בהודעות הקהילה</div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">לעילוי נשמת זהבה חלא בת דינה זצ״ל</footer>
+  <footer class="footer" id="footerMemorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</footer>
 </div>
 
 </div><!-- /mainPage -->
 
 <div id="candlePage" class="rotatePage specialPage">
   <div class="specialFrame">
-    <h1 class="specialTitle">🕯️ נרות נשמה 🕯️</h1>
-    <div class="candleViewport"><div class="candleScroll"><div class="candleGrid">
+    <h1 class="specialTitle" id="candleTitle">🕯️ נרות נשמה 🕯️</h1>
+    <div class="candleViewport"><div class="candleScroll"><div class="candleGrid" id="candleGrid">
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
@@ -335,22 +341,25 @@ body{position:relative}
 
 <div id="shiurPage" class="rotatePage specialPage">
   <div class="specialFrame">
-    <h1 class="specialTitle">📖 שיעור יומי</h1>
+    <h1 class="specialTitle" id="shiurTitle">📖 שיעור יומי</h1>
     <div class="shiurBody">
       <div class="shiurScroll">
         <div class="shiurHeading">פסוק היום</div>
-        <div class="shiurText green">״שויתי ה׳ לנגדי תמיד״</div>
+        <div class="shiurText green" id="shiurPasuk">״שויתי ה׳ לנגדי תמיד״</div>
         <div class="shiurHeading">הלכה למעשה</div>
-        <div class="shiurText">צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.</div>
+        <div class="shiurText" id="shiurHalacha">צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.</div>
         <div class="shiurHeading">מוסר וחסידות</div>
-        <div class="shiurText purple">מעט אור דוחה הרבה מן החושך. כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.</div>
+        <div class="shiurText purple" id="shiurMussar">מעט אור דוחה הרבה מן החושך. כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.</div>
         <div class="shiurHeading">המסר להיום</div>
-        <div class="shiurText redText">להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.</div>
-        <div class="shiurText" style="margin-top:35px">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+        <div class="shiurText redText" id="shiurTakeaway">להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.</div>
+        <div class="shiurText" id="shiurMemorial" style="margin-top:35px">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
       </div>
     </div>
   </div>
 </div>
+
+
+<div id="prayerOverlay" class="prayerOverlay"><button id="prayerClose" class="prayerClose">×</button><div class="prayerPanel"><div id="prayerTitle" class="prayerTitle">תפילה</div><div class="prayerViewport"><div id="prayerScroll" class="prayerScroll"></div></div></div></div>
 
 <script>
 function fmtClock(tz){
@@ -365,33 +374,52 @@ function tick(){
 tick(); setInterval(tick,1000);
 
 
+function getSettings(){
+  const d={
+    synagogue:'בית הכנסת בית תורה',rabbi:'הרב ברוך',
+    shacharit:'7:00 AM',mincha:'4:00 PM',maariv:'8:30 PM',shiurTime:'9:15 PM',
+    shabbatShacharit:'9:00 AM',shabbatMincha:'6:30 PM',shabbatMaariv:'7:30 PM',havdalah:'9:00 PM',
+    mazal:'ברכת מזל טוב לחברי הקהילה',announcement:'ברוכים הבאים לבית הכנסת\nנא להתעדכן בהודעות הקהילה',
+    parasha:'פרשת נצבים־וילך',center1:'ברכת מזל טוב לכל המתפללים ובני הקהילה',center2:'יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים',center3:'שבוע טוב ומבורך לכל משפחות בית הכנסת',center4:'זמני התפילה והשיעורים מתעדכנים בלוח',center5:'נא לעקוב אחר ההודעות החשובות של הקהילה',
+    tachanun:'אומרים',parashaInfo:'נצבים־וילך',gevurot:'מוריד הטל',hallel:'אין הלל',centerWelcome:'ברוכים הבאים לבית הכנסת בית תורה',centerMotto:'תפילה • תורה • חסד • אחדות',centerBlessing:'שנזכה לשנה טובה ומתוקה ולבשורות טובות',memorial:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',
+    zmanim:{alot:'5:02 AM',sunrise:'6:38 AM',shema:'9:27 AM',chatzot:'12:10 PM',minchaGedola:'12:40 PM',sunset:'7:32 PM',tzeit:'8:06 PM',candles:'7:13 PM',shabbatOut:'8:12 PM'},
+    candleTitle:'🕯️ נרות נשמה 🕯️',candleNames:['לעילוי נשמת זהבה חלא בת דינה זצ״ל','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה'],
+    shiurTitle:'📖 שיעור יומי',shiurPasuk:'״שויתי ה׳ לנגדי תמיד״',shiurHalacha:'צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.',shiurMussar:'מעט אור דוחה הרבה מן החושך. כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.',shiurTakeaway:'להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.',shiurMemorial:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',
+    mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,
+    prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}
+  };
+  try{return Object.assign(d,JSON.parse(localStorage.getItem('mb_full_settings')||'{}'))}catch(e){return d}
+}
+let settings=getSettings();
+const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
 function applyAdminSettings(){
-  const root=document.documentElement;
-  const main=localStorage.getItem('mb_main_scroll')||'34';
-  const candles=localStorage.getItem('mb_candle_scroll')||'26';
-  const shiur=localStorage.getItem('mb_shiur_scroll')||'22';
-  root.style.setProperty('--main-scroll-speed',main+'s');
-  root.style.setProperty('--candle-scroll-speed',candles+'s');
-  root.style.setProperty('--shiur-scroll-speed',shiur+'s');
+  settings=getSettings();
+  const r=document.documentElement;
+  r.style.setProperty('--main-scroll-speed',(settings.mainScroll||34)+'s');r.style.setProperty('--candle-scroll-speed',(settings.candleScroll||26)+'s');r.style.setProperty('--shiur-scroll-speed',(settings.shiurScroll||22)+'s');r.style.setProperty('--prayer-scroll-speed',(settings.prayerScroll||90)+'s');
+  setText('synagogueName',settings.synagogue);setText('rabbiName',settings.rabbi);setText('pShacharit',settings.shacharit);setText('pMincha',settings.mincha);setText('pMaariv',settings.maariv);setText('pShiur',settings.shiurTime);setText('pShabbatShacharit',settings.shabbatShacharit);setText('pShabbatMincha',settings.shabbatMincha);setText('pShabbatMaariv',settings.shabbatMaariv);setText('pHavdalah',settings.havdalah);
+  setText('mazalText',settings.mazal);const an=document.getElementById('announcementText');if(an)an.innerHTML=String(settings.announcement||'').replace(/\n/g,'<br>');
+  ['parasha','center1','center2','center3','center4','center5','tachanun','parashaInfo','gevurot','hallel','centerWelcome','centerMotto','centerBlessing'].forEach(k=>setText(k==='parasha'?'parashaText':k,settings[k]));
+  setText('centerMemorial',settings.memorial);setText('footerMemorial',settings.memorial);
+  const zm=settings.zmanim||{};const zmids={alot:'zAlot',sunrise:'zSunrise',shema:'zShema',chatzot:'zChatzot',minchaGedola:'zMinchaGedola',sunset:'zSunset',tzeit:'zTzeit',candles:'zCandles',shabbatOut:'zShabbatOut'};Object.keys(zmids).forEach(k=>setText(zmids[k],zm[k]||''));
+  setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.slice(0,20).map(n=>`<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(n||'נר נשמה')}</div></div>`).join('')}
+  setText('shiurTitle',settings.shiurTitle);setText('shiurPasuk',settings.shiurPasuk);setText('shiurHalacha',settings.shiurHalacha);setText('shiurMussar',settings.shiurMussar);setText('shiurTakeaway',settings.shiurTakeaway);setText('shiurMemorial',settings.shiurMemorial);
 }
-applyAdminSettings();
-window.addEventListener('storage',applyAdminSettings);
+function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+applyAdminSettings();window.addEventListener('storage',()=>{applyAdminSettings();checkCommand()});
 
-const rotationPages=[
-  document.getElementById('mainPage'),
-  document.getElementById('candlePage'),
-  document.getElementById('shiurPage')
-];
-let rotationIndex=0;
-const rotationDurations=[20000,10000,20000];
-function rotateBoardPage(){
-  rotationPages[rotationIndex].classList.remove('active');
-  rotationIndex=(rotationIndex+1)%rotationPages.length;
-  rotationPages[rotationIndex].classList.add('active');
-  setTimeout(rotateBoardPage,rotationDurations[rotationIndex]);
-}
-setTimeout(rotateBoardPage,rotationDurations[0]);
+const rotationPages=[document.getElementById('mainPage'),document.getElementById('candlePage'),document.getElementById('shiurPage')];
+let rotationIndex=0,rotationPaused=false,rotationTimer=null;
+function durations(){return [(settings.mainDuration||20)*1000,(settings.candleDuration||10)*1000,(settings.shiurDuration||20)*1000]}
+function showPage(i){rotationPages.forEach((p,n)=>p.classList.toggle('active',n===i));rotationIndex=i}
+function scheduleRotation(){clearTimeout(rotationTimer);if(rotationPaused)return;rotationTimer=setTimeout(()=>{showPage((rotationIndex+1)%3);scheduleRotation()},durations()[rotationIndex])}
+scheduleRotation();
 
+function showPrayer(key,title){const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';document.getElementById('prayerTitle').textContent=title;document.getElementById('prayerScroll').textContent=txt||'לא הוזן נוסח תפילה במנהל.';document.getElementById('prayerOverlay').classList.add('show')}
+function hidePrayer(){document.getElementById('prayerOverlay').classList.remove('show')}
+document.getElementById('prayerClose').onclick=hidePrayer;
+let lastCommand='';
+function checkCommand(){let raw=localStorage.getItem('mb_command')||'';if(!raw||raw===lastCommand)return;lastCommand=raw;let c;try{c=JSON.parse(raw)}catch(e){return}if(c.action==='showMain'){rotationPaused=true;showPage(0)}if(c.action==='showCandle'){rotationPaused=true;showPage(1)}if(c.action==='showShiur'){rotationPaused=true;showPage(2)}if(c.action==='startAll'){rotationPaused=false;hidePrayer();showPage(0);scheduleRotation()}if(c.action==='stopAll'){rotationPaused=true;clearTimeout(rotationTimer)}if(c.action==='hidePrayer')hidePrayer();const pm={showShacharit:['shacharit','שחרית'],showMincha:['mincha','מנחה'],showMaariv:['maariv','ערבית'],showShabbatShacharit:['shabbatShacharit','שחרית שבת'],showShabbatMincha:['shabbatMincha','מנחה שבת'],showShabbatMaariv:['shabbatMaariv','ערבית ליל שבת'],showHavdalah:['havdalah','הבדלה']};if(pm[c.action]){rotationPaused=true;clearTimeout(rotationTimer);showPrayer(...pm[c.action])}}
+setInterval(checkCommand,500);checkCommand();
 </script>
 <a class="adminGear" href="admin.html" title="Admin" aria-label="Admin">⚙️</a>
 </body>
