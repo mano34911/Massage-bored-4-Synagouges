@@ -244,7 +244,7 @@
         <p>Your PayPal subscription signup was approved.</p>
         <p>Subscription ID:</p>
         <div class="subid" id="subscriptionId"></div>
-        <p><strong>Important:</strong> PayPal approval is recorded here. Your secure server/webhook must verify the subscription before the account is marked active.</p>
+        <p><strong>Important:</strong> Your account is activated only after the secure server verifies this subscription directly with PayPal.</p>
       </div>
 
       <div class="bottom">
@@ -255,6 +255,10 @@
       </div>
     </section>
   </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="saas-common.js"></script>
 
   <script
     src="https://www.paypal.com/sdk/js?client-id=AZD0NtTugRgLzVbjLm9jtprCTer2z7-r3VMjSnrLaU3Ms1VJso-50DMmDBmMpdMioEhUUVMfB-4T7lRe&vault=true&intent=subscription"
@@ -278,21 +282,44 @@
         });
       },
 
-      onApprove: function(data, actions) {
+      onApprove: async function(data, actions) {
         const subscriptionID = data.subscriptionID || '';
-
-        // Keep a local copy for the member browser.
-        // Later this can be replaced/extended with Firebase or your backend.
-        try {
-          localStorage.setItem('paypalSubscriptionID', subscriptionID);
-          localStorage.setItem('subscriptionStatus', 'PAYPAL_APPROVED');
-          localStorage.setItem('subscriptionPlanID', PLAN_ID);
-          localStorage.setItem('subscriptionApprovedAt', new Date().toISOString());
-        } catch (e) {}
-
         document.getElementById('subscriptionId').textContent = subscriptionID;
-        document.getElementById('successBox').style.display = 'block';
-        document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+
+        try {
+          if (!appConfigured()) throw new Error('Supabase is not configured.');
+          const sb = getSupabase();
+          const { data: sessionData } = await sb.auth.getSession();
+          if (!sessionData.session) {
+            alert('PayPal approved the subscription. Please log in so we can securely connect it to your account.');
+            location.href = 'login.html';
+            return;
+          }
+
+          const { data: result, error } = await sb.functions.invoke('paypal-confirm', {
+            body: { subscription_id: subscriptionID }
+          });
+          if (error) throw error;
+          if (!result || !result.ok) throw new Error(result?.error || 'Subscription verification failed.');
+
+          try {
+            localStorage.setItem('paypalSubscriptionID', subscriptionID);
+            localStorage.setItem('subscriptionStatus', 'ACTIVE');
+            localStorage.setItem('subscriptionPlanID', PLAN_ID);
+            localStorage.setItem('subscriptionVerifiedAt', new Date().toISOString());
+          } catch (e) {}
+
+          document.querySelector('#successBox h3').textContent = 'Subscription Verified & Activated ✓';
+          document.querySelector('#successBox p').textContent = 'PayPal verified your subscription and your member account is now active.';
+          document.getElementById('successBox').style.display = 'block';
+          document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+          setTimeout(() => { location.href = 'admin.html'; }, 1800);
+        } catch (err) {
+          console.error(err);
+          alert('PayPal approved the subscription, but secure account verification did not finish. Please contact the administrator before paying again.');
+          document.getElementById('successBox').style.display = 'block';
+          document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+        }
       },
 
       onCancel: function(data) {
