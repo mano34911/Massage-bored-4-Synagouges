@@ -1,4 +1,3 @@
-
 (function(){
   function configured(){
     const c=window.APP_CONFIG||{};
@@ -8,11 +7,14 @@
   window.appConfigured=configured;
   window.getSupabase=function(){
     if(!configured()) throw new Error("Supabase is not configured yet. Open supabase-config.js and add your Project URL and publishable key.");
+    if(!window.supabase || typeof window.supabase.createClient!=="function"){
+      throw new Error("The Supabase library did not load. Check your internet connection and reload the page.");
+    }
     if(!window.__sb){
       window.__sb = window.supabase.createClient(
         window.APP_CONFIG.SUPABASE_URL,
         window.APP_CONFIG.SUPABASE_PUBLISHABLE_KEY,
-        { auth:{persistSession:true, autoRefreshToken:true, detectSessionInUrl:true} }
+        { auth:{persistSession:true, autoRefreshToken:true,detectSessionInUrl:true} }
       );
     }
     return window.__sb;
