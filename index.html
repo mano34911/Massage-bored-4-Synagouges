@@ -362,6 +362,7 @@ body{position:relative}
 <div id="prayerOverlay" class="prayerOverlay"><button id="prayerClose" class="prayerClose">×</button><div class="prayerPanel"><div id="prayerTitle" class="prayerTitle">תפילה</div><div class="prayerViewport"><div id="prayerScroll" class="prayerScroll"></div></div></div></div>
 
 <script>
+window.name="messageBoard";
 function fmtClock(tz){
   return new Intl.DateTimeFormat('en-GB',{
     timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
@@ -417,10 +418,59 @@ scheduleRotation();
 function showPrayer(key,title){const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';document.getElementById('prayerTitle').textContent=title;document.getElementById('prayerScroll').textContent=txt||'לא הוזן נוסח תפילה במנהל.';document.getElementById('prayerOverlay').classList.add('show')}
 function hidePrayer(){document.getElementById('prayerOverlay').classList.remove('show')}
 document.getElementById('prayerClose').onclick=hidePrayer;
-let lastCommand='';
-function checkCommand(){let raw=localStorage.getItem('mb_command')||'';if(!raw||raw===lastCommand)return;lastCommand=raw;let c;try{c=JSON.parse(raw)}catch(e){return}if(c.action==='showMain'){rotationPaused=true;showPage(0)}if(c.action==='showCandle'){rotationPaused=true;showPage(1)}if(c.action==='showShiur'){rotationPaused=true;showPage(2)}if(c.action==='startAll'){rotationPaused=false;hidePrayer();showPage(0);scheduleRotation()}if(c.action==='stopAll'){rotationPaused=true;clearTimeout(rotationTimer)}if(c.action==='hidePrayer')hidePrayer();const pm={showShacharit:['shacharit','שחרית'],showMincha:['mincha','מנחה'],showMaariv:['maariv','ערבית'],showShabbatShacharit:['shabbatShacharit','שחרית שבת'],showShabbatMincha:['shabbatMincha','מנחה שבת'],showShabbatMaariv:['shabbatMaariv','ערבית ליל שבת'],showHavdalah:['havdalah','הבדלה']};if(pm[c.action]){rotationPaused=true;clearTimeout(rotationTimer);showPrayer(...pm[c.action])}}
-setInterval(checkCommand,500);checkCommand();
+let lastCommandId='';
+function executeCommand(c){
+  if(!c || !c.action) return;
+  const cid=String(c.id || c.at || (c.action+'_'+Date.now()));
+  if(cid===lastCommandId) return;
+  lastCommandId=cid;
+
+  // Always reload the newest admin values before executing a command.
+  applyAdminSettings();
+
+  if(c.action==='showMain'){
+    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(0);
+  }else if(c.action==='showCandle'){
+    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(1);
+  }else if(c.action==='showShiur'){
+    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(2);
+  }else if(c.action==='startAll'){
+    rotationPaused=false; hidePrayer(); showPage(0); scheduleRotation();
+  }else if(c.action==='stopAll'){
+    rotationPaused=true; clearTimeout(rotationTimer);
+  }else if(c.action==='hidePrayer'){
+    hidePrayer();
+  }
+
+  const pm={
+    showShacharit:['shacharit','שחרית'],
+    showMincha:['mincha','מנחה'],
+    showMaariv:['maariv','ערבית'],
+    showShabbatShacharit:['shabbatShacharit','שחרית שבת'],
+    showShabbatMincha:['shabbatMincha','מנחה שבת'],
+    showShabbatMaariv:['shabbatMaariv','ערבית ליל שבת'],
+    showHavdalah:['havdalah','הבדלה']
+  };
+  if(pm[c.action]){
+    rotationPaused=true;
+    clearTimeout(rotationTimer);
+    showPrayer(...pm[c.action]);
+  }
+}
+function checkCommand(){
+  const raw=localStorage.getItem('mb_command')||'';
+  if(!raw) return;
+  try{ executeCommand(JSON.parse(raw)); }catch(e){}
+}
+const boardChannel=('BroadcastChannel' in window) ? new BroadcastChannel('mb_admin_channel') : null;
+if(boardChannel) boardChannel.onmessage=e=>executeCommand(e.data);
+window.addEventListener('message',e=>{
+  if(e.origin!==location.origin || !e.data || e.data.type!=='mb_command') return;
+  executeCommand(e.data.command);
+});
+setInterval(checkCommand,500);
+checkCommand();
 </script>
-<a class="adminGear" href="admin.html" title="Admin" aria-label="Admin">⚙️</a>
+<a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>
 </body>
 </html>
