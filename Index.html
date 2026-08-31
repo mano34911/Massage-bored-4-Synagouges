@@ -1,523 +1,236 @@
-<!doctype html>
-<html lang="he" dir="rtl">
+Today 12:17 PM
+do i need to login to my admin ? 
+i get this 
+i click on the admin html but some page  opens for one second and go  back to this 
+i deleted the member because it was my email and now we need to make the master 
+i have deleted the memeber that i did 
+all good , but when i am trying to register another member i get this 
+i cant find Confirm Email  
+
+Yes — that is the better flow.
+
+Right now the root URL opens the board directly:
+
+Current Root Page
+
+You should change it so the root page sends visitors to:
+
+login.html
+
+Then only logged-in and approved users should be allowed to reach the synagogue board.
+
+The cleanest setup is:
+
+/ → redirect to login.html
+login.html → user signs in
+pending user → pending.html
+approved synagogue user → admin.html or board page
+master user → master-admin.html
+
+For GitHub Pages, the root URL normally loads index.html, so we should change your index.html into a simple redirect page.
+
+Use this as the entire index.html:
+
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="mb-build" content="new-marble-board-v2-slow-prayer-scroll">
-<title>לוח בית הכנסת</title>
-<style>
-:root{--navy:#101b43;--navy2:#17285e;--gold:#c79b43;--gold2:#f0d48a;--ink:#33240f;--cream:#fffaf0;--line:#b98a36}
-*{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090b10;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink)}
-button,input,select,textarea{font:inherit}
-.board{position:fixed;inset:0;overflow:hidden;padding:1.1vh 1vw;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(232,225,208,.95)),repeating-linear-gradient(105deg,transparent 0 35px,rgba(135,116,80,.07) 36px 37px);border:clamp(4px,.55vw,10px) ridge var(--gold);display:grid;grid-template-rows:10vh minmax(0,1fr) 5.5vh;gap:.8vh}
-.topbar{direction:ltr;display:grid;grid-template-columns:minmax(235px,19vw) 1fr minmax(235px,19vw);gap:.8vw;min-height:0}
-.clockbox,.titlebox,.panel,.center-stage{border:clamp(2px,.25vw,5px) ridge var(--gold);box-shadow:inset 0 0 0 2px #fff8d5,0 2px 9px #66512c66}
-.clockbox{direction:ltr;background:linear-gradient(180deg,var(--navy2),#0b1431);color:#fff;border-radius:18px;display:flex;align-items:center;justify-content:center;gap:.7vw;padding:.4vh .7vw;overflow:hidden}
-.clock-city{font-weight:1000;color:var(--gold2);font-size:clamp(13px,1vw,20px);line-height:1.1}
-.clock-time{font-weight:1000;font-size:clamp(29px,2.55vw,52px);line-height:1;white-space:nowrap;letter-spacing:-2px;font-variant-numeric:tabular-nums}
-.titlebox{direction:rtl;border-radius:20px;background:linear-gradient(#fffdf7,#e8dec8);display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;padding:.2vh .8vw}
-.synagogue{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,2.5vw,50px);font-weight:1000;color:var(--navy);line-height:1.05;text-align:center}
-.rabbi{font-size:clamp(15px,1.25vw,25px);font-weight:1000;color:#7a5519;margin-top:.25vh}
-.date-line{font-size:clamp(12px,.9vw,18px);font-weight:900;color:#3e3222;margin-top:.15vh}
-.main-grid{direction:ltr;display:grid;grid-template-columns:minmax(220px,20%) minmax(500px,60%) minmax(220px,20%);gap:.8vw;min-height:0;overflow:hidden}
-.side{direction:rtl;display:grid;grid-template-rows:minmax(0,1.75fr) minmax(0,.75fr);gap:.8vh;min-height:0}
-.panel{position:relative;min-height:0;overflow:hidden;background:linear-gradient(180deg,#fffdf4,#f1e5c4);border-radius:130px 130px 12px 12px;padding:5.2vh 1vw 1vh}
-.panel:before{content:"";position:absolute;inset:1.2vh .7vw auto;height:8.2vh;border-radius:90px 90px 20px 20px;background:radial-gradient(circle at 50% 0,#f2d783,#ba8b35 65%,#6b491b);border:3px ridge var(--gold);z-index:0}
-.panel-title{position:absolute;top:4.7vh;left:12%;right:12%;z-index:1;text-align:center;border-radius:999px;padding:.45vh .5vw;background:linear-gradient(#ffe9a8,#bd8a37);border:2px solid #8c6428;font-size:clamp(17px,1.35vw,27px);font-weight:1000;color:#4a3210;white-space:nowrap}
-.rows{height:100%;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:2vh}
-.data-row{display:flex;justify-content:space-between;align-items:center;gap:.6vw;border-bottom:1px dotted #9c7e4a;padding:clamp(2px,.36vh,6px) .25vw;font-size:clamp(13px,1.02vw,20px);font-weight:1000;line-height:1.07;color:#241a0d}
-.data-row strong{font-variant-numeric:tabular-nums;color:#111;white-space:nowrap}
-.data-row.highlight strong{color:#9e160f}
-.small-panel{border-radius:12px;padding:5.4vh 1vw .8vh}
-.small-panel:before{height:6.8vh;border-radius:18px;inset:.7vh .7vw auto}
-.small-panel .panel-title{top:2.3vh}
-.notice{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(15px,1.15vw,23px);font-weight:1000;line-height:1.3;white-space:pre-line;overflow:hidden}
-.center-stage{position:relative;min-width:0;min-height:0;overflow:hidden;border-radius:170px 170px 18px 18px;background:linear-gradient(180deg,var(--navy) 0 24%,#f8e8b6 24% 82%,var(--navy) 82%);padding:6.5vh 2.2vw 4vh}
-.center-stage:before{content:"";position:absolute;top:1.2vh;left:50%;transform:translateX(-50%);width:clamp(72px,6vw,120px);aspect-ratio:1;border-radius:50%;border:5px ridge var(--gold);background:radial-gradient(circle,#263c7a,#111c45);box-shadow:0 0 0 8px #e6c875;color:#f1d47f}
-.center-heading{position:absolute;top:10.4vh;left:4%;right:4%;text-align:center;color:var(--gold2);font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,2.4vw,48px);font-weight:1000;text-shadow:0 2px #000}
-.parchment{height:100%;border:6px double #9c762f;border-radius:10% 10% 14% 14%;background:radial-gradient(circle at 50% 25%,#fffdf6,#f6e8bd 72%,#d5b871);box-shadow:inset 0 0 34px #8d67273d;display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2vh 1.2vw 1vh;overflow:hidden}
-.parchment h1{margin:0 0 1vh;font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,2.5vw,50px);color:#5c4115}
-.parchment h2{margin:.25vh 0 .7vh;font-size:clamp(24px,2.15vw,42px);color:var(--navy);font-weight:1000}
-.main-message{position:relative;width:96%;flex:1;min-height:0;overflow:hidden;font-size:clamp(20px,1.75vw,34px);line-height:1.55;font-weight:1000}
-.main-message-scroll{position:absolute;left:0;right:0;top:0;white-space:pre-line;animation:centerTextScroll var(--center-scroll-duration,85s) linear infinite;will-change:transform}
-.main-message-line{display:block;min-height:1.55em;animation:centerLineColors 20s linear infinite;animation-delay:calc(var(--center-line-index,0) * -2.2s)}
-@keyframes centerTextScroll{from{transform:translateY(100%)}to{transform:translateY(-100%)}}
-@keyframes centerLineColors{
-0%,100%{color:#3d2a10}
-20%{color:#0f3f8c}
-40%{color:#8b1d3b}
-60%{color:#146b44}
-80%{color:#6f3a9c}
-}
-.dedication{margin-top:1vh;padding:.65vh 1vw;border:2px solid var(--gold);border-radius:10px;font-size:clamp(14px,1.05vw,21px);font-weight:1000;color:#5c3c0b;background:#fff7d5cc}
-.liturgy-box{width:96%;margin:.8vh auto 0;padding:.7vh .8vw;border:2px solid #b98a36;border-radius:12px;background:#fffdf3d9;color:#17224d;font-size:clamp(12px,.9vw,18px);font-weight:1000;line-height:1.35;max-height:27%;overflow:hidden;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25vh .7vw;text-align:right}
-.liturgy-item{border-bottom:1px dotted #b89754;padding:.1vh .15vw}.liturgy-item strong{color:#7b4813}.liturgy-alert{color:#9e160f}.calendar-note{grid-column:1/-1;text-align:center;color:#6b4b14;font-size:.88em}
-.bottom-ticker{direction:ltr;border:3px ridge var(--gold);border-radius:10px;background:linear-gradient(180deg,var(--navy2),#0a1230);overflow:hidden;display:flex;align-items:center;color:#fff6ba;font-weight:1000;font-size:clamp(17px,1.5vw,29px);white-space:nowrap}
-.ticker-text{display:inline-block;min-width:100%;text-align:center;animation:ticker 18s linear infinite}
-@keyframes ticker{from{transform:translateX(-105%)}to{transform:translateX(105%)}}
-.gear{position:fixed;z-index:100000;top:1.7vh;right:1.5vw;width:clamp(46px,3.2vw,64px);aspect-ratio:1;border-radius:50%;border:3px solid var(--gold2);background:var(--navy);color:#fff;font-size:clamp(24px,2vw,38px);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 12px #0008}
-dialog{width:min(1180px,96vw);max-height:92vh;border:5px ridge var(--gold);border-radius:18px;background:#101a3b;color:#fff;padding:0;overflow:auto}
-dialog::backdrop{background:#000b}
-.admin-head{position:sticky;top:0;z-index:3;background:#0a1230;border-bottom:2px solid var(--gold);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.admin-head h2{margin:0;color:var(--gold2)}
-.admin-body{padding:14px;display:grid;gap:14px}
-.admin-section{border:2px solid #9d7938;border-radius:12px;padding:12px;background:#17234c}
-.admin-section h3{margin:0 0 10px;color:#ffe298}
-.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.fields.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-label{display:flex;flex-direction:column;gap:4px;font-weight:900;color:#fff}
-input,select,textarea{width:100%;border:1px solid #c9a85c;border-radius:7px;background:#fff;color:#111;padding:8px}
-textarea{resize:vertical;min-height:85px}
-.actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-.action{border:2px solid var(--gold);background:#f7df98;color:#2e210c;border-radius:9px;padding:8px 14px;font-weight:1000;cursor:pointer}
-.close{background:#7c1d1d;color:#fff}
-.status{text-align:center;color:#9cff6b;font-weight:1000;min-height:20px}
-.speed-scale{display:flex;direction:ltr;justify-content:space-between;align-items:center;gap:10px;color:#ffe7a0;font-weight:1000}.speed-scale strong{min-width:54px;text-align:center;border:1px solid var(--gold);border-radius:999px;padding:3px 8px;background:#0a1230;color:#fff}
-.overlay{position:fixed;inset:0;z-index:90000;background:radial-gradient(circle at 50% 20%,#17285e,#050a1d 68%,#000);color:#fff;display:none;align-items:flex-start;justify-content:center;padding:0 7vw;text-align:center;overflow:hidden}
-.overlay.active{display:flex}
-.overlay-content{width:min(1200px,86vw);font-size:clamp(22px,2.1vw,42px);line-height:1.65;font-weight:1000;text-shadow:0 2px 5px #000;will-change:transform;animation:prayerScroll var(--prayer-duration,120s) linear infinite}
-.prayer-line{display:block;min-height:1.65em;white-space:pre-wrap;animation:prayerColors 22s linear infinite;animation-delay:calc(var(--line-index,0) * -2.4s)}
-.overlay-close{position:absolute;top:18px;left:18px}
-@keyframes prayerScroll{from{transform:translateY(88vh)}to{transform:translateY(-100%)}}
-@keyframes prayerColors{0%,100%{color:#fff5bf}20%{color:#fff}40%{color:#6cecff}60%{color:#9cff77}80%{color:#d8b7ff}}
-@media(max-width:1000px){.board{padding:.7vh .5vw}.main-grid{grid-template-columns:20% 60% 20%;gap:.35vw}.topbar{grid-template-columns:20% 60% 20%;gap:.35vw}.clockbox{padding:.2vh .3vw}.clock-time{font-size:clamp(25px,3.4vw,36px)}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding-left:.4vw;padding-right:.4vw}.center-stage{padding-left:2vw;padding-right:2vw}}
-
-/* Separate rotating pages */
-.rotating-page{position:fixed;inset:0;z-index:80000;display:none;overflow:hidden;background:radial-gradient(circle at 50% 15%,#fffdf5,#ead9a7 60%,#a67b2f);border:clamp(5px,.7vw,12px) ridge var(--gold);padding:4vh 5vw;text-align:center}
-.rotating-page.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
-.rotate-title{font-family:Georgia,"Times New Roman",serif;color:var(--navy);font-size:clamp(34px,4vw,72px);font-weight:1000;margin:0 0 2vh}
-.rotate-subtitle{font-size:clamp(18px,1.8vw,34px);font-weight:900;color:#6a4915;margin-bottom:2vh}
-.candle-grid{width:min(1300px,94vw);display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:2.3vh 2vw;align-items:end}
-.candle-card{min-width:0;font-size:clamp(14px,1.35vw,25px);font-weight:1000;color:#37250d}
-.candle-flame{position:relative;margin:0 auto 1vh;width:clamp(24px,2.2vw,42px);height:clamp(42px,4.2vw,78px);border-radius:55% 45% 55% 45%;background:radial-gradient(ellipse at 50% 70%,#fff 0 12%,#ffe37a 24%,#ff9b2f 55%,#c82f14 78%,transparent 80%);filter:drop-shadow(0 0 12px #ffb52d);animation:flicker .8s ease-in-out infinite alternate;transform-origin:50% 100%}
-.candle-body{margin:-.6vh auto .8vh;width:clamp(36px,3.4vw,64px);height:clamp(54px,5vw,92px);border-radius:8px 8px 14px 14px;background:linear-gradient(90deg,#e6e1d4,#fff,#d6cfbe);border:2px solid #9c8e6f;box-shadow:inset 0 0 8px #8f806055}
-@keyframes flicker{from{transform:rotate(-2deg) scale(.96)}to{transform:rotate(2deg) scale(1.04)}}
-.shiur-frame{width:min(1250px,92vw);height:min(72vh,780px);border:clamp(5px,.55vw,10px) double var(--gold);border-radius:28px;background:linear-gradient(180deg,#101b43,#17285e);box-shadow:inset 0 0 0 5px #f3d98c,0 10px 30px #0005;padding:4vh 5vw;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.shiur-text{font-size:clamp(23px,2.35vw,46px);line-height:1.6;font-weight:900;white-space:pre-line;overflow:hidden;max-height:54vh}
-.rotate-progress{position:absolute;bottom:1.2vh;left:50%;transform:translateX(-50%);font-size:clamp(11px,.8vw,15px);color:#4e3b1d;opacity:.65}
-
-
-/* Realistic memorial candle page */
-#memorialPage{
-  background:
-    radial-gradient(circle at 50% 10%,rgba(255,250,225,.96),rgba(224,202,144,.96) 45%,rgba(70,42,14,.98) 100%);
-}
-#memorialPage .rotate-title{
-  color:#3a240a;
-  text-shadow:0 2px 0 #f7e2a3,0 4px 12px #0004;
-}
-#memorialPage .rotate-subtitle{color:#5a3510}
-.candle-grid{
-  width:min(1450px,96vw);
-  max-height:76vh;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:1.4vh 1.4vw;
-  align-items:stretch;
-}
-.candle-card{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:1.2vw;
-  min-height:12vh;
-  padding:.8vh 1vw;
-  border:2px solid rgba(134,87,25,.7);
-  border-radius:16px;
-  background:linear-gradient(180deg,rgba(255,252,239,.92),rgba(240,219,168,.92));
-  box-shadow:inset 0 0 16px rgba(117,78,24,.18),0 4px 10px #0003;
-  text-align:right;
-}
-.candle-visual{
-  position:relative;
-  flex:0 0 clamp(58px,5vw,92px);
-  height:clamp(92px,8vw,145px);
-}
-.candle-flame{
-  position:absolute;
-  left:50%;
-  top:0;
-  transform:translateX(-50%);
-  width:clamp(18px,1.6vw,30px);
-  height:clamp(34px,3vw,56px);
-  border-radius:48% 52% 50% 50% / 62% 65% 35% 38%;
-  background:
-    radial-gradient(ellipse at 50% 72%,#fff 0 10%,#fff6a2 18%,#ffc347 40%,#f37b21 65%,#8e1a0a 84%,transparent 86%);
-  filter:drop-shadow(0 0 7px #ffd65a) drop-shadow(0 0 15px #ff8f1f);
-  transform-origin:50% 100%;
-  animation:flickerReal .45s ease-in-out infinite alternate;
-  z-index:3;
-}
-.candle-wick{
-  position:absolute;
-  left:50%;
-  top:31%;
-  width:3px;
-  height:15%;
-  transform:translateX(-50%);
-  background:#252018;
-  z-index:2;
-}
-.candle-glass{
-  position:absolute;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
-  width:72%;
-  height:67%;
-  border-radius:8px 8px 14px 14px;
-  border:2px solid rgba(170,183,191,.95);
-  background:
-    linear-gradient(90deg,rgba(255,255,255,.28),rgba(230,240,246,.64) 38%,rgba(255,255,255,.18) 62%,rgba(175,191,201,.55));
-  box-shadow:
-    inset 0 0 14px rgba(255,255,255,.9),
-    inset 0 -18px 20px rgba(255,250,235,.75),
-    0 4px 12px rgba(0,0,0,.28);
-}
-.candle-wax{
-  position:absolute;
-  left:50%;
-  bottom:10%;
-  transform:translateX(-50%);
-  width:58%;
-  height:45%;
-  border-radius:4px 4px 9px 9px;
-  background:linear-gradient(90deg,#f0eee7,#ffffff 50%,#ddd8cc);
-  box-shadow:inset 0 -6px 8px #b9b2a2aa;
-}
-.candle-name{
-  flex:1;
-  min-width:0;
-  font-size:clamp(18px,1.55vw,30px);
-  line-height:1.25;
-  font-weight:1000;
-  color:#2d1c08;
-}
-.candle-name small{
-  display:block;
-  font-size:.68em;
-  color:#7c521c;
-  margin-bottom:.3vh;
-}
-@keyframes flickerReal{
-  from{transform:translateX(-50%) rotate(-2deg) scale(.96,.98)}
-  to{transform:translateX(-50%) rotate(2deg) scale(1.05,1.02)}
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=login.html">
+  <script>
+    window.location.replace("login.html");
+  </script>
+  <title>Redirecting...</title>
 </head>
 <body>
-<button class="gear" id="adminGear" type="button" aria-label="פתיחת ניהול" title="ניהול הלוח">⚙️</button>
-<main class="board">
-  <header class="topbar">
-    <section class="clockbox"><div><div class="clock-city">NEW YORK</div><div class="clock-time" id="nyClock">--:--:--</div></div></section>
-    <section class="titlebox"><div class="synagogue" id="synagogueName">בית הכנסת בית תורה</div><div class="rabbi" id="rabbiName">הרב</div><div class="date-line"><span id="gregDate">--</span> • <span id="hebrewDate">--</span></div></section>
-    <section class="clockbox"><div><div class="clock-city">JERUSALEM</div><div class="clock-time" id="jerusalemClock">--:--:--</div></div></section>
-  </header>
-  <section class="main-grid">
-    <aside class="side">
-      <section class="panel"><div class="panel-title">זמני היום</div><div class="rows" id="dayRows"></div></section>
-      <section class="panel small-panel"><div class="panel-title">הודעות</div><div class="notice" id="leftNotice">ברוכים הבאים לבית הכנסת</div></section>
-    </aside>
-    <section class="center-stage">
-      <div class="center-heading">דרכי תורה</div>
-      <div class="parchment"><h1 id="dailyTitle">פרנס היום</h1><h2 id="parasha">פרשת השבוע</h2><div class="main-message" id="mainMessage"><div class="main-message-scroll" id="mainMessageScroll"></div></div><div class="liturgy-box" id="liturgyBox"><div class="calendar-note">טוען שינויים בתפילה לפי התאריך…</div></div><div class="dedication" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div>
-    </section>
-    <aside class="side">
-      <section class="panel"><div class="panel-title">זמני התפילות</div><div class="rows" id="prayerRows"></div></section>
-      <section class="panel small-panel"><div class="panel-title">מזל טוב</div><div class="notice" id="rightNotice">ברכת מזל טוב לחברי הקהילה</div></section>
-    </aside>
-  </section>
-  <footer class="bottom-ticker"><div class="ticker-text" id="ticker">לעילוי נשמת זהבה חלא זצ״ל</div></footer>
-</main>
+  Redirecting to login...
+</body>
+</html>
 
+That will stop the public board from appearing when someone visits the main URL.
 
-<section class="rotating-page" id="memorialPage" aria-hidden="true">
-  <h1 class="rotate-title">🕯️ נרות נשמה</h1>
-  <div class="rotate-subtitle">לעילוי נשמת יקירינו</div>
-  <div class="candle-grid" id="memorialCandleGrid"></div>
-  <div class="rotate-progress">לוח בית הכנסת • דף נרות נשמה</div>
-</section>
+One important point: this only redirects the homepage. We should also protect the actual board page so someone cannot bypass login by typing its direct .html address. That should be our next change.
 
-<section class="rotating-page" id="shiurPage" aria-hidden="true">
-  <div class="shiur-frame">
-    <h1 class="rotate-title" style="color:#f0d48a">שיעור יומי</h1>
-    <div class="shiur-text" id="shiurPageText">דבר תורה יומי</div>
-  </div>
-  <div class="rotate-progress" style="color:#fff">לוח בית הכנסת • שיעור יומי</div>
-</section>
+or better yet let them be able to go to the page - not touch it so we dont break anythin, but we can let them be on the page , surf it and than refferthe to login after 1 minute
 
-<dialog id="adminDialog">
-  <div class="admin-head"><h2>⚙️ ניהול לוח בית הכנסת</h2><div class="actions"><button class="action" id="saveAll" type="button">💾 שמור הכול</button><button class="action close" id="closeAdmin" type="button">סגור</button></div></div>
-  <div class="admin-body">
-    <section class="admin-section"><h3>פרטי בית הכנסת</h3><div class="fields"><label>שם בית הכנסת<input id="sSynagogue"></label><label>שם הרב<input id="sRabbi"></label><label>מיקוד ארה״ב לזמנים<input id="sZip" inputmode="numeric"></label><label>אזור זמן מקומי<input id="sTimezone"></label><label>מנהג<select id="sMinhag"><option>אשכנז / ספרד</option><option>אשכנז</option><option>ספרד</option><option>עדות המזרח</option></select></label><label>לוח תפילה<select id="sCalendarRegion"><option value="diaspora">חו״ל</option><option value="israel">ארץ ישראל</option></select></label><label>מהירות הודעה<select id="sSpeed"><option value="12">מהירה</option><option value="18">רגילה</option><option value="28">איטית</option></select></label></div></section>
-    <section class="admin-section"><h3>זמני תפילות וחול</h3><div class="fields"><label>שחרית<input id="sShacharit" type="time"></label><label>מנחה<input id="sMincha" type="time"></label><label>ערבית<input id="sMaariv" type="time"></label><label>שיעור תורה<input id="sShiur" type="time"></label><label>משך שחרית (דקות)<input id="sShacharitDuration" type="number" min="5" max="180"></label><label>משך מנחה (דקות)<input id="sMinchaDuration" type="number" min="5" max="120"></label><label>משך ערבית (דקות)<input id="sMaarivDuration" type="number" min="5" max="120"></label></div></section>
-    <section class="admin-section"><h3>זמני שבת</h3><div class="fields"><label>שחרית לשבת<input id="sShabbatShacharit" type="time"></label><label>מנחה לשבת<input id="sShabbatMincha" type="time"></label><label>ערבית ליל שבת<input id="sShabbatMaariv" type="time"></label><label>טקס הבדלה<input id="sShabbatHavdalah" type="time"></label><label>משך שחרית לשבת<input id="sShabbatShacharitDuration" type="number" min="5" max="240"></label><label>משך מנחה לשבת<input id="sShabbatMinchaDuration" type="number" min="5" max="180"></label><label>משך ערבית לשבת<input id="sShabbatMaarivDuration" type="number" min="5" max="180"></label><label>משך הבדלה<input id="sShabbatHavdalahDuration" type="number" min="5" max="90"></label></div></section>
-    <section class="admin-section"><h3>זמני היום והשבת</h3><div class="fields"><label>מצב עדכון<select id="sZmanimMode"><option value="auto">אוטומטי לפי מיקוד</option><option value="manual">ידני</option></select></label><label>עלות השחר<input id="sManualAlot" type="time"></label><label>זריחה<input id="sManualSunrise" type="time"></label><label>סוף זמן קריאת שמע<input id="sManualShema" type="time"></label><label>חצות<input id="sManualChatzot" type="time"></label><label>מנחה גדולה<input id="sManualMinchaGedola" type="time"></label><label>שקיעה<input id="sManualSunset" type="time"></label><label>צאת הכוכבים<input id="sManualTzeit" type="time"></label><label>הדלקת נרות<input id="sManualCandles" type="time"></label><label>צאת שבת<input id="sManualHavdalah" type="time"></label></div></section>
-    <section class="admin-section"><h3>תוכן הלוח</h3><div class="fields two"><label>כותרת מרכזית<input id="sDailyTitle"></label><label>פרשת השבוע<input id="sParasha"></label><label>הודעה מרכזית<textarea id="sMainMessage"></textarea></label><label>הקדשה<textarea id="sTicker"></textarea></label><label>מהירות הקדשת ״לעילוי נשמת״<input id="sTickerSpeed" type="range" min="8" max="60" step="1"><span>מהיר 8 — <strong id="tickerSpeedValue">18</strong> — איטי 60</span></label><label>הודעה שמאלית<textarea id="sLeftNotice"></textarea></label><label>הודעת מזל טוב<textarea id="sRightNotice"></textarea></label><label>הודעה עליונה / תורם השבוע<textarea id="sAnnouncement"></textarea></label><label>סרטון YouTube לדף היומי<input id="sDafVideoUrl" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=..."></label><label>תוכן שיעור יומי<textarea id="sDailyShiurText" placeholder="הכנס כאן את השיעור היומי"></textarea></label><label>זמן כל דף בסבב (שניות)<input id="sRotationSeconds" type="number" min="10" max="300" step="5" value="10"></label><label>הפעל סבב דפים<select id="sRotationEnabled"><option value="yes">כן</option><option value="no">לא</option></select></label></div></section>
-    <section class="admin-section"><h3>נוסחי תפילות מלאים</h3><div class="fields two"><label>שחרית<textarea id="sShacharitText"></textarea></label><label>מנחה<textarea id="sMinchaText"></textarea></label><label>ערבית<textarea id="sMaarivText"></textarea></label><label>שחרית לשבת<textarea id="sShabbatShacharitText"></textarea></label><label>מנחה לשבת<textarea id="sShabbatMinchaText"></textarea></label><label>ערבית לשבת<textarea id="sShabbatMaarivText"></textarea></label><label>טקס ההבדלה<textarea id="sShabbatHavdalahText"></textarea></label><label>מהירות גלילת תפילה<input id="sPrayerSpeed" type="range" min="10" max="120" step="5" dir="ltr"><span class="speed-scale" dir="ltr"><b>🐢 איטי — 10</b><strong id="prayerSpeedValue">40</strong><b>120 — מהיר 🚀</b></span></label></div><div class="actions"><button class="action prayer-preview" data-prayer="shacharit" type="button">▶ שחרית</button><button class="action prayer-preview" data-prayer="mincha" type="button">▶ מנחה</button><button class="action prayer-preview" data-prayer="maariv" type="button">▶ ערבית</button><button class="action prayer-preview" data-prayer="shabbatShacharit" type="button">▶ שחרית שבת</button><button class="action prayer-preview" data-prayer="shabbatMincha" type="button">▶ מנחה שבת</button><button class="action prayer-preview" data-prayer="shabbatMaariv" type="button">▶ ערבית שבת</button><button class="action prayer-preview" data-prayer="shabbatHavdalah" type="button">▶ הבדלה</button><button class="action" id="stopPreview" type="button">■ הפסק תצוגה</button></div></section>
-    <section class="admin-section"><h3>שמות ליד הנרות</h3><div class="fields" id="memorialFields"></div></section>
-    <div class="status" id="saveStatus"></div>
-  </div>
-</dialog>
+Yes — that is safer and gives visitors a chance to look around first.
 
-<section class="overlay" id="prayerOverlay" aria-hidden="true"><button class="action overlay-close" id="closeOverlay" type="button">✕ סגור</button><div class="overlay-content" id="overlayContent"></div></section>
+We can leave the homepage exactly as it is and add only a small timer that sends visitors to login.html after 1 minute.
+
+Add this near the bottom of your existing index.html, just before </body>:
 
 <script>
-const $=id=>document.getElementById(id);
-const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספרד',calendarRegion:'diaspora',speed:'18',tickerSpeed:'18',shacharit:'07:00',mincha:'16:00',maariv:'20:30',shiur:'21:15',shacharitDuration:'60',minchaDuration:'30',maarivDuration:'45',shabbatShacharit:'09:00',shabbatMincha:'18:30',shabbatMaariv:'19:30',shabbatHavdalah:'21:00',shabbatShacharitDuration:'120',shabbatMinchaDuration:'45',shabbatMaarivDuration:'60',shabbatHavdalahDuration:'20',zmanimMode:'manual',manualAlot:'05:02',manualSunrise:'06:38',manualShema:'09:27',manualChatzot:'12:10',manualMinchaGedola:'12:40',manualSunset:'19:32',manualTzeit:'20:06',manualCandles:'19:13',manualHavdalah:'20:12',dailyTitle:'פרנס היום',parasha:'פרשת השבוע',mainMessage:'ברכת מזל טוב לכל המתפללים ובני הקהילה.\nיהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.',ticker:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',leftNotice:'ברוכים הבאים לבית הכנסת',rightNotice:'ברכת מזל טוב לחברי הקהילה',announcement:'תורם השבוע',dafVideoUrl:'',dailyShiurText:'דבר תורה יומי',rotationSeconds:'10',rotationEnabled:'yes',prayerSpeed:'40',shacharitText:'',minchaText:'',maarivText:'',shabbatShacharitText:'',shabbatMinchaText:'',shabbatMaarivText:'',shabbatHavdalahText:'',memorialNames:Array.from({length:20},(_,i)=>`שם נר ${i+1}`)};
-let state;
-try{state={...defaults,...JSON.parse(localStorage.getItem('newSynagogueBoard')||'{}')}}catch(e){state={...defaults}}
-const fieldMap={sSynagogue:'synagogue',sRabbi:'rabbi',sZip:'zip',sTimezone:'timezone',sMinhag:'minhag',sCalendarRegion:'calendarRegion',sSpeed:'speed',sTickerSpeed:'tickerSpeed',sShacharit:'shacharit',sMincha:'mincha',sMaariv:'maariv',sShiur:'shiur',sShacharitDuration:'shacharitDuration',sMinchaDuration:'minchaDuration',sMaarivDuration:'maarivDuration',sShabbatShacharit:'shabbatShacharit',sShabbatMincha:'shabbatMincha',sShabbatMaariv:'shabbatMaariv',sShabbatHavdalah:'shabbatHavdalah',sShabbatShacharitDuration:'shabbatShacharitDuration',sShabbatMinchaDuration:'shabbatMinchaDuration',sShabbatMaarivDuration:'shabbatMaarivDuration',sShabbatHavdalahDuration:'shabbatHavdalahDuration',sZmanimMode:'zmanimMode',sManualAlot:'manualAlot',sManualSunrise:'manualSunrise',sManualShema:'manualShema',sManualChatzot:'manualChatzot',sManualMinchaGedola:'manualMinchaGedola',sManualSunset:'manualSunset',sManualTzeit:'manualTzeit',sManualCandles:'manualCandles',sManualHavdalah:'manualHavdalah',sDailyTitle:'dailyTitle',sParasha:'parasha',sMainMessage:'mainMessage',sTicker:'ticker',sLeftNotice:'leftNotice',sRightNotice:'rightNotice',sAnnouncement:'announcement',sDafVideoUrl:'dafVideoUrl',sDailyShiurText:'dailyShiurText',sRotationSeconds:'rotationSeconds',sRotationEnabled:'rotationEnabled',sPrayerSpeed:'prayerSpeed',sShacharitText:'shacharitText',sMinchaText:'minchaText',sMaarivText:'maarivText',sShabbatShacharitText:'shabbatShacharitText',sShabbatMinchaText:'shabbatMinchaText',sShabbatMaarivText:'shabbatMaarivText',sShabbatHavdalahText:'shabbatHavdalahText'};
-function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function fmt(t){if(!t)return'--:--';let [h,m]=t.split(':').map(Number);let ap=h>=12?'PM':'AM';h=h%12||12;return `${h}:${String(m).padStart(2,'0')} ${ap}`}
-function renderRows(){const prayer=[['שחרית',state.shacharit],['מנחה',state.mincha],['ערבית',state.maariv],['שיעור תורה',state.shiur],['שחרית שבת',state.shabbatShacharit],['מנחה שבת',state.shabbatMincha],['ערבית ליל שבת',state.shabbatMaariv],['הבדלה',state.shabbatHavdalah]];$('prayerRows').innerHTML=prayer.map(([n,t])=>`<div class="data-row"><span>${esc(n)}</span><strong>${fmt(t)}</strong></div>`).join('');const day=[['עלות השחר',state.manualAlot],['זריחה',state.manualSunrise],['סוף זמן קריאת שמע',state.manualShema],['חצות',state.manualChatzot],['מנחה גדולה',state.manualMinchaGedola],['שקיעה',state.manualSunset],['צאת הכוכבים',state.manualTzeit],['הדלקת נרות',state.manualCandles,'highlight'],['צאת שבת',state.manualHavdalah,'highlight']];$('dayRows').innerHTML=day.map(([n,t,c])=>`<div class="data-row ${c||''}"><span>${esc(n)}</span><strong>${fmt(t)}</strong></div>`).join('')}
-
-function renderSeparatePages(){
-  const names=(state.memorialNames||[]).filter(x=>String(x||'').trim());
-  const grid=$('memorialCandleGrid');
-  if(grid){
-    grid.innerHTML=(names.length?names:['שם נר']).slice(0,20).map(name=>`
-      <div class="candle-card">
-        <div class="candle-visual" aria-hidden="true">
-          <div class="candle-flame"></div>
-          <div class="candle-wick"></div>
-          <div class="candle-glass"></div>
-          <div class="candle-wax"></div>
-        </div>
-        <div class="candle-name">
-          <small>לעילוי נשמת</small>
-          ${esc(name)}
-        </div>
-      </div>`).join('');
-  }
-  if($('shiurPageText')) $('shiurPageText').textContent=state.dailyShiurText||'דבר תורה יומי';
-}
-function render(){ $('synagogueName').textContent=state.synagogue;$('rabbiName').textContent=state.rabbi;$('dailyTitle').textContent=state.dailyTitle;$('parasha').textContent=state.parasha;{
-const mm=$('mainMessageScroll');
-const lines=String(state.mainMessage||'').split(/\r?\n/);
-mm.replaceChildren(...lines.map((line,index)=>{
-  const span=document.createElement('span');
-  span.className='main-message-line';
-  span.style.setProperty('--center-line-index',index);
-  span.textContent=line||' ';
-  return span;
-}));
-requestAnimationFrame(()=>{
-  const distance=mm.scrollHeight + $('mainMessage').clientHeight;
-  const pixelsPerSecond=9;
-  const duration=Math.max(45,distance/pixelsPerSecond);
-  mm.style.setProperty('--center-scroll-duration',`${duration}s`);
-});
-}$('dedication').textContent=state.ticker;$('ticker').textContent=state.ticker;$('leftNotice').textContent=state.leftNotice;$('rightNotice').textContent=state.rightNotice;$('ticker').style.animationDuration=`${state.tickerSpeed||18}s`;renderRows();renderSeparatePages()}
-function fillAdmin(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')}
-function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)}
-function updateClocks(){const now=new Date();const time=(tz)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('nyClock').textContent=time(state.timezone||'America/New_York');$('jerusalemClock').textContent=time('Asia/Jerusalem');$('gregDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:state.timezone||'America/New_York',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{timeZone:state.timezone||'America/New_York',year:'numeric',month:'long',day:'numeric'}).format(now)}catch(e){$('hebrewDate').textContent=''}}
-
-
-function localYMD(date=new Date(),tz=state.timezone||'America/New_York'){
-    const parts=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date);
-    const get=t=>parts.find(p=>p.type===t)?.value;
-    return `${get('year')}-${get('month')}-${get('day')}`;
-}
-function addGregorianDays(ymd,days){
-    const [y,m,d]=ymd.split('-').map(Number);
-    const x=new Date(Date.UTC(y,m-1,d+days,12));
-    return x.toISOString().slice(0,10);
-}
-function minutesNow(tz=state.timezone||'America/New_York'){
-    const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date());
-    const h=Number(p.find(x=>x.type==='hour')?.value||0)%24;
-    const m=Number(p.find(x=>x.type==='minute')?.value||0);
-    return h*60+m;
-}
-function timeMinutes(v){if(!v)return 0;const [h,m]=v.split(':').map(Number);return h*60+m}
-function isGregorianLeap(y){return y%4===0&&(y%100!==0||y%400===0)}
-function monthNorm(m){return String(m||'').toLowerCase().replace(/[^a-z]/g,'')}
-function titleHas(events,...needles){const t=events.map(e=>String(e.title||'').toLowerCase()).join(' | ');return needles.some(n=>t.includes(n.toLowerCase()))}
-function isRoshChodesh(h){return Number(h.hd)===1||Number(h.hd)===30}
-function tachanunOmitted(h,events,weekday){
-    const d=Number(h.hd), m=monthNorm(h.hm);
-    if(weekday===6||isRoshChodesh(h)) return true;
-    if(titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','chanukah','tu bishvat','purim','shushan purim','pesach','shavuot','lag baomer','tish’a b’av','tisha b’av','tu b’av','pesach sheni')) return true;
-    if(m==='nisan') return true;
-    if(m==='sivan'&&d<=12) return true;
-    if(m==='iyar'&&(d===14||d===18)) return true;
-    if(m==='av'&&(d===9||d===15)) return true;
-    if(m==='shevat'&&d===15) return true;
-    if((m==='adar'||m==='adarii'||m==='adari')&&(d===14||d===15)) return true;
-    if(m==='elul'&&d===29) return true;
-    if(m==='tishrei'&&(d>=9)) return true;
-    if(m==='cheshvan'&&d<=2) return true;
-    return false;
-}
-function omitAtPreviousMincha(nextH,nextEvents,nextWeekday){
-    const d=Number(nextH.hd),m=monthNorm(nextH.hm);
-    if(nextWeekday===6||isRoshChodesh(nextH))return true;
-    if(titleHas(nextEvents,'chanukah','tu bishvat','purim','shushan purim','lag baomer','tish’a b’av','tisha b’av','tu b’av'))return true;
-    if(m==='nisan'&&d===1)return true;
-    if(m==='sivan'&&d===1)return true;
-    return false;
-}
-function seasonalPraise(h){
-    const d=Number(h.hd),m=monthNorm(h.hm);
-    const winterMonths=['cheshvan','kislev','tevet','shevat','adar','adari','adarii'];
-    if(m==='tishrei'&&d===22)return 'שחרית: מוריד הטל • ממוסף: משיב הרוח ומוריד הגשם';
-    if(m==='nisan'&&d===15)return 'שחרית: משיב הרוח ומוריד הגשם • ממוסף: מוריד הטל';
-    if((m==='tishrei'&&d>22)||winterMonths.includes(m)||(m==='nisan'&&d<15))return 'משיב הרוח ומוריד הגשם';
-    return 'מוריד הטל';
-}
-function rainRequest(h,ymd){
-    const d=Number(h.hd),m=monthNorm(h.hm);
-    if(state.calendarRegion==='israel'){
-        const active=(m==='cheshvan'&&d>=7)||['kislev','tevet','shevat','adar','adari','adarii'].includes(m)||(m==='nisan'&&d<15);
-        return active?'ותן טל ומטר לברכה':'ותן ברכה';
-    }
-    const [y,mo,da]=ymd.split('-').map(Number);
-    const beforePesach=(m!=='nisan'||d<15);
-    const afterPesachMonths=['nisan','iyar','sivan','tammuz','av','elul','tishrei','cheshvan'].includes(m);
-    let active=false;
-    if(beforePesach&&!afterPesachMonths){
-        const startDay=isGregorianLeap(y+1)?5:4;
-        if(mo===12){
-            active=da>startDay||(da===startDay&&minutesNow()>=timeMinutes(state.maariv||'20:30'));
-        }else if(mo<4){active=true}
-    }
-    return active?'ותן טל ומטר לברכה':'ותן ברכה';
-}
-function hallelStatus(h,events){
-    const d=Number(h.hd),m=monthNorm(h.hm),israel=state.calendarRegion==='israel';
-    if(titleHas(events,'chanukah'))return 'הלל שלם';
-    if(isRoshChodesh(h))return 'חצי הלל';
-    if(m==='sivan'&&(d===6||(!israel&&d===7)))return 'הלל שלם';
-    if(m==='tishrei'&&d>=15&&d<=23)return 'הלל שלם';
-    if(m==='nisan'){
-        if(d===15||(!israel&&d===16))return 'הלל שלם';
-        if(d>=16&&d<=(israel?21:22))return 'חצי הלל';
-    }
-    return 'אין הלל';
-}
-function hasMusaf(h,events,weekday){
-    if(weekday===6||isRoshChodesh(h))return true;
-    return titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','pesach','shavuot');
-}
-function prayerAdditions(h,events,weekday,ymd){
-    const items=[];
-    const d=Number(h.hd),m=monthNorm(h.hm);
-    if(isRoshChodesh(h)||titleHas(events,'pesach','shavuot','sukkot','shmini atzeret','simchat torah'))items.push('יעלה ויבוא');
-    if(titleHas(events,'chanukah','purim'))items.push('על הנסים');
-    if(titleHas(events,'fast of gedaliah','10th of tevet','asara b’tevet','ta’anit esther','fast of esther','17th of tammuz','tzom tammuz','tish’a b’av','tisha b’av'))items.push('עננו');
-    if(titleHas(events,'tish’a b’av','tisha b’av'))items.push('נחם במנחה');
-    if((m==='tishrei'&&d>=1&&d<=10)||titleHas(events,'fast of gedaliah','10th of tevet','ta’anit esther','fast of esther','17th of tammuz','tish’a b’av','tisha b’av'))items.push('אבינו מלכנו לפי המנהג');
-    if(weekday===6&&minutesNow()>=timeMinutes(state.manualTzeit||state.manualHavdalah||'20:00'))items.push('אתה חוננתנו בערבית');
-    return items.length?items.join(' • '):'אין תוספת מיוחדת';
-}
-function torahReadingStatus(h,events,weekday){
-    if(weekday===1||weekday===4||weekday===6||isRoshChodesh(h)||titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','pesach','shavuot','fast of','ta’anit','tish’a b’av','tisha b’av','chanukah','purim'))return 'יש קריאת התורה';
-    return 'אין קריאה בשחרית';
-}
-async function getHebrewDate(ymd){
-    const u=`https://www.hebcal.com/converter?cfg=json&date=${encodeURIComponent(ymd)}&g2h=1&strict=1`;
-    const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('Hebrew date');return r.json();
-}
-async function updateJewishCalendar(){
-    const box=$('liturgyBox');
-    try{
-        const today=localYMD(), tomorrow=addGregorianDays(today,1), end=addGregorianDays(today,8);
-        const israel=state.calendarRegion==='israel'?'&i=on':'';
-        const calUrl=`https://www.hebcal.com/hebcal?cfg=json&v=1&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on&s=on&o=on${israel}&start=${today}&end=${end}`;
-        const [h,nextH,cal]=await Promise.all([getHebrewDate(today),getHebrewDate(tomorrow),fetch(calUrl,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar');return r.json()})]);
-        const all=Array.isArray(cal.items)?cal.items:[];
-        const todayEvents=all.filter(e=>e.date===today);
-        const tomorrowEvents=all.filter(e=>e.date===tomorrow);
-        const parasha=all.find(e=>e.category==='parashat');
-        if(parasha)$('parasha').textContent=parasha.hebrew||parasha.title||state.parasha;
-        else $('parasha').textContent=state.parasha||'פרשת השבוע';
-        const [y,m,d]=today.split('-').map(Number);
-        const weekday=new Date(Date.UTC(y,m-1,d,12)).getUTCDay();
-        const [y2,m2,d2]=tomorrow.split('-').map(Number);
-        const nextWeekday=new Date(Date.UTC(y2,m2-1,d2,12)).getUTCDay();
-        const shachOmit=tachanunOmitted(h,todayEvents,weekday);
-        const minchaOmit=shachOmit||omitAtPreviousMincha(nextH,tomorrowEvents,nextWeekday);
-        const omer=todayEvents.find(e=>e.category==='omer');
-        const holiday=todayEvents.filter(e=>['holiday','roshchodesh','fast'].includes(e.category)).map(e=>e.hebrew||e.title).filter(Boolean).join(' • ');
-        const rows=[
-          ['פרשת השבוע',parasha?(parasha.hebrew||parasha.title):'—'],
-          ['תחנון שחרית',shachOmit?'אין אומרים':'אומרים'],
-          ['תחנון מנחה',minchaOmit?'אין אומרים':'אומרים'],
-          ['גבורות',seasonalPraise(h)],
-          ['ברכת השנים',rainRequest(h,today)],
-          ['הלל',hallelStatus(h,todayEvents)],
-          ['מוסף',hasMusaf(h,todayEvents,weekday)?'אומרים מוסף':'אין מוסף'],
-          ['תוספות',prayerAdditions(h,todayEvents,weekday,today)],
-          ['קריאת התורה',torahReadingStatus(h,todayEvents,weekday)],
-          ['ספירת העומר',omer?(omer.hebrew||omer.title):'לא היום']
-        ];
-        if(holiday)rows.unshift(['היום',holiday]);
-        box.innerHTML=rows.map(([a,b])=>`<div class="liturgy-item"><strong>${esc(a)}:</strong> ${esc(b)}</div>`).join('')+`<div class="calendar-note">אוטומטי לפי ${state.calendarRegion==='israel'?'ארץ ישראל':'חו״ל'} • אירועים מקומיים כגון ברית/חתן דורשים עדכון ידני</div>`;
-    }catch(err){
-        console.error('Jewish calendar update failed',err);
-        $('parasha').textContent=state.parasha||'פרשת השבוע';
-        box.innerHTML='<div class="calendar-note liturgy-alert">לא ניתן לעדכן כרגע את הלוח העברי. מוצגים ערכי ברירת המחדל.</div>';
-    }
-}
-
-function showPrayer(key){
-    const text=state[`${key}Text`]||'לא הוזן עדיין נוסח תפילה.';
-    const overlay=$('prayerOverlay');
-    const content=$('overlayContent');
-    const speed=Number(state.prayerSpeed)||40;
-
-    content.replaceChildren(...text.split(/\r?\n/).map((line,index)=>{
-        const span=document.createElement('span');
-        span.className='prayer-line';
-        span.style.setProperty('--line-index',index);
-        span.textContent=line||' ';
-        return span
-    }));
-
-    overlay.classList.add('active');
-    overlay.setAttribute('aria-hidden','false');
-
-    /*
-      FIX: Duration now grows with prayer length.
-      This keeps a long Shacharit from racing through
-      in the same amount of time as a short Mincha.
-    */
-    const lineCount=Math.max(1,text.split(/\r?\n/).length);
-    const secondsPerLine=Math.max(2.6,7.2-(speed*0.038));
-    const duration=Math.max(90,lineCount*secondsPerLine);
-
-    content.style.setProperty('--prayer-duration',`${duration}s`);
-    content.style.animation='none';
-    void content.offsetHeight;
-    content.style.animation='prayerScroll var(--prayer-duration,120s) linear infinite';
-}
-function hidePrayer(){const overlay=$('prayerOverlay');overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true')}
-$('adminGear').addEventListener('click',()=>{
-    fillAdmin();
-    const d=$('adminDialog');
-    if(typeof d.showModal==='function') d.showModal();
-    else { d.setAttribute('open',''); d.style.display='block'; }
-});
-$('closeAdmin').addEventListener('click',()=>{
-    const d=$('adminDialog');
-    if(typeof d.close==='function') d.close();
-    else { d.removeAttribute('open'); d.style.display='none'; }
-});$('saveAll').addEventListener('click',save);$('sTickerSpeed').addEventListener('input',e=>{$('tickerSpeedValue').textContent=e.target.value;$('ticker').style.animationDuration=`${e.target.value}s`});$('sPrayerSpeed').addEventListener('input',e=>{$('prayerSpeedValue').textContent=e.target.value;state.prayerSpeed=e.target.value});$('closeOverlay').addEventListener('click',hidePrayer);$('stopPreview').addEventListener('click',hidePrayer);document.querySelectorAll('.prayer-preview').forEach(b=>b.addEventListener('click',()=>{save();if($('adminDialog').open){
-        const d=$('adminDialog');
-        if(typeof d.close==='function') d.close();
-        else { d.removeAttribute('open'); d.style.display='none'; }
-    }
-    showPrayer(b.dataset.prayer)}));
-render();updateClocks();updateJewishCalendar();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
-</script>
-  <script>
   setTimeout(function () {
     window.location.href = "login.html";
   }, 60000);
 </script>
-</body>
-</html>
+
+60000 = 60 seconds = 1 minute.
+
+That means visitors can browse the page normally for one minute, and then they are automatically sent to the login page.
+
+If you want, I can also make it smarter so logged-in users are NOT redirected, and only visitors who are not signed in get sent to login.html. That would be better for the final version.
+
+Pasted text(20260831-171610).txt
+Document
+send the whole new index i did that is that ok 
+
+Yes — what you did is correct. ✅
+
+I checked your full index.html. The 1-minute redirect is in the right place, at the very bottom just before </body>: after 60,000 milliseconds it sends the visitor to login.html.
+
+I made the full index.html file for you exactly with that code:
+
+Download the full new index.html
+
+So your current flow is:
+
+Visitor opens the message board → can look around for 1 minute → automatically goes to login.html.
+
+That is okay and should not break the rest of your board. 
+
+index.html
+HTML
+
+<!doctype html>
+
+<html lang="he" dir="rtl"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"> <meta name="mb-build" content="new-marble-board-v2-slow-prayer-scroll"> <title>לוח בית הכנסת</title> <style> :root{--navy:#101b43;--navy2:#17285e;--gold:#c79b43;--gold2:#f0d48a;--ink:#33240f;--cream:#fffaf0;--line:#b98a36} *{box-sizing:border-box} html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090b10;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink)} button,input,select,textarea{font:inherit} .board{position:fixed;inset:0;overflow:hidden;padding:1.1vh 1vw;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(232,225,208,.95)),repeating-linear-gradient(105deg,transparent 0 35px,rgba(135,116,80,.07) 36px 37px);border:clamp(4px,.55vw,10px) ridge var(--gold);display:grid;grid-template-rows:10vh minmax(0,1fr) 5.5vh;gap:.8vh} .topbar{direction:ltr;display:grid;grid-template-columns:minmax(235px,19vw) 1fr minmax(235px,19vw);gap:.8vw;min-height:0} .clockbox,.titlebox,.panel,.center-stage{border:clamp(2px,.25vw,5px) ridge var(--gold);box-shadow:inset 0 0 0 2px #fff8d5,0 2px 9px #66512c66} .clockbox{direction:ltr;background:linear-gradient(180deg,var(--navy2),#0b1431);color:#fff;border-radius:18px;display:flex;align-items:center;justify-content:center;gap:.7vw;padding:.4vh .7vw;overflow:hidden} .clock-city{font-weight:1000;color:var(--gold2);font-size:clamp(13px,1vw,20px);line-height:1.1} .clock-time{font-weight:1000;font-size:clamp(29px,2.55vw,52px);line-height:1;white-space:nowrap;letter-spacing:-2px;font-variant-numeric:tabular-nums} .titlebox{direction:rtl;border-radius:20px;background:linear-gradient(#fffdf7,#e8dec8);display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0;padding:.2vh .8vw} .synagogue{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,2.5vw,50px);font-weight:1000;color:var(--navy);line-height:1.05;text-align:center} .rabbi{font-size:clamp(15px,1.25vw,25px);font-weight:1000;color:#7a5519;margin-top:.25vh} .date-line{font-size:clamp(12px,.9vw,18px);font-weight:900;color:#3e3222;margin-top:.15vh} .main-grid{direction:ltr;display:grid;grid-template-columns:minmax(220px,20%) minmax(500px,60%) minmax(220px,20%);gap:.8vw;min-height:0;overflow:hidden} .side{direction:rtl;display:grid;grid-template-rows:minmax(0,1.75fr) minmax(0,.75fr);gap:.8vh;min-height:0} .panel{position:relative;min-height:0;overflow:hidden;background:linear-gradient(180deg,#fffdf4,#f1e5c4);border-radius:130px 130px 12px 12px;padding:5.2vh 1vw 1vh} .panel:before{content:"";position:absolute;inset:1.2vh .7vw auto;height:8.2vh;border-radius:90px 90px 20px 20px;background:radial-gradient(circle at 50% 0,#f2d783,#ba8b35 65%,#6b491b);border:3px ridge var(--gold);z-index:0} .panel-title{position:absolute;top:4.7vh;left:12%;right:12%;z-index:1;text-align:center;border-radius:999px;padding:.45vh .5vw;background:linear-gradient(#ffe9a8,#bd8a37);border:2px solid #8c6428;font-size:clamp(17px,1.35vw,27px);font-weight:1000;color:#4a3210;white-space:nowrap} .rows{height:100%;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding-top:2vh} .data-row{display:flex;justify-content:space-between;align-items:center;gap:.6vw;border-bottom:1px dotted #9c7e4a;padding:clamp(2px,.36vh,6px) .25vw;font-size:clamp(13px,1.02vw,20px);font-weight:1000;line-height:1.07;color:#241a0d} .data-row strong{font-variant-numeric:tabular-nums;color:#111;white-space:nowrap} .data-row.highlight strong{color:#9e160f} .small-panel{border-radius:12px;padding:5.4vh 1vw .8vh} .small-panel:before{height:6.8vh;border-radius:18px;inset:.7vh .7vw auto} .small-panel .panel-title{top:2.3vh} .notice{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(15px,1.15vw,23px);font-weight:1000;line-height:1.3;white-space:pre-line;overflow:hidden} .center-stage{position:relative;min-width:0;min-height:0;overflow:hidden;border-radius:170px 170px 18px 18px;background:linear-gradient(180deg,var(--navy) 0 24%,#f8e8b6 24% 82%,var(--navy) 82%);padding:6.5vh 2.2vw 4vh} .center-stage:before{content:"";position:absolute;top:1.2vh;left:50%;transform:translateX(-50%);width:clamp(72px,6vw,120px);aspect-ratio:1;border-radius:50%;border:5px ridge var(--gold);background:radial-gradient(circle,#263c7a,#111c45);box-shadow:0 0 0 8px #e6c875;color:#f1d47f} .center-heading{position:absolute;top:10.4vh;left:4%;right:4%;text-align:center;color:var(--gold2);font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,2.4vw,48px);font-weight:1000;text-shadow:0 2px #000} .parchment{height:100%;border:6px double #9c762f;border-radius:10% 10% 14% 14%;background:radial-gradient(circle at 50% 25%,#fffdf6,#f6e8bd 72%,#d5b871);box-shadow:inset 0 0 34px #8d67273d;display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2vh 1.2vw 1vh;overflow:hidden} .parchment h1{margin:0 0 1vh;font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,2.5vw,50px);color:#5c4115} .parchment h2{margin:.25vh 0 .7vh;font-size:clamp(24px,2.15vw,42px);color:var(--navy);font-weight:1000} .main-message{position:relative;width:96%;flex:1;min-height:0;overflow:hidden;font-size:clamp(20px,1.75vw,34px);line-height:1.55;font-weight:1000} .main-message-scroll{position:absolute;left:0;right:0;top:0;white-space:pre-line;animation:centerTextScroll var(--center-scroll-duration,85s) linear infinite;will-change:transform} .main-message-line{display:block;min-height:1.55em;animation:centerLineColors 20s linear infinite;animation-delay:calc(var(--center-line-index,0) * -2.2s)} @keyframes centerTextScroll{from{transform:translateY(100%)}to{transform:translateY(-100%)}} @keyframes centerLineColors{ 0%,100%{color:#3d2a10} 20%{color:#0f3f8c} 40%{color:#8b1d3b} 60%{color:#146b44} 80%{color:#6f3a9c} } .dedication{margin-top:1vh;padding:.65vh 1vw;border:2px solid var(--gold);border-radius:10px;font-size:clamp(14px,1.05vw,21px);font-weight:1000;color:#5c3c0b;background:#fff7d5cc} .liturgy-box{width:96%;margin:.8vh auto 0;padding:.7vh .8vw;border:2px solid #b98a36;border-radius:12px;background:#fffdf3d9;color:#17224d;font-size:clamp(12px,.9vw,18px);font-weight:1000;line-height:1.35;max-height:27%;overflow:hidden;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.25vh .7vw;text-align:right} .liturgy-item{border-bottom:1px dotted #b89754;padding:.1vh .15vw}.liturgy-item strong{color:#7b4813}.liturgy-alert{color:#9e160f}.calendar-note{grid-column:1/-1;text-align:center;color:#6b4b14;font-size:.88em} .bottom-ticker{direction:ltr;border:3px ridge var(--gold);border-radius:10px;background:linear-gradient(180deg,var(--navy2),#0a1230);overflow:hidden;display:flex;align-items:center;color:#fff6ba;font-weight:1000;font-size:clamp(17px,1.5vw,29px);white-space:nowrap} .ticker-text{display:inline-block;min-width:100%;text-align:center;animation:ticker 18s linear infinite} @keyframes ticker{from{transform:translateX(-105%)}to{transform:translateX(105%)}} .gear{position:fixed;z-index:100000;top:1.7vh;right:1.5vw;width:clamp(46px,3.2vw,64px);aspect-ratio:1;border-radius:50%;border:3px solid var(--gold2);background:var(--navy);color:#fff;font-size:clamp(24px,2vw,38px);display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 12px #0008} dialog{width:min(1180px,96vw);max-height:92vh;border:5px ridge var(--gold);border-radius:18px;background:#101a3b;color:#fff;padding:0;overflow:auto} dialog::backdrop{background:#000b} .admin-head{position:sticky;top:0;z-index:3;background:#0a1230;border-bottom:2px solid var(--gold);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px} .admin-head h2{margin:0;color:var(--gold2)} .admin-body{padding:14px;display:grid;gap:14px} .admin-section{border:2px solid #9d7938;border-radius:12px;padding:12px;background:#17234c} .admin-section h3{margin:0 0 10px;color:#ffe298} .fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px} .fields.two{grid-template-columns:repeat(2,minmax(0,1fr))} label{display:flex;flex-direction:column;gap:4px;font-weight:900;color:#fff} input,select,textarea{width:100%;border:1px solid #c9a85c;border-radius:7px;background:#fff;color:#111;padding:8px} textarea{resize:vertical;min-height:85px} .actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center} .action{border:2px solid var(--gold);background:#f7df98;color:#2e210c;border-radius:9px;padding:8px 14px;font-weight:1000;cursor:pointer} .close{background:#7c1d1d;color:#fff} .status{text-align:center;color:#9cff6b;font-weight:1000;min-height:20px} .speed-scale{display:flex;direction:ltr;justify-content:space-between;align-items:center;gap:10px;color:#ffe7a0;font-weight:1000}.speed-scale strong{min-width:54px;text-align:center;border:1px solid var(--gold);border-radius:999px;padding:3px 8px;background:#0a1230;color:#fff} .overlay{position:fixed;inset:0;z-index:90000;background:radial-gradient(circle at 50% 20%,#17285e,#050a1d 68%,#000);color:#fff;display:none;align-items:flex-start;justify-content:center;padding:0 7vw;text-align:center;overflow:hidden} .overlay.active{display:flex} .overlay-content{width:min(1200px,86vw);font-size:clamp(22px,2.1vw,42px);line-height:1.65;font-weight:1000;text-shadow:0 2px 5px #000;will-change:transform;animation:prayerScroll var(--prayer-duration,120s) linear infinite} .prayer-line{display:block;min-height:1.65em;white-space:pre-wrap;animation:prayerColors 22s linear infinite;animation-delay:calc(var(--line-index,0) * -2.4s)} .overlay-close{position:absolute;top:18px;left:18px} @keyframes prayerScroll{from{transform:translateY(88vh)}to{transform:translateY(-100%)}} @keyframes prayerColors{0%,100%{color:#fff5bf}20%{color:#fff}40%{color:#6cecff}60%{color:#9cff77}80%{color:#d8b7ff}} @media(max-width:1000px){.board{padding:.7vh .5vw}.main-grid{grid-template-columns:20% 60% 20%;gap:.35vw}.topbar{grid-template-columns:20% 60% 20%;gap:.35vw}.clockbox{padding:.2vh .3vw}.clock-time{font-size:clamp(25px,3.4vw,36px)}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding-left:.4vw;padding-right:.4vw}.center-stage{padding-left:2vw;padding-right:2vw}}
+
+/* Separate rotating pages */
+.rotating-page{position;inset:0;z-index:80000;display;overflow;background(circle at 50% 15%,#fffdf5,#ead9a7 60%,#a67b2f);border(5px,.7vw,12px) ridge var(--gold);padding:4vh 5vw;text-align}
+.rotating-page.active{display;flex-direction;align-items;justify-content}
+.rotate-title{font-family,"Times New Roman",serif;color(--navy);font-size(34px,4vw,72px);font-weight:1000;margin:0 0 2vh}
+.rotate-subtitle{font-size(18px,1.8vw,34px);font-weight:900;color:#6a4915;margin-bottom:2vh}
+.candle-grid{width(1300px,94vw);display;grid-template-columns(5,minmax(0,1fr));gap:2.3vh 2vw;align-items}
+.candle-card{min-width:0;font-size(14px,1.35vw,25px);font-weight:1000;color:#37250d}
+.candle-flame{position;margin:0 auto 1vh;width(24px,2.2vw,42px);height(42px,4.2vw,78px);border-radius:55% 45% 55% 45%;background(ellipse at 50% 70%,#fff 0 12%,#ffe37a 24%,#ff9b2f 55%,#c82f14 78%,transparent 80%);filter(0 0 12px #ffb52d);animation .8s ease-in-out infinite alternate;transform-origin:50% 100%}
+.candle-body{margin:-.6vh auto .8vh;width(36px,3.4vw,64px);height(54px,5vw,92px);border-radius:8px 8px 14px 14px;background(90deg,#e6e1d4,#fff,#d6cfbe);border:2px solid #9c8e6f;box-shadow 0 0 8px #8f806055}
+@keyframes flicker{from{transform(-2deg) scale(.96)}to{transform(2deg) scale(1.04)}}
+.shiur-frame{width(1250px,92vw);height(72vh,780px);border(5px,.55vw,10px) double var(--gold);border-radius:28px;background(180deg,#101b43,#17285e);box-shadow 0 0 0 5px #f3d98c,0 10px 30px #0005;padding:4vh 5vw;color:#fff;display;flex-direction;align-items;justify-content}
+.shiur-text{font-size(23px,2.35vw,46px);line-height:1.6;font-weight:900;white-space;overflow;max-height:54vh}
+.rotate-progress{position;bottom:1.2vh;left:50%;transform(-50%);font-size(11px,.8vw,15px);color:#4e3b1d;opacity:.65}
+
+/* Realistic memorial candle page */
+#memorialPage{
+background:
+radial-gradient(circle at 50% 10%,rgba(255,250,225,.96),rgba(224,202,144,.96) 45%,rgba(70,42,14,.98) 100%);
+}
+#memorialPage .rotate-title{
+color:#3a240a;
+text-shadow:0 2px 0 #f7e2a3,0 4px 12px #0004;
+}
+#memorialPage .rotate-subtitle{color:#5a3510}
+.candle-grid{
+width(1450px,96vw);
+max-height:76vh;
+overflow;
+display;
+grid-template-columns(4,minmax(0,1fr));
+gap:1.4vh 1.4vw;
+align-items;
+}
+.candle-card{
+display;
+align-items;
+justify-content;
+gap:1.2vw;
+min-height:12vh;
+padding:.8vh 1vw;
+border:2px solid rgba(134,87,25,.7);
+border-radius:16px;
+background(180deg,rgba(255,252,239,.92),rgba(240,219,168,.92));
+box-shadow 0 0 16px rgba(117,78,24,.18),0 4px 10px #0003;
+text-align;
+}
+.candle-visual{
+position;
+flex:0 0 clamp(58px,5vw,92px);
+height(92px,8vw,145px);
+}
+.candle-flame{
+position;
+left:50%;
+top:0;
+transform(-50%);
+width(18px,1.6vw,30px);
+height(34px,3vw,56px);
+border-radius:48% 52% 50% 50% / 62% 65% 35% 38%;
+background:
+radial-gradient(ellipse at 50% 72%,#fff 0 10%,#fff6a2 18%,#ffc347 40%,#f37b21 65%,#8e1a0a 84%,transparent 86%);
+filter(0 0 7px #ffd65a) drop-shadow(0 0 15px #ff8f1f);
+transform-origin:50% 100%;
+animation .45s ease-in-out infinite alternate;
+z-index:3;
+}
+.candle-wick{
+position;
+left:50%;
+top:31%;
+width:3px;
+height:15%;
+transform(-50%);
+background:#252018;
+z-index:2;
+}
+.candle-glass{
+position;
+left:50%;
+bottom:0;
+transform(-50%);
+width:72%;
+height:67%;
+border-radius:8px 8px 14px 14px;
+border:2px solid rgba(170,183,191,.95);
+background:
+linear-gradient(90deg,rgba(255,255,255,.28),rgba(230,240,246,.64) 38%,rgba(255,255,255,.18) 62%,rgba(175,191,201,.55));
+box-shadow:
+inset 0 0 14px rgba(255,255,255,.9),
+inset 0 -18px 20px rgba(255,250,235,.75),
+0 4px 12px rgba(0,0,0,.28);
+}
+.candle-wax{
+position;
+left:50%;
+bottom:10%;
+transform(-50%);
+width:58%;
+height:45%;
+border-radius:4px 4px 9px 9px;
+background(90deg,#f0eee7,#ffffff 50%,#ddd8cc);
+box-shadow 0 -6px 8px #b9b2a2aa;
+}
+.candle-name{
+flex:1;
+min-width:0;
+font-size(18px,1.55vw,30px);
+line-height:1.25;
+font-weight:1000;
+color:#2d1c08;
+}
+.candle-name small{
+display;
+font-size:.68em;
+color:#7c521c;
+margin-bottom:.3vh;
+}
+@keyframes flickerReal{
+from{transform(-50%) rotate(-2deg) scale(.96,.98)}
+to{transform(-50%) rotate(2deg) scale(1.05,1.02)}
+}
+
+</style> </head> <body> <button class="gear" id="adminGear" type="button" aria-label="פתיחת ניהול" title="ניהול הלוח">⚙️</button> <main class="board"> <header class="topbar"> <section class="clockbox"><div><div class="clock-city">NEW YORK</div><div class="clock-time" id="nyClock">--:--:--</div></div></section> <section class="titlebox"><div class="synagogue" id="synagogueName">בית הכנסת בית תורה</div><div class="rabbi" id="rabbiName">הרב</div><div class="date-line"><span id="gregDate">--</span> • <span id="hebrewDate">--</span></div></section> <section class="clockbox"><div><div class="clock-city">JERUSALEM</div><div class="clock-time" id="jerusalemClock">--:--:--</div></div></section> </header> <section class="main-grid"> <aside class="side"> <section class="panel"><div class="panel-title">זמני היום</div><div class="rows" id="dayRows"></div></section> <section class="panel small-panel"><div class="panel-title">הודעות</div><div class="notice" id="leftNotice">ברוכים הבאים לבית הכנסת</div></section> </aside> <section class="center-stage"> <div class="center-heading">דרכי תורה</div> <div class="parchment"><h1 id="dailyTitle">פרנס היום</h1><h2 id="parasha">פרשת השבוע</h2><div class="main-message" id="mainMessage"><div class="main-message-scroll" id="mainMessageScroll"></div></div><div class="liturgy-box" id="liturgyBox"><div class="calendar-note">טוען שינויים בתפילה לפי התאריך…</div></div><div class="dedication" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div> </section> <aside class="side"> <section class="panel"><div class="panel-title">זמני התפילות</div><div class="rows" id="prayerRows"></div></section> <section class="panel small-panel"><div class="panel-title">מזל טוב</div><div class="notice" id="rightNotice">ברכת מזל טוב לחברי הקהילה</div></section> </aside> </section> <footer class="bottom-ticker"><div class="ticker-text" id="ticker">לעילוי נשמת זהבה חלא זצ״ל</div></footer> </main>
+
+<section class="rotating-page" id="memorialPage" aria-hidden="true"> <h1 class="rotate-title">🕯️ נרות נשמה</h1> <div class="rotate-subtitle">לעילוי נשמת יקירינו</div> <div class="candle-grid" id="memorialCandleGrid"></div> <div class="rotate-progress">לוח בית הכנסת • דף נרות נשמה</div> </section>
+
+<section class="rotating-page" id="shiurPage" aria-hidden="true"> <div class="shiur-frame"> <h1 class="rotate-title" style="color:#f0d48a">שיעור יומי</h1> <div class="shiur-text" id="shiurPageText">דבר תורה יומי</div> </div> <div class="rotate-progress" style="color:#fff">לוח בית הכנסת • שיעור יומי</div> </section>
+
+<dialog id="adminDialog"> <div class="admin-head"><h2>⚙️ ניהול לוח בית הכנסת</h2><div class="actions"><button class="action" id="saveAll" type="button">💾 שמור הכול</button><button class="action close" id="closeAdmin" type="button">סגור</button></div></div> <div class="admin-body"> <section class="admin-section"><h3>פרטי בית הכנסת</h3><div class="fields"><label>שם בית הכנסת<input id="sSynagogue"></label><label>שם הרב<input id="sRabbi"></label><label>מיקוד ארה״ב לזמנים<input id="sZip" inputmode="numeric"></label><label>אזור זמן מקומי<input id="sTimezone"></label><label>מנהג<select id="sMinhag"><option>אשכנז / ספרד</option><option>אשכנז</option><option>ספרד</option><option>עדות המזרח</option></select></label><label>לוח תפילה<select id="sCalendarRegion"><option value="diaspora">חו״ל</option><option value="israel">ארץ ישראל</option></select></label><label>מהירות הודעה<select id="sSpeed"><option value="12">מהירה</option><option value="18">רגילה</option><option value="28">איטית</option></select></label></div></section> <section class="admin-section"><h3>זמני תפילות וחול</h3><div class="fields"><label>שחרית<input id="sShacharit" type="time"></label><label>מנחה<input id="sMincha" type="time"></label><label>ערבית<input id="sMaariv" type="time"></label><label>שיעור תורה<input id="sShiur" type="time"></label><label>משך שחרית (דקות)<input id="sShacharitDuration" type="number" min="5" max="180"></label><label>משך מנחה (דקות)<input id="sMinchaDuration" type="number" min="5" max="120"></label><label>משך ערבית (דקות)<input id="sMaarivDuration" type="number" min="5" max="120"></label></div></section> <section class="admin-section"><h3>זמני שבת</h3><div class="fields"><label>שחרית לשבת<input id="sShabbatShacharit" type="time"></label><label>מנחה לשבת<input id="sShabbatMincha" type="time"></label><label>ערבית ליל שבת<input id="sShabbatMaariv" type="time"></label><label>טקס הבדלה<input id="sShabbatHavdalah" type="time"></label><label>משך שחרית לשבת<input id="sShabbatShacharitDuration" type="number" min="5" max="240"></label><label>משך מנחה לשבת<input id="sShabbatMinchaDuration" type="number" min="5" max="180"></label><label>משך ערבית לשבת<input id="sShabbatMaarivDuration" type="number" min="5" max="180"></label><label>משך הבדלה<input id="sShabbatHavdalahDuration" type="number" min="5" max="90"></label></div></section> <section class="admin-section"><h3>זמני היום והשבת</h3><div class="fields"><label>מצב עדכון<select id="sZmanimMode"><option value="auto">אוטומטי לפי מיקוד</option><option value="manual">ידני</option></select></label><label>עלות השחר<input id="sManualAlot" type="time"></label><label>זריחה<input id="sManualSunrise" type="time"></label><label>סוף זמן קריאת שמע<input id="sManualShema" type="time"></label><label>חצות<input id="sManualChatzot" type="time"></label><label>מנחה גדולה<input id="sManualMinchaGedola" type="time"></label><label>שקיעה<input id="sManualSunset" type="time"></label><label>צאת הכוכבים<input id="sManualTzeit" type="time"></label><label>הדלקת נרות<input id="sManualCandles" type="time"></label><label>צאת שבת<input id="sManualHavdalah" type="time"></label></div></section> <section class="admin-section"><h3>תוכן הלוח</h3><div class="fields two"><label>כותרת מרכזית<input id="sDailyTitle"></label><label>פרשת השבוע<input id="sParasha"></label><label>הודעה מרכזית<textarea id="sMainMessage"></textarea></label><label>הקדשה<textarea id="sTicker"></textarea></label><label>מהירות הקדשת ״לעילוי נשמת״<input id="sTickerSpeed" type="range" min="8" max="60" step="1"><span>מהיר 8 — <strong id="tickerSpeedValue">18</strong> — איטי 60</span></label><label>הודעה שמאלית<textarea id="sLeftNotice"></textarea></label><label>הודעת מזל טוב<textarea id="sRightNotice"></textarea></label><label>הודעה עליונה / תורם השבוע<textarea id="sAnnouncement"></textarea></label><label>סרטון YouTube לדף היומי<input id="sDafVideoUrl" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=..."></label><label>תוכן שיעור יומי<textarea id="sDailyShiurText" placeholder="הכנס כאן את השיעור היומי"></textarea></label><label>זמן כל דף בסבב (שניות)<input id="sRotationSeconds" type="number" min="10" max="300" step="5" value="10"></label><label>הפעל סבב דפים<select id="sRotationEnabled"><option value="yes">כן</option><option value="no">לא</option></select></label></div></section> <section class="admin-section"><h3>נוסחי תפילות מלאים</h3><div class="fields two"><label>שחרית<textarea id="sShacharitText"></textarea></label><label>מנחה<textarea id="sMinchaText"></textarea></label><label>ערבית<textarea id="sMaarivText"></textarea></label><label>שחרית לשבת<textarea id="sShabbatShacharitText"></textarea></label><label>מנחה לשבת<textarea id="sShabbatMinchaText"></textarea></label><label>ערבית לשבת<textarea id="sShabbatMaarivText"></textarea></label><label>טקס ההבדלה<textarea id="sShabbatHavdalahText"></textarea></label><label>מהירות גלילת תפילה<input id="sPrayerSpeed" type="range" min="10" max="120" step="5" dir="ltr"><span class="speed-scale" dir="ltr"><b>🐢 איטי — 10</b><strong id="prayerSpeedValue">40</strong><b>120 — מהיר 🚀</b></span></label></div><div class="actions"><button class="action prayer-preview" data-prayer="shacharit" type="button">▶ שחרית</button><button class="action prayer-preview" data-prayer="mincha" type="button">▶ מנחה</button><button class="action prayer-preview" data-prayer="maariv" type="button">▶ ערבית</button><button class="action prayer-preview" data-prayer="shabbatShacharit" type="button">▶ שחרית שבת</button><button class="action prayer-preview" data-prayer="shabbatMincha" type="button">▶ מנחה שבת</button><button class="action prayer-preview" data-prayer="shabbatMaariv" type="button">▶ ערבית שבת</button><button class="action prayer-preview" data-prayer="shabbatHavdalah" type="button">▶ הבדלה</button><button class="action" id="stopPreview" type="button">■ הפסק תצוגה</button></div></section> <section class="admin-section"><h3>שמות ליד הנרות</h3><div class="fields" id="memorialFields"></div></section> <div class="status" id="saveStatus"></div> </div> </dialog>
+
+<section class="overlay" id="prayerOverlay" aria-hidden="true"><button class="action overlay-close" id="closeOverlay" type="button">✕ סגור</button><div class="overlay-content" id="overlayContent"></div></section>
+
+<script> const $=id=>document.getElementById(id); const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספרד',calendarRegion:'diaspora',speed:'18',tickerSpeed:'18',shacharit:'07:00',mincha:'16:00',maariv:'20:30',shiur:'21:15',shacharitDuration:'60',minchaDuration:'30',maarivDuration:'45',shabbatShacharit:'09:00',shabbatMincha:'18:30',shabbatMaariv:'19:30',shabbatHavdalah:'21:00',shabbatShacharitDuration:'120',shabbatMinchaDuration:'45',shabbatMaarivDuration:'60',shabbatHavdalahDuration:'20',zmanimMode:'manual',manualAlot:'05:02',manualSunrise:'06:38',manualShema:'09:27',manualChatzot:'12:10',manualMinchaGedola:'12:40',manualSunset:'19:32',manualTzeit:'20:06',manualCandles:'19:13',manualHavdalah:'20:12',dailyTitle:'פרנס היום',parasha:'פרשת השבוע',mainMessage:'ברכת מזל טוב לכל המתפללים ובני הקהילה.\nיהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.',ticker:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',leftNotice:'ברוכים הבאים לבית הכנסת',rightNotice:'ברכת מזל טוב לחברי הקהילה',announcement:'תורם השבוע',dafVideoUrl:'',dailyShiurText:'דבר תורה יומי',rotationSeconds:'10',rotationEnabled:'yes',prayerSpeed:'40',shacharitText:'',minchaText:'',maarivText:'',shabbatShacharitText:'',shabbatMinchaText:'',shabbatMaarivText:'',shabbatHavdalahText:'',memorialNames:Array.from({length:20},(_,i)=>`שם נר ${i+1}`)}; let state; try{state={...defaults,...JSON.parse(localStorage.getItem('newSynagogueBoard')||'{}')}}catch(e){state={...defaults}} const fieldMap={sSynagogue:'synagogue',sRabbi:'rabbi',sZip:'zip',sTimezone:'timezone',sMinhag:'minhag',sCalendarRegion:'calendarRegion',sSpeed:'speed',sTickerSpeed:'tickerSpeed',sShacharit:'shacharit',sMincha:'mincha',sMaariv:'maariv',sShiur:'shiur',sShacharitDuration:'shacharitDuration',sMinchaDuration:'minchaDuration',sMaarivDuration:'maarivDuration',sShabbatShacharit:'shabbatShacharit',sShabbatMincha:'shabbatMincha',sShabbatMaariv:'shabbatMaariv',sShabbatHavdalah:'shabbatHavdalah',sShabbatShacharitDuration:'shabbatShacharitDuration',sShabbatMinchaDuration:'shabbatMinchaDuration',sShabbatMaarivDuration:'shabbatMaarivDuration',sShabbatHavdalahDuration:'shabbatHavdalahDuration',sZmanimMode:'zmanimMode',sManualAlot:'manualAlot',sManualSunrise:'manualSunrise',sManualShema:'manualShema',sManualChatzot:'manualChatzot',sManualMinchaGedola:'manualMinchaGedola',sManualSunset:'manualSunset',sManualTzeit:'manualTzeit',sManualCandles:'manualCandles',sManualHavdalah:'manualHavdalah',sDailyTitle:'dailyTitle',sParasha:'parasha',sMainMessage:'mainMessage',sTicker:'ticker',sLeftNotice:'leftNotice',sRightNotice:'rightNotice',sAnnouncement:'announcement',sDafVideoUrl:'dafVideoUrl',sDailyShiurText:'dailyShiurText',sRotationSeconds:'rotationSeconds',sRotationEnabled:'rotationEnabled',sPrayerSpeed:'prayerSpeed',sShacharitText:'shacharitText',sMinchaText:'minchaText',sMaarivText:'maarivText',sShabbatShacharitText:'shabbatShacharitText',sShabbatMinchaText:'shabbatMinchaText',sShabbatMaarivText:'shabbatMaarivText',sShabbatHavdalahText:'shabbatHavdalahText'}; function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))} function fmt(t){if(!t)return'--:--';let [h,m]=t.split(':').map(Number);let ap=h>=12?'PM':'AM';h=h%12||12;return `${h}:${String(m).padStart(2,'0')} ${ap}`} function renderRows(){const prayer=[['שחרית',state.shacharit],['מנחה',state.mincha],['ערבית',state.maariv],['שיעור תורה',state.shiur],['שחרית שבת',state.shabbatShacharit],['מנחה שבת',state.shabbatMincha],['ערבית ליל שבת',state.shabbatMaariv],['הבדלה',state.shabbatHavdalah]];$('prayerRows').innerHTML=prayer.map(([n,t])=>`<div class="data-row"><span>${esc(n)}</span><strong>${fmt(t)}</strong></div>`).join('');const day=[['עלות השחר',state.manualAlot],['זריחה',state.manualSunrise],['סוף זמן קריאת שמע',state.manualShema],['חצות',state.manualChatzot],['מנחה גדולה',state.manualMinchaGedola],['שקיעה',state.manualSunset],['צאת הכוכבים',state.manualTzeit],['הדלקת נרות',state.manualCandles,'highlight'],['צאת שבת',state.manualHavdalah,'highlight']];$('dayRows').innerHTML=day.map(([n,t,c])=>`<div class="data-row ${c||''}"><span>${esc(n)}</span><strong>${fmt(t)}</strong></div>`).join('')} function renderSeparatePages(){ const names=(state.memorialNames||[]).filter(x=>String(x||'').trim()); const grid=$('memorialCandleGrid'); if(grid){ grid.innerHTML=(names.length?names:['שם נר']).slice(0,20).map(name=>` <div class="candle-card"> <div class="candle-visual" aria-hidden="true"> <div class="candle-flame"></div> <div class="candle-wick"></div> <div class="candle-glass"></div> <div class="candle-wax"></div> </div> <div class="candle-name"> <small>לעילוי נשמת</small> ${esc(name)} </div> </div>`).join(''); } if($('shiurPageText')) $('shiurPageText').textContent=state.dailyShiurText||'דבר תורה יומי'; } function render(){ $('synagogueName').textContent=state.synagogue;$('rabbiName').textContent=state.rabbi;$('dailyTitle').textContent=state.dailyTitle;$('parasha').textContent=state.parasha;{ const mm=$('mainMessageScroll'); const lines=String(state.mainMessage||'').split(/\r?\n/); mm.replaceChildren(...lines.map((line,index)=>{ const span=document.createElement('span'); span.className='main-message-line'; span.style.setProperty('--center-line-index',index); span.textContent=line||' '; return span; })); requestAnimationFrame(()=>{ const distance=mm.scrollHeight + $('mainMessage').clientHeight; const pixelsPerSecond=9; const duration=Math.max(45,distance/pixelsPerSecond); mm.style.setProperty('--center-scroll-duration',`${duration}s`); }); }$('dedication').textContent=state.ticker;$('ticker').textContent=state.ticker;$('leftNotice').textContent=state.leftNotice;$('rightNotice').textContent=state.rightNotice;$('ticker').style.animationDuration=`${state.tickerSpeed||18}s`;renderRows();renderSeparatePages()} function fillAdmin(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')} function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)} function updateClocks(){const now=new Date();const time=(tz)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('nyClock').textContent=time(state.timezone||'America/New_York');$('jerusalemClock').textContent=time('Asia/Jerusalem');$('gregDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:state.timezone||'America/New_York',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{timeZone:state.timezone||'America/New_York',year:'numeric',month:'long',day:'numeric'}).format(now)}catch(e){$('hebrewDate').textContent=''}} function localYMD(date=new Date(),tz=state.timezone||'America/New_York'){ const parts=new Intl.DateTimeFormat('en-CA',{timeZone:tz,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(date); const get=t=>parts.find(p=>p.type===t)?.value; return `${get('year')}-${get('month')}-${get('day')}`; } function addGregorianDays(ymd,days){ const [y,m,d]=ymd.split('-').map(Number); const x=new Date(Date.UTC(y,m-1,d+days,12)); return x.toISOString().slice(0,10); } function minutesNow(tz=state.timezone||'America/New_York'){ const p=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(new Date()); const h=Number(p.find(x=>x.type==='hour')?.value||0)%24; const m=Number(p.find(x=>x.type==='minute')?.value||0); return h*60+m; } function timeMinutes(v){if(!v)return 0;const [h,m]=v.split(':').map(Number);return h*60+m} function isGregorianLeap(y){return y%4===0&&(y%100!==0||y%400===0)} function monthNorm(m){return String(m||'').toLowerCase().replace(/[^a-z]/g,'')} function titleHas(events,...needles){const t=events.map(e=>String(e.title||'').toLowerCase()).join(' | ');return needles.some(n=>t.includes(n.toLowerCase()))} function isRoshChodesh(h){return Number(h.hd)===1||Number(h.hd)===30} function tachanunOmitted(h,events,weekday){ const d=Number(h.hd), m=monthNorm(h.hm); if(weekday===6||isRoshChodesh(h)) return true; if(titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','chanukah','tu bishvat','purim','shushan purim','pesach','shavuot','lag baomer','tish’a b’av','tisha b’av','tu b’av','pesach sheni')) return true; if(m==='nisan') return true; if(m==='sivan'&&d<=12) return true; if(m==='iyar'&&(d===14||d===18)) return true; if(m==='av'&&(d===9||d===15)) return true; if(m==='shevat'&&d===15) return true; if((m==='adar'||m==='adarii'||m==='adari')&&(d===14||d===15)) return true; if(m==='elul'&&d===29) return true; if(m==='tishrei'&&(d>=9)) return true; if(m==='cheshvan'&&d<=2) return true; return false; } function omitAtPreviousMincha(nextH,nextEvents,nextWeekday){ const d=Number(nextH.hd),m=monthNorm(nextH.hm); if(nextWeekday===6||isRoshChodesh(nextH))return true; if(titleHas(nextEvents,'chanukah','tu bishvat','purim','shushan purim','lag baomer','tish’a b’av','tisha b’av','tu b’av'))return true; if(m==='nisan'&&d===1)return true; if(m==='sivan'&&d===1)return true; return false; } function seasonalPraise(h){ const d=Number(h.hd),m=monthNorm(h.hm); const winterMonths=['cheshvan','kislev','tevet','shevat','adar','adari','adarii']; if(m==='tishrei'&&d===22)return 'שחרית: מוריד הטל • ממוסף: משיב הרוח ומוריד הגשם'; if(m==='nisan'&&d===15)return 'שחרית: משיב הרוח ומוריד הגשם • ממוסף: מוריד הטל'; if((m==='tishrei'&&d>22)||winterMonths.includes(m)||(m==='nisan'&&d<15))return 'משיב הרוח ומוריד הגשם'; return 'מוריד הטל'; } function rainRequest(h,ymd){ const d=Number(h.hd),m=monthNorm(h.hm); if(state.calendarRegion==='israel'){ const active=(m==='cheshvan'&&d>=7)||['kislev','tevet','shevat','adar','adari','adarii'].includes(m)||(m==='nisan'&&d<15); return active?'ותן טל ומטר לברכה':'ותן ברכה'; } const [y,mo,da]=ymd.split('-').map(Number); const beforePesach=(m!=='nisan'||d<15); const afterPesachMonths=['nisan','iyar','sivan','tammuz','av','elul','tishrei','cheshvan'].includes(m); let active=false; if(beforePesach&&!afterPesachMonths){ const startDay=isGregorianLeap(y+1)?5:4; if(mo===12){ active=da>startDay||(da===startDay&&minutesNow()>=timeMinutes(state.maariv||'20:30')); }else if(mo<4){active=true} } return active?'ותן טל ומטר לברכה':'ותן ברכה'; } function hallelStatus(h,events){ const d=Number(h.hd),m=monthNorm(h.hm),israel=state.calendarRegion==='israel'; if(titleHas(events,'chanukah'))return 'הלל שלם'; if(isRoshChodesh(h))return 'חצי הלל'; if(m==='sivan'&&(d===6||(!israel&&d===7)))return 'הלל שלם'; if(m==='tishrei'&&d>=15&&d<=23)return 'הלל שלם'; if(m==='nisan'){ if(d===15||(!israel&&d===16))return 'הלל שלם'; if(d>=16&&d<=(israel?21:22))return 'חצי הלל'; } return 'אין הלל'; } function hasMusaf(h,events,weekday){ if(weekday===6||isRoshChodesh(h))return true; return titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','pesach','shavuot'); } function prayerAdditions(h,events,weekday,ymd){ const items=[]; const d=Number(h.hd),m=monthNorm(h.hm); if(isRoshChodesh(h)||titleHas(events,'pesach','shavuot','sukkot','shmini atzeret','simchat torah'))items.push('יעלה ויבוא'); if(titleHas(events,'chanukah','purim'))items.push('על הנסים'); if(titleHas(events,'fast of gedaliah','10th of tevet','asara b’tevet','ta’anit esther','fast of esther','17th of tammuz','tzom tammuz','tish’a b’av','tisha b’av'))items.push('עננו'); if(titleHas(events,'tish’a b’av','tisha b’av'))items.push('נחם במנחה'); if((m==='tishrei'&&d>=1&&d<=10)||titleHas(events,'fast of gedaliah','10th of tevet','ta’anit esther','fast of esther','17th of tammuz','tish’a b’av','tisha b’av'))items.push('אבינו מלכנו לפי המנהג'); if(weekday===6&&minutesNow()>=timeMinutes(state.manualTzeit||state.manualHavdalah||'20:00'))items.push('אתה חוננתנו בערבית'); return items.length?items.join(' • '):'אין תוספת מיוחדת'; } function torahReadingStatus(h,events,weekday){ if(weekday===1||weekday===4||weekday===6||isRoshChodesh(h)||titleHas(events,'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah','pesach','shavuot','fast of','ta’anit','tish’a b’av','tisha b’av','chanukah','purim'))return 'יש קריאת התורה'; return 'אין קריאה בשחרית'; } async function getHebrewDate(ymd){ const u=`https://www.hebcal.com/converter?cfg=json&date=${encodeURIComponent(ymd)}&g2h=1&strict=1`; const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('Hebrew date');return r.json(); } async function updateJewishCalendar(){ const box=$('liturgyBox'); try{ const today=localYMD(), tomorrow=addGregorianDays(today,1), end=addGregorianDays(today,8); const israel=state.calendarRegion==='israel'?'&i=on':''; const calUrl=`https://www.hebcal.com/hebcal?cfg=json&v=1&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on&s=on&o=on${israel}&start=${today}&end=${end}`; const [h,nextH,cal]=await Promise.all([getHebrewDate(today),getHebrewDate(tomorrow),fetch(calUrl,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('Calendar');return r.json()})]); const all=Array.isArray(cal.items)?cal.items:[]; const todayEvents=all.filter(e=>e.date===today); const tomorrowEvents=all.filter(e=>e.date===tomorrow); const parasha=all.find(e=>e.category==='parashat'); if(parasha)$('parasha').textContent=parasha.hebrew||parasha.title||state.parasha; else $('parasha').textContent=state.parasha||'פרשת השבוע'; const [y,m,d]=today.split('-').map(Number); const weekday=new Date(Date.UTC(y,m-1,d,12)).getUTCDay(); const [y2,m2,d2]=tomorrow.split('-').map(Number); const nextWeekday=new Date(Date.UTC(y2,m2-1,d2,12)).getUTCDay(); const shachOmit=tachanunOmitted(h,todayEvents,weekday); const minchaOmit=shachOmit||omitAtPreviousMincha(nextH,tomorrowEvents,nextWeekday); const omer=todayEvents.find(e=>e.category==='omer'); const holiday=todayEvents.filter(e=>['holiday','roshchodesh','fast'].includes(e.category)).map(e=>e.hebrew||e.title).filter(Boolean).join(' • '); const rows=[ ['פרשת השבוע',parasha?(parasha.hebrew||parasha.title):'—'], ['תחנון שחרית',shachOmit?'אין אומרים':'אומרים'], ['תחנון מנחה',minchaOmit?'אין אומרים':'אומרים'], ['גבורות',seasonalPraise(h)], ['ברכת השנים',rainRequest(h,today)], ['הלל',hallelStatus(h,todayEvents)], ['מוסף',hasMusaf(h,todayEvents,weekday)?'אומרים מוסף':'אין מוסף'], ['תוספות',prayerAdditions(h,todayEvents,weekday,today)], ['קריאת התורה',torahReadingStatus(h,todayEvents,weekday)], ['ספירת העומר',omer?(omer.hebrew||omer.title):'לא היום'] ]; if(holiday)rows.unshift(['היום',holiday]); box.innerHTML=rows.map(([a,b])=>`<div class="liturgy-item"><strong>${esc(a)}:</strong> ${esc(b)}</div>`).join('')+`<div class="calendar-note">אוטומטי לפי ${state.calendarRegion==='israel'?'ארץ ישראל':'חו״ל'} • אירועים מקומיים כגון ברית/חתן דורשים עדכון ידני</div>`; }catch(err){ console.error('Jewish calendar update failed',err); $('parasha').textContent=state.parasha||'פרשת השבוע'; box.innerHTML='<div class="calendar-note liturgy-alert">לא ניתן לעדכן כרגע את הלוח העברי. מוצגים ערכי ברירת המחדל.</div>'; } } function showPrayer(key){ const text=state[`${key}Text`]||'לא הוזן עדיין נוסח תפילה.'; const overlay=$('prayerOverlay'); const content=$('overlayContent'); const speed=Number(state.prayerSpeed)||40; content.replaceChildren(...text.split(/\r?\n/).map((line,index)=>{ const span=document.createElement('span'); span.className='prayer-line'; span.style.setProperty('--line-index',index); span.textContent=line||' '; return span })); overlay.classList.add('active'); overlay.setAttribute('aria-hidden','false'); /* FIX: Duration now grows with prayer length. This keeps a long Shacharit from racing through in the same amount of time as a short Mincha. */ const lineCount=Math.max(1,text.split(/\r?\n/).length); const secondsPerLine=Math.max(2.6,7.2-(speed*0.038)); const duration=Math.max(90,lineCount*secondsPerLine); content.style.setProperty('--prayer-duration',`${duration}s`); content.style.animation='none'; void content.offsetHeight; content.style.animation='prayerScroll var(--prayer-duration,120s) linear infinite'; } function hidePrayer(){const overlay=$('prayerOverlay');overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true')} $('adminGear').addEventListener('click',()=>{ fillAdmin(); const d=$('adminDialog'); if(typeof d.showModal==='function') d.showModal(); else { d.setAttribute('open',''); d.style.display='block'; } }); $('closeAdmin').addEventListener('click',()=>{ const d=$('adminDialog'); if(typeof d.close==='function') d.close(); else { d.removeAttribute('open'); d.style.display='none'; } });$('saveAll').addEventListener('click',save);$('sTickerSpeed').addEventListener('input',e=>{$('tickerSpeedValue').textContent=e.target.value;$('ticker').style.animationDuration=`${e.target.value}s`});$('sPrayerSpeed').addEventListener('input',e=>{$('prayerSpeedValue').textContent=e.target.value;state.prayerSpeed=e.target.value});$('closeOverlay').addEventListener('click',hidePrayer);$('stopPreview').addEventListener('click',hidePrayer);document.querySelectorAll('.prayer-preview').forEach(b=>b.addEventListener('click',()=>{save();if($('adminDialog').open){ const d=$('adminDialog'); if(typeof d.close==='function') d.close(); else { d.removeAttribute('open'); d.style.display='none'; } } showPrayer(b.dataset.prayer)})); render();updateClocks();updateJewishCalendar();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000); </script>
+
+<script> setTimeout(function () { window.location.href = "login.html"; }, 60000); </script>
+
+</body> </html>
+
+Close
