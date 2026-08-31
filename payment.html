@@ -1,34 +1,490 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PayPal Subscription</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Synagogue Message Board - Subscription</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0b1d3a, #102f5c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      color: #0b2450;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 22px;
+    }
+
+    .star {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 46px;
+      font-weight: 800;
+    }
+
+    .header p {
+      margin-top: 8px;
+      font-size: 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .plan {
+      padding: 38px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 15px;
+      border-radius: 20px;
+      background: #edf4ff;
+      color: #045bd8;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .plan h2 {
+      margin: 0 0 10px;
+      font-size: 36px;
+    }
+
+    .price {
+      font-size: 54px;
+      font-weight: 800;
+      margin: 10px 0;
+    }
+
+    .price span {
+      font-size: 18px;
+      font-weight: 400;
+      color: #666;
+    }
+
+    .trial {
+      color: #00a651;
+      font-size: 23px;
+      font-weight: 800;
+      margin: 15px 0 25px;
+    }
+
+    .features {
+      margin-top: 25px;
+      font-size: 17px;
+    }
+
+    .feature {
+      padding: 12px 0;
+      border-bottom: 1px solid #e4e4e4;
+    }
+
+    .check {
+      color: #00a651;
+      font-weight: bold;
+      margin-right: 12px;
+    }
+
+    .checkout {
+      background: #f4f6f9;
+      padding: 38px;
+      text-align: center;
+    }
+
+    .checkout h2 {
+      margin-top: 5px;
+      font-size: 28px;
+    }
+
+    .checkout p {
+      color: #5e6b80;
+      line-height: 1.5;
+    }
+
+    #paypal-button-container {
+      margin-top: 25px;
+    }
+
+    .status {
+      margin-top: 18px;
+      min-height: 24px;
+      font-weight: 700;
+    }
+
+    .login-btn {
+      display: inline-block;
+      margin-top: 25px;
+      background: #10356d;
+      color: white;
+      text-decoration: none;
+      padding: 13px 24px;
+      border-radius: 9px;
+      font-weight: bold;
+    }
+
+    .footer {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 15px 25px 25px;
+      color: #68758a;
+      font-size: 13px;
+    }
+
+    @media (max-width: 800px) {
+      .card {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 34px;
+      }
+
+      .plan,
+      .checkout {
+        padding: 28px 22px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-  <script src="https://www.paypal.com/sdk/js?client-id=AZD0NtTugRgLzVbjLm9jtprCTer2z7-r3VMjSnrLaU3Ms1VJso-50DMmDBmMpdMioEhUUVMfB-4T7lRe&vault=true&intent=subscription"></script>
+<div class="page">
 
-  <div id="paypal-button-container"></div>
+  <div class="header">
+    <div class="star">✡</div>
+    <h1>Synagogue Message Board</h1>
+    <p>Member Subscription</p>
+  </div>
 
-  <script>
-    paypal.Buttons({
+  <div class="card">
 
-      createSubscription: function(data, actions) {
-        return actions.subscription.create({
-          plan_id: "P-03H97087WB697233KNKK4D2A"
-        });
-      },
+    <section class="plan">
 
-      onApprove: function(data, actions) {
-        alert(
-          "You have successfully subscribed to " +
-          data.subscriptionID
+      <div class="badge">MEMBER PLAN</div>
+
+      <h2>Start Your Free Trial</h2>
+
+      <div class="price">
+        $25 <span>/ month</span>
+      </div>
+
+      <div class="trial">
+        7 Days Free
+      </div>
+
+      <div class="features">
+
+        <div class="feature">
+          <span class="check">✓</span>
+          7-day free trial before monthly billing begins
+        </div>
+
+        <div class="feature">
+          <span class="check">✓</span>
+          Full access to your synagogue message board account
+        </div>
+
+        <div class="feature">
+          <span class="check">✓</span>
+          Secure recurring payment through PayPal
+        </div>
+
+        <div class="feature">
+          <span class="check">✓</span>
+          Subscription managed through your PayPal account
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="checkout">
+
+      <h2>Activate Membership</h2>
+
+      <p>
+        Click below to start your 7-day free trial.
+        <br>
+        After the trial, your subscription continues at $25 per month
+        according to the PayPal plan terms.
+      </p>
+
+      <div id="paypal-button-container"></div>
+
+      <div class="status" id="paymentStatus"></div>
+
+      <a class="login-btn" href="login.html">
+        Return to Member Login
+      </a>
+
+    </section>
+
+    <div class="footer">
+      Your 7-day free trial and $25/month billing schedule are controlled by
+      the PayPal subscription plan associated with this page.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+<script src="supabase-config.js"></script>
+<script src="auth.js"></script>
+
+
+<!-- PAYPAL LIVE SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=AZD0NtTugRgLzVbjLm9jtprCTer2z7-r3VMjSnrLaU3Ms1VJso-50DMmDBmMpdMioEhUUVMfB-4T7lRe&vault=true&intent=subscription"></script>
+
+
+<script>
+
+const PAYPAL_PLAN_ID =
+  "P-03H97087WB697233KNKK4D2A";
+
+const VERIFY_URL =
+  "https://pqaqbpxrygveahwhoobt.supabase.co/functions/v1/paypal-verify-subscription";
+
+const statusBox =
+  document.getElementById("paymentStatus");
+
+
+function showStatus(message, isError = false) {
+  statusBox.textContent = message;
+  statusBox.style.color =
+    isError ? "#b00020" : "#008a3b";
+}
+
+
+paypal.Buttons({
+
+  createSubscription: function(data, actions) {
+
+    showStatus("Opening PayPal...");
+
+    return actions.subscription.create({
+      plan_id: PAYPAL_PLAN_ID
+    });
+
+  },
+
+
+  onApprove: async function(data, actions) {
+
+    try {
+
+      showStatus(
+        "PayPal approved. Verifying subscription..."
+      );
+
+
+      if (
+        typeof window.getSupabase !== "function"
+      ) {
+
+        throw new Error(
+          "Supabase connection is not available."
         );
+
       }
 
-    }).render("#paypal-button-container");
-  </script>
+
+      const supabase =
+        window.getSupabase();
+
+
+      const {
+        data: sessionData,
+        error: sessionError
+      } =
+        await supabase.auth.getSession();
+
+
+      if (
+        sessionError ||
+        !sessionData ||
+        !sessionData.session
+      ) {
+
+        alert(
+          "Your PayPal subscription was created, but you must log in to connect it to your synagogue account."
+        );
+
+        window.location.href =
+          "login.html";
+
+        return;
+
+      }
+
+
+      const session =
+        sessionData.session;
+
+
+      const response =
+        await fetch(
+          VERIFY_URL,
+          {
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json",
+
+              "Authorization":
+                "Bearer " +
+                session.access_token
+            },
+
+            body:
+              JSON.stringify({
+                subscriptionId:
+                  data.subscriptionID
+              })
+          }
+        );
+
+
+      const result =
+        await response.json();
+
+
+      console.log(
+        "PayPal verification result:",
+        result
+      );
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          result.error ||
+          "Subscription verification failed."
+        );
+
+      }
+
+
+      if (
+        result.verified === true
+      ) {
+
+        showStatus(
+          "Subscription verified successfully."
+        );
+
+
+        alert(
+          "Your PayPal subscription is active.\n\n" +
+          "Subscription ID: " +
+          data.subscriptionID
+        );
+
+
+        window.location.href =
+          "pending.html";
+
+      } else {
+
+        showStatus(
+          "PayPal created the subscription, but it is not active yet.",
+          true
+        );
+
+
+        alert(
+          "Your subscription was created successfully, but PayPal has not marked it ACTIVE yet.\n\n" +
+          "Subscription ID: " +
+          data.subscriptionID
+        );
+
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      showStatus(
+        error.message ||
+        "There was a problem verifying your subscription.",
+        true
+      );
+
+
+      alert(
+        "Your PayPal subscription may have been created, but we could not verify it with the server.\n\n" +
+        "Please contact support before trying to subscribe again."
+      );
+
+    }
+
+  },
+
+
+  onCancel: function(data) {
+
+    showStatus(
+      "PayPal checkout was cancelled.",
+      true
+    );
+
+  },
+
+
+  onError: function(error) {
+
+    console.error(
+      "PayPal error:",
+      error
+    );
+
+
+    showStatus(
+      "PayPal encountered an error. Please try again.",
+      true
+    );
+
+  }
+
+}).render(
+  "#paypal-button-container"
+);
+
+</script>
 
 </body>
 </html>
