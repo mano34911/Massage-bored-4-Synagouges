@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" dir="ltr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Message Board Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(145deg,#04163d,#0a3275);font-family:Arial,sans-serif;color:#fff;display:flex;align-items:center;justify-content:center;padding:20px}.panel{width:min(92vw,650px);background:#fff8df;color:#252015;border:4px solid #d7a62d;border-radius:28px;box-shadow:0 0 0 3px #fff0a4,0 15px 45px #0008;padding:28px}.title{text-align:center;color:#0b2f72;font-size:clamp(30px,6vw,48px);font-weight:900;margin:0 0 10px}.sub{text-align:center;margin:0 0 24px;color:#6d5419;font-weight:700}.control{padding:18px 0;border-top:2px solid #d9c995}.control label{font-weight:900;font-size:20px;color:#0b2f72;display:flex;justify-content:space-between;gap:12px}.value{color:#a36e00}input[type=range]{width:100%;margin-top:14px;accent-color:#0b2f72}.hint{font-size:13px;color:#625c4e;margin-top:7px}.buttons{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}.btn{flex:1;min-width:140px;border:0;border-radius:14px;padding:14px;font-weight:900;font-size:17px;cursor:pointer;text-decoration:none;text-align:center}.save{background:#0b2f72;color:white}.reset{background:#d7a62d;color:#271c00}.back{background:#e8e0c8;color:#0b2f72}.status{text-align:center;min-height:24px;color:#17824b;font-weight:900;margin-top:12px}
+</style></head><body><div class="panel"><h1 class="title">⚙️ Admin</h1><p class="sub">Scroll speed controls</p>
+<div class="control"><label>Main page <span class="value" id="mainVal"></span></label><input id="main" type="range" min="12" max="90" step="1"><div class="hint">Higher number = slower scrolling</div></div>
+<div class="control"><label>Candle page <span class="value" id="candleVal"></span></label><input id="candle" type="range" min="8" max="90" step="1"><div class="hint">Controls the gentle candle-page movement</div></div>
+<div class="control"><label>שיעור יומי <span class="value" id="shiurVal"></span></label><input id="shiur" type="range" min="10" max="120" step="1"><div class="hint">Higher number = slower scrolling</div></div>
+<div class="buttons"><button class="btn save" id="save">Save</button><button class="btn reset" id="reset">Reset defaults</button><a class="btn back" href="index.html">Back to board</a></div><div class="status" id="status"></div></div>
+<script>
+const defs={main:34,candle:26,shiur:22};
+const ids=['main','candle','shiur'];
+function load(){ids.forEach(id=>{const el=document.getElementById(id),v=localStorage.getItem('mb_'+id+'_scroll')||defs[id];el.value=v;document.getElementById(id+'Val').textContent=v+' sec';});}
+ids.forEach(id=>document.getElementById(id).addEventListener('input',e=>document.getElementById(id+'Val').textContent=e.target.value+' sec'));
+document.getElementById('save').onclick=()=>{ids.forEach(id=>localStorage.setItem('mb_'+id+'_scroll',document.getElementById(id).value));status.textContent='Saved ✓';setTimeout(()=>status.textContent='',1800)};
+document.getElementById('reset').onclick=()=>{ids.forEach(id=>localStorage.setItem('mb_'+id+'_scroll',defs[id]));load();status.textContent='Defaults restored';setTimeout(()=>status.textContent='',1800)};
+load();
+</script></body></html>

@@ -85,7 +85,7 @@ body{display:flex;align-items:center;justify-content:center}
 }
 .scroller{
   position:absolute;width:100%;
-  animation:scrollUp 34s linear infinite;
+  animation:scrollUp var(--main-scroll-speed,34s) linear infinite;
   will-change:transform;
 }
 .scrollWindow:hover .scroller{animation-play-state:paused}
@@ -134,7 +134,7 @@ body{display:flex;align-items:center;justify-content:center}
   .main{grid-template-columns:18% 1fr 18%}
   .center{padding:10% 5% 10%}
   .medallion{width:min(13vw,150px)}
-  .scroller{animation-duration:42s}
+  .scroller{animation-duration:var(--main-scroll-speed,42s)}
 }
 @media (prefers-reduced-motion:reduce){.scroller{animation:none;position:static}}
 
@@ -192,7 +192,7 @@ body{position:relative}
   padding:clamp(18px,4vw,48px);
   box-shadow:inset 0 0 0 3px #d7a62d;
 }
-.shiurScroll{animation:shiurUp 22s linear infinite}
+.shiurScroll{animation:shiurUp var(--shiur-scroll-speed,22s) linear infinite}
 @keyframes shiurUp{from{transform:translateY(60%)}to{transform:translateY(-105%)}}
 .shiurHeading{color:#143b86;font-size:clamp(30px,4.5vw,62px);font-weight:900;margin:10px}
 .shiurText{font-size:clamp(22px,3vw,42px);line-height:1.55;font-weight:700}
@@ -201,6 +201,29 @@ body{position:relative}
   .candleGrid{grid-template-columns:repeat(2,1fr)}
   .candle:nth-child(n+7){display:none}
   .specialFrame{height:97vh;padding:15px}
+}
+
+
+/* Candle page fit + adjustable scroll */
+#candlePage .specialFrame{width:min(92vw,1180px);height:min(88vh,760px);padding:clamp(10px,2vw,26px)}
+#candlePage .specialTitle{font-size:clamp(30px,5vw,64px);margin-bottom:8px}
+.candleViewport{height:calc(100% - 76px);overflow:hidden;position:relative}
+.candleScroll{min-height:100%;animation:candleFloat var(--candle-scroll-speed,26s) ease-in-out infinite alternate}
+@keyframes candleFloat{from{transform:translateY(1%)}to{transform:translateY(-5%)}}
+#candlePage .candleGrid{height:auto;min-height:100%;grid-template-columns:repeat(4,1fr);gap:clamp(4px,1.1vw,14px);padding:4px 0 12px}
+#candlePage .candle{min-height:125px;padding:4px}
+#candlePage .flame{width:24px;height:39px}
+#candlePage .wax{width:42px;height:68px}
+#candlePage .candleName{font-size:clamp(14px,1.8vw,23px);margin-top:7px;line-height:1.1}
+@media(max-width:700px) and (orientation:portrait){
+ #candlePage .specialFrame{width:94vw;height:90vh;padding:10px}
+ #candlePage .specialTitle{font-size:34px;margin-bottom:4px}
+ #candlePage .candleViewport{height:calc(100% - 52px)}
+ #candlePage .candleGrid{grid-template-columns:repeat(2,1fr);gap:3px}
+ #candlePage .candle{min-height:105px}
+ #candlePage .wax{height:55px;width:36px}
+ #candlePage .flame{width:21px;height:34px}
+ #candlePage .candleName{font-size:13px}
 }
 
 .adminGear{position:fixed;left:10px;bottom:10px;z-index:99999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,31,87,.9);border:2px solid #d7a62d;color:#fff;font-size:25px;text-decoration:none;box-shadow:0 2px 10px #0008}.adminGear:active{transform:scale(.94)}
@@ -297,7 +320,7 @@ body{position:relative}
 <div id="candlePage" class="rotatePage specialPage">
   <div class="specialFrame">
     <h1 class="specialTitle">🕯️ נרות נשמה 🕯️</h1>
-    <div class="candleGrid">
+    <div class="candleViewport"><div class="candleScroll"><div class="candleGrid">
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
@@ -306,7 +329,7 @@ body{position:relative}
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
       <div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">נר נשמה</div></div>
-    </div>
+    </div></div></div>
   </div>
 </div>
 
@@ -340,6 +363,19 @@ function tick(){
   ilTime.textContent=fmtClock('Asia/Jerusalem');
 }
 tick(); setInterval(tick,1000);
+
+
+function applyAdminSettings(){
+  const root=document.documentElement;
+  const main=localStorage.getItem('mb_main_scroll')||'34';
+  const candles=localStorage.getItem('mb_candle_scroll')||'26';
+  const shiur=localStorage.getItem('mb_shiur_scroll')||'22';
+  root.style.setProperty('--main-scroll-speed',main+'s');
+  root.style.setProperty('--candle-scroll-speed',candles+'s');
+  root.style.setProperty('--shiur-scroll-speed',shiur+'s');
+}
+applyAdminSettings();
+window.addEventListener('storage',applyAdminSettings);
 
 const rotationPages=[
   document.getElementById('mainPage'),
