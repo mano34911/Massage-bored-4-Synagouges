@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>index5 - לוח בית הכנסת</title>
+<style>
+:root{
+  --bg:#050505;
+  --panel:#090909;
+  --grid:#202020;
+  --gold:#d7b400;
+  --yellow:#ffe500;
+  --white:#f7f7f7;
+  --cyan:#23dff3;
+  --green:#43f45a;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;background:#000;color:#fff;overflow:hidden;font-family:Arial,"Noto Sans Hebrew",sans-serif}
+body{display:flex;align-items:center;justify-content:center}
+.board{
+  width:100vw;height:100vh;max-width:1800px;
+  background:
+    radial-gradient(circle at 1px 1px,#242424 1.2px,transparent 1.3px) 0 0/8px 8px,
+    linear-gradient(#080808,#030303);
+  border:10px solid #1f1f1f;
+  box-shadow:0 0 0 2px #444 inset,0 0 45px #000;
+  display:grid;
+  grid-template-rows:26% 28% 18% 1fr;
+  padding:16px 24px 10px;
+}
+.top{
+  position:relative;
+  display:grid;
+  grid-template-columns:28% 44% 28%;
+  align-items:start;
+  border-bottom:4px dotted #7d6d00;
+  min-height:0;
+}
+.leftTop,.rightTop{padding:8px 18px}
+.leftTop{text-align:center}
+.rightTop{text-align:center}
+.hebrewDay{
+  font-size:clamp(28px,4vw,62px);font-weight:900;color:#fff;
+  text-shadow:0 0 8px #fff,0 0 18px #aaa;
+  margin-top:4px
+}
+.fast{
+  margin-top:24px;color:var(--yellow);font-size:clamp(22px,2.5vw,42px);
+  font-weight:900;line-height:1.05;text-shadow:0 0 10px #b59f00;
+  border-top:4px dotted #6f6100;border-bottom:4px dotted #6f6100;padding:10px 2px
+}
+.centerTop{text-align:center;position:relative;padding-top:2px}
+.hebrewDate{color:var(--yellow);font-size:clamp(18px,2.2vw,36px);font-weight:900;text-shadow:0 0 10px #8d8200}
+.bigClock{
+  font-family:"Courier New",monospace;
+  font-size:clamp(46px,8.2vw,130px);
+  font-weight:300;letter-spacing:3px;color:#fff;
+  text-shadow:0 0 10px white,0 0 26px #bbb;
+  line-height:1.05;margin-top:5px;
+}
+.city{
+  color:var(--cyan);font-size:clamp(20px,2.7vw,44px);font-weight:900;
+  text-shadow:0 0 10px #0baac0;margin-top:0
+}
+.parshaLabel{font-size:clamp(22px,2.9vw,46px);font-weight:900;color:#fff;line-height:1.05}
+.parshaName{font-size:clamp(18px,2.1vw,34px);font-weight:900;color:var(--yellow);margin-top:16px;text-shadow:0 0 10px #978400}
+
+.zmanim{
+  display:grid;grid-template-columns:repeat(7,1fr);
+  border-bottom:4px dotted #7d6d00;
+  min-height:0;
+}
+.zbox{
+  text-align:center;padding:12px 6px 6px;
+  border-left:3px dotted #7d6d00;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.zbox:last-child{border-left:0}
+.zlabel{color:var(--yellow);font-size:clamp(16px,1.85vw,30px);font-weight:900;line-height:1.05;text-shadow:0 0 8px #756800}
+.icon{font-size:clamp(25px,2.8vw,45px);margin:7px 0;filter:drop-shadow(0 0 6px #fff7)}
+.ztime{font-family:"Courier New",monospace;font-size:clamp(23px,3vw,50px);letter-spacing:1px;text-shadow:0 0 8px white}
+
+.shabbat{
+  display:grid;grid-template-columns:24% 52% 24%;
+  border:4px solid #847500;
+  margin-top:5px;
+  min-height:0;
+}
+.shabbat>div{display:flex;align-items:center;justify-content:center;text-align:center;border-left:3px dotted #7d6d00;padding:6px}
+.shabbat>div:last-child{border-left:0}
+.shLabel{color:var(--yellow);font-weight:900;font-size:clamp(16px,1.9vw,30px);line-height:1.1}
+.shTime{color:#fff;font-size:clamp(22px,2.9vw,44px);font-family:"Courier New",monospace;text-shadow:0 0 8px #fff}
+.middleDate{font-size:clamp(28px,3.4vw,54px);font-weight:900;color:#fff;text-shadow:0 0 8px #fff}
+.star{color:#fff;background:linear-gradient(#b13dbb,#671a76);border-radius:12px;padding:3px 9px;margin:0 12px;box-shadow:0 0 12px #ff49ff}
+.bottom{
+  min-height:0;display:grid;grid-template-columns:58px 1fr;gap:12px;align-items:center;
+  border-top:3px solid #282828;padding-top:8px;
+}
+.speaker{font-size:38px;color:var(--cyan);text-shadow:0 0 12px #00d9ff}
+.tickerWrap{height:100%;overflow:hidden;display:flex;align-items:center}
+.ticker{
+  color:var(--green);font-size:clamp(16px,2vw,31px);font-weight:900;
+  white-space:nowrap;display:inline-block;
+  animation:ticker 22s linear infinite;text-shadow:0 0 8px #17a929;
+}
+@keyframes ticker{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-120%)}
+}
+
+@media (orientation:portrait){
+  .board{
+    grid-template-rows:24% 36% 20% 1fr;
+    padding:10px 8px 8px;border-width:5px;
+  }
+  .top{grid-template-columns:29% 42% 29%}
+  .leftTop,.rightTop{padding:4px}
+  .fast{margin-top:10px;padding:6px 0}
+  .bigClock{font-size:clamp(40px,10vw,76px)}
+  .zmanim{grid-template-columns:repeat(4,1fr);overflow:hidden}
+  .zbox:nth-child(n+5){display:none}
+  .shabbat{grid-template-columns:28% 44% 28%}
+  .star{margin:0 4px;padding:2px 5px}
+  .bottom{grid-template-columns:36px 1fr}
+  .speaker{font-size:28px}
+}
+@media (max-height:600px) and (orientation:landscape){
+  .board{padding:8px 18px 6px;grid-template-rows:28% 29% 20% 1fr}
+  .fast{margin-top:8px}
+  .zbox{padding-top:4px}
+  .icon{margin:2px 0}
+}
+</style>
+</head>
+<body>
+<div class="board">
+
+  <section class="top">
+    <div class="leftTop">
+      <div class="hebrewDay" id="hebrewDay">ליל שני</div>
+      <div class="fast">The beginning<br>of the fast</div>
+    </div>
+
+    <div class="centerTop">
+      <div class="hebrewDate" id="hebrewDate">17 באלול 5786</div>
+      <div class="bigClock" id="mainClock">20:34:47</div>
+    </div>
+
+    <div class="rightTop">
+      <div class="city">Jerusalem</div>
+      <div class="parshaLabel">This Week's<br>Parsha</div>
+      <div class="parshaName">נצבים־וילך</div>
+    </div>
+  </section>
+
+  <section class="zmanim">
+    <div class="zbox"><div class="zlabel">dawn</div><div class="icon">🌄</div><div class="ztime">04:55</div></div>
+    <div class="zbox"><div class="zlabel">sunrise</div><div class="icon">☀️</div><div class="ztime">06:21</div></div>
+    <div class="zbox"><div class="zlabel">End of<br>Shema reading time</div><div class="icon">◻️</div><div class="ztime">09:39</div></div>
+    <div class="zbox"><div class="zlabel">midnight</div><div class="icon">🌇</div><div class="ztime">12:56</div></div>
+    <div class="zbox"><div class="zlabel">Great<br>presenter</div><div class="icon">☀️</div><div class="ztime">13:29</div></div>
+    <div class="zbox"><div class="zlabel">sunset</div><div class="icon">🌅</div><div class="ztime">19:31</div></div>
+    <div class="zbox"><div class="zlabel">The stars are<br>coming out</div><div class="icon">✦✦</div><div class="ztime">20:05</div></div>
+  </section>
+
+  <section class="shabbat">
+    <div>
+      <div><div class="shLabel">Lighting candles</div><div class="shTime">19:05</div></div>
+    </div>
+    <div>
+      <div class="middleDate"><span class="star">✡</span>17 באלול<span class="star">✡</span></div>
+    </div>
+    <div>
+      <div><div class="shLabel">Saturday</div><div class="shTime">20:03</div></div>
+    </div>
+  </section>
+
+  <section class="bottom">
+    <div class="speaker">🔊</div>
+    <div class="tickerWrap">
+      <div class="ticker">
+        הדלקת נרות 19:05 • מוצ״ש 20:03 • לעילוי נשמת זהבה חלא בת דינה זצ״ל • ברוכים הבאים לבית הכנסת
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function updateClock(){
+  const now = new Date();
+  const t = new Intl.DateTimeFormat('en-GB',{
+    timeZone:'Asia/Jerusalem',
+    hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
+  }).format(now);
+  document.getElementById('mainClock').textContent=t;
+}
+updateClock();
+setInterval(updateClock,1000);
+</script>
+</body>
+</html>
