@@ -234,7 +234,7 @@ body{position:relative}
 
 .prayerOverlay{position:fixed;inset:0;z-index:99998;background:rgba(2,10,30,.97);display:none;padding:3vh 4vw;color:#fff}
 .prayerOverlay.show{display:block}.prayerPanel{height:94vh;border:4px solid #d7a62d;border-radius:28px;background:#071f50;padding:20px;overflow:hidden;box-shadow:inset 0 0 0 3px #fff0a4}
-.prayerTitle{text-align:center;color:#f7d66b;font-size:clamp(34px,5vw,70px);font-weight:900;margin-bottom:12px}.prayerViewport{height:calc(100% - 95px);overflow:hidden;background:#fff8df;color:#241d11;border-radius:20px;padding:20px}.prayerScroll{white-space:pre-wrap;text-align:right;font-size:clamp(22px,3vw,42px);line-height:1.65;font-weight:700;animation:prayerUp var(--prayer-scroll-speed,90s) linear infinite}@keyframes prayerUp{from{transform:translateY(80%)}to{transform:translateY(-105%)}}
+.prayerTitle{text-align:center;color:#f7d66b;font-size:clamp(34px,5vw,70px);font-weight:900;margin-bottom:12px}.prayerViewport{height:calc(100% - 95px);overflow:hidden;background:#fff8df;color:#241d11;border-radius:20px;padding:20px}.prayerScroll{white-space:pre-wrap;text-align:right;font-size:clamp(22px,3vw,42px);line-height:1.65;font-weight:700;animation:prayerUp var(--prayer-scroll-speed,90s) linear infinite;animation-delay:0s}@keyframes prayerUp{from{transform:translateY(0)}to{transform:translateY(-105%)}}
 .prayerClose{position:absolute;left:18px;top:14px;background:#b51f26;color:#fff;border:2px solid #fff;border-radius:50%;width:46px;height:46px;font-size:24px;font-weight:900}
 
 
@@ -425,7 +425,19 @@ function showPage(i){rotationPages.forEach((p,n)=>p.classList.toggle('active',n=
 function scheduleRotation(){clearTimeout(rotationTimer);if(rotationPaused)return;rotationTimer=setTimeout(()=>{showPage((rotationIndex+1)%3);scheduleRotation()},durations()[rotationIndex])}
 scheduleRotation();
 
-function showPrayer(key,title){const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';document.getElementById('prayerTitle').textContent=title;document.getElementById('prayerScroll').textContent=txt||'לא הוזן נוסח תפילה במנהל.';document.getElementById('prayerOverlay').classList.add('show')}
+function showPrayer(key,title){
+  const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';
+  const titleEl=document.getElementById('prayerTitle');
+  const scrollEl=document.getElementById('prayerScroll');
+  const overlay=document.getElementById('prayerOverlay');
+  titleEl.textContent=title;
+  scrollEl.textContent=txt||'לא הוזן נוסח תפילה במנהל.';
+  scrollEl.style.animation='none';
+  scrollEl.style.transform='translateY(0)';
+  void scrollEl.offsetHeight;
+  scrollEl.style.animation='';
+  overlay.classList.add('show');
+}
 function hidePrayer(){document.getElementById('prayerOverlay').classList.remove('show')}
 document.getElementById('prayerClose').onclick=hidePrayer;
 let lastCommandId='';
