@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>בית הכנסת בית תורה</title>
+<style>
+:root{
+  --navy:#061f57;
+  --navy2:#0b2f72;
+  --gold:#d7a62d;
+  --gold2:#f7d66b;
+  --cream:#fff7dc;
+  --ink:#2b210f;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#ddd;font-family:Arial,"Noto Sans Hebrew","David Libre",sans-serif}
+body{display:flex;align-items:center;justify-content:center}
+.board{
+  width:100vw;height:100vh;padding:8px;
+  background:linear-gradient(135deg,#f7f0dc,#fff,#e4dcc8);
+  border:3px solid #9b741c;
+  box-shadow:inset 0 0 0 3px #f4d264;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:8px;
+  color:var(--ink);
+}
+.goldFrame{
+  border:3px solid var(--gold);
+  box-shadow:inset 0 0 0 2px #fff3bd,0 1px 4px #6a4d0b55;
+  border-radius:24px;
+  background:linear-gradient(#fffdf3,#f7efd4);
+}
+.header{
+  display:grid;grid-template-columns:18% 1fr 18%;gap:8px;align-items:stretch;
+}
+.clock{
+  background:linear-gradient(180deg,#071c50,#0a3275);
+  color:#fff7d6;text-align:center;border-radius:25px;
+  border:3px solid var(--gold2);padding:10px 4px;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.clock .city{font-size:clamp(12px,2.1vw,28px);font-weight:900}
+.clock .time{font-size:clamp(18px,3.5vw,42px);font-weight:900;letter-spacing:.5px}
+.titlebox{padding:9px 18px;text-align:center}
+.titlebox h1{margin:0;color:#0d2d6b;font-size:clamp(28px,4.6vw,60px);line-height:1.04}
+.titlebox .rabbi{font-size:clamp(16px,2.4vw,30px);font-weight:800;color:#7a4c10;margin-top:4px}
+.titlebox .date{font-size:clamp(13px,1.9vw,24px);font-weight:700;margin-top:5px}
+
+.main{
+  min-height:0;display:grid;grid-template-columns:19% 1fr 19%;gap:8px;
+}
+.side{
+  min-height:0;display:grid;grid-template-rows:2fr .75fr;gap:8px;
+}
+.sideBox{
+  overflow:hidden;padding:10px 7px;text-align:center;
+}
+.sideBox h2{
+  display:inline-block;margin:0 0 10px;padding:12px 14px;border-radius:22px;
+  background:linear-gradient(#f9dc83,#c7932b);
+  border:3px solid #9c6b12;color:#574016;
+  font-size:clamp(17px,2.5vw,33px);
+  box-shadow:inset 0 0 0 2px #ffeaa6;
+}
+.rows{font-weight:800;font-size:clamp(13px,1.75vw,22px);line-height:1.12}
+.row{display:flex;justify-content:space-between;gap:6px;border-bottom:2px dotted #b69b63;padding:6px 2px}
+.row .red{color:#b11313}
+.smallText{font-size:clamp(15px,2.1vw,27px);line-height:1.35;font-weight:800}
+
+.center{
+  min-height:0;border-radius:34px;background:linear-gradient(#0a2b68 0 13%,#fff8df 13% 90%,#0a2b68 90%);
+  border:4px solid var(--gold);box-shadow:inset 0 0 0 3px #fff0a4;
+  position:relative;padding:11% 6% 12%;overflow:hidden;
+}
+.medallion{
+  position:absolute;z-index:5;top:-4px;left:50%;transform:translateX(-50%);
+  width:min(20vw,155px);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#1f4388,#071d51 72%);
+  border:12px solid #e3b343;box-shadow:0 0 0 5px #896714;
+}
+.scrollWindow{
+  width:100%;height:100%;overflow:hidden;position:relative;text-align:center;
+}
+.scroller{
+  position:absolute;width:100%;
+  animation:scrollUp 34s linear infinite;
+  will-change:transform;
+}
+.scrollWindow:hover .scroller{animation-play-state:paused}
+@keyframes scrollUp{
+  from{transform:translateY(100%)}
+  to{transform:translateY(-115%)}
+}
+.big{font-size:clamp(25px,4.1vw,58px);font-weight:900;line-height:1.2;margin:10px 0}
+.medium{font-size:clamp(19px,3vw,40px);font-weight:900;line-height:1.32;margin:12px 0}
+.blue{color:#143b86}.green{color:#17824b}.purple{color:#693c8f}.redText{color:#b51f26}.goldText{color:#9f6d09}.teal{color:#0e7881}
+
+.infoCard{
+  border:3px solid #b78b2b;border-radius:24px;background:#fffdf3;
+  padding:10px;margin:18px auto;width:94%;font-size:clamp(14px,2vw,25px);font-weight:800;
+}
+.memorial{
+  border:3px solid #b98a29;border-radius:18px;background:#fff3c8;
+  padding:12px 8px;margin:14px auto;font-size:clamp(16px,2.3vw,30px);font-weight:900;color:#6a4315;
+}
+.footer{
+  background:linear-gradient(#0b2f72,#071b4c);color:#fff7d4;
+  border:3px solid var(--gold);box-shadow:inset 0 0 0 2px #f6db7d;
+  border-radius:16px;padding:10px 18px;text-align:center;
+  font-size:clamp(16px,2.4vw,31px);font-weight:900;white-space:nowrap;overflow:hidden;
+}
+
+/* Phone portrait */
+@media (max-width:700px) and (orientation:portrait){
+  .board{padding:5px;gap:5px}
+  .header{grid-template-columns:22% 1fr 22%;gap:5px}
+  .clock{padding:6px 2px;border-radius:18px}
+  .titlebox{padding:6px}
+  .main{grid-template-columns:22% 1fr 22%;gap:5px}
+  .side{gap:5px}
+  .sideBox{padding:6px 3px}
+  .sideBox h2{padding:8px 5px;border-radius:14px;margin-bottom:5px}
+  .row{display:block;padding:4px 0}
+  .center{padding:15% 4% 13%}
+  .medallion{width:26vw;border-width:8px}
+  .infoCard{width:100%;padding:7px}
+}
+/* Phone sideways / TV landscape */
+@media (orientation:landscape){
+  .board{max-width:1600px}
+  .header{grid-template-columns:16% 1fr 16%}
+  .main{grid-template-columns:18% 1fr 18%}
+  .center{padding:10% 5% 10%}
+  .medallion{width:min(13vw,150px)}
+  .scroller{animation-duration:42s}
+}
+@media (prefers-reduced-motion:reduce){.scroller{animation:none;position:static}}
+</style>
+</head>
+<body>
+<div class="board">
+  <header class="header">
+    <div class="clock goldFrame"><div class="city">JERUSALEM</div><div class="time" id="ilTime">--:--:--</div></div>
+    <div class="titlebox goldFrame">
+      <h1>בית הכנסת בית תורה</h1>
+      <div class="rabbi">הרב ברוך</div>
+      <div class="date" id="dateLine">יום ראשון • 17 באלול 5786 • 30 באוגוסט 2026</div>
+    </div>
+    <div class="clock goldFrame"><div class="city">NEW YORK</div><div class="time" id="nyTime">--:--:--</div></div>
+  </header>
+
+  <main class="main">
+    <section class="side">
+      <div class="sideBox goldFrame">
+        <h2>זמני תפילה</h2>
+        <div class="rows">
+          <div class="row"><span>שחרית</span><span>7:00 AM</span></div>
+          <div class="row"><span>מנחה</span><span>4:00 PM</span></div>
+          <div class="row"><span>ערבית</span><span>8:30 PM</span></div>
+          <div class="row"><span>שיעור תורה</span><span>9:15 PM</span></div>
+          <div class="row"><span>שחרית שבת</span><span>9:00 AM</span></div>
+          <div class="row"><span>מנחה שבת</span><span>6:30 PM</span></div>
+          <div class="row"><span>ערבית ליל שבת</span><span>7:30 PM</span></div>
+          <div class="row"><span>הבדלה</span><span>9:00 PM</span></div>
+        </div>
+      </div>
+      <div class="sideBox goldFrame">
+        <h2>מזל טוב</h2>
+        <div class="smallText">ברכת מזל טוב לחברי הקהילה</div>
+      </div>
+    </section>
+
+    <section class="center">
+      <div class="medallion"></div>
+      <div class="scrollWindow">
+        <div class="scroller">
+          <div class="big goldText">פרשת השבוע</div>
+          <div class="big blue">פרשת נצבים־וילך</div>
+          <div class="medium green">ברכת מזל טוב לכל המתפללים ובני הקהילה</div>
+          <div class="medium blue">יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים</div>
+          <div class="medium purple">שבוע טוב ומבורך לכל משפחות בית הכנסת</div>
+          <div class="medium redText">זמני התפילה והשיעורים מתעדכנים בלוח</div>
+          <div class="medium teal">נא לעקוב אחר ההודעות החשובות של הקהילה</div>
+
+          <div class="infoCard">
+            <div><b>תחנון שחרית:</b> אומרים</div>
+            <div><b>פרשת השבוע:</b> נצבים־וילך</div>
+            <div><b>גבורות:</b> מוריד הטל</div>
+            <div><b>הלל:</b> אין הלל</div>
+          </div>
+
+          <div class="medium green">ברוכים הבאים לבית הכנסת בית תורה</div>
+          <div class="medium goldText">תפילה • תורה • חסד • אחדות</div>
+          <div class="medium blue">שנזכה לשנה טובה ומתוקה ולבשורות טובות</div>
+
+          <div class="memorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="side">
+      <div class="sideBox goldFrame">
+        <h2>זמני היום</h2>
+        <div class="rows">
+          <div class="row"><span>עלות השחר</span><span>5:02 AM</span></div>
+          <div class="row"><span>זריחה</span><span>6:38 AM</span></div>
+          <div class="row"><span>סוף זמן ק״ש</span><span>9:27 AM</span></div>
+          <div class="row"><span>חצות</span><span>12:10 PM</span></div>
+          <div class="row"><span>מנחה גדולה</span><span>12:40 PM</span></div>
+          <div class="row"><span>שקיעה</span><span>7:32 PM</span></div>
+          <div class="row"><span>צאת הכוכבים</span><span>8:06 PM</span></div>
+          <div class="row"><span class="red">הדלקת נרות</span><span class="red">7:13 PM</span></div>
+          <div class="row"><span class="red">צאת שבת</span><span class="red">8:12 PM</span></div>
+        </div>
+      </div>
+      <div class="sideBox goldFrame">
+        <h2>הודעות</h2>
+        <div class="smallText">ברוכים הבאים לבית הכנסת<br>נא להתעדכן בהודעות הקהילה</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">לעילוי נשמת זהבה חלא בת דינה זצ״ל</footer>
+</div>
+
+<script>
+function fmtClock(tz){
+  return new Intl.DateTimeFormat('en-GB',{
+    timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false
+  }).format(new Date());
+}
+function tick(){
+  nyTime.textContent=fmtClock('America/New_York');
+  ilTime.textContent=fmtClock('Asia/Jerusalem');
+}
+tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>
