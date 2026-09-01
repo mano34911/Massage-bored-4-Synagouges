@@ -1,0 +1,139 @@
+<!doctype html>
+
+<html lang="he" dir="rtl"> <head> <meta charset="utf-8"> <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"> <meta name="mb-build" content="new-marble-board-v2-slow-[...]
+
+/* Separate rotating pages */
+.rotating-page{position;inset:0;z-index:80000;display;overflow;background(circle at 50% 15%,#fffdf5,#ead9a7 60%,#a67b2f);border(5px,.7vw,12px) ridge var(--gold);padding:4vh 5vw;text-align}
+.rotating-page.active{display;flex-direction;align-items;justify-content}
+.rotate-title{font-family,"Times New Roman",serif;color(--navy);font-size(34px,4vw,72px);font-weight:1000;margin:0 0 2vh}
+.rotate-subtitle{font-size(18px,1.8vw,34px);font-weight:900;color:#6a4915;margin-bottom:2vh}
+.candle-grid{width(1300px,94vw);display;grid-template-columns(5,minmax(0,1fr));gap:2.3vh 2vw;align-items}
+.candle-card{min-width:0;font-size(14px,1.35vw,25px);font-weight:1000;color:#37250d}
+.candle-flame{position;margin:0 auto 1vh;width(24px,2.2vw,42px);height(42px,4.2vw,78px);border-radius:55% 45% 55% 45%;background(ellipse at 50% 70%,#fff 0 12%,#ffe37a 24%,#ff9b2f 55%,#c82f14 78%,trans[...]
+.candle-body{margin:-.6vh auto .8vh;width(36px,3.4vw,64px);height(54px,5vw,92px);border-radius:8px 8px 14px 14px;background(90deg,#e6e1d4,#fff,#d6cfbe);border:2px solid #9c8e6f;box-shadow 0 0 8px #8f8[...]
+@keyframes flicker{from{transform(-2deg) scale(.96)}to{transform(2deg) scale(1.04)}}
+.shiur-frame{width(1250px,92vw);height(72vh,780px);border(5px,.55vw,10px) double var(--gold);border-radius:28px;background(180deg,#101b43,#17285e);box-shadow 0 0 0 5px #f3d98c,0 10px 30px #0005;paddin[...]
+.shiur-text{font-size(23px,2.35vw,46px);line-height:1.6;font-weight:900;white-space;overflow;max-height:54vh}
+.rotate-progress{position;bottom:1.2vh;left:50%;transform(-50%);font-size(11px,.8vw,15px);color:#4e3b1d;opacity:.65}
+
+/* Realistic memorial candle page */
+#memorialPage{
+background:
+radial-gradient(circle at 50% 10%,rgba(255,250,225,.96),rgba(224,202,144,.96) 45%,rgba(70,42,14,.98) 100%);
+}
+#memorialPage .rotate-title{
+color:#3a240a;
+text-shadow:0 2px 0 #f7e2a3,0 4px 12px #0004;
+}
+#memorialPage .rotate-subtitle{color:#5a3510}
+.candle-grid{
+width(1450px,96vw);
+max-height:76vh;
+overflow;
+display;
+grid-template-columns(4,minmax(0,1fr));
+gap:1.4vh 1.4vw;
+align-items;
+}
+.candle-card{
+display;
+align-items;
+justify-content;
+gap:1.2vw;
+min-height:12vh;
+padding:.8vh 1vw;
+border:2px solid rgba(134,87,25,.7);
+border-radius:16px;
+background(180deg,rgba(255,252,239,.92),rgba(240,219,168,.92));
+box-shadow 0 0 16px rgba(117,78,24,.18),0 4px 10px #0003;
+text-align;
+}
+.candle-visual{
+position;
+flex:0 0 clamp(58px,5vw,92px);
+height(92px,8vw,145px);
+}
+.candle-flame{
+position;
+left:50%;
+top:0;
+transform(-50%);
+width(18px,1.6vw,30px);
+height(34px,3vw,56px);
+border-radius:48% 52% 50% 50% / 62% 65% 35% 38%;
+background:
+radial-gradient(ellipse at 50% 72%,#fff 0 10%,#fff6a2 18%,#ffc347 40%,#f37b21 65%,#8e1a0a 84%,transparent 86%);
+filter(0 0 7px #ffd65a) drop-shadow(0 0 15px #ff8f1f);
+transform-origin:50% 100%;
+animation .45s ease-in-out infinite alternate;
+z-index:3;
+}
+.candle-wick{
+position;
+left:50%;
+top:31%;
+width:3px;
+height:15%;
+transform(-50%);
+background:#252018;
+z-index:2;
+}
+.candle-glass{
+position;
+left:50%;
+bottom:0;
+transform(-50%);
+width:72%;
+height:67%;
+border-radius:8px 8px 14px 14px;
+border:2px solid rgba(170,183,191,.95);
+background:
+linear-gradient(90deg,rgba(255,255,255,.28),rgba(230,240,246,.64) 38%,rgba(255,255,255,.18) 62%,rgba(175,191,201,.55));
+box-shadow:
+inset 0 0 14px rgba(255,255,255,.9),
+inset 0 -18px 20px rgba(255,250,235,.75),
+0 4px 12px rgba(0,0,0,.28);
+}
+.candle-wax{
+position;
+left:50%;
+bottom:10%;
+transform(-50%);
+width:58%;
+height:45%;
+border-radius:4px 4px 9px 9px;
+background(90deg,#f0eee7,#ffffff 50%,#ddd8cc);
+box-shadow 0 -6px 8px #b9b2a2aa;
+}
+.candle-name{
+flex:1;
+min-width:0;
+font-size(18px,1.55vw,30px);
+line-height:1.25;
+font-weight:1000;
+color:#2d1c08;
+}
+.candle-name small{
+display;
+font-size:.68em;
+color:#7c521c;
+margin-bottom:.3vh;
+}
+@keyframes flickerReal{
+from{transform(-50%) rotate(-2deg) scale(.96,.98)}
+to{transform(-50%) rotate(2deg) scale(1.05,1.02)}
+}
+
+</style> </head> <body> <button class="gear" id="adminGear" type="button" aria-label="פתיחת ניהול" title="ניהול הלוח">⚙️</button> <main class="board"> <header class="topbar[...]
+
+<section class="rotating-page" id="memorialPage" aria-hidden="true"> <h1 class="rotate-title">🕯️ נרות נשמה</h1> <div class="rotate-subtitle">לעילוי נשמת יקירינו</div[...]
+
+<section class="rotating-page" id="shiurPage" aria-hidden="true"> <div class="shiur-frame"> <h1 class="rotate-title" style="color:#f0d48a">שיעור יומי</h1> <div class="shiur-text" id="shi[...]
+
+<dialog id="adminDialog"> <div class="admin-head"><h2>⚙️ ניהול לוח בית הכנסת</h2><div class="actions"><button class="action" id="saveAll" type="button">💾 שמור הכול<[...]
+
+<section class="overlay" id="prayerOverlay" aria-hidden="true"><button class="action overlay-close" id="closeOverlay" type="button">✕ סגור</button><div class="overlay-content" id="overlayCo[...]
+
+<script> const $=id=>document.getElementById(id); const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספר[...]
+
+</body> </html>
