@@ -8,7 +8,12 @@
   <span id="tenantAccountText">Account loading…</span>
   <button type="button" onclick="logoutApp()" style="margin-right:8px;border:1px solid #fff;background:#8b1117;color:#fff;border-radius:8px;padding:5px 9px;font-weight:800">Logout</button>
 </div>
-<div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1><a class="btn gray" href="index.html">חזרה ללוח</a></div>
+<div class="wrap"><div class="top"><h1>⚙️ ניהול מלא — לוח בית הכנסת</h1>
+<div class="actions" style="margin-top:0">
+  <a class="btn gold" id="paymentLink" href="payment.html">💳 תשלום / מנוי</a>
+  <a class="btn gray" href="index.html">חזרה ללוח</a>
+</div>
+</div>
 <div class="nav"><button type="button" onclick="go('general')">ראשי</button><button type="button" onclick="go('prayers')">תפילות</button><button type="button" onclick="go('zmanim')">זמני היום</button><button type="button" onclick="go('center')">מרכז</button><button type="button" onclick="go('candles')">נרות</button><button type="button" onclick="go('shiur')">שיעור יומי</button><button type="button" onclick="go('speed')">מהירות וסיבוב</button><button type="button" onclick="go('control')">שליטה מיידית</button></div>
 
 <section id="general" class="section"><h2>הגדרות כלליות וכל הקופסאות הצדדיות</h2><div class="grid"><label>שם בית הכנסת<input id="synagogue"></label><label>שם הרב<input id="rabbi"></label><label>מזל טוב<textarea id="mazal"></textarea></label><label>הודעות<textarea id="announcement"></textarea></label><label class="wide">שורת הנצחה תחתונה<input id="memorial"></label></div></section>
@@ -317,6 +322,11 @@ async function initTenantAdmin(){
   if(se||!syn){ console.error(se); location.href="pending.html"; return; }
 
   currentSynagogue=syn; currentSynagogueId=syn.id;
+
+  const paymentLink=document.getElementById("paymentLink");
+  if(paymentLink){
+    paymentLink.href="payment.html?s="+encodeURIComponent(syn.slug||"");
+  }
   const access=memberAccessState(syn);
   document.getElementById("tenantAccountText").textContent=
     `${syn.synagogue_name} • ${access.label} • ${money(syn.price_monthly_cents)}/month`;
