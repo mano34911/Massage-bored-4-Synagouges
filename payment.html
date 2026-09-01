@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -62,37 +62,10 @@
       white-space: pre-line;
     }
 
-    .existing-box {
-      margin-top: 20px;
-      padding: 16px;
-      border: 2px solid #d7a62d;
-      border-radius: 12px;
-      background: #fff9e6;
-    }
-
-    .existing-box h3 {
-      margin: 0 0 8px;
-      color: #0b2450;
-    }
-
-    .verify-btn {
-      width: 100%;
-      border: 0;
-      border-radius: 9px;
-      padding: 13px 18px;
-      margin-top: 10px;
-      background: #17824b;
-      color: white;
-      font-weight: 800;
-      cursor: pointer;
-      font-size: 15px;
-    }
-
-    .verify-btn:disabled {
-      opacity: .6;
-      cursor: not-allowed;
-    }
-
+    
+    
+    
+    
     .login-btn {
       display: inline-block;
       margin-top: 25px;
@@ -163,14 +136,7 @@
 
       <div id="paypal-button-container"></div>
 
-      <div class="existing-box">
-        <h3>Existing subscription test</h3>
-        <div>Subscription ID: <strong>I-1904JML36DX7</strong></div>
-        <button id="verifyExistingBtn" class="verify-btn" type="button">
-          Verify Existing Subscription
-        </button>
-      </div>
-
+      
       <div class="status" id="paymentStatus"></div>
 
       <a class="login-btn" href="login.html">Return to Member Login</a>
@@ -199,11 +165,7 @@
 <script>
 const PAYPAL_PLAN_ID = "P-03H97087WB697233KNKK4D2A";
 const VERIFY_URL = "https://pqaqbpxrygveahwhoobt.supabase.co/functions/v1/paypal-verify-subscription";
-const EXISTING_SUBSCRIPTION_ID = "I-1904JML36DX7";
-
 const statusBox = document.getElementById("paymentStatus");
-const verifyExistingBtn = document.getElementById("verifyExistingBtn");
-
 function showStatus(message, isError = false) {
   statusBox.textContent = message;
   statusBox.style.color = isError ? "#b00020" : "#008a3b";
@@ -255,55 +217,6 @@ async function verifySubscription(subscriptionId) {
 
   return result;
 }
-
-verifyExistingBtn.addEventListener("click", async function () {
-  verifyExistingBtn.disabled = true;
-
-  try {
-    showStatus("Checking existing PayPal subscription...");
-
-    const result = await verifySubscription(EXISTING_SUBSCRIPTION_ID);
-
-    if (result.verified === true) {
-      showStatus(
-        "SUCCESS: Existing PayPal subscription verified and connected to your synagogue."
-      );
-
-      alert(
-        "Success!\n\n" +
-        "Existing PayPal subscription was verified.\n\n" +
-        "Subscription ID: " + EXISTING_SUBSCRIPTION_ID
-      );
-    } else {
-      showStatus(
-        "PayPal responded, but the subscription was not verified as ACTIVE.",
-        true
-      );
-
-      alert(
-        "The server reached PayPal, but the subscription was not verified as ACTIVE.\n\n" +
-        "Subscription ID: " + EXISTING_SUBSCRIPTION_ID +
-        "\nStatus: " + (result.status || "unknown")
-      );
-    }
-
-  } catch (error) {
-    console.error(error);
-
-    showStatus(
-      error.message || "Could not verify the existing subscription.",
-      true
-    );
-
-    alert(
-      "Verification failed.\n\n" +
-      (error.message || "Unknown error") +
-      "\n\nDo NOT create another PayPal subscription."
-    );
-  } finally {
-    verifyExistingBtn.disabled = false;
-  }
-});
 
 paypal.Buttons({
 
