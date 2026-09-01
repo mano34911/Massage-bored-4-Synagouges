@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Register Your Church</title><style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);color:#fff;display:grid;place-items:center;padding:24px}
+.card{width:min(860px,96vw);background:linear-gradient(180deg,#0b2b5d,#061a3b);border:3px solid #d7a62d;border-radius:24px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;padding:28px}
+h1{color:#f6d469;text-align:center;margin:0 0 8px}.muted{color:#d8dfef;text-align:center;line-height:1.5}.section{grid-column:1/-1;color:#f6d469;font-size:18px;font-weight:900;margin-top:10px;border-bottom:1px solid #d7a62d66;padding-bottom:5px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wide{grid-column:1/-1}label{display:flex;flex-direction:column;gap:6px;font-weight:800}input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d7a62d;background:#fff;color:#111;font-size:16px}
+.readonly{background:#e8edf7;color:#445}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}.msg{min-height:24px;text-align:center;margin-top:12px;font-weight:800}button,.btn{display:inline-block;border:0;border-radius:11px;padding:12px 18px;background:#d7a62d;color:#07152d;font-weight:900;font-size:16px;cursor:pointer;text-decoration:none}.secondary{background:#fff;color:#07152d}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.wide,.section{grid-column:auto}}
+</style></head>
+<body><div class="card"><h1>Register Your Church</h1><p class="muted">After approval, your 7-day free trial begins. Your Member ID is assigned automatically.</p>
+<div class="grid">
+<div class="section">Contact &amp; Church</div>
+<label>Contact name<input id="fullName" autocomplete="name"></label><label>Phone<input id="phone" type="tel" autocomplete="tel"></label>
+<label>Church name<input id="organizationName"></label><label>Pastor / Priest name<input id="leaderName"></label>
+<label class="wide">Board ID / Member ID<input class="readonly" value="Assigned automatically after registration" readonly></label>
+<div class="section">Address</div>
+<label class="wide">Street address<input id="streetAddress" autocomplete="street-address"></label>
+<label>City<input id="city" autocomplete="address-level2"></label><label>State / Province / Region<input id="stateRegion" autocomplete="address-level1"></label>
+<label>ZIP / Postal code<input id="postalCode" autocomplete="postal-code"></label><label>Country<input id="country" autocomplete="country-name"></label>
+<div class="section">Referral &amp; Marketing</div>
+<label>How did you hear about us?<select id="heardAbout"><option value="">Select one</option><option>Google</option><option>Facebook</option><option>Instagram</option><option>Friend / Referral</option><option>Synagogue / Church</option><option>Event / Conference</option><option>Other</option></select></label>
+<label>Referred by<input id="referredBy" placeholder="Name of person or church"></label>
+<label class="wide">Referral code (if you received one)<input id="referralCode" placeholder="Example: CHR-105"></label>
+<div class="section">Login</div>
+<label>Email<input id="email" type="email" autocomplete="email"></label><label>Password<input id="password" type="password" minlength="8" autocomplete="new-password"></label>
+</div><div class="actions"><button onclick="registerAccount()">Register</button><a class="btn secondary" href="loginc.html">Back to Login</a></div><div id="msg" class="msg"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script>
+<script>
+async function registerAccount(){
+ const msg=document.getElementById('msg');
+ const orgName=organizationName.value.trim();
+ if(!fullName.value.trim()||!orgName||!email.value.trim()||password.value.length<8){msg.textContent='Please complete the required contact, organization, email and password fields.';return;}
+ msg.textContent='Creating account…';
+ try{
+  const sb=getSupabase();
+  const meta={
+   full_name:fullName.value.trim(), phone:phone.value.trim(),
+   organization_type:'church', organization_name:orgName, leader_name:leaderName.value.trim(),
+   synagogue_name:orgName, rabbi_name:leaderName.value.trim(),
+   street_address:streetAddress.value.trim(), city:city.value.trim(), state_region:stateRegion.value.trim(), postal_code:postalCode.value.trim(), country:country.value.trim(),
+   heard_about:heardAbout.value, referred_by:referredBy.value.trim(), referral_code:referralCode.value.trim()
+  };
+  const {data,error}=await sb.auth.signUp({email:email.value.trim(),password:password.value,options:{data:meta}});
+  if(error) throw error;
+  msg.textContent='Registration received. Your Member ID has been assigned. Check your email if confirmation is required. Your account is waiting for approval; after approval the 7-day free trial begins.';
+ }catch(e){msg.textContent=e.message||String(e);}
+}
+</script></body></html>

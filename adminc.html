@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Christian Church Message Board Admin</title>
+<style>
+:root{--bg:#07101f;--panel:#0d1b31;--panel2:#122642;--line:#315a87;--text:#f6f8ff;--muted:#b8c7da;--gold:#ffd86a;--blue:#62c8ff;--green:#76e6ac;--red:#ff8585}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#14355c 0,#07101f 50%,#030811 100%);color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:rgba(5,12,24,.95);backdrop-filter:blur(12px);border-bottom:1px solid #28496d;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.cross{font-size:34px;color:var(--gold);text-shadow:0 0 15px #ffd86a}.title h1{font-size:22px;margin:0}.title div{font-size:12px;color:var(--muted);margin-top:3px}.topactions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+button,a.btn{border:1px solid #416d9d;background:#18395d;color:white;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}button:hover,a.btn:hover{filter:brightness(1.15)}.primary{background:#1765a5!important}.good{background:#13704a!important}.danger{background:#8b2e36!important}.gold{background:#7b5e13!important}
+.wrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;max-width:1500px;margin:0 auto;padding:18px}.nav{position:sticky;top:88px;align-self:start;background:rgba(13,27,49,.96);border:1px solid #28496d;border-radius:16px;padding:10px}.nav button{width:100%;text-align:left;margin:4px 0;background:transparent;border-color:transparent}.nav button.active{background:#1c4672;border-color:#4c83ba}
+.section{display:none;background:rgba(13,27,49,.96);border:1px solid #28496d;border-radius:16px;padding:18px;margin-bottom:16px}.section.active{display:block}.section h2{margin:0 0 14px;font-size:20px;color:var(--gold)}.section h3{margin:18px 0 10px;color:var(--blue);font-size:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.wide{grid-column:1/-1}label{display:flex;flex-direction:column;gap:6px;color:#dce8f7;font-weight:700;font-size:13px}input,textarea,select{width:100%;background:#06101f;border:1px solid #34577d;color:white;border-radius:9px;padding:10px 11px;font:inherit}textarea{min-height:95px;resize:vertical;line-height:1.4}.small{font-size:12px;color:var(--muted);font-weight:400}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px;padding-top:14px;border-top:1px solid #243d5a}.status{padding:9px 12px;border-radius:9px;background:#0a1424;color:var(--muted);font-size:13px}.controlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.controlgrid button{min-height:52px}.card{border:1px solid #27496c;border-radius:12px;padding:13px;background:#09162a}.card h3{margin:0 0 10px}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.nav{position:static;display:grid;grid-template-columns:repeat(2,1fr)}.grid,.grid3,.controlgrid{grid-template-columns:1fr}.topactions{margin-left:0}.wide{grid-column:auto}}
+</style>
+</head>
+<body>
+<header>
+  <div class="cross">✝</div>
+  <div class="title"><h1>Church Message Board Admin</h1><div>Christian / Church control center</div></div>
+  <div class="topactions">
+    <button class="good" onclick="saveSettings()">Save All</button>
+    <a class="btn primary" href="indexc.html" target="_blank">Open Church Board</a>
+    <button class="danger" onclick="logoutApp()">Log Out</button>
+  </div>
+</header>
+<div class="wrap">
+<nav class="nav" id="nav">
+  <button class="active" data-page="general">Church</button>
+  <button data-page="services">Services & Prayer</button>
+  <button data-page="weekly">Weekly Schedule</button>
+  <button data-page="center">Main Messages</button>
+  <button data-page="candles">Memorial Candles</button>
+  <button data-page="devotional">Bible & Devotional</button>
+  <button data-page="speed">Speed & Rotation</button>
+  <button data-page="control">Live Control</button>
+</nav>
+<main>
+<section id="general" class="section active">
+<h2>✝ Church Information</h2>
+<div class="grid">
+<label>Church Name<input id="church"></label>
+<label>Pastor / Priest Name<input id="pastor"></label>
+<label class="wide">Celebrations / Birthdays / Anniversaries<textarea id="celebrations"></textarea></label>
+<label class="wide">Announcements<textarea id="announcement" style="min-height:150px"></textarea></label>
+<label class="wide">Bible Verse / Featured Scripture<textarea id="verse"></textarea></label>
+<label class="wide">Memorial Message<input id="memorial"></label>
+</div>
+<div class="actions"><button class="good" onclick="saveSettings()">Save Church Information</button></div>
+</section>
+
+<section id="services" class="section">
+<h2>🙏 Services, Prayer & Worship</h2>
+<div class="grid">
+<label>Morning Prayer<input id="morningPrayer"></label><label>Prayer Meeting<input id="prayerMeeting"></label>
+<label>Evening Worship<input id="eveningWorship"></label><label>Bible Study<input id="bibleStudy"></label>
+<label>Sunday Worship<input id="sundayWorship"></label><label>Sunday School<input id="sundaySchool"></label>
+<label>Youth Ministry<input id="youthMinistry"></label><label>Communion<input id="communion"></label>
+</div>
+<h3>Full-screen service / prayer text</h3>
+<div class="grid">
+<label>Morning Prayer Text<textarea id="pt_shacharit"></textarea><button type="button" onclick="saveAndCmd('showShacharit')">Show Morning Prayer</button></label>
+<label>Prayer Meeting Text<textarea id="pt_mincha"></textarea><button type="button" onclick="saveAndCmd('showMincha')">Show Prayer Meeting</button></label>
+<label>Evening Worship Text<textarea id="pt_maariv"></textarea><button type="button" onclick="saveAndCmd('showMaariv')">Show Evening Worship</button></label>
+<label>Sunday Worship Text<textarea id="pt_shabbatShacharit"></textarea><button type="button" onclick="saveAndCmd('showShabbatShacharit')">Show Sunday Worship</button></label>
+<label>Sunday School Text<textarea id="pt_shabbatMincha"></textarea><button type="button" onclick="saveAndCmd('showShabbatMincha')">Show Sunday School</button></label>
+<label>Youth Ministry Text<textarea id="pt_shabbatMaariv"></textarea><button type="button" onclick="saveAndCmd('showShabbatMaariv')">Show Youth Ministry</button></label>
+<label class="wide">Communion Service Text<textarea id="pt_havdalah"></textarea><button type="button" onclick="saveAndCmd('showHavdalah')">Show Communion Service</button></label>
+</div>
+<div class="actions"><button class="danger" onclick="cmd('hidePrayer')">Close Full-screen Service</button></div>
+</section>
+
+<section id="weekly" class="section">
+<h2>📅 Weekly Church Schedule</h2>
+<div class="grid3">
+<label>Sunday Worship<input id="w_sundayWorship"></label><label>Sunday School<input id="w_sundaySchool"></label><label>Bible Study<input id="w_bibleStudy"></label>
+<label>Prayer Meeting<input id="w_prayerMeeting"></label><label>Youth Ministry<input id="w_youth"></label><label>Choir / Music Ministry<input id="w_choir"></label>
+<label>Community Outreach<input id="w_outreach"></label><label>Communion<input id="w_communion"></label><label>Next Sunday Service<input id="w_nextSunday"></label>
+</div>
+<div class="actions"><button class="good" onclick="saveSettings()">Save Weekly Schedule</button></div>
+</section>
+
+<section id="center" class="section">
+<h2>📢 Main Board Messages</h2>
+<div class="grid">
+<label class="wide">Welcome Message<input id="centerWelcome"></label>
+<label class="wide">Main Message 1<textarea id="center1"></textarea></label><label class="wide">Main Message 2<textarea id="center2"></textarea></label>
+<label class="wide">Main Message 3<textarea id="center3"></textarea></label><label class="wide">Main Message 4<textarea id="center4"></textarea></label>
+<label class="wide">Main Message 5<textarea id="center5"></textarea></label>
+<label>Prayer Focus<input id="prayerFocus"></label><label>Weekly Theme<input id="weekTheme"></label>
+<label>Ministry Focus<input id="ministryFocus"></label><label>Sunday Theme<input id="sundayTheme"></label>
+<label class="wide">Church Motto<input id="centerMotto"></label><label class="wide">Closing Blessing<input id="centerBlessing"></label>
+</div>
+<div class="actions"><button class="good" onclick="saveAndCmd('showMain')">Save & Show Main Page</button></div>
+</section>
+
+<section id="candles" class="section">
+<h2>🕯 Memorial Candles</h2>
+<div class="grid">
+<label class="wide">Page Title<input id="candleTitle"></label>
+<label class="wide">Memorial Names — one per line<textarea id="candleNames" style="min-height:260px"></textarea><span class="small">No artificial limit is applied by this admin page.</span></label>
+</div>
+<div class="actions"><button class="good" onclick="saveAndCmd('showCandle')">Save & Show Memorial Candles</button></div>
+</section>
+
+<section id="devotional" class="section">
+<h2>📖 Bible Verse & Daily Devotional</h2>
+<div class="grid">
+<label class="wide">Page Title<input id="shiurTitle"></label>
+<label class="wide">Bible Verse of the Day<textarea id="shiurPasuk"></textarea></label>
+<label class="wide">Prayer of the Day<textarea id="shiurHalacha"></textarea></label>
+<label class="wide">Inspirational / Devotional Message<textarea id="shiurMussar"></textarea></label>
+<label class="wide">Today's Christian Takeaway<textarea id="shiurTakeaway"></textarea></label>
+<label class="wide">Memorial Footer<input id="shiurMemorial"></label>
+</div>
+<div class="actions"><button class="good" onclick="saveAndCmd('showShiur')">Save & Show Daily Devotional</button></div>
+</section>
+
+<section id="speed" class="section">
+<h2>⚙️ Scroll Speed & Page Rotation</h2>
+<div class="grid3">
+<label>Main Page Scroll (seconds)<input id="mainScroll" type="number" min="5" max="600"></label>
+<label>Memorial Page Scroll (seconds)<input id="candleScroll" type="number" min="5" max="600"></label>
+<label>Devotional Page Scroll (seconds)<input id="shiurScroll" type="number" min="5" max="600"></label>
+<label>Service Text Scroll (seconds)<input id="prayerScroll" type="number" min="10" max="1200"></label>
+<label>Main Page Duration (seconds)<input id="mainDuration" type="number" min="3" max="600"></label>
+<label>Memorial Page Duration (seconds)<input id="candleDuration" type="number" min="3" max="600"></label>
+<label>Devotional Page Duration (seconds)<input id="shiurDuration" type="number" min="3" max="600"></label>
+</div>
+<div class="actions"><button class="good" onclick="saveSettings()">Save Speed & Rotation</button></div>
+</section>
+
+<section id="control" class="section">
+<h2>🎛 Live Board Control</h2>
+<div class="controlgrid">
+<button class="primary" onclick="saveAndCmd('showMain')">Show Main Page</button>
+<button class="primary" onclick="saveAndCmd('showCandle')">Show Memorial Candles</button>
+<button class="primary" onclick="saveAndCmd('showShiur')">Show Daily Devotional</button>
+<button class="good" onclick="cmd('startAll')">Start Automatic Rotation</button>
+<button class="danger" onclick="cmd('stopAll')">Stop All Rotation</button>
+<button class="danger" onclick="cmd('hidePrayer')">Close Service Overlay</button>
+</div>
+<h3>Show a service immediately</h3>
+<div class="controlgrid">
+<button onclick="saveAndCmd('showShacharit')">Morning Prayer</button><button onclick="saveAndCmd('showMincha')">Prayer Meeting</button><button onclick="saveAndCmd('showMaariv')">Evening Worship</button>
+<button onclick="saveAndCmd('showShabbatShacharit')">Sunday Worship</button><button onclick="saveAndCmd('showShabbatMincha')">Sunday School</button><button onclick="saveAndCmd('showShabbatMaariv')">Youth Ministry</button><button onclick="saveAndCmd('showHavdalah')">Communion Service</button>
+</div>
+<div class="actions"><div id="status" class="status">Ready.</div></div>
+</section>
+</main>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const defaults={
+ church:'Grace Community Church',pastor:'Pastor Michael',morningPrayer:'8:00 AM',prayerMeeting:'7:00 PM',eveningWorship:'6:00 PM',bibleStudy:'7:00 PM',sundayWorship:'10:00 AM',sundaySchool:'9:00 AM',youthMinistry:'6:30 PM',communion:'First Sunday',
+ celebrations:'Happy birthdays and anniversaries to our church family!',announcement:'Welcome to Grace Community Church\nPlease check our weekly announcements',verse:'“I can do all things through Christ who strengthens me.” — Philippians 4:13',center1:'Welcome to our church family. We are glad you are here.',center2:'Join us in worship, prayer, fellowship, and service.',center3:'May God bless you and your family throughout this week.',center4:'Service times, Bible studies, and events are updated here.',center5:'Please watch the board for important church announcements.',prayerFocus:'Pray for our community',weekTheme:'Faith • Hope • Love',ministryFocus:'Serving one another',sundayTheme:'Walking by faith',centerWelcome:'Welcome to Grace Community Church',centerMotto:'Worship • Scripture • Service • Fellowship',centerBlessing:'May the Lord bless you, keep you, and give you peace.',memorial:'In Loving Memory of Our Departed Loved Ones',
+ weekly:{sundayWorship:'10:00 AM',sundaySchool:'9:00 AM',bibleStudy:'Wed 7:00 PM',prayerMeeting:'Thu 7:00 PM',youth:'Fri 6:30 PM',choir:'Sat 11:00 AM',outreach:'Sat 1:00 PM',communion:'First Sunday',nextSunday:'10:00 AM'},
+ candleTitle:'🕯️ In Loving Memory 🕯️',candleNames:['In Loving Memory of Our Departed Loved Ones','Memorial Candle'],shiurTitle:'📖 Daily Bible & Devotional',shiurPasuk:'“The Lord is my shepherd; I shall not want.” — Psalm 23:1',shiurHalacha:'Lord, guide our words and actions today. Help us show kindness, patience, and love to everyone we meet.',shiurMussar:'A small act of faith and kindness can bring light into someone’s darkest day. Let your life reflect God’s love.',shiurTakeaway:'Encourage one person, help someone in need, and take a moment to pray with gratitude.',shiurMemorial:'In Loving Memory of Our Departed Loved Ones',mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}
+};
+const simple=['church','pastor','morningPrayer','prayerMeeting','eveningWorship','bibleStudy','sundayWorship','sundaySchool','youthMinistry','communion','celebrations','announcement','verse','center1','center2','center3','center4','center5','prayerFocus','weekTheme','ministryFocus','sundayTheme','centerWelcome','centerMotto','centerBlessing','memorial','candleTitle','shiurTitle','shiurPasuk','shiurHalacha','shiurMussar','shiurTakeaway','shiurMemorial','mainScroll','candleScroll','shiurScroll','prayerScroll','mainDuration','candleDuration','shiurDuration'];
+const weeklyKeys=['sundayWorship','sundaySchool','bibleStudy','prayerMeeting','youth','choir','outreach','communion','nextSunday'];
+const prayerKeys=['shacharit','mincha','maariv','shabbatShacharit','shabbatMincha','shabbatMaariv','havdalah'];
+function getSettings(){try{const x=JSON.parse(localStorage.getItem('church_full_settings')||'{}');return Object.assign({},defaults,x,{weekly:Object.assign({},defaults.weekly,x.weekly||{}),prayerTexts:Object.assign({},defaults.prayerTexts,x.prayerTexts||{})});}catch(e){return structuredClone(defaults)}}
+function loadSettings(){const s=getSettings();simple.forEach(k=>{if($(k))$(k).value=s[k]??''});$('candleNames').value=(s.candleNames||[]).join('\n');weeklyKeys.forEach(k=>$('w_'+k).value=s.weekly?.[k]??'');prayerKeys.forEach(k=>$('pt_'+k).value=s.prayerTexts?.[k]??'');setStatus('Settings loaded.');}
+function collect(){const s=getSettings();simple.forEach(k=>{if($(k)){let v=$(k).value;if($(k).type==='number')v=Number(v)||0;s[k]=v}});s.candleNames=$('candleNames').value.split(/\n+/).map(x=>x.trim()).filter(Boolean);s.weekly={};weeklyKeys.forEach(k=>s.weekly[k]=$('w_'+k).value.trim());s.prayerTexts={};prayerKeys.forEach(k=>s.prayerTexts[k]=$('pt_'+k).value);return s;}
+async function saveSettings(){const s=collect();localStorage.setItem('church_full_settings',JSON.stringify(s));localStorage.setItem('mb_main_scroll',String(s.mainScroll));localStorage.setItem('mb_candle_scroll',String(s.candleScroll));localStorage.setItem('mb_shiur_scroll',String(s.shiurScroll));localStorage.setItem('mb_prayer_scroll',String(s.prayerScroll));setStatus('Saved locally.');try{await saveRemote(s)}catch(e){console.warn(e)}return s;}
+function cmd(action){const command={action,ts:Date.now()};localStorage.setItem('mb_command',JSON.stringify(command));try{if(window.adminChannel)window.adminChannel.postMessage(command)}catch(e){}setStatus('Command sent: '+action);}
+async function saveAndCmd(action){await saveSettings();cmd(action)}
+function setStatus(t){const el=$('status');if(el){el.textContent=t;setTimeout(()=>{if(el.textContent===t)el.textContent='Ready.'},3500)}}
+const adminChannel=('BroadcastChannel' in window)?new BroadcastChannel('mb_admin_channel'):null;window.adminChannel=adminChannel;
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));$(b.dataset.page).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}));
+function logoutApp(){try{if(window.sbClient)window.sbClient.auth.signOut()}catch(e){}location.href='loginc.html'}
+window.addEventListener('DOMContentLoaded',loadSettings);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+<script>
+let currentChurch=null;
+async function saveRemote(payload){
+ if(typeof appConfigured!=='function'||!appConfigured()) throw new Error('Supabase is not configured.');
+ const sb=getSupabase(); window.sbClient=sb;
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session){location.href='loginc.html?next='+encodeURIComponent('adminc.html')+'&type=church';return;}
+ if(!currentChurch){
+   const {data:syn}=await sb.from('synagogues').select('*').eq('owner_user_id',session.user.id).maybeSingle();
+   currentChurch=syn||null;
+ }
+ if(!currentChurch) throw new Error('Church account not found.');
+ const access=memberAccessState(currentChurch);
+ if(!access.allowed){
+   if(currentChurch.status==='trial' && currentChurch.trial_ends_at && new Date(currentChurch.trial_ends_at).getTime()<=Date.now()) location.href='paymentc.html?s='+encodeURIComponent(currentChurch.slug||'')+'&type=church';
+   else location.href='pending.html';
+   return;
+ }
+ const settings=Object.assign({},payload,{organization_type:'church',church:payload.church,pastor:payload.pastor,synagogue:payload.church,rabbi:payload.pastor});
+ let r=await sb.from('synagogues').update({synagogue_name:payload.church,rabbi_name:payload.pastor}).eq('id',currentChurch.id);
+ if(r.error) throw r.error;
+ r=await sb.from('synagogue_settings').upsert({synagogue_id:currentChurch.id,settings},{onConflict:'synagogue_id'});
+ if(r.error) throw r.error;
+ currentChurch.synagogue_name=payload.church; currentChurch.rabbi_name=payload.pastor;
+ setStatus('Saved to your church account.');
+}
+async function initAccount(){
+ if(typeof appConfigured!=='function'||!appConfigured()){location.href='loginc.html?next='+encodeURIComponent('adminc.html')+'&type=church';return;}
+ try{
+   const sb=getSupabase(); window.sbClient=sb;
+   const {data:{session}}=await sb.auth.getSession();
+   if(!session){location.href='loginc.html?next='+encodeURIComponent('adminc.html')+'&type=church';return;}
+   const {data:profile}=await sb.from('profiles').select('role').eq('user_id',session.user.id).maybeSingle();
+   if(profile&&profile.role==='master'){location.href='master-admin.html';return;}
+   const {data:syn,error:se}=await sb.from('synagogues').select('*').eq('owner_user_id',session.user.id).maybeSingle();
+   if(se||!syn){location.href='pending.html';return;}
+   currentChurch=syn;
+   const access=memberAccessState(syn);
+   if(!access.allowed){
+     if(syn.status==='trial' && syn.trial_ends_at && new Date(syn.trial_ends_at).getTime()<=Date.now()) location.href='paymentc.html?s='+encodeURIComponent(syn.slug||'')+'&type=church';
+     else location.href='pending.html';
+     return;
+   }
+   const {data:row,error:re}=await sb.from('synagogue_settings').select('settings').eq('synagogue_id',syn.id).maybeSingle();
+   if(re) console.warn(re);
+   const remote=(row&&row.settings)||{};
+   if(remote.organization_type && remote.organization_type!=='church'){
+     location.href='admin.html';return;
+   }
+   const local=getSettings();
+   const merged=Object.assign({},local,remote);
+   merged.church=remote.church||remote.synagogue||syn.synagogue_name||local.church;
+   merged.pastor=remote.pastor||remote.rabbi||syn.rabbi_name||local.pastor;
+   localStorage.setItem('church_full_settings',JSON.stringify(merged));
+   loadSettings();
+   setStatus(`${merged.church||syn.synagogue_name} • ${access.label}`);
+ }catch(e){console.warn(e);location.href='loginc.html?next='+encodeURIComponent('adminc.html')+'&type=church';}
+}
+window.addEventListener('DOMContentLoaded',initAccount);
+</script>
+</body></html>

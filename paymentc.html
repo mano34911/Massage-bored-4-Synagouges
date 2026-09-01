@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Synagogue Message Board - Subscription</title>
+  <meta name="description" content="Start your 7-day free trial, then continue for $25 per month." />
+  <style>
+    :root{
+      --bg1:#07152f;
+      --bg2:#0d2d63;
+      --card:#ffffff;
+      --text:#15233d;
+      --muted:#667085;
+      --accent:#0b5ed7;
+      --gold:#f4c430;
+      --ok:#0f9d58;
+      --danger:#c62828;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      color:white;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,.08), transparent 28%),
+        radial-gradient(circle at 80% 10%, rgba(244,196,48,.12), transparent 25%),
+        linear-gradient(145deg,var(--bg1),var(--bg2));
+    }
+    .wrap{width:min(980px,100%)}
+    .brand{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    .star{
+      font-size:52px;
+      line-height:1;
+      filter:drop-shadow(0 0 10px rgba(255,255,255,.25));
+    }
+    .brand h1{margin:8px 0 4px;font-size:clamp(28px,5vw,46px)}
+    .brand p{margin:0;color:#d9e5ff;font-size:17px}
+
+    .card{
+      background:var(--card);
+      color:var(--text);
+      border-radius:24px;
+      box-shadow:0 24px 70px rgba(0,0,0,.3);
+      overflow:hidden;
+    }
+    .top{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:0;
+    }
+    .info{
+      padding:38px;
+    }
+    .badge{
+      display:inline-block;
+      background:#eaf2ff;
+      color:#0b5ed7;
+      font-weight:700;
+      border-radius:999px;
+      padding:8px 14px;
+      margin-bottom:18px;
+      font-size:14px;
+    }
+    .info h2{
+      font-size:34px;
+      margin:0 0 10px;
+    }
+    .price{
+      display:flex;
+      align-items:flex-end;
+      gap:8px;
+      margin:12px 0 18px;
+    }
+    .price strong{
+      font-size:52px;
+      line-height:1;
+      color:#0d2d63;
+    }
+    .price span{
+      color:var(--muted);
+      font-size:18px;
+      padding-bottom:6px;
+    }
+    .trial{
+      font-size:21px;
+      font-weight:700;
+      color:var(--ok);
+      margin-bottom:20px;
+    }
+    .features{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .features li{
+      padding:10px 0 10px 32px;
+      position:relative;
+      border-bottom:1px solid #eef1f5;
+    }
+    .features li:last-child{border-bottom:none}
+    .features li:before{
+      content:"✓";
+      position:absolute;
+      left:0;
+      top:9px;
+      color:var(--ok);
+      font-weight:900;
+      font-size:19px;
+    }
+
+    .paybox{
+      background:#f7f9fc;
+      padding:38px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      border-left:1px solid #edf0f4;
+    }
+    .paybox h3{
+      margin:0 0 10px;
+      text-align:center;
+      font-size:24px;
+    }
+    .paybox .small{
+      color:var(--muted);
+      text-align:center;
+      font-size:14px;
+      line-height:1.55;
+      margin-bottom:22px;
+    }
+    #paypal-button-container-P-03H97087WB697233KNKK4D2A{
+      min-height:52px;
+    }
+    .secure{
+      margin-top:16px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .success{
+      display:none;
+      padding:34px;
+      text-align:center;
+      background:#f2fff7;
+      border-top:1px solid #d7f0df;
+    }
+    .success h3{color:var(--ok);font-size:28px;margin:0 0 8px}
+    .success p{color:#355b43;margin:6px 0}
+    .subid{
+      display:inline-block;
+      margin-top:10px;
+      background:white;
+      border:1px solid #cce8d6;
+      border-radius:10px;
+      padding:10px 14px;
+      font-family:monospace;
+      color:#24553a;
+      word-break:break-all;
+    }
+
+    .bottom{
+      padding:18px 24px 24px;
+      text-align:center;
+      background:white;
+    }
+    .return{
+      display:inline-block;
+      text-decoration:none;
+      background:#0d2d63;
+      color:white;
+      padding:12px 20px;
+      border-radius:10px;
+      font-weight:700;
+    }
+    .terms{
+      margin:14px auto 0;
+      max-width:700px;
+      color:#7a8495;
+      font-size:12px;
+      line-height:1.5;
+    }
+
+    @media (max-width:760px){
+      .top{grid-template-columns:1fr}
+      .paybox{border-left:0;border-top:1px solid #edf0f4}
+      .info,.paybox{padding:26px}
+      .price strong{font-size:44px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="brand">
+      <div class="star" id="brandIcon">✡</div>
+      <h1 id="brandTitle">Message Board</h1>
+      <p>Member Subscription</p>
+    </div>
+
+    <section class="card">
+      <div class="top">
+        <div class="info">
+          <div class="badge">MEMBER PLAN</div>
+          <h2>Activate Your Membership</h2>
+
+          <div class="price">
+            <strong>$25</strong>
+            <span>/ month</span>
+          </div>
+
+          <div class="trial">7-Day Trial Completed in App</div>
+
+          <ul class="features">
+            <li>The same 7-day app trial applies to church and synagogue members</li>
+            <li>Full access to your organization message board account</li>
+            <li>Secure recurring payment through PayPal</li>
+            <li>Subscription managed through your PayPal account</li>
+          </ul>
+        </div>
+
+        <div class="paybox">
+          <h3>Activate Membership</h3>
+          <div class="small">
+            Click below to activate your recurring membership after the app trial.<br>
+            Billing follows the PayPal plan terms connected to this page.
+          </div>
+
+          <div id="paypal-button-container-P-03H97087WB697233KNKK4D2A"></div>
+
+          <div class="secure">Secure checkout powered by PayPal</div>
+        </div>
+      </div>
+
+      <div class="success" id="successBox">
+        <h3>Subscription Activated ✓</h3>
+        <p>Your PayPal subscription signup was approved.</p>
+        <p>Subscription ID:</p>
+        <div class="subid" id="subscriptionId"></div>
+        <p><strong>Important:</strong> Your account is activated only after the secure server verifies this subscription directly with PayPal.</p>
+      </div>
+
+      <div class="bottom">
+        <a class="return" href="loginc.html">Return to Member Login</a>
+        <div class="terms">
+          Your recurring billing schedule is controlled by the PayPal subscription plan associated with this page.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="saas-common.js"></script>
+
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=AZD0NtTugRgLzVbjLm9jtprCTer2z7-r3VMjSnrLaU3Ms1VJso-50DMmDBmMpdMioEhUUVMfB-4T7lRe&vault=true&intent=subscription"
+    data-sdk-integration-source="button-factory">
+  </script>
+
+  <script>
+    const PLAN_ID = 'P-03H97087WB697233KNKK4D2A';
+    const qp=new URLSearchParams(location.search);
+    if(qp.get('type')==='church'){
+      const i=document.getElementById('brandIcon'), t=document.getElementById('brandTitle');
+      if(i)i.textContent='✝'; if(t)t.textContent='Christian Church Message Board';
+    }
+
+
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'subscribe'
+      },
+
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          plan_id: PLAN_ID
+        });
+      },
+
+      onApprove: async function(data, actions) {
+        const subscriptionID = data.subscriptionID || '';
+        document.getElementById('subscriptionId').textContent = subscriptionID;
+
+        try {
+          if (!appConfigured()) throw new Error('Supabase is not configured.');
+          const sb = getSupabase();
+          const { data: sessionData } = await sb.auth.getSession();
+          if (!sessionData.session) {
+            alert('PayPal approved the subscription. Please log in so we can securely connect it to your account.');
+            location.href = 'loginc.html';
+            return;
+          }
+
+          const { data: result, error } = await sb.functions.invoke('paypal-confirm', {
+            body: { subscription_id: subscriptionID }
+          });
+          if (error) throw error;
+          if (!result || !result.ok) throw new Error(result?.error || 'Subscription verification failed.');
+
+          try {
+            localStorage.setItem('paypalSubscriptionID', subscriptionID);
+            localStorage.setItem('subscriptionStatus', 'ACTIVE');
+            localStorage.setItem('subscriptionPlanID', PLAN_ID);
+            localStorage.setItem('subscriptionVerifiedAt', new Date().toISOString());
+          } catch (e) {}
+
+          document.querySelector('#successBox h3').textContent = 'Subscription Verified & Activated ✓';
+          document.querySelector('#successBox p').textContent = 'PayPal verified your subscription and your member account is now active.';
+          document.getElementById('successBox').style.display = 'block';
+          document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+          setTimeout(async () => {
+            try{
+              const {data:{session}}=await sb.auth.getSession();
+              let isChurch=new URLSearchParams(location.search).get('type')==='church';
+              if(session){
+                const {data:syn}=await sb.from('synagogues').select('id').eq('owner_user_id',session.user.id).maybeSingle();
+                if(syn){const {data:r}=await sb.from('synagogue_settings').select('settings').eq('synagogue_id',syn.id).maybeSingle();isChurch=isChurch||r?.settings?.organization_type==='church';}
+              }
+              location.href=isChurch?'adminc.html':'admin.html';
+            }catch(e){location.href='loginc.html';}
+          }, 1800);
+        } catch (err) {
+          console.error(err);
+          alert('PayPal approved the subscription, but secure account verification did not finish. Please contact the administrator before paying again.');
+          document.getElementById('successBox').style.display = 'block';
+          document.getElementById('successBox').scrollIntoView({behavior:'smooth', block:'center'});
+        }
+      },
+
+      onCancel: function(data) {
+        console.log('PayPal subscription checkout cancelled.', data);
+      },
+
+      onError: function(err) {
+        console.error('PayPal error:', err);
+        alert('There was a problem opening PayPal. Please try again.');
+      }
+    }).render('#paypal-button-container-P-03H97087WB697233KNKK4D2A');
+  </script>
+</body>
+</html>
