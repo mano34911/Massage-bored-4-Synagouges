@@ -84,15 +84,13 @@ body{display:flex;align-items:center;justify-content:center}
   width:100%;height:100%;overflow:hidden;position:relative;text-align:center;
 }
 .scroller{
-  position:absolute;
-  top:0;
-  width:100%;
+  position:absolute;width:100%;
   animation:scrollUp var(--main-scroll-speed,34s) linear infinite;
   will-change:transform;
 }
 .scrollWindow:hover .scroller{animation-play-state:paused}
 @keyframes scrollUp{
-  from{transform:translateY(0)}
+  from{transform:translateY(100%)}
   to{transform:translateY(-115%)}
 }
 .big{font-size:clamp(25px,4.1vw,58px);font-weight:900;line-height:1.2;margin:10px 0}
@@ -491,7 +489,12 @@ function executeCommand(c){
 function checkCommand(){
   const raw=localStorage.getItem('mb_command')||'';
   if(!raw) return;
-  try{ executeCommand(JSON.parse(raw)); }catch(e){}
+  try{
+    executeCommand(JSON.parse(raw));
+    // Admin commands are one-time actions. Removing the command after it runs
+    // prevents an old prayer command from reopening whenever index.html loads.
+    if(localStorage.getItem('mb_command')===raw) localStorage.removeItem('mb_command');
+  }catch(e){}
 }
 const boardChannel=('BroadcastChannel' in window) ? new BroadcastChannel('mb_admin_channel') : null;
 if(boardChannel) boardChannel.onmessage=e=>executeCommand(e.data);
@@ -499,8 +502,10 @@ window.addEventListener('message',e=>{
   if(e.origin!==location.origin || !e.data || e.data.type!=='mb_command') return;
   executeCommand(e.data.command);
 });
+// Never replay a command left over from an earlier visit. New commands sent by
+// Admin after the board is ready are still received by polling/BroadcastChannel.
+localStorage.removeItem('mb_command');
 setInterval(checkCommand,500);
-checkCommand();
 </script>
 <a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>
 
@@ -540,14 +545,6 @@ async function initTenantBoard(){
   applyAdminSettings();
 }
 window.addEventListener("DOMContentLoaded",initTenantBoard);
-</script>
-
-
-<script>
-/* Public preview: show the board for 1 minute, then go to login. */
-setTimeout(function () {
-  window.location.href = "login.html";
-}, 60000);
 </script>
 
 </body>
