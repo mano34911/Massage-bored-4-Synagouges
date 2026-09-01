@@ -259,7 +259,10 @@
 </div>
 
 
-<!-- SUPABASE -->
+<!-- SUPABASE LIBRARY MUST LOAD FIRST -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<!-- YOUR SUPABASE CONFIG + AUTH -->
 <script src="supabase-config.js"></script>
 <script src="auth.js"></script>
 
@@ -287,6 +290,24 @@ function showStatus(message, isError = false) {
 }
 
 
+if (typeof window.supabase === "undefined") {
+  showStatus(
+    "Supabase library failed to load. Please refresh the page.",
+    true
+  );
+  throw new Error("Supabase JavaScript library did not load.");
+}
+
+
+if (typeof window.getSupabase !== "function") {
+  showStatus(
+    "Supabase configuration failed to load.",
+    true
+  );
+  throw new Error("window.getSupabase is not available.");
+}
+
+
 paypal.Buttons({
 
   createSubscription: function(data, actions) {
@@ -302,6 +323,8 @@ paypal.Buttons({
 
   onApprove: async function(data, actions) {
 
+    const subscriptionId = data.subscriptionID || "";
+
     try {
 
       showStatus(
@@ -309,18 +332,7 @@ paypal.Buttons({
       );
 
 
-      if (
-        typeof window.getSupabase !== "function"
-      ) {
-
-        throw new Error(
-          "Supabase connection is not available."
-        );
-
-      }
-
-
-      const supabase =
+      const sb =
         window.getSupabase();
 
 
@@ -328,7 +340,7 @@ paypal.Buttons({
         data: sessionData,
         error: sessionError
       } =
-        await supabase.auth.getSession();
+        await sb.auth.getSession();
 
 
       if (
@@ -338,7 +350,8 @@ paypal.Buttons({
       ) {
 
         alert(
-          "Your PayPal subscription was created, but you must log in to connect it to your synagogue account."
+          "Your PayPal subscription was created, but you must log in to connect it to your synagogue account.\n\n" +
+          "Subscription ID: " + subscriptionId
         );
 
         window.location.href =
@@ -371,14 +384,22 @@ paypal.Buttons({
             body:
               JSON.stringify({
                 subscriptionId:
-                  data.subscriptionID
+                  subscriptionId
               })
           }
         );
 
 
-      const result =
-        await response.json();
+      let result = {};
+
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        result = {
+          error:
+            "The verification server returned an unreadable response."
+        };
+      }
 
 
       console.log(
@@ -409,7 +430,7 @@ paypal.Buttons({
         alert(
           "Your PayPal subscription is active.\n\n" +
           "Subscription ID: " +
-          data.subscriptionID
+          subscriptionId
         );
 
 
@@ -427,7 +448,7 @@ paypal.Buttons({
         alert(
           "Your subscription was created successfully, but PayPal has not marked it ACTIVE yet.\n\n" +
           "Subscription ID: " +
-          data.subscriptionID
+          subscriptionId
         );
 
       }
@@ -439,15 +460,18 @@ paypal.Buttons({
 
 
       showStatus(
-        error.message ||
-        "There was a problem verifying your subscription.",
+        (error && error.message)
+          ? error.message
+          : "There was a problem verifying your subscription.",
         true
       );
 
 
       alert(
-        "Your PayPal subscription may have been created, but we could not verify it with the server.\n\n" +
-        "Please contact support before trying to subscribe again."
+        "Your PayPal subscription may already have been created, but we could not verify it with the server.\n\n" +
+        "Subscription ID: " +
+        (subscriptionId || "Not available") +
+        "\n\nDo NOT subscribe again until this subscription is checked."
       );
 
     }
