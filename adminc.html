@@ -209,7 +209,7 @@ async function initAccount(){
    const {data:{session}}=await sb.auth.getSession();
    if(!session){location.href='loginc.html?next='+encodeURIComponent('adminc.html')+'&type=church';return;}
    const {data:profile}=await sb.from('profiles').select('role').eq('user_id',session.user.id).maybeSingle();
-   if(profile&&profile.role==='master'){location.href='master-admin.html';return;}
+   if(profile&&profile.role==='master'){location.href='master-adminc.html';return;}
    const {data:syn,error:se}=await sb.from('synagogues').select('*').eq('owner_user_id',session.user.id).maybeSingle();
    if(se||!syn){location.href='pending.html';return;}
    currentChurch=syn;
@@ -222,9 +222,9 @@ async function initAccount(){
    const {data:row,error:re}=await sb.from('synagogue_settings').select('settings').eq('synagogue_id',syn.id).maybeSingle();
    if(re) console.warn(re);
    const remote=(row&&row.settings)||{};
-   if(remote.organization_type && remote.organization_type!=='church'){
-     location.href='admin.html';return;
-   }
+   // This is the Christian Admin. Older church accounts may not yet have the
+   // organization marker, so normalize it here instead of opening Jewish Admin.
+   remote.organization_type='church';
    const local=getSettings();
    const merged=Object.assign({},local,remote);
    merged.church=remote.church||remote.synagogue||syn.synagogue_name||local.church;

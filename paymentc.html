@@ -327,7 +327,7 @@
                 const {data:syn}=await sb.from('synagogues').select('id').eq('owner_user_id',session.user.id).maybeSingle();
                 if(syn){const {data:r}=await sb.from('synagogue_settings').select('settings').eq('synagogue_id',syn.id).maybeSingle();isChurch=isChurch||r?.settings?.organization_type==='church';}
               }
-              location.href=isChurch?'adminc.html':'admin.html';
+              location.href='adminc.html';
             }catch(e){location.href='loginc.html';}
           }, 1800);
         } catch (err) {

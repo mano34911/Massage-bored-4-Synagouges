@@ -17,7 +17,7 @@ table{width:100%;border-collapse:collapse;background:#fff;color:#111;border-radi
 <script>
 function safeNext(){
  const n=new URLSearchParams(location.search).get('next')||'';
- return /^(?:christian-index\.html|index\.html|church-admin\.html|admin\.html)(?:[?#].*)?$/.test(n)?n:'';
+ return /^(?:indexc\.html|adminc\.html|paymentc\.html|master-adminc\.html)(?:[?#].*)?$/.test(n)?n:'';
 }
 async function login(){
   const msg=document.getElementById("msg"); msg.textContent="Signing in…";
@@ -27,12 +27,12 @@ async function login(){
     if(error) throw error;
     const uid=data.user.id;
     const {data:p}=await sb.from("profiles").select("role").eq("user_id",uid).single();
-    if(p&&p.role==="master"){location.href="master-admin.html";return;}
+    if(p&&p.role==="master"){location.href="master-adminc.html";return;}
     const {data:s}=await sb.from("synagogues").select("*").eq("owner_user_id",uid).single();
     if(!s){location.href="pending.html";return;}
     const {data:setRow}=await sb.from('synagogue_settings').select('settings').eq('synagogue_id',s.id).maybeSingle();
     const settings=(setRow&&setRow.settings)||{};
-    const isChurch=settings.organization_type==='church'||new URLSearchParams(location.search).get('type')==='church';
+    const isChurch=true;
     const a=memberAccessState(s);
     if(!a.allowed){
       if(s.status==='trial' && s.trial_ends_at && new Date(s.trial_ends_at).getTime()<=Date.now()){
@@ -42,7 +42,7 @@ async function login(){
     }
     const next=safeNext();
     if(next){location.href=next;return;}
-    location.href=isChurch?'adminc.html':'admin.html';
+    location.href='adminc.html';
   }catch(e){msg.textContent=e.message||String(e);}
 }
 </script></body></html>
