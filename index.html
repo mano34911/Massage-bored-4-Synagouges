@@ -1,7 +1,9 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="he" dir="rtl" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="he">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>בית הכנסת בית תורה</title>
 <style>
@@ -70,15 +72,9 @@ body{display:flex;align-items:center;justify-content:center}
 .smallText{font-size:clamp(15px,2.1vw,27px);line-height:1.35;font-weight:800}
 
 .center{
-  min-height:0;border-radius:34px;background:linear-gradient(#0a2b68 0 13%,#fff8df 13% 90%,#0a2b68 90%);
+  min-height:0;border-radius:34px;background:linear-gradient(180deg,#fffdf3,#fff8df);
   border:4px solid var(--gold);box-shadow:inset 0 0 0 3px #fff0a4;
-  position:relative;padding:11% 6% 12%;overflow:hidden;
-}
-.medallion{
-  position:absolute;z-index:5;top:-4px;left:50%;transform:translateX(-50%);
-  width:min(20vw,155px);aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 40% 35%,#1f4388,#071d51 72%);
-  border:12px solid #e3b343;box-shadow:0 0 0 5px #896714;
+  position:relative;padding:5% 6%;overflow:hidden;
 }
 .scrollWindow{
   width:100%;height:100%;overflow:hidden;position:relative;text-align:center;
@@ -138,8 +134,7 @@ body{display:flex;align-items:center;justify-content:center}
   .sideBox{padding:6px 3px}
   .sideBox h2{padding:8px 5px;border-radius:14px;margin-bottom:5px}
   .row{display:block;padding:4px 0}
-  .center{padding:15% 4% 13%}
-  .medallion{width:26vw;border-width:8px}
+  .center{padding:5% 4%}
   .infoCard{width:100%;padding:7px}
 }
 /* Phone sideways / TV landscape */
@@ -147,8 +142,7 @@ body{display:flex;align-items:center;justify-content:center}
   .board{max-width:1600px}
   .header{grid-template-columns:16% 1fr 16%}
   .main{grid-template-columns:18% 1fr 18%}
-  .center{padding:10% 5% 10%}
-  .medallion{width:min(13vw,150px)}
+  .center{padding:5%}
   .scroller{animation-duration:var(--main-scroll-speed,42s)}
 }
 @media (prefers-reduced-motion:reduce){.scroller{animation:none;position:static}}
@@ -266,14 +260,11 @@ body{position:relative}
 .centerCandleGrid .candleName{font-size:clamp(21px,3.1vw,36px);line-height:1.15;color:#7a4c10;text-shadow:0 1px 2px #fff;overflow-wrap:anywhere}
 
 
-/* Approved neon Star of David + white doves */
+/* White doves above the center message area */
 .center::before,.center::after{content:"🕊️";position:absolute;z-index:6;top:3.5%;font-size:clamp(34px,6vw,82px);filter:drop-shadow(0 4px 4px #0006);animation:doveFloat 3s ease-in-out infinite alternate}.center::before{left:4%;transform:scaleX(-1)}.center::after{right:4%}@keyframes doveFloat{from{margin-top:-3px}to{margin-top:6px}}
-.medallion{display:grid;place-items:center;overflow:visible}
-.medallion::before{content:"✡";font-family:Arial,sans-serif;font-size:clamp(72px,14vw,145px);line-height:1;color:#35e9ff;text-shadow:0 0 5px #fff,0 0 12px currentColor,0 0 28px currentColor,0 0 48px currentColor;animation:starColors 5s linear infinite}
-@keyframes starColors{0%{color:#ff2be6}20%{color:#32e9ff}40%{color:#386dff}60%{color:#38ff96}80%{color:#ffd52e}100%{color:#ff2be6}}
 </style>
 </head>
-<body>
+<body class="notranslate" translate="no">
 <div id="mainPage" class="rotatePage active"><div class="board">
   <header class="header">
     <div class="clock goldFrame"><div class="city">JERUSALEM</div><div class="time" id="ilTime">--:--:--</div></div>
@@ -307,7 +298,6 @@ body{position:relative}
     </section>
 
     <section class="center">
-      <div class="medallion"></div>
       <div class="scrollWindow">
         <div class="scroller" id="mainScroller">
           <div class="scrollSet" id="mainScrollSet">
@@ -442,12 +432,21 @@ function getSettings(){
     zmanim:{alot:'5:02 AM',sunrise:'6:38 AM',shema:'9:27 AM',chatzot:'12:10 PM',minchaGedola:'12:40 PM',sunset:'7:32 PM',tzeit:'8:06 PM',candles:'7:13 PM',shabbatOut:'8:12 PM'},
     candleTitle:'🕯️ נרות נשמה 🕯️',candleNames:['לעילוי נשמת זהבה חלא בת דינה זצ״ל','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה','נר נשמה'],
     shiurTitle:'📖 שיעור יומי',shiurPasuk:'״שויתי ה׳ לנגדי תמיד״',shiurHalacha:'צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.',shiurMussar:'מעט אור דוחה הרבה מן החושך. כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.',shiurTakeaway:'להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.',shiurMemorial:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',
-    mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,
+    mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:300,scrollSpeedOptionsVersion:2,mainDuration:20,candleDuration:10,shiurDuration:20,
     prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}
   };
   try{
     const local=JSON.parse(localStorage.getItem('mb_full_settings')||'{}');
     const remote=window.__tenantRemoteSettings||{};
+    if(Number(local.scrollSpeedOptionsVersion||0)<2){
+      local.prayerScroll=300;
+      local.scrollSpeedOptionsVersion=2;
+      localStorage.setItem('mb_full_settings',JSON.stringify(local));
+    }
+    if(Number(remote.scrollSpeedOptionsVersion||0)<2){
+      remote.prayerScroll=300;
+      remote.scrollSpeedOptionsVersion=2;
+    }
     const merged=Object.assign({},d,local,remote);
     merged.zmanim=Object.assign({},d.zmanim,local.zmanim||{},remote.zmanim||{});
     merged.prayerTexts=Object.assign({},d.prayerTexts,local.prayerTexts||{},remote.prayerTexts||{});
@@ -457,7 +456,7 @@ function getSettings(){
 let settings=getSettings();
 const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
 function scrollSeconds(value,fallback=60){
-  const named={verySlow:120,slow:90,medium:60,fast:35};
+  const named={doubleSuperSlow:300,superSlow:180,verySlow:120,slow:90,medium:60,fast:35};
   if(named[value]) return named[value];
   const n=Number(value);
   return Number.isFinite(n)&&n>0?n:fallback;
@@ -522,7 +521,7 @@ function renderCenterCandles(){
 function applyAdminSettings(){
   settings=getSettings();
   const r=document.documentElement;
-  r.style.setProperty('--main-scroll-speed',scrollSeconds(settings.mainScroll,60)+'s');r.style.setProperty('--candle-scroll-speed',scrollSeconds(settings.candleScroll,90)+'s');r.style.setProperty('--shiur-scroll-speed',scrollSeconds(settings.shiurScroll,60)+'s');r.style.setProperty('--prayer-scroll-speed',scrollSeconds(settings.prayerScroll,90)+'s');
+  r.style.setProperty('--main-scroll-speed',scrollSeconds(settings.mainScroll,60)+'s');r.style.setProperty('--candle-scroll-speed',scrollSeconds(settings.candleScroll,90)+'s');r.style.setProperty('--shiur-scroll-speed',scrollSeconds(settings.shiurScroll,60)+'s');r.style.setProperty('--prayer-scroll-speed',(scrollSeconds(settings.prayerScroll,90)*5)+'s');
   setText('synagogueName',settings.synagogue);setText('rabbiName',settings.rabbi);setText('pShacharit',displayClock(settings.shacharit));setText('pMincha',displayClock(settings.mincha));setText('pMaariv',displayClock(settings.maariv));setText('pShiur',displayClock(settings.shiurTime));setText('pShabbatShacharit',displayClock(settings.shabbatShacharit));setText('pShabbatMincha',displayClock(settings.shabbatMincha));setText('pShabbatMaariv',displayClock(settings.shabbatMaariv));setText('pHavdalah',displayClock(settings.havdalah));
   setText('mazalText',settings.mazal);const an=document.getElementById('announcementText');if(an)an.innerHTML=String(settings.announcement||'').replace(/\n/g,'<br>');
   ['parasha','center1','center2','center3','center4','center5','tachanun','parashaInfo','gevurot','hallel','centerWelcome','centerMotto','centerBlessing'].forEach(k=>setText(k==='parasha'?'parashaText':k,settings[k]));
@@ -546,7 +545,7 @@ const rotationSteps=[
   {page:'main',center:'candles',durationKey:'candleDuration',fallback:10},
   {page:'shiur',center:null,durationKey:'shiurDuration',fallback:20}
 ];
-let rotationStepIndex=0,rotationPaused=false,rotationTimer=null;
+let rotationStepIndex=0,rotationPaused=false,rotationStoppedByAdmin=false,rotationTimer=null;
 let scheduledPrayerKey=null,manualPrayerKey=null,dismissedScheduledKey=null;
 
 function showBoardPage(name){
@@ -606,6 +605,9 @@ function hidePrayer(){
   if(scheduledPrayerKey) dismissedScheduledKey=scheduledPrayerKey;
   scheduledPrayerKey=null;
   manualPrayerKey=null;
+  // Closing a manually opened prayer resumes normal rotation unless the
+  // administrator explicitly pressed Stop All.
+  rotationPaused=rotationStoppedByAdmin;
   restartNormalRotation();
 }
 
@@ -677,9 +679,9 @@ function executeCommand(c){
   }else if(c.action==='showShiur'){
     rotationPaused=true; clearTimeout(rotationTimer); scheduledPrayerKey=null; manualPrayerKey=null; showBoardPage('shiur');
   }else if(c.action==='startAll'){
-    rotationPaused=false; scheduledPrayerKey=null; manualPrayerKey=null; restartNormalRotation(); checkScheduledPrayer();
+    rotationStoppedByAdmin=false; rotationPaused=false; scheduledPrayerKey=null; manualPrayerKey=null; restartNormalRotation(); checkScheduledPrayer();
   }else if(c.action==='stopAll'){
-    rotationPaused=true; clearTimeout(rotationTimer);
+    rotationStoppedByAdmin=true; rotationPaused=true; clearTimeout(rotationTimer);
   }else if(c.action==='hidePrayer'){
     hidePrayer();
   }
@@ -701,7 +703,11 @@ function executeCommand(c){
   }
 }
 function checkCommand(){
-  const raw=localStorage.getItem('mb_command')||'';
+  // A command carried by this tab has priority. Another already-open board can
+  // consume the shared localStorage command before Admin finishes navigating.
+  const sessionRaw=sessionStorage.getItem('mb_pending_command')||'';
+  const localRaw=localStorage.getItem('mb_command')||'';
+  const raw=sessionRaw||localRaw;
   if(!raw) return;
   try{
     const command=JSON.parse(raw);
@@ -709,12 +715,14 @@ function checkCommand(){
     // A command sent just before Admin opens/focuses index.html is valid.
     // Old commands from an earlier visit are discarded instead of replayed.
     if(!commandTime||Date.now()-commandTime>30000){
+      if(sessionStorage.getItem('mb_pending_command')===raw) sessionStorage.removeItem('mb_pending_command');
       if(localStorage.getItem('mb_command')===raw) localStorage.removeItem('mb_command');
       return;
     }
     executeCommand(command);
     // Admin commands are one-time actions. Removing the command after it runs
     // prevents an old prayer command from reopening whenever index.html loads.
+    if(sessionStorage.getItem('mb_pending_command')===raw) sessionStorage.removeItem('mb_pending_command');
     if(localStorage.getItem('mb_command')===raw) localStorage.removeItem('mb_command');
   }catch(e){}
 }
