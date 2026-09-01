@@ -704,7 +704,15 @@ function checkCommand(){
   const raw=localStorage.getItem('mb_command')||'';
   if(!raw) return;
   try{
-    executeCommand(JSON.parse(raw));
+    const command=JSON.parse(raw);
+    const commandTime=Number(command.at)||0;
+    // A command sent just before Admin opens/focuses index.html is valid.
+    // Old commands from an earlier visit are discarded instead of replayed.
+    if(!commandTime||Date.now()-commandTime>30000){
+      if(localStorage.getItem('mb_command')===raw) localStorage.removeItem('mb_command');
+      return;
+    }
+    executeCommand(command);
     // Admin commands are one-time actions. Removing the command after it runs
     // prevents an old prayer command from reopening whenever index.html loads.
     if(localStorage.getItem('mb_command')===raw) localStorage.removeItem('mb_command');
@@ -716,9 +724,9 @@ window.addEventListener('message',e=>{
   if(e.origin!==location.origin || !e.data || e.data.type!=='mb_command') return;
   executeCommand(e.data.command);
 });
-// Never replay a command left over from an earlier visit. New commands sent by
-// Admin after the board is ready are still received by polling/BroadcastChannel.
-localStorage.removeItem('mb_command');
+// Read a fresh command sent by Admin before this page opened, then keep polling
+// for commands sent while the board is already open.
+checkCommand();
 setInterval(checkCommand,500);
 </script>
 <a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>

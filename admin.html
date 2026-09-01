@@ -294,6 +294,11 @@ function go(id){
   try{el.scrollIntoView({behavior:'smooth',block:'start'});}
   catch(e){el.scrollIntoView(true);}
 }
+// Expose every button handler explicitly for mobile browsers and inline buttons.
+window.cmd=cmd;
+window.loadAll=loadAll;
+window.resetAll=resetAll;
+window.go=go;
 loadAll();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
