@@ -84,13 +84,15 @@ body{display:flex;align-items:center;justify-content:center}
   width:100%;height:100%;overflow:hidden;position:relative;text-align:center;
 }
 .scroller{
-  position:absolute;width:100%;
+  position:absolute;
+  top:0;
+  width:100%;
   animation:scrollUp var(--main-scroll-speed,34s) linear infinite;
   will-change:transform;
 }
 .scrollWindow:hover .scroller{animation-play-state:paused}
 @keyframes scrollUp{
-  from{transform:translateY(100%)}
+  from{transform:translateY(0)}
   to{transform:translateY(-115%)}
 }
 .big{font-size:clamp(25px,4.1vw,58px);font-weight:900;line-height:1.2;margin:10px 0}
@@ -399,7 +401,14 @@ function getSettings(){
     mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,
     prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}
   };
-  try{return Object.assign(d,JSON.parse(localStorage.getItem('mb_full_settings')||'{}'))}catch(e){return d}
+  try{
+    const local=JSON.parse(localStorage.getItem('mb_full_settings')||'{}');
+    const remote=window.__tenantRemoteSettings||{};
+    const merged=Object.assign({},d,local,remote);
+    merged.zmanim=Object.assign({},d.zmanim,local.zmanim||{},remote.zmanim||{});
+    merged.prayerTexts=Object.assign({},d.prayerTexts,local.prayerTexts||{},remote.prayerTexts||{});
+    return merged;
+  }catch(e){return Object.assign({},d,window.__tenantRemoteSettings||{})}
 }
 let settings=getSettings();
 const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
@@ -490,9 +499,56 @@ window.addEventListener('message',e=>{
   if(e.origin!==location.origin || !e.data || e.data.type!=='mb_command') return;
   executeCommand(e.data.command);
 });
-setInterval(checkCommand,1500);
+setInterval(checkCommand,500);
 checkCommand();
 </script>
 <a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+
+
+<script>
+async function initTenantBoard(){
+  if(!appConfigured()) return; // keeps current local board working until Supabase is configured.
+  const sb=getSupabase();
+  const params=new URLSearchParams(location.search);
+  let slug=params.get("s")||params.get("synagogue")||"";
+
+  if(!slug){
+    const {data:{session}}=await sb.auth.getSession();
+    if(session){
+      const {data:syn}=await sb.from("synagogues").select("slug").eq("owner_user_id",session.user.id).maybeSingle();
+      if(syn) slug=syn.slug;
+    }
+  }
+  if(!slug) return;
+
+  const {data,error}=await sb.rpc("get_public_board",{p_slug:slug});
+  if(error){ console.error(error); return; }
+  if(!data){
+    location.href="payment.html?s="+encodeURIComponent(slug);
+    return;
+  }
+  const row=Array.isArray(data)?data[0]:data;
+  const remote=Object.assign({},row.settings||{});
+  remote.synagogue=remote.synagogue||row.synagogue_name||"";
+  remote.rabbi=remote.rabbi||row.rabbi_name||"";
+  window.__tenantRemoteSettings=remote;
+  settings=getSettings();
+  applyAdminSettings();
+}
+window.addEventListener("DOMContentLoaded",initTenantBoard);
+</script>
+
+
+<script>
+/* Public preview: show the board for 1 minute, then go to login. */
+setTimeout(function () {
+  window.location.href = "login.html";
+}, 60000);
+</script>
+
 </body>
 </html>
