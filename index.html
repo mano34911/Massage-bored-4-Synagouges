@@ -84,14 +84,15 @@ body{display:flex;align-items:center;justify-content:center}
   width:100%;height:100%;overflow:hidden;position:relative;text-align:center;
 }
 .scroller{
-  position:absolute;width:100%;
+  position:absolute;top:0;left:0;width:100%;
   animation:scrollUp var(--main-scroll-speed,34s) linear infinite;
   will-change:transform;
 }
+.scrollSet{width:100%;padding:0 0 22px}
 .scrollWindow:hover .scroller{animation-play-state:paused}
 @keyframes scrollUp{
-  from{transform:translateY(100%)}
-  to{transform:translateY(-115%)}
+  from{transform:translateY(0)}
+  to{transform:translateY(-50%)}
 }
 .big{font-size:clamp(25px,4.1vw,58px);font-weight:900;line-height:1.2;margin:10px 0}
 .medium{font-size:clamp(19px,3vw,40px);font-weight:900;line-height:1.32;margin:12px 0}
@@ -105,6 +106,20 @@ body{display:flex;align-items:center;justify-content:center}
   border:3px solid #b98a29;border-radius:18px;background:#fff3c8;
   padding:12px 8px;margin:14px auto;font-size:clamp(16px,2.3vw,30px);font-weight:900;color:#6a4315;
 }
+.imageReel{width:100%;display:grid;gap:18px;margin:18px 0 8px}
+.scrollImage{
+  position:relative;overflow:hidden;width:94%;height:clamp(180px,28vh,340px);margin:0 auto;
+  border:4px solid #d7a62d;border-radius:24px;box-shadow:inset 0 0 0 3px #fff0a4,0 8px 18px #061f5755;
+  background:radial-gradient(circle at 50% 35%,#317cc7,#092b69 62%,#031238);
+}
+.scrollImage:nth-child(2){background:radial-gradient(circle at 50% 35%,#f7d66b,#a66c19 62%,#3b2106)}
+.scrollImage:nth-child(3){background:radial-gradient(circle at 50% 35%,#78c7e9,#285a88 62%,#071f50)}
+.scrollImage::before{
+  content:"✡";position:absolute;inset:0;display:grid;place-items:center;color:#fff7c5;
+  font-size:clamp(70px,14vw,150px);text-shadow:0 0 18px #fff,0 0 34px #65d6ff;opacity:.9;
+}
+.scrollImage img{position:relative;z-index:1;width:100%;height:100%;display:block;object-fit:cover}
+.scrollImage img[style*="display: none"]{visibility:hidden}
 .footer{
   background:linear-gradient(#0b2f72,#071b4c);color:#fff7d4;
   border:3px solid var(--gold);box-shadow:inset 0 0 0 2px #f6db7d;
@@ -281,7 +296,8 @@ body{position:relative}
     <section class="center">
       <div class="medallion"></div>
       <div class="scrollWindow">
-        <div class="scroller">
+        <div class="scroller" id="mainScroller">
+          <div class="scrollSet" id="mainScrollSet">
           <div class="big goldText">פרשת השבוע</div>
           <div class="big blue" id="parashaText">פרשת נצבים־וילך</div>
           <div class="medium green" id="center1">ברכת מזל טוב לכל המתפללים ובני הקהילה</div>
@@ -302,6 +318,13 @@ body{position:relative}
           <div class="medium blue" id="centerBlessing">שנזכה לשנה טובה ומתוקה ולבשורות טובות</div>
 
           <div class="memorial" id="centerMemorial">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div>
+
+          <div class="imageReel" aria-label="תמונות יהדות וירושלים">
+            <div class="scrollImage"><img loading="eager" src="https://andy-travel.com.ua/sites/default/files/jerusalem_templemount004.jpg" alt="הכותל המערבי בירושלים" onerror="this.style.display='none'"></div>
+            <div class="scrollImage"><img loading="lazy" src="https://v3.unaparolaalgiorno.it/uploads/a/84/pexels-cottonbro.jpg" alt="ספר תורה בבית הכנסת" onerror="this.style.display='none'"></div>
+            <div class="scrollImage"><img loading="lazy" src="https://theholylandwithrichandcheryl.com/wp-content/uploads/2017/04/sunrise-over-mount-of-olives-tb031605564.jpg?w=600" alt="זריחה מעל ירושלים" onerror="this.style.display='none'"></div>
+          </div>
+          </div>
         </div>
       </div>
     </section>
@@ -410,6 +433,22 @@ function getSettings(){
 }
 let settings=getSettings();
 const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
+function syncMainScrollCopy(){
+  const scroller=document.getElementById('mainScroller');
+  const source=document.getElementById('mainScrollSet');
+  if(!scroller||!source) return;
+  scroller.querySelectorAll('.scrollSetClone').forEach(el=>el.remove());
+  const copy=source.cloneNode(true);
+  copy.removeAttribute('id');
+  copy.classList.add('scrollSetClone');
+  copy.setAttribute('aria-hidden','true');
+  copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+  copy.querySelectorAll('img').forEach(img=>img.loading='lazy');
+  scroller.appendChild(copy);
+  scroller.style.animation='none';
+  void scroller.offsetHeight;
+  scroller.style.animation='';
+}
 function applyAdminSettings(){
   settings=getSettings();
   const r=document.documentElement;
@@ -421,6 +460,7 @@ function applyAdminSettings(){
   const zm=settings.zmanim||{};const zmids={alot:'zAlot',sunrise:'zSunrise',shema:'zShema',chatzot:'zChatzot',minchaGedola:'zMinchaGedola',sunset:'zSunset',tzeit:'zTzeit',candles:'zCandles',shabbatOut:'zShabbatOut'};Object.keys(zmids).forEach(k=>setText(zmids[k],zm[k]||''));
   setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.map(n=>`<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(n||'נר נשמה')}</div></div>`).join('')}
   setText('shiurTitle',settings.shiurTitle);setText('shiurPasuk',settings.shiurPasuk);setText('shiurHalacha',settings.shiurHalacha);setText('shiurMussar',settings.shiurMussar);setText('shiurTakeaway',settings.shiurTakeaway);setText('shiurMemorial',settings.shiurMemorial);
+  syncMainScrollCopy();
 }
 function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 applyAdminSettings();window.addEventListener('storage',()=>{applyAdminSettings();checkCommand()});
