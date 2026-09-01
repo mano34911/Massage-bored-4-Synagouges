@@ -207,8 +207,8 @@ body{position:relative}
   padding:clamp(18px,4vw,48px);
   box-shadow:inset 0 0 0 3px #d7a62d;
 }
-.shiurScroll{animation:shiurUp var(--shiur-scroll-speed,22s) linear infinite}
-@keyframes shiurUp{from{transform:translateY(60%)}to{transform:translateY(-105%)}}
+.shiurScroll{animation:shiurUp var(--shiur-scroll-speed,60s) linear infinite}
+@keyframes shiurUp{from{transform:translateY(0)}to{transform:translateY(-105%)}}
 .shiurHeading{color:#143b86;font-size:clamp(30px,4.5vw,62px);font-weight:900;margin:10px}
 .shiurText{font-size:clamp(22px,3vw,42px);line-height:1.55;font-weight:700}
 .shiurText .green{color:#17824b}.shiurText .purple{color:#693c8f}.shiurText .redText{color:#b51f26}
@@ -247,10 +247,23 @@ body{position:relative}
 
 .adminGear{position:fixed;left:10px;bottom:10px;z-index:99999;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(5,31,87,.9);border:2px solid #d7a62d;color:#fff;font-size:25px;text-decoration:none;box-shadow:0 2px 10px #0008}.adminGear:active{transform:scale(.94)}
 
-.prayerOverlay{position:fixed;inset:0;z-index:99998;background:rgba(2,10,30,.97);display:none;padding:3vh 4vw;color:#fff}
-.prayerOverlay.show{display:block}.prayerPanel{height:94vh;border:4px solid #d7a62d;border-radius:28px;background:#071f50;padding:20px;overflow:hidden;box-shadow:inset 0 0 0 3px #fff0a4}
-.prayerTitle{text-align:center;color:#f7d66b;font-size:clamp(34px,5vw,70px);font-weight:900;margin-bottom:12px}.prayerViewport{height:calc(100% - 95px);overflow:hidden;background:#fff8df;color:#241d11;border-radius:20px;padding:20px}.prayerScroll{white-space:pre-wrap;text-align:right;font-size:clamp(22px,3vw,42px);line-height:1.65;font-weight:700;animation:prayerUp var(--prayer-scroll-speed,90s) linear infinite;animation-delay:0s}@keyframes prayerUp{from{transform:translateY(0)}to{transform:translateY(-105%)}}
-.prayerClose{position:absolute;left:18px;top:14px;background:#b51f26;color:#fff;border:2px solid #fff;border-radius:50%;width:46px;height:46px;font-size:24px;font-weight:900}
+/* Prayers and candles live only inside the center of the main board. */
+#candlePage{display:none!important}
+.centerMode{display:none;position:absolute;inset:0;overflow:hidden;text-align:center}
+.centerMode.active{display:block}
+.centerModeTrack{position:absolute;top:0;left:0;width:100%;will-change:transform}
+.centerModeTitle{color:#9f6d09;font-size:clamp(27px,4vw,52px);font-weight:950;margin:6px 0 16px;text-shadow:0 2px 6px #fff}
+.centerPrayerTrack{animation:centerPrayerUp var(--prayer-scroll-speed,90s) linear infinite}
+.centerPrayerText{white-space:pre-wrap;text-align:right;color:#241d11;font-size:clamp(19px,2.7vw,36px);line-height:1.7;font-weight:750;padding:8px 3% 26px}
+@keyframes centerPrayerUp{from{transform:translateY(0)}to{transform:translateY(-100%)}}
+.centerCandleTrack{animation:centerCandleUp var(--candle-scroll-speed,90s) linear infinite}
+@keyframes centerCandleUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.centerCandleSet{padding:0 2% 22px}
+.centerCandleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.centerCandleGrid .candle{min-height:205px;padding:7px 3px}
+.centerCandleGrid .flame{width:40px;height:66px;box-shadow:0 0 20px #fff6b8,0 0 42px #ffb21f,0 0 70px #45cfff}
+.centerCandleGrid .wax{width:64px;height:105px;background:linear-gradient(90deg,#d9f5ff,#fff,#fff3c9,#e3d3ff)}
+.centerCandleGrid .candleName{font-size:clamp(21px,3.1vw,36px);line-height:1.15;color:#7a4c10;text-shadow:0 1px 2px #fff;overflow-wrap:anywhere}
 
 
 /* Approved neon Star of David + white doves */
@@ -326,6 +339,20 @@ body{position:relative}
           </div>
           </div>
         </div>
+        <div id="centerPrayerMode" class="centerMode" aria-hidden="true">
+          <div id="centerPrayerTrack" class="centerModeTrack centerPrayerTrack">
+            <div id="centerPrayerTitle" class="centerModeTitle">תפילה</div>
+            <div id="centerPrayerText" class="centerPrayerText"></div>
+          </div>
+        </div>
+        <div id="centerCandleMode" class="centerMode" aria-hidden="true">
+          <div id="centerCandleTrack" class="centerModeTrack centerCandleTrack">
+            <div id="centerCandleSet" class="centerCandleSet">
+              <div id="centerCandleTitle" class="centerModeTitle">🕯️ נרות נשמה 🕯️</div>
+              <div id="centerCandleGrid" class="centerCandleGrid"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -390,10 +417,6 @@ body{position:relative}
     </div>
   </div>
 </div>
-
-
-<div id="prayerOverlay" class="prayerOverlay"><button id="prayerClose" class="prayerClose">×</button><div class="prayerPanel"><div id="prayerTitle" class="prayerTitle">תפילה</div><div class="prayerViewport"><div id="prayerScroll" class="prayerScroll"></div></div></div></div>
-
 <script>
 window.name="messageBoard";
 function fmtClock(tz){
@@ -433,6 +456,30 @@ function getSettings(){
 }
 let settings=getSettings();
 const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
+function scrollSeconds(value,fallback=60){
+  const named={verySlow:120,slow:90,medium:60,fast:35};
+  if(named[value]) return named[value];
+  const n=Number(value);
+  return Number.isFinite(n)&&n>0?n:fallback;
+}
+function parseClockMinutes(value){
+  const v=String(value||'').trim();
+  let m=v.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+  if(!m) return null;
+  let hour=Number(m[1]),minute=Number(m[2]);
+  const ap=(m[3]||'').toUpperCase();
+  if(ap){hour%=12;if(ap==='PM')hour+=12}
+  if(hour>23||minute>59) return null;
+  return hour*60+minute;
+}
+function displayClock(value){
+  const minutes=parseClockMinutes(value);
+  if(minutes===null) return String(value||'');
+  const h24=Math.floor(minutes/60),minute=minutes%60;
+  const ap=h24>=12?'PM':'AM';
+  const h12=h24%12||12;
+  return `${h12}:${String(minute).padStart(2,'0')} ${ap}`;
+}
 function syncMainScrollCopy(){
   const scroller=document.getElementById('mainScroller');
   const source=document.getElementById('mainScrollSet');
@@ -449,44 +496,170 @@ function syncMainScrollCopy(){
   void scroller.offsetHeight;
   scroller.style.animation='';
 }
+function candleMarkup(name){
+  return `<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(name||'נר נשמה')}</div></div>`;
+}
+function renderCenterCandles(){
+  const title=document.getElementById('centerCandleTitle');
+  const grid=document.getElementById('centerCandleGrid');
+  const set=document.getElementById('centerCandleSet');
+  const track=document.getElementById('centerCandleTrack');
+  if(!grid||!set||!track) return;
+  if(title) title.textContent=settings.candleTitle||'🕯️ נרות נשמה 🕯️';
+  const names=Array.isArray(settings.candleNames)?settings.candleNames.filter(Boolean):[];
+  grid.innerHTML=(names.length?names:['נר נשמה']).map(candleMarkup).join('');
+  track.querySelectorAll('.centerCandleClone').forEach(el=>el.remove());
+  const copy=set.cloneNode(true);
+  copy.removeAttribute('id');
+  copy.classList.add('centerCandleClone');
+  copy.setAttribute('aria-hidden','true');
+  copy.querySelectorAll('[id]').forEach(el=>el.removeAttribute('id'));
+  track.appendChild(copy);
+  track.style.animation='none';
+  void track.offsetHeight;
+  track.style.animation='';
+}
 function applyAdminSettings(){
   settings=getSettings();
   const r=document.documentElement;
-  r.style.setProperty('--main-scroll-speed',(settings.mainScroll||34)+'s');r.style.setProperty('--candle-scroll-speed',(settings.candleScroll||26)+'s');r.style.setProperty('--shiur-scroll-speed',(settings.shiurScroll||22)+'s');r.style.setProperty('--prayer-scroll-speed',(settings.prayerScroll||90)+'s');
-  setText('synagogueName',settings.synagogue);setText('rabbiName',settings.rabbi);setText('pShacharit',settings.shacharit);setText('pMincha',settings.mincha);setText('pMaariv',settings.maariv);setText('pShiur',settings.shiurTime);setText('pShabbatShacharit',settings.shabbatShacharit);setText('pShabbatMincha',settings.shabbatMincha);setText('pShabbatMaariv',settings.shabbatMaariv);setText('pHavdalah',settings.havdalah);
+  r.style.setProperty('--main-scroll-speed',scrollSeconds(settings.mainScroll,60)+'s');r.style.setProperty('--candle-scroll-speed',scrollSeconds(settings.candleScroll,90)+'s');r.style.setProperty('--shiur-scroll-speed',scrollSeconds(settings.shiurScroll,60)+'s');r.style.setProperty('--prayer-scroll-speed',scrollSeconds(settings.prayerScroll,90)+'s');
+  setText('synagogueName',settings.synagogue);setText('rabbiName',settings.rabbi);setText('pShacharit',displayClock(settings.shacharit));setText('pMincha',displayClock(settings.mincha));setText('pMaariv',displayClock(settings.maariv));setText('pShiur',displayClock(settings.shiurTime));setText('pShabbatShacharit',displayClock(settings.shabbatShacharit));setText('pShabbatMincha',displayClock(settings.shabbatMincha));setText('pShabbatMaariv',displayClock(settings.shabbatMaariv));setText('pHavdalah',displayClock(settings.havdalah));
   setText('mazalText',settings.mazal);const an=document.getElementById('announcementText');if(an)an.innerHTML=String(settings.announcement||'').replace(/\n/g,'<br>');
   ['parasha','center1','center2','center3','center4','center5','tachanun','parashaInfo','gevurot','hallel','centerWelcome','centerMotto','centerBlessing'].forEach(k=>setText(k==='parasha'?'parashaText':k,settings[k]));
   setText('centerMemorial',settings.memorial);setText('footerMemorial',settings.memorial);
   const zm=settings.zmanim||{};const zmids={alot:'zAlot',sunrise:'zSunrise',shema:'zShema',chatzot:'zChatzot',minchaGedola:'zMinchaGedola',sunset:'zSunset',tzeit:'zTzeit',candles:'zCandles',shabbatOut:'zShabbatOut'};Object.keys(zmids).forEach(k=>setText(zmids[k],zm[k]||''));
-  setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.map(n=>`<div class="candle"><div class="flame"></div><div class="wax"></div><div class="candleName">${escapeHtml(n||'נר נשמה')}</div></div>`).join('')}
+  setText('candleTitle',settings.candleTitle);const cg=document.getElementById('candleGrid');if(cg){let names=Array.isArray(settings.candleNames)?settings.candleNames:[];cg.innerHTML=names.map(candleMarkup).join('')}
   setText('shiurTitle',settings.shiurTitle);setText('shiurPasuk',settings.shiurPasuk);setText('shiurHalacha',settings.shiurHalacha);setText('shiurMussar',settings.shiurMussar);setText('shiurTakeaway',settings.shiurTakeaway);setText('shiurMemorial',settings.shiurMemorial);
   syncMainScrollCopy();
+  renderCenterCandles();
 }
 function escapeHtml(x){return String(x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 applyAdminSettings();window.addEventListener('storage',()=>{applyAdminSettings();checkCommand()});
 
-const rotationPages=[document.getElementById('mainPage'),document.getElementById('candlePage'),document.getElementById('shiurPage')];
-let rotationIndex=0,rotationPaused=false,rotationTimer=null;
-function durations(){return [(settings.mainDuration||20)*1000,(settings.candleDuration||10)*1000,(settings.shiurDuration||20)*1000]}
-function showPage(i){rotationPages.forEach((p,n)=>p.classList.toggle('active',n===i));rotationIndex=i}
-function scheduleRotation(){clearTimeout(rotationTimer);if(rotationPaused)return;rotationTimer=setTimeout(()=>{showPage((rotationIndex+1)%3);scheduleRotation()},durations()[rotationIndex])}
-scheduleRotation();
+const mainPage=document.getElementById('mainPage');
+const shiurPage=document.getElementById('shiurPage');
+const mainScroller=document.getElementById('mainScroller');
+const prayerMode=document.getElementById('centerPrayerMode');
+const candleMode=document.getElementById('centerCandleMode');
+const rotationSteps=[
+  {page:'main',center:'normal',durationKey:'mainDuration',fallback:20},
+  {page:'main',center:'candles',durationKey:'candleDuration',fallback:10},
+  {page:'shiur',center:null,durationKey:'shiurDuration',fallback:20}
+];
+let rotationStepIndex=0,rotationPaused=false,rotationTimer=null;
+let scheduledPrayerKey=null,manualPrayerKey=null,dismissedScheduledKey=null;
 
-function showPrayer(key,title){
-  const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';
-  const titleEl=document.getElementById('prayerTitle');
-  const scrollEl=document.getElementById('prayerScroll');
-  const overlay=document.getElementById('prayerOverlay');
-  titleEl.textContent=title;
-  scrollEl.textContent=txt||'לא הוזן נוסח תפילה במנהל.';
-  scrollEl.style.animation='none';
-  scrollEl.style.transform='translateY(0)';
-  void scrollEl.offsetHeight;
-  scrollEl.style.animation='';
-  overlay.classList.add('show');
+function showBoardPage(name){
+  mainPage.classList.toggle('active',name==='main');
+  shiurPage.classList.toggle('active',name==='shiur');
 }
-function hidePrayer(){document.getElementById('prayerOverlay').classList.remove('show')}
-document.getElementById('prayerClose').onclick=hidePrayer;
+function showCenterMode(mode){
+  const normal=mode==='normal';
+  mainScroller.style.display=normal?'block':'none';
+  prayerMode.classList.toggle('active',mode==='prayer');
+  candleMode.classList.toggle('active',mode==='candles');
+  prayerMode.setAttribute('aria-hidden',mode==='prayer'?'false':'true');
+  candleMode.setAttribute('aria-hidden',mode==='candles'?'false':'true');
+}
+function renderRotationStep(index){
+  const step=rotationSteps[index];
+  showBoardPage(step.page);
+  if(step.page==='main') showCenterMode(step.center);
+}
+function scheduleRotation(){
+  clearTimeout(rotationTimer);
+  if(rotationPaused||scheduledPrayerKey||manualPrayerKey) return;
+  const step=rotationSteps[rotationStepIndex];
+  const seconds=Number(settings[step.durationKey])||step.fallback;
+  rotationTimer=setTimeout(()=>{
+    rotationStepIndex=(rotationStepIndex+1)%rotationSteps.length;
+    renderRotationStep(rotationStepIndex);
+    scheduleRotation();
+  },seconds*1000);
+}
+function restartNormalRotation(){
+  rotationStepIndex=0;
+  renderRotationStep(0);
+  if(!rotationPaused) scheduleRotation();
+}
+function showCandlesInCenter(){
+  renderCenterCandles();
+  showBoardPage('main');
+  showCenterMode('candles');
+}
+function showPrayerInCenter(key,title,isManual=false){
+  const txt=(settings.prayerTexts||{})[key]||localStorage.getItem('prayer_'+key)||'';
+  const titleEl=document.getElementById('centerPrayerTitle');
+  const scrollEl=document.getElementById('centerPrayerText');
+  const track=document.getElementById('centerPrayerTrack');
+  titleEl.textContent='תפילת '+title;
+  scrollEl.textContent=txt||'לא הוזן נוסח תפילה במנהל.';
+  showBoardPage('main');
+  showCenterMode('prayer');
+  if(isManual) manualPrayerKey=key;
+  track.style.animation='none';
+  track.style.transform='translateY(0)';
+  void track.offsetHeight;
+  track.style.animation='';
+}
+function hidePrayer(){
+  if(scheduledPrayerKey) dismissedScheduledKey=scheduledPrayerKey;
+  scheduledPrayerKey=null;
+  manualPrayerKey=null;
+  restartNormalRotation();
+}
+
+const PRAYER_DURATIONS={shacharit:60,mincha:30,maariv:45,shabbatShacharit:120,shabbatMincha:45,shabbatMaariv:60,havdalah:20};
+function newYorkTimeParts(){
+  const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'short',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const o=Object.fromEntries(parts.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+  return {weekday:o.weekday,minutes:Number(o.hour)*60+Number(o.minute)+Number(o.second)/60};
+}
+function prayerSchedule(weekday){
+  const weekdayPrayers=[
+    {key:'shacharit',title:'שחרית'},
+    {key:'mincha',title:'מנחה'},
+    {key:'maariv',title:'ערבית'}
+  ];
+  if(weekday==='Fri') return [weekdayPrayers[0],weekdayPrayers[1],{key:'shabbatMaariv',title:'ערבית ליל שבת'}];
+  if(weekday==='Sat') return [
+    {key:'shabbatShacharit',title:'שחרית שבת'},
+    {key:'shabbatMincha',title:'מנחה שבת'},
+    {key:'havdalah',title:'הבדלה'}
+  ];
+  return weekdayPrayers;
+}
+function currentScheduledPrayer(){
+  const now=newYorkTimeParts();
+  let active=null;
+  for(const prayer of prayerSchedule(now.weekday)){
+    const start=parseClockMinutes(settings[prayer.key]);
+    if(start===null) continue;
+    const end=start+(PRAYER_DURATIONS[prayer.key]||45);
+    if(now.minutes>=start&&now.minutes<end) active={...prayer,start,end};
+  }
+  return active;
+}
+function checkScheduledPrayer(){
+  const active=currentScheduledPrayer();
+  if(!active){
+    dismissedScheduledKey=null;
+    if(scheduledPrayerKey){scheduledPrayerKey=null;manualPrayerKey=null;restartNormalRotation()}
+    return;
+  }
+  if(dismissedScheduledKey===active.key) return;
+  if(scheduledPrayerKey!==active.key){
+    scheduledPrayerKey=active.key;
+    manualPrayerKey=null;
+    clearTimeout(rotationTimer);
+    showPrayerInCenter(active.key,active.title,false);
+  }
+}
+renderRotationStep(0);
+scheduleRotation();
+checkScheduledPrayer();
+setInterval(checkScheduledPrayer,5000);
+
 let lastCommandId='';
 function executeCommand(c){
   if(!c || !c.action) return;
@@ -498,13 +671,13 @@ function executeCommand(c){
   applyAdminSettings();
 
   if(c.action==='showMain'){
-    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(0);
+    rotationPaused=true; clearTimeout(rotationTimer); scheduledPrayerKey=null; manualPrayerKey=null; showBoardPage('main'); showCenterMode('normal');
   }else if(c.action==='showCandle'){
-    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(1);
+    rotationPaused=true; clearTimeout(rotationTimer); scheduledPrayerKey=null; manualPrayerKey=null; showCandlesInCenter();
   }else if(c.action==='showShiur'){
-    rotationPaused=true; clearTimeout(rotationTimer); hidePrayer(); showPage(2);
+    rotationPaused=true; clearTimeout(rotationTimer); scheduledPrayerKey=null; manualPrayerKey=null; showBoardPage('shiur');
   }else if(c.action==='startAll'){
-    rotationPaused=false; hidePrayer(); showPage(0); scheduleRotation();
+    rotationPaused=false; scheduledPrayerKey=null; manualPrayerKey=null; restartNormalRotation(); checkScheduledPrayer();
   }else if(c.action==='stopAll'){
     rotationPaused=true; clearTimeout(rotationTimer);
   }else if(c.action==='hidePrayer'){
@@ -523,7 +696,8 @@ function executeCommand(c){
   if(pm[c.action]){
     rotationPaused=true;
     clearTimeout(rotationTimer);
-    showPrayer(...pm[c.action]);
+    scheduledPrayerKey=null;
+    showPrayerInCenter(...pm[c.action],true);
   }
 }
 function checkCommand(){
