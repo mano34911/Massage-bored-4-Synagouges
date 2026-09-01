@@ -490,7 +490,7 @@ window.addEventListener('message',e=>{
   if(e.origin!==location.origin || !e.data || e.data.type!=='mb_command') return;
   executeCommand(e.data.command);
 });
-setInterval(checkCommand,500);
+setInterval(checkCommand,1500);
 checkCommand();
 </script>
 <a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>
