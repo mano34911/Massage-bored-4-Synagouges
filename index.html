@@ -399,14 +399,7 @@ function getSettings(){
     mainScroll:34,candleScroll:26,shiurScroll:22,prayerScroll:90,mainDuration:20,candleDuration:10,shiurDuration:20,
     prayerTexts:{shacharit:'',mincha:'',maariv:'',shabbatShacharit:'',shabbatMincha:'',shabbatMaariv:'',havdalah:''}
   };
-  try{
-    const local=JSON.parse(localStorage.getItem('mb_full_settings')||'{}');
-    const remote=window.__tenantRemoteSettings||{};
-    const merged=Object.assign({},d,local,remote);
-    merged.zmanim=Object.assign({},d.zmanim,local.zmanim||{},remote.zmanim||{});
-    merged.prayerTexts=Object.assign({},d.prayerTexts,local.prayerTexts||{},remote.prayerTexts||{});
-    return merged;
-  }catch(e){return Object.assign({},d,window.__tenantRemoteSettings||{})}
+  try{return Object.assign(d,JSON.parse(localStorage.getItem('mb_full_settings')||'{}'))}catch(e){return d}
 }
 let settings=getSettings();
 const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v??''};
@@ -501,44 +494,5 @@ setInterval(checkCommand,500);
 checkCommand();
 </script>
 <a class="adminGear" href="admin.html" target="mbAdmin" title="Admin" aria-label="Admin">⚙️</a>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="supabase-config.js"></script>
-<script src="saas-common.js"></script>
-
-
-<script>
-async function initTenantBoard(){
-  if(!appConfigured()) return; // keeps current local board working until Supabase is configured.
-  const sb=getSupabase();
-  const params=new URLSearchParams(location.search);
-  let slug=params.get("s")||params.get("synagogue")||"";
-
-  if(!slug){
-    const {data:{session}}=await sb.auth.getSession();
-    if(session){
-      const {data:syn}=await sb.from("synagogues").select("slug").eq("owner_user_id",session.user.id).maybeSingle();
-      if(syn) slug=syn.slug;
-    }
-  }
-  if(!slug) return;
-
-  const {data,error}=await sb.rpc("get_public_board",{p_slug:slug});
-  if(error){ console.error(error); return; }
-  if(!data){
-    location.href="payment.html?s="+encodeURIComponent(slug);
-    return;
-  }
-  const row=Array.isArray(data)?data[0]:data;
-  const remote=Object.assign({},row.settings||{});
-  remote.synagogue=remote.synagogue||row.synagogue_name||"";
-  remote.rabbi=remote.rabbi||row.rabbi_name||"";
-  window.__tenantRemoteSettings=remote;
-  settings=getSettings();
-  applyAdminSettings();
-}
-window.addEventListener("DOMContentLoaded",initTenantBoard);
-</script>
-
 </body>
 </html>
