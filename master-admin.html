@@ -1,59 +1,365 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Master Admin</title>
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,"Noto Sans Hebrew",sans-serif;background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);color:#fff;display:grid;place-items:center;padding:24px}
-.card{width:min(760px,96vw);background:linear-gradient(180deg,#0b2b5d,#061a3b);border:3px solid #d7a62d;border-radius:24px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;padding:28px}
-h1{color:#f6d469;text-align:center;margin:0 0 8px}p{line-height:1.55}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wide{grid-column:1/-1}
-label{display:flex;flex-direction:column;gap:6px;font-weight:800}input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d7a62d;background:#fff;color:#111;font-size:16px}
-button,.btn{display:inline-block;border:0;border-radius:11px;padding:12px 18px;background:#d7a62d;color:#07152d;font-weight:900;font-size:16px;cursor:pointer;text-decoration:none}.secondary{background:#fff;color:#07152d}.danger{background:#b51f26;color:#fff}.success{background:#2f9d57;color:#fff}
-.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}.msg{min-height:24px;text-align:center;margin-top:12px;font-weight:800}.muted{color:#d8dfef;font-size:14px;text-align:center}
-table{width:100%;border-collapse:collapse;background:#fff;color:#111;border-radius:12px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left}th{background:#f2df9c}.pill{padding:4px 8px;border-radius:999px;background:#e7e7e7;font-weight:800;font-size:12px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}table{font-size:12px}}
-</style>
 
-<style>.card{width:min(1200px,98vw)} input.price{width:110px;padding:7px} .mini{padding:7px 9px;font-size:12px}</style></head>
-<body><div class="card"><h1>Master Admin</h1><p class="muted">Approve, suspend, reactivate, delete access, and set each synagogue's monthly price.</p>
-<div class="actions"><button onclick="loadMembers()">Refresh</button><button class="secondary" onclick="logoutApp()">Logout</button></div><div id="msg" class="msg"></div>
-<div style="overflow:auto;margin-top:18px"><table><thead><tr><th>Synagogue</th><th>Owner</th><th>Status</th><th>Trial</th><th>Price / month</th><th>Board</th><th>Actions</th></tr></thead><tbody id="rows"></tbody></table></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:Arial,"Noto Sans Hebrew",sans-serif;background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);color:#fff;display:grid;place-items:center;padding:24px}
+.card{width:min(1500px,99vw);background:linear-gradient(180deg,#0b2b5d,#061a3b);border:3px solid #d7a62d;border-radius:24px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;padding:28px}
+h1{color:#f6d469;text-align:center;margin:0 0 8px}
+p{line-height:1.55}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.wide{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:6px;font-weight:800}
+input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d7a62d;background:#fff;color:#111;font-size:16px}
+button,.btn{display:inline-block;border:0;border-radius:11px;padding:12px 18px;background:#d7a62d;color:#07152d;font-weight:900;font-size:16px;cursor:pointer;text-decoration:none}
+.secondary{background:#fff;color:#07152d}
+.danger{background:#b51f26;color:#fff}
+.success{background:#2f9d57;color:#fff}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.msg{min-height:24px;text-align:center;margin-top:12px;font-weight:800}
+.muted{color:#d8dfef;font-size:14px;text-align:center}
+table{width:100%;border-collapse:collapse;background:#fff;color:#111;border-radius:12px;overflow:hidden}
+th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left;vertical-align:middle}
+th{background:#f2df9c}
+.pill{padding:4px 8px;border-radius:999px;background:#e7e7e7;font-weight:800;font-size:12px}
+.member-id{font-weight:900;color:#0b2f72;font-size:16px;text-align:center}
+.contact-detail{line-height:1.45;min-width:155px}
+.contact-detail strong{display:block}
+.contact-detail a{color:#0b2f72;text-decoration:none;font-weight:700}
+.contact-detail a:hover{text-decoration:underline}
+.registered{white-space:nowrap;font-size:12px;color:#444}
+input.price{width:110px;padding:7px}
+.mini{padding:7px 9px;font-size:12px}
+@media(max-width:650px){
+  .grid{grid-template-columns:1fr}
+  .wide{grid-column:auto}
+  table{font-size:12px}
+  th,td{padding:7px}
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>Master Admin</h1>
+  <p class="muted">Approve, suspend, reactivate, delete access, and set each synagogue's monthly price.</p>
+
+  <div class="actions">
+    <button onclick="loadMembers()">Refresh</button>
+    <button class="secondary" onclick="logoutApp()">Logout</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+  <div style="overflow:auto;margin-top:18px">
+    <table>
+      <thead>
+        <tr>
+          <th>Member ID</th>
+          <th>Synagogue</th>
+          <th>Rabbi</th>
+          <th>Contact Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Registered</th>
+          <th>Address</th>
+          <th>Heard About Us</th>
+          <th>Referred By</th>
+          <th>Referral Code Used</th>
+          <th>Member Referral Code</th>
+          <th>Status</th>
+          <th>Trial</th>
+          <th>Price / month</th>
+          <th>Board</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+
 <script>
 let sb;
+
 async function guard(){
- sb=getSupabase(); const {data:{session}}=await sb.auth.getSession(); if(!session){location.href="login.html";return false;}
- const {data:p}=await sb.from("profiles").select("role").eq("user_id",session.user.id).single();
- if(!p||p.role!=="master"){location.href="login.html";return false;} return true;
+  sb=getSupabase();
+
+  const {data:{session}}=await sb.auth.getSession();
+
+  if(!session){
+    location.href="login.html";
+    return false;
+  }
+
+  const {data:p}=await sb
+    .from("profiles")
+    .select("role")
+    .eq("user_id",session.user.id)
+    .single();
+
+  if(!p || p.role!=="master"){
+    location.href="login.html";
+    return false;
+  }
+
+  return true;
 }
-function esc(x){return String(x??"").replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function esc(x){
+  return String(x??"").replace(/[&<>"']/g,c=>({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[c]));
+}
+
 async function loadMembers(){
- if(!(await guard()))return;
- msg.textContent="Loading…";
- const {data,error}=await sb.from("synagogues").select("*,profiles!synagogues_owner_user_id_fkey(email,full_name,phone)").order("created_at",{ascending:false});
- if(error){msg.textContent=error.message;return;}
- rows.innerHTML=(data||[]).map(s=>{
-   const p=s.profiles||{}; const left=s.status==="trial"?daysLeft(s.trial_ends_at):null;
-   const shownStatus=(s.status==="trial"&&left===0)?"expired":s.status;
-   return `<tr>
-   <td><strong>${esc(s.synagogue_name)}</strong><br><small>${esc(s.rabbi_name||"")}</small></td>
-   <td>${esc(p.full_name||"")}<br><small>${esc(p.email||"")}</small></td>
-   <td><span class="pill">${esc(shownStatus)}</span></td>
-   <td>${left===null?"—":left+" days"}</td>
-   <td><input class="price" id="price_${s.id}" type="number" min="0" step="0.01" value="${(Number(s.price_monthly_cents)||0)/100}"><button class="mini" onclick="setPrice('${s.id}')">Save</button></td>
-   <td><a class="btn mini secondary" target="_blank" href="index.html?s=${encodeURIComponent(s.slug)}">Open</a></td>
-   <td>
-     <button class="mini success" onclick="approve('${s.id}')">Approve + 7 days</button>
-     <button class="mini" onclick="activate('${s.id}')">Activate</button>
-     <button class="mini danger" onclick="suspendMember('${s.id}')">Suspend</button>
-     <button class="mini danger" onclick="deleteMember('${s.id}')">Delete</button>
-   </td></tr>`;
- }).join("");
- msg.textContent=`${data.length} member account(s)`;
+
+  if(!(await guard())) return;
+
+  msg.textContent="Loading…";
+
+  const {data,error}=await sb
+    .from("synagogues")
+    .select("*,profiles!synagogues_owner_user_id_fkey(email,full_name,phone,created_at,address_line1,city,state_region,postal_code,country,heard_about_us,referred_by,referral_code_used)");
+
+  if(error){
+    msg.textContent=error.message;
+    return;
+  }
+
+  /* Sort numerically by Member ID / slug: 101, 102, 103, 104, 105... */
+  const sorted=(data||[]).sort((a,b)=>{
+    const aNum=Number(a.slug);
+    const bNum=Number(b.slug);
+
+    if(Number.isFinite(aNum) && Number.isFinite(bNum)){
+      return aNum-bNum;
+    }
+
+    return String(a.slug||"").localeCompare(
+      String(b.slug||""),
+      undefined,
+      {numeric:true}
+    );
+  });
+
+  rows.innerHTML=sorted.map(s=>{
+
+    const p=s.profiles||{};
+    const left=s.status==="trial"
+      ? daysLeft(s.trial_ends_at)
+      : null;
+
+    const shownStatus=
+      (s.status==="trial" && left===0)
+        ? "expired"
+        : s.status;
+
+    return `<tr>
+
+      <td class="member-id">${esc(s.slug||"—")}</td>
+
+      <td>
+        <strong>${esc(s.synagogue_name||"")}</strong>
+      </td>
+
+      <td class="contact-detail">
+        ${esc(s.rabbi_name||"—")}
+      </td>
+
+      <td class="contact-detail">
+        <strong>${esc(p.full_name||"—")}</strong>
+      </td>
+
+      <td class="contact-detail">
+        ${p.email
+          ? `<a href="mailto:${esc(p.email)}">${esc(p.email)}</a>`
+          : "—"}
+      </td>
+
+      <td class="contact-detail">
+        ${p.phone
+          ? `<a href="tel:${esc(p.phone)}">${esc(p.phone)}</a>`
+          : "—"}
+      </td>
+
+      <td class="registered">
+        ${esc(
+          p.created_at
+            ? new Date(p.created_at).toLocaleString()
+            : (s.created_at ? new Date(s.created_at).toLocaleString() : "—")
+        )}
+      </td>
+
+      <td class="contact-detail">
+        ${esc([
+          p.address_line1,
+          p.city,
+          p.state_region,
+          p.postal_code,
+          p.country
+        ].filter(Boolean).join(", ") || "—")}
+      </td>
+
+      <td class="contact-detail">
+        ${esc(p.heard_about_us || "—")}
+      </td>
+
+      <td class="contact-detail">
+        ${esc(p.referred_by || "—")}
+      </td>
+
+      <td class="contact-detail">
+        ${esc(p.referral_code_used || "—")}
+      </td>
+
+      <td class="contact-detail">
+        <strong>${esc(s.referral_code || (s.slug ? "SYN-"+s.slug : "—"))}</strong>
+      </td>
+
+      <td>
+        <span class="pill">${esc(shownStatus)}</span>
+      </td>
+
+      <td>
+        ${left===null ? "—" : left+" days"}
+      </td>
+
+      <td>
+        <input
+          class="price"
+          id="price_${s.id}"
+          type="number"
+          min="0"
+          step="0.01"
+          value="${(Number(s.price_monthly_cents)||0)/100}"
+        >
+        <button
+          class="mini"
+          onclick="setPrice('${s.id}')"
+        >
+          Save
+        </button>
+      </td>
+
+      <td>
+        <a
+          class="btn mini secondary"
+          target="_blank"
+          href="index.html?s=${encodeURIComponent(s.slug)}"
+        >
+          Open
+        </a>
+      </td>
+
+      <td>
+        <button
+          class="mini success"
+          onclick="approve('${s.id}')"
+        >
+          Approve + 7 days
+        </button>
+
+        <button
+          class="mini"
+          onclick="activate('${s.id}')"
+        >
+          Activate
+        </button>
+
+        <button
+          class="mini danger"
+          onclick="suspendMember('${s.id}')"
+        >
+          Suspend
+        </button>
+
+        <button
+          class="mini danger"
+          onclick="deleteMember('${s.id}')"
+        >
+          Delete
+        </button>
+      </td>
+
+    </tr>`;
+
+  }).join("");
+
+  msg.textContent=`${sorted.length} member account(s)`;
 }
+
 async function approve(id){
- const now=new Date(), end=new Date(Date.now()+7*86400000);
- await sb.from("synagogues").update({status:"trial",trial_starts_at:now.toISOString(),trial_ends_at:end.toISOString(),approved_at:now.toISOString()}).eq("id",id); loadMembers();
+  const now=new Date();
+  const end=new Date(Date.now()+7*86400000);
+
+  await sb
+    .from("synagogues")
+    .update({
+      status:"trial",
+      trial_starts_at:now.toISOString(),
+      trial_ends_at:end.toISOString(),
+      approved_at:now.toISOString()
+    })
+    .eq("id",id);
+
+  loadMembers();
 }
-async function activate(id){await sb.from("synagogues").update({status:"active"}).eq("id",id);loadMembers();}
-async function suspendMember(id){await sb.from("synagogues").update({status:"suspended"}).eq("id",id);loadMembers();}
-async function deleteMember(id){if(!confirm("Delete this member's access?"))return;await sb.from("synagogues").update({status:"deleted"}).eq("id",id);loadMembers();}
-async function setPrice(id){const dollars=Number(document.getElementById("price_"+id).value)||0;await sb.from("synagogues").update({price_monthly_cents:Math.round(dollars*100)}).eq("id",id);loadMembers();}
+
+async function activate(id){
+  await sb
+    .from("synagogues")
+    .update({status:"active"})
+    .eq("id",id);
+
+  loadMembers();
+}
+
+async function suspendMember(id){
+  await sb
+    .from("synagogues")
+    .update({status:"suspended"})
+    .eq("id",id);
+
+  loadMembers();
+}
+
+async function deleteMember(id){
+  if(!confirm("Delete this member's access?")) return;
+
+  await sb
+    .from("synagogues")
+    .update({status:"deleted"})
+    .eq("id",id);
+
+  loadMembers();
+}
+
+async function setPrice(id){
+  const dollars=
+    Number(
+      document.getElementById("price_"+id).value
+    ) || 0;
+
+  await sb
+    .from("synagogues")
+    .update({
+      price_monthly_cents:
+        Math.round(dollars*100)
+    })
+    .eq("id",id);
+
+  loadMembers();
+}
+
 loadMembers();
-</script></body></html>
+</script>
+</body>
+</html>
