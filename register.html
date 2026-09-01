@@ -1,40 +1,348 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Register Synagogue</title>
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,"Noto Sans Hebrew",sans-serif;background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);color:#fff;display:grid;place-items:center;padding:24px}
-.card{width:min(760px,96vw);background:linear-gradient(180deg,#0b2b5d,#061a3b);border:3px solid #d7a62d;border-radius:24px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;padding:28px}
-h1{color:#f6d469;text-align:center;margin:0 0 8px}p{line-height:1.55}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.wide{grid-column:1/-1}
-label{display:flex;flex-direction:column;gap:6px;font-weight:800}input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d7a62d;background:#fff;color:#111;font-size:16px}
-button,.btn{display:inline-block;border:0;border-radius:11px;padding:12px 18px;background:#d7a62d;color:#07152d;font-weight:900;font-size:16px;cursor:pointer;text-decoration:none}.secondary{background:#fff;color:#07152d}.danger{background:#b51f26;color:#fff}.success{background:#2f9d57;color:#fff}
-.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}.msg{min-height:24px;text-align:center;margin-top:12px;font-weight:800}.muted{color:#d8dfef;font-size:14px;text-align:center}
-table{width:100%;border-collapse:collapse;background:#fff;color:#111;border-radius:12px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid #ddd;text-align:left}th{background:#f2df9c}.pill{padding:4px 8px;border-radius:999px;background:#e7e7e7;font-weight:800;font-size:12px}
-@media(max-width:650px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}table{font-size:12px}}
-</style>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Register Synagogue</title>
+
+  <style>
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial,"Noto Sans Hebrew",sans-serif;
+      background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      padding:24px
+    }
+
+    .card{
+      width:min(760px,96vw);
+      background:linear-gradient(180deg,#0b2b5d,#061a3b);
+      border:3px solid #d7a62d;
+      border-radius:24px;
+      box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;
+      padding:28px
+    }
+
+    h1{
+      color:#f6d469;
+      text-align:center;
+      margin:0 0 8px
+    }
+
+    p{line-height:1.55}
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px
+    }
+
+    .wide{grid-column:1/-1}
+
+    label{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-weight:800
+    }
+
+    input,select{
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #d7a62d;
+      background:#fff;
+      color:#111;
+      font-size:16px
+    }
+
+    .auto-id{
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #d7a62d;
+      background:#edf4ff;
+      color:#0b2f72;
+      font-size:16px;
+      font-weight:900;
+      text-align:center
+    }
+
+    button,.btn{
+      display:inline-block;
+      border:0;
+      border-radius:11px;
+      padding:12px 18px;
+      background:#d7a62d;
+      color:#07152d;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+      text-decoration:none
+    }
+
+    .secondary{
+      background:#fff;
+      color:#07152d
+    }
+
+    .danger{
+      background:#b51f26;
+      color:#fff
+    }
+
+    .success{
+      background:#2f9d57;
+      color:#fff
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:18px
+    }
+
+    .msg{
+      min-height:24px;
+      text-align:center;
+      margin-top:12px;
+      font-weight:800
+    }
+
+    .muted{
+      color:#d8dfef;
+      font-size:14px;
+      text-align:center
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      color:#111;
+      border-radius:12px;
+      overflow:hidden
+    }
+
+    th,td{
+      padding:10px;
+      border-bottom:1px solid #ddd;
+      text-align:left
+    }
+
+    th{background:#f2df9c}
+
+    .pill{
+      padding:4px 8px;
+      border-radius:999px;
+      background:#e7e7e7;
+      font-weight:800;
+      font-size:12px
+    }
+
+    @media(max-width:650px){
+      .grid{grid-template-columns:1fr}
+      .wide{grid-column:auto}
+      table{font-size:12px}
+    }
+  </style>
 </head>
-<body><div class="card"><h1>Register Your Synagogue</h1><p class="muted">After approval, your 7-day free trial begins.</p>
-<div class="grid">
-<label>Contact name<input id="fullName"></label><label>Phone<input id="phone" type="tel"></label>
-<label>Synagogue name<input id="synagogueName"></label><label>Rabbi name<input id="rabbiName"></label>
-<label class="wide">Board ID / URL name<input id="boardSlug" placeholder="example: beth-torah"></label>
-<label>Email<input id="email" type="email"></label><label>Password<input id="password" type="password" minlength="8"></label>
-</div><div class="actions"><button onclick="register()">Register</button><a class="btn secondary" href="login.html">Back to Login</a></div><div id="msg" class="msg"></div></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script>
+
+<body>
+
+<div class="card">
+  <h1>Register Your Synagogue</h1>
+  <p class="muted">
+    After approval, your 7-day free trial begins.
+  </p>
+
+  <div class="grid">
+
+    <label>
+      Contact name
+      <input id="fullName" autocomplete="name">
+    </label>
+
+    <label>
+      Phone
+      <input id="phone" type="tel" autocomplete="tel">
+    </label>
+
+    <label>
+      Synagogue name
+      <input id="synagogueName">
+    </label>
+
+    <label>
+      Rabbi name
+      <input id="rabbiName">
+    </label>
+
+    <label class="wide">
+      Board ID / Member ID
+      <div class="auto-id">
+        Assigned automatically after registration
+      </div>
+    </label>
+
+    <label>
+      Email
+      <input id="email" type="email" autocomplete="email">
+    </label>
+
+    <label>
+      Password
+      <input id="password" type="password" minlength="8" autocomplete="new-password">
+    </label>
+
+  </div>
+
+  <div class="actions">
+    <button id="registerBtn" type="button" onclick="register()">
+      Register
+    </button>
+
+    <a class="btn secondary" href="login.html">
+      Back to Login
+    </a>
+  </div>
+
+  <div id="msg" class="msg"></div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+
 <script>
 async function register(){
-  const msg=document.getElementById("msg");
-  const slug=boardSlug.value.trim().toLowerCase();
-  if(!/^[a-z0-9][a-z0-9-]{2,39}$/.test(slug)){msg.textContent="Board ID must be 3–40 characters using letters, numbers, and dashes.";return;}
-  msg.textContent="Creating account…";
+
+  const msg = document.getElementById("msg");
+  const registerBtn = document.getElementById("registerBtn");
+
+  const fullNameValue =
+    document.getElementById("fullName").value.trim();
+
+  const phoneValue =
+    document.getElementById("phone").value.trim();
+
+  const synagogueNameValue =
+    document.getElementById("synagogueName").value.trim();
+
+  const rabbiNameValue =
+    document.getElementById("rabbiName").value.trim();
+
+  const emailValue =
+    document.getElementById("email").value.trim();
+
+  const passwordValue =
+    document.getElementById("password").value;
+
+
+  if(!fullNameValue){
+    msg.textContent = "Please enter the contact name.";
+    return;
+  }
+
+  if(!synagogueNameValue){
+    msg.textContent = "Please enter the synagogue name.";
+    return;
+  }
+
+  if(!emailValue){
+    msg.textContent = "Please enter an email address.";
+    return;
+  }
+
+  if(passwordValue.length < 8){
+    msg.textContent = "Password must be at least 8 characters.";
+    return;
+  }
+
+
+  msg.textContent = "Creating account…";
+  registerBtn.disabled = true;
+
+
   try{
-    const sb=getSupabase();
-    const {data,error}=await sb.auth.signUp({
-      email:email.value.trim(),password:password.value,
-      options:{data:{
-        full_name:fullName.value.trim(), phone:phone.value.trim(),
-        synagogue_name:synagogueName.value.trim(), rabbi_name:rabbiName.value.trim(), board_slug:slug
-      }}
-    });
-    if(error) throw error;
-    msg.textContent="Registration received. Check your email if confirmation is required. Your account is now waiting for approval.";
-  }catch(e){msg.textContent=e.message||String(e);}
+
+    const sb = getSupabase();
+
+
+    const { data, error } =
+      await sb.auth.signUp({
+
+        email: emailValue,
+
+        password: passwordValue,
+
+        options:{
+          data:{
+
+            full_name:
+              fullNameValue,
+
+            phone:
+              phoneValue,
+
+            synagogue_name:
+              synagogueNameValue,
+
+            rabbi_name:
+              rabbiNameValue,
+
+            /*
+              The member no longer chooses the Board ID.
+
+              "auto" is kept only for compatibility with any
+              existing signup/database trigger that expects
+              board_slug metadata.
+
+              The database BEFORE INSERT trigger replaces this
+              with the next numeric ID: 105, 106, 107, etc.
+            */
+            board_slug:
+              "auto"
+          }
+        }
+      });
+
+
+    if(error){
+      throw error;
+    }
+
+
+    msg.textContent =
+      "Registration received. Your Board ID will be assigned automatically. " +
+      "Check your email if confirmation is required. " +
+      "Your account is now waiting for approval.";
+
+
+  }catch(e){
+
+    console.error(e);
+
+    msg.textContent =
+      e && e.message
+        ? e.message
+        : String(e);
+
+  }finally{
+
+    registerBtn.disabled = false;
+
+  }
 }
-</script></body></html>
+</script>
+
+</body>
+</html>
