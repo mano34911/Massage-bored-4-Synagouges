@@ -1,7 +1,532 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="google" content="notranslate"><title>רישום חבר קהילה</title><style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top,#16458a,#061a42 55%,#020712);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:#fff}.card{width:min(720px,96vw);background:#071d47;border:3px solid #d7a62d;border-radius:24px;padding:28px;box-shadow:0 20px 70px #0009}h1{text-align:center;color:#f8d66b;margin:0 0 6px}.muted{text-align:center;color:#d8e2f4}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}.wide{grid-column:1/-1}label{font-weight:900}input{width:100%;margin-top:6px;padding:13px;border:1px solid #d7a62d;border-radius:10px;font-size:16px}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.btn,button{border:0;border-radius:11px;padding:12px 18px;background:#ffc439;color:#111;text-decoration:none;font-weight:900;font-size:16px;cursor:pointer}.secondary{background:#fff;color:#09204c}.msg{text-align:center;min-height:25px;margin-top:14px;font-weight:800;color:#ffd873}@media(max-width:620px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}}</style></head>
-<body class="notranslate" translate="no"><main class="card"><h1>רישום חבר לבית הכנסת</h1><p class="muted">לכל חבר יהיה דוא״ל וסיסמה משלו, המחוברים רק לבית הכנסת שלו.</p><div class="grid"><label class="wide">Board ID של בית הכנסת<input id="organizationSlug" dir="ltr" placeholder="beth-torah"></label><label>שם מלא<input id="fullName" autocomplete="name"></label><label>טלפון<input id="phone" type="tel" autocomplete="tel"></label><label>דוא״ל<input id="email" type="email" autocomplete="email"></label><label>סיסמה — לפחות 8 תווים<input id="password" type="password" minlength="8" autocomplete="new-password"></label></div><div class="actions"><button onclick="registerMember()">יצירת חשבון חבר</button><a id="loginLink" class="btn secondary" href="member-login.html">כבר רשום — כניסה</a><a id="boardLink" class="btn secondary" href="index.html">חזרה ללוח</a></div><div id="msg" class="msg"></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script><script>
-const requestedSlug=(new URLSearchParams(location.search).get('s')||'').trim().toLowerCase();if(requestedSlug){organizationSlug.value=requestedSlug;organizationSlug.readOnly=true;const q='?s='+encodeURIComponent(requestedSlug);loginLink.href='member-login.html'+q;boardLink.href='index.html'+q}
-async function registerMember(){const slug=organizationSlug.value.trim().toLowerCase();if(!slug||!fullName.value.trim()||!email.value.trim()||password.value.length<8){msg.textContent='נא למלא Board ID, שם, דוא״ל וסיסמה של 8 תווים לפחות.';return}msg.textContent='בודק את בית הכנסת ויוצר חשבון…';try{const sb=getSupabase();const {data:board,error:be}=await sb.rpc('get_public_board',{p_slug:slug});if(be)throw be;if(!board)throw new Error('Board ID של בית הכנסת לא נמצא או אינו פעיל.');const {data,error}=await sb.auth.signUp({email:email.value.trim(),password:password.value,options:{data:{account_type:'organization_member',organization_slug:slug,full_name:fullName.value.trim(),phone:phone.value.trim()}}});if(error)throw error;if(data.session){location.href='donate.html?s='+encodeURIComponent(slug);return}msg.textContent='החשבון נוצר. נא לבדוק את הדוא״ל לאישור, ואז להיכנס.'}catch(e){msg.textContent=e.message||String(e)}}
-</script></body></html>
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Synagogue Member Registration</title>
+
+  <style>
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial,"Noto Sans Hebrew",sans-serif;
+      background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(820px,96vw);
+      background:linear-gradient(180deg,#0b2b5d,#061a3b);
+      border:3px solid #d7a62d;
+      border-radius:24px;
+      box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;
+      padding:28px;
+    }
+
+    h1{
+      color:#f6d469;
+      text-align:center;
+      margin:0 0 8px;
+    }
+
+    .synagogue-name{
+      text-align:center;
+      color:#fff;
+      font-size:22px;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+
+    .muted{
+      color:#d8dfef;
+      font-size:14px;
+      text-align:center;
+      margin-bottom:22px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .wide{
+      grid-column:1/-1;
+    }
+
+    .sectionTitle{
+      grid-column:1/-1;
+      color:#f6d469;
+      font-weight:900;
+      font-size:18px;
+      margin-top:8px;
+      border-bottom:1px solid #d7a62d66;
+      padding-bottom:6px;
+    }
+
+    label{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-weight:800;
+    }
+
+    input{
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #d7a62d;
+      background:#fff;
+      color:#111;
+      font-size:16px;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:20px;
+    }
+
+    button{
+      border:0;
+      border-radius:11px;
+      padding:12px 20px;
+      background:#d7a62d;
+      color:#07152d;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    .msg{
+      min-height:28px;
+      text-align:center;
+      margin-top:16px;
+      font-weight:800;
+    }
+
+    .success{
+      color:#9cffaa;
+    }
+
+    .error{
+      color:#ffaaaa;
+    }
+
+    .member-number{
+      background:#edf4ff;
+      color:#0b2f72;
+      border:1px solid #d7a62d;
+      padding:14px;
+      border-radius:10px;
+      text-align:center;
+      font-weight:900;
+    }
+
+    @media(max-width:650px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .wide,
+      .sectionTitle{
+        grid-column:auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h1>Member Registration</h1>
+
+  <div id="synagogueName" class="synagogue-name">
+    Loading synagogue...
+  </div>
+
+  <div class="muted">
+    Register as a member of this synagogue.
+  </div>
+
+
+  <div class="grid">
+
+    <div class="sectionTitle">
+      Member Information
+    </div>
+
+    <label>
+      Full name
+      <input id="fullName" autocomplete="name">
+    </label>
+
+    <label>
+      Hebrew name
+      <input id="hebrewName">
+    </label>
+
+    <label>
+      Email
+      <input id="email" type="email" autocomplete="email">
+    </label>
+
+    <label>
+      Phone
+      <input id="phone" type="tel" autocomplete="tel">
+    </label>
+
+
+    <div class="sectionTitle">
+      Address
+    </div>
+
+    <label class="wide">
+      Street address
+      <input id="addressLine1" autocomplete="street-address">
+    </label>
+
+    <label>
+      City
+      <input id="city" autocomplete="address-level2">
+    </label>
+
+    <label>
+      State / Province / Region
+      <input id="stateRegion" autocomplete="address-level1">
+    </label>
+
+    <label>
+      ZIP / Postal code
+      <input id="postalCode" autocomplete="postal-code">
+    </label>
+
+    <label>
+      Country
+      <input id="country" autocomplete="country-name" value="United States">
+    </label>
+
+
+    <div class="sectionTitle">
+      Member Number
+    </div>
+
+    <div class="wide member-number">
+      Assigned automatically after registration
+    </div>
+
+  </div>
+
+
+  <div class="actions">
+    <button id="registerBtn" onclick="registerMember()">
+      Register
+    </button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+
+
+<script>
+
+let sb;
+let synagogueRecord = null;
+
+
+function getSynagogueSlug(){
+
+  const params =
+    new URLSearchParams(window.location.search);
+
+  return (
+    params.get("synagogue") ||
+    params.get("slug") ||
+    ""
+  ).trim();
+
+}
+
+
+async function loadSynagogue(){
+
+  const msg =
+    document.getElementById("msg");
+
+  const slug =
+    getSynagogueSlug();
+
+
+  if(!slug){
+
+    document.getElementById("synagogueName")
+      .textContent =
+      "Synagogue not specified";
+
+    msg.textContent =
+      "This registration link is missing the synagogue ID.";
+
+    msg.className =
+      "msg error";
+
+    document.getElementById("registerBtn")
+      .disabled = true;
+
+    return;
+  }
+
+
+  sb =
+    getSupabase();
+
+
+  const {
+    data,
+    error
+  } =
+    await sb
+      .from("synagogues")
+      .select("id,slug,synagogue_name,status")
+      .eq("slug",slug)
+      .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+    msg.textContent =
+      error.message;
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  if(!data){
+
+    document.getElementById("synagogueName")
+      .textContent =
+      "Synagogue not found";
+
+    msg.textContent =
+      "The synagogue registration link is invalid.";
+
+    msg.className =
+      "msg error";
+
+    document.getElementById("registerBtn")
+      .disabled = true;
+
+    return;
+  }
+
+
+  synagogueRecord =
+    data;
+
+
+  document.getElementById("synagogueName")
+    .textContent =
+    data.synagogue_name;
+
+
+  msg.textContent =
+    "";
+
+}
+
+
+async function registerMember(){
+
+  const msg =
+    document.getElementById("msg");
+
+  const btn =
+    document.getElementById("registerBtn");
+
+
+  if(!synagogueRecord){
+
+    msg.textContent =
+      "Synagogue information has not loaded.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  const member = {
+
+    synagogue_id:
+      synagogueRecord.id,
+
+    full_name:
+      document
+        .getElementById("fullName")
+        .value
+        .trim(),
+
+    hebrew_name:
+      document
+        .getElementById("hebrewName")
+        .value
+        .trim() || null,
+
+    email:
+      document
+        .getElementById("email")
+        .value
+        .trim() || null,
+
+    phone:
+      document
+        .getElementById("phone")
+        .value
+        .trim() || null,
+
+    address_line1:
+      document
+        .getElementById("addressLine1")
+        .value
+        .trim() || null,
+
+    city:
+      document
+        .getElementById("city")
+        .value
+        .trim() || null,
+
+    state_region:
+      document
+        .getElementById("stateRegion")
+        .value
+        .trim() || null,
+
+    postal_code:
+      document
+        .getElementById("postalCode")
+        .value
+        .trim() || null,
+
+    country:
+      document
+        .getElementById("country")
+        .value
+        .trim() || null,
+
+    status:
+      "active"
+  };
+
+
+  if(!member.full_name){
+
+    msg.textContent =
+      "Please enter your full name.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  btn.disabled = true;
+
+  msg.textContent =
+    "Registering member...";
+
+  msg.className =
+    "msg";
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("synagogue_members")
+        .insert(member)
+        .select("member_number,full_name")
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    msg.innerHTML =
+      "Registration successful.<br>" +
+      "Your member number is <strong>" +
+      data.member_number +
+      "</strong>.";
+
+    msg.className =
+      "msg success";
+
+
+    document.getElementById("fullName").value = "";
+    document.getElementById("hebrewName").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("addressLine1").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("stateRegion").value = "";
+    document.getElementById("postalCode").value = "";
+
+
+  }
+  catch(e){
+
+    console.error(e);
+
+    msg.textContent =
+      e && e.message
+        ? e.message
+        : String(e);
+
+    msg.className =
+      "msg error";
+
+  }
+  finally{
+
+    btn.disabled = false;
+
+  }
+
+}
+
+
+loadSynagogue();
+
+</script>
+
+</body>
+</html>
