@@ -15,12 +15,9 @@
   --ink:#2b210f;
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html,
-body{
+html,body{
   margin:0;
   width:100%;
   height:100%;
@@ -35,26 +32,49 @@ body{
   justify-content:center;
 }
 
+/* IMPORTANT:
+   position:relative makes the admin gear stay
+   inside this board instead of the browser edge.
+*/
 .board{
+  position:relative;
+
   width:100vw;
   height:100vh;
   padding:8px;
-  background:linear-gradient(135deg,#f7f0dc,#fff,#e4dcc8);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f7f0dc,
+      #fff,
+      #e4dcc8
+    );
+
   border:3px solid #9b741c;
   box-shadow:inset 0 0 0 3px #f4d264;
+
   display:grid;
   grid-template-rows:auto 1fr auto;
   gap:8px;
+
   color:var(--ink);
 }
 
 .goldFrame{
   border:3px solid var(--gold);
+
   box-shadow:
     inset 0 0 0 2px #fff3bd,
     0 1px 4px #6a4d0b55;
+
   border-radius:24px;
-  background:linear-gradient(#fffdf3,#f7efd4);
+
+  background:
+    linear-gradient(
+      #fffdf3,
+      #f7efd4
+    );
 }
 
 .header{
@@ -65,12 +85,21 @@ body{
 }
 
 .clock{
-  background:linear-gradient(180deg,#071c50,#0a3275);
+  background:
+    linear-gradient(
+      180deg,
+      #071c50,
+      #0a3275
+    );
+
   color:#fff7d6;
   text-align:center;
+
   border-radius:25px;
   border:3px solid var(--gold2);
+
   padding:10px 4px;
+
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -95,34 +124,50 @@ body{
 .titlebox h1{
   margin:0;
   color:#0d2d6b;
-  font-size:clamp(28px,4.6vw,60px);
+
+  font-size:
+    clamp(28px,4.6vw,60px);
+
   line-height:1.04;
 }
 
 .titlebox .rabbi{
-  font-size:clamp(16px,2.4vw,30px);
+  font-size:
+    clamp(16px,2.4vw,30px);
+
   font-weight:800;
   color:#7a4c10;
+
   margin-top:4px;
 }
 
 .titlebox .date{
-  font-size:clamp(13px,1.9vw,24px);
+  font-size:
+    clamp(13px,1.9vw,24px);
+
   font-weight:700;
   margin-top:5px;
 }
 
 .main{
   min-height:0;
+
   display:grid;
-  grid-template-columns:19% 1fr 19%;
+
+  grid-template-columns:
+    19% 1fr 19%;
+
   gap:8px;
 }
 
 .side{
   min-height:0;
+
   display:grid;
-  grid-template-rows:2fr .75fr;
+
+  grid-template-rows:
+    2fr .75fr;
+
   gap:8px;
 }
 
@@ -134,28 +179,52 @@ body{
 
 .sideBox h2{
   display:inline-block;
+
   margin:0 0 10px;
-  padding:12px 14px;
+
+  padding:
+    12px 14px;
+
   border-radius:22px;
-  background:linear-gradient(#f9dc83,#c7932b);
-  border:3px solid #9c6b12;
+
+  background:
+    linear-gradient(
+      #f9dc83,
+      #c7932b
+    );
+
+  border:
+    3px solid #9c6b12;
+
   color:#574016;
-  font-size:clamp(17px,2.5vw,33px);
-  box-shadow:inset 0 0 0 2px #ffeaa6;
+
+  font-size:
+    clamp(17px,2.5vw,33px);
+
+  box-shadow:
+    inset 0 0 0 2px #ffeaa6;
 }
 
 .rows{
   font-weight:800;
-  font-size:clamp(13px,1.75vw,22px);
+
+  font-size:
+    clamp(13px,1.75vw,22px);
+
   line-height:1.12;
 }
 
 .row{
   display:flex;
   justify-content:space-between;
+
   gap:6px;
-  border-bottom:2px dotted #b69b63;
-  padding:6px 2px;
+
+  border-bottom:
+    2px dotted #b69b63;
+
+  padding:
+    6px 2px;
 }
 
 .row .red{
@@ -163,61 +232,92 @@ body{
 }
 
 .smallText{
-  font-size:clamp(15px,2.1vw,27px);
+  font-size:
+    clamp(15px,2.1vw,27px);
+
   line-height:1.35;
   font-weight:800;
 }
 
 .center{
   min-height:0;
+
   border-radius:34px;
+
   background:
     linear-gradient(
       #0a2b68 0 13%,
       #fff8df 13% 90%,
       #0a2b68 90%
     );
-  border:4px solid var(--gold);
-  box-shadow:inset 0 0 0 3px #fff0a4;
+
+  border:
+    4px solid var(--gold);
+
+  box-shadow:
+    inset 0 0 0 3px #fff0a4;
+
   position:relative;
-  padding:11% 6% 12%;
+
+  padding:
+    11% 6% 12%;
+
   overflow:hidden;
 }
 
 .medallion{
   position:absolute;
   z-index:5;
+
   top:-4px;
   left:50%;
-  transform:translateX(-50%);
-  width:min(20vw,155px);
+
+  transform:
+    translateX(-50%);
+
+  width:
+    min(20vw,155px);
+
   aspect-ratio:1;
+
   border-radius:50%;
+
   background:
     radial-gradient(
       circle at 40% 35%,
       #1f4388,
       #071d51 72%
     );
-  border:12px solid #e3b343;
-  box-shadow:0 0 0 5px #896714;
+
+  border:
+    12px solid #e3b343;
+
+  box-shadow:
+    0 0 0 5px #896714;
 }
 
 .scrollWindow{
   width:100%;
   height:100%;
+
   overflow:hidden;
+
   position:relative;
+
   text-align:center;
 }
 
 .scroller{
   position:absolute;
   top:0;
+
   width:100%;
+
   animation:
-    scrollUp var(--main-scroll-speed,34s)
+    scrollUp
+    var(--main-scroll-speed,34s)
     linear infinite;
+
   will-change:transform;
 }
 
@@ -226,22 +326,37 @@ body{
 }
 
 @keyframes scrollUp{
-  from{transform:translateY(0)}
-  to{transform:translateY(-115%)}
+  from{
+    transform:
+      translateY(0);
+  }
+
+  to{
+    transform:
+      translateY(-115%);
+  }
 }
 
 .big{
-  font-size:clamp(25px,4.1vw,58px);
+  font-size:
+    clamp(25px,4.1vw,58px);
+
   font-weight:900;
   line-height:1.2;
-  margin:10px 0;
+
+  margin:
+    10px 0;
 }
 
 .medium{
-  font-size:clamp(19px,3vw,40px);
+  font-size:
+    clamp(19px,3vw,40px);
+
   font-weight:900;
   line-height:1.32;
-  margin:12px 0;
+
+  margin:
+    12px 0;
 }
 
 .blue{color:#143b86}
@@ -252,24 +367,45 @@ body{
 .teal{color:#0e7881}
 
 .infoCard{
-  border:3px solid #b78b2b;
+  border:
+    3px solid #b78b2b;
+
   border-radius:24px;
+
   background:#fffdf3;
+
   padding:10px;
-  margin:18px auto;
+
+  margin:
+    18px auto;
+
   width:94%;
-  font-size:clamp(14px,2vw,25px);
+
+  font-size:
+    clamp(14px,2vw,25px);
+
   font-weight:800;
 }
 
 .memorial{
-  border:3px solid #b98a29;
+  border:
+    3px solid #b98a29;
+
   border-radius:18px;
+
   background:#fff3c8;
-  padding:12px 8px;
-  margin:14px auto;
-  font-size:clamp(16px,2.3vw,30px);
+
+  padding:
+    12px 8px;
+
+  margin:
+    14px auto;
+
+  font-size:
+    clamp(16px,2.3vw,30px);
+
   font-weight:900;
+
   color:#6a4315;
 }
 
@@ -279,22 +415,94 @@ body{
       #0b2f72,
       #071b4c
     );
+
   color:#fff7d4;
-  border:3px solid var(--gold);
-  box-shadow:inset 0 0 0 2px #f6db7d;
+
+  border:
+    3px solid var(--gold);
+
+  box-shadow:
+    inset 0 0 0 2px #f6db7d;
+
   border-radius:16px;
-  padding:10px 18px;
+
+  padding:
+    10px 18px;
+
   text-align:center;
-  font-size:clamp(16px,2.4vw,31px);
+
+  font-size:
+    clamp(16px,2.4vw,31px);
+
   font-weight:900;
+
   white-space:nowrap;
+
   overflow:hidden;
+}
+
+
+/* =========================================
+   ADMIN GEAR
+   INSIDE BOTTOM LEFT OF BOARD
+========================================= */
+
+.adminGear{
+  position:absolute;
+
+  left:14px;
+  bottom:14px;
+
+  z-index:999999;
+
+  width:52px;
+  height:52px;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:#071f50;
+
+  border:
+    3px solid #d7a62d;
+
+  color:#fff;
+
+  font-size:29px;
+
+  text-decoration:none;
+
+  box-shadow:
+    0 3px 14px #0009,
+    inset 0 0 0 1px #ffffff33;
+
+  transition:
+    transform .15s ease,
+    background .15s ease;
+}
+
+.adminGear:hover{
+  transform:
+    scale(1.08);
+
+  background:#0b2f72;
+}
+
+.adminGear:active{
+  transform:
+    scale(.94);
 }
 
 
 /* PHONE PORTRAIT */
 
-@media (max-width:700px) and (orientation:portrait){
+@media
+(max-width:700px)
+and
+(orientation:portrait){
 
   .board{
     padding:5px;
@@ -302,12 +510,16 @@ body{
   }
 
   .header{
-    grid-template-columns:22% 1fr 22%;
+    grid-template-columns:
+      22% 1fr 22%;
+
     gap:5px;
   }
 
   .clock{
-    padding:6px 2px;
+    padding:
+      6px 2px;
+
     border-radius:18px;
   }
 
@@ -316,7 +528,9 @@ body{
   }
 
   .main{
-    grid-template-columns:22% 1fr 22%;
+    grid-template-columns:
+      22% 1fr 22%;
+
     gap:5px;
   }
 
@@ -325,22 +539,29 @@ body{
   }
 
   .sideBox{
-    padding:6px 3px;
+    padding:
+      6px 3px;
   }
 
   .sideBox h2{
-    padding:8px 5px;
+    padding:
+      8px 5px;
+
     border-radius:14px;
+
     margin-bottom:5px;
   }
 
   .row{
     display:block;
-    padding:4px 0;
+
+    padding:
+      4px 0;
   }
 
   .center{
-    padding:15% 4% 13%;
+    padding:
+      15% 4% 13%;
   }
 
   .medallion{
@@ -352,31 +573,46 @@ body{
     width:100%;
     padding:7px;
   }
+
+  .adminGear{
+    width:44px;
+    height:44px;
+
+    left:8px;
+    bottom:8px;
+
+    font-size:24px;
+  }
 }
 
 
 /* LANDSCAPE */
 
-@media (orientation:landscape){
+@media
+(orientation:landscape){
 
   .board{
     max-width:1600px;
   }
 
   .header{
-    grid-template-columns:16% 1fr 16%;
+    grid-template-columns:
+      16% 1fr 16%;
   }
 
   .main{
-    grid-template-columns:18% 1fr 18%;
+    grid-template-columns:
+      18% 1fr 18%;
   }
 
   .center{
-    padding:10% 5% 10%;
+    padding:
+      10% 5% 10%;
   }
 
   .medallion{
-    width:min(13vw,150px);
+    width:
+      min(13vw,150px);
   }
 
   .scroller{
@@ -385,7 +621,9 @@ body{
   }
 }
 
-@media (prefers-reduced-motion:reduce){
+@media
+(prefers-reduced-motion:reduce){
+
   .scroller{
     animation:none;
     position:static;
@@ -393,7 +631,9 @@ body{
 }
 
 
-/* PAGE ROTATION */
+/* =========================================
+   PAGE ROTATION
+========================================= */
 
 body{
   position:relative;
@@ -402,17 +642,23 @@ body{
 .rotatePage{
   position:absolute;
   inset:0;
+
   width:100%;
   height:100%;
+
   opacity:0;
   visibility:hidden;
+
   pointer-events:none;
-  transition:opacity .65s ease;
+
+  transition:
+    opacity .65s ease;
 }
 
 .rotatePage.active{
   opacity:1;
   visibility:visible;
+
   pointer-events:auto;
 }
 
@@ -425,7 +671,10 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:clamp(10px,2vw,28px);
+
+  padding:
+    clamp(10px,2vw,28px);
+
   background:
     radial-gradient(
       circle at 50% 15%,
@@ -433,41 +682,71 @@ body{
       #071f50 42%,
       #020d27 100%
     );
+
   color:#fff;
 }
 
 .specialFrame{
-  width:min(96vw,1300px);
-  height:min(94vh,900px);
-  border:4px solid var(--gold);
+  width:
+    min(96vw,1300px);
+
+  height:
+    min(94vh,900px);
+
+  border:
+    4px solid var(--gold);
+
   box-shadow:
     inset 0 0 0 3px #fff0a4,
     0 0 28px #d7a62d88;
+
   border-radius:32px;
+
   background:
     linear-gradient(
       180deg,
       #092b69,
       #061b48
     );
-  padding:clamp(18px,4vw,48px);
+
+  padding:
+    clamp(18px,4vw,48px);
+
   text-align:center;
+
   overflow:hidden;
 }
 
 .specialTitle{
   color:#f7d66b;
-  font-size:clamp(38px,6vw,82px);
+
+  font-size:
+    clamp(38px,6vw,82px);
+
   font-weight:900;
-  margin:0 0 20px;
-  text-shadow:0 2px 8px #000;
+
+  margin:
+    0 0 20px;
+
+  text-shadow:
+    0 2px 8px #000;
 }
 
+
+/* CANDLE */
+
 .candleGrid{
-  height:calc(100% - 110px);
+  height:
+    calc(100% - 110px);
+
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:clamp(10px,2vw,25px);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:
+    clamp(10px,2vw,25px);
+
   align-content:center;
 }
 
@@ -476,14 +755,19 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
+
   min-height:180px;
+
   padding:10px;
 }
 
 .flame{
   width:32px;
   height:52px;
-  border-radius:50% 50% 45% 45%;
+
+  border-radius:
+    50% 50% 45% 45%;
+
   background:
     radial-gradient(
       ellipse at 50% 65%,
@@ -492,27 +776,44 @@ body{
       #ff9a1f 39% 68%,
       #e63b16 69% 100%
     );
+
   box-shadow:
     0 0 16px #ffd43b,
     0 0 35px #ff8a00;
-  animation:flicker .85s ease-in-out infinite alternate;
-  transform-origin:50% 100%;
+
+  animation:
+    flicker
+    .85s
+    ease-in-out
+    infinite
+    alternate;
+
+  transform-origin:
+    50% 100%;
 }
 
 @keyframes flicker{
+
   from{
-    transform:rotate(-2deg) scale(.96)
+    transform:
+      rotate(-2deg)
+      scale(.96);
   }
 
   to{
-    transform:rotate(2deg) scale(1.05)
+    transform:
+      rotate(2deg)
+      scale(1.05);
   }
 }
 
 .wax{
   width:54px;
   height:95px;
-  border-radius:8px 8px 12px 12px;
+
+  border-radius:
+    8px 8px 12px 12px;
+
   background:
     linear-gradient(
       90deg,
@@ -520,93 +821,150 @@ body{
       #fff,
       #d9d0b9
     );
-  box-shadow:0 6px 18px #0008;
+
+  box-shadow:
+    0 6px 18px #0008;
 }
 
 .candleName{
   margin-top:12px;
+
   color:#fff3c8;
-  font-size:clamp(18px,2.4vw,31px);
+
+  font-size:
+    clamp(18px,2.4vw,31px);
+
   font-weight:800;
 }
 
+
+/* SHIUR */
+
 .shiurBody{
-  height:calc(100% - 110px);
+  height:
+    calc(100% - 110px);
+
   overflow:hidden;
+
   border-radius:24px;
+
   background:#fff8df;
+
   color:#2b210f;
-  padding:clamp(18px,4vw,48px);
-  box-shadow:inset 0 0 0 3px #d7a62d;
+
+  padding:
+    clamp(18px,4vw,48px);
+
+  box-shadow:
+    inset 0 0 0 3px #d7a62d;
 }
 
 .shiurScroll{
   animation:
-    shiurUp var(--shiur-scroll-speed,22s)
+    shiurUp
+    var(--shiur-scroll-speed,22s)
     linear infinite;
 }
 
 @keyframes shiurUp{
+
   from{
-    transform:translateY(60%)
+    transform:
+      translateY(60%);
   }
 
   to{
-    transform:translateY(-105%)
+    transform:
+      translateY(-105%);
   }
 }
 
 .shiurHeading{
   color:#143b86;
-  font-size:clamp(30px,4.5vw,62px);
+
+  font-size:
+    clamp(30px,4.5vw,62px);
+
   font-weight:900;
+
   margin:10px;
 }
 
 .shiurText{
-  font-size:clamp(22px,3vw,42px);
+  font-size:
+    clamp(22px,3vw,42px);
+
   line-height:1.55;
+
   font-weight:700;
 }
 
-.shiurText .green{color:#17824b}
-.shiurText .purple{color:#693c8f}
-.shiurText .redText{color:#b51f26}
+.shiurText .green{
+  color:#17824b;
+}
 
-@media(max-width:700px) and (orientation:portrait){
+.shiurText .purple{
+  color:#693c8f;
+}
+
+.shiurText .redText{
+  color:#b51f26;
+}
+
+@media
+(max-width:700px)
+and
+(orientation:portrait){
 
   .candleGrid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .specialFrame{
     height:97vh;
+
     padding:15px;
   }
 }
 
 
-/* CANDLE PAGE */
+/* =========================================
+   LARGE CANDLE PAGE
+========================================= */
 
 #candlePage .specialFrame{
-  width:min(94vw,1260px);
-  height:min(91vh,820px);
-  padding:clamp(10px,2vw,26px);
+  width:
+    min(94vw,1260px);
+
+  height:
+    min(91vh,820px);
+
+  padding:
+    clamp(10px,2vw,26px);
 }
 
 #candlePage .specialTitle{
-  font-size:clamp(34px,5.4vw,70px);
+  font-size:
+    clamp(34px,5.4vw,70px);
+
   margin-bottom:8px;
+
   color:#ffd86b;
+
   text-shadow:
     0 0 10px #ffb300aa,
     0 3px 10px #000;
 }
 
 .candleViewport{
-  height:calc(100% - 82px);
+  height:
+    calc(100% - 82px);
+
   overflow:hidden;
+
   position:relative;
+
   mask-image:
     linear-gradient(
       to bottom,
@@ -619,42 +977,66 @@ body{
 
 .candleScroll{
   min-height:100%;
+
   will-change:transform;
+
   animation:
-    candleUp var(--candle-scroll-speed,45s)
+    candleUp
+    var(--candle-scroll-speed,45s)
     linear infinite;
 }
 
 @keyframes candleUp{
+
   from{
-    transform:translateY(12vh)
+    transform:
+      translateY(12vh);
   }
 
   to{
     transform:
-      translateY(calc(-100% + 12vh))
+      translateY(
+        calc(-100% + 12vh)
+      );
   }
 }
 
 #candlePage .candleGrid{
   height:auto;
+
   min-height:100%;
+
   grid-template-columns:
-    repeat(4,minmax(0,1fr));
-  gap:clamp(14px,2vw,28px);
-  padding:16px 8px 55vh;
+    repeat(
+      4,
+      minmax(0,1fr)
+    );
+
+  gap:
+    clamp(14px,2vw,28px);
+
+  padding:
+    16px 8px 55vh;
+
   align-content:start;
 }
 
 #candlePage .candle{
   min-height:235px;
-  padding:10px 6px;
-  filter:drop-shadow(0 8px 12px #0008);
+
+  padding:
+    10px 6px;
+
+  filter:
+    drop-shadow(
+      0 8px 12px #0008
+    );
 }
 
 #candlePage .flame{
   width:44px;
   height:72px;
+
   background:
     radial-gradient(
       ellipse at 50% 68%,
@@ -665,6 +1047,7 @@ body{
       #ff5a2f 63% 82%,
       #b82cff 83% 100%
     );
+
   box-shadow:
     0 0 20px #fff6b8,
     0 0 42px #ffb21f,
@@ -675,7 +1058,10 @@ body{
 #candlePage .wax{
   width:72px;
   height:118px;
-  border-radius:14px 14px 18px 18px;
+
+  border-radius:
+    14px 14px 18px 18px;
+
   background:
     linear-gradient(
       90deg,
@@ -684,7 +1070,10 @@ body{
       #fff3c9 62%,
       #e3d3ff 100%
     );
-  border:2px solid #fff8d6;
+
+  border:
+    2px solid #fff8d6;
+
   box-shadow:
     inset 0 0 18px #fff,
     0 8px 24px #0009,
@@ -692,58 +1081,89 @@ body{
 }
 
 #candlePage .candleName{
-  font-size:clamp(28px,3.6vw,46px);
+  font-size:
+    clamp(28px,3.6vw,46px);
+
   margin-top:14px;
+
   line-height:1.13;
+
   font-weight:950;
+
   color:#ffe36d;
+
   text-shadow:
     0 2px 4px #000,
     0 0 9px currentColor;
+
   overflow-wrap:anywhere;
 }
 
-#candlePage .candle:nth-child(3n+2) .candleName{
+#candlePage
+.candle:nth-child(3n+2)
+.candleName{
   color:#7ee9ff;
 }
 
-#candlePage .candle:nth-child(3n) .candleName{
+#candlePage
+.candle:nth-child(3n)
+.candleName{
   color:#ff9de1;
 }
 
-#candlePage .candle:nth-child(4n+2) .flame{
-  filter:hue-rotate(24deg);
+#candlePage
+.candle:nth-child(4n+2)
+.flame{
+  filter:
+    hue-rotate(24deg);
 }
 
-#candlePage .candle:nth-child(4n+3) .flame{
-  filter:hue-rotate(310deg);
+#candlePage
+.candle:nth-child(4n+3)
+.flame{
+  filter:
+    hue-rotate(310deg);
 }
 
-#candlePage .candle:nth-child(4n) .flame{
-  filter:hue-rotate(65deg);
+#candlePage
+.candle:nth-child(4n)
+.flame{
+  filter:
+    hue-rotate(65deg);
 }
 
-@media(max-width:700px) and (orientation:portrait){
+@media
+(max-width:700px)
+and
+(orientation:portrait){
 
   #candlePage .specialFrame{
     width:95vw;
     height:92vh;
+
     padding:10px;
   }
 
   #candlePage .specialTitle{
     font-size:38px;
+
     margin-bottom:4px;
   }
 
   #candlePage .candleViewport{
-    height:calc(100% - 58px);
+    height:
+      calc(100% - 58px);
   }
 
   #candlePage .candleGrid{
     grid-template-columns:
-      repeat(2,minmax(0,1fr));
+      repeat(
+        2,
+        minmax(0,1fr)
+      );
+
     gap:14px;
+
     padding-bottom:55vh;
   }
 
@@ -762,64 +1182,32 @@ body{
   }
 
   #candlePage .candleName{
-    font-size:clamp(26px,7vw,36px);
+    font-size:
+      clamp(26px,7vw,36px);
+
     line-height:1.08;
   }
 }
 
 
-/* ADMIN GEAR */
-
-.adminGear{
-  position:fixed;
-  left:12px;
-  bottom:12px;
-  z-index:999999;
-
-  width:54px;
-  height:54px;
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#071f50;
-  border:3px solid #d7a62d;
-
-  color:#fff;
-
-  font-size:30px;
-  text-decoration:none;
-
-  box-shadow:
-    0 3px 14px #0009;
-
-  transition:
-    transform .15s ease,
-    background .15s ease;
-}
-
-.adminGear:hover{
-  transform:scale(1.08);
-  background:#0b2f72;
-}
-
-.adminGear:active{
-  transform:scale(.94);
-}
-
-
-/* PRAYER OVERLAY */
+/* =========================================
+   PRAYER OVERLAY
+========================================= */
 
 .prayerOverlay{
   position:fixed;
   inset:0;
-  z-index:99998;
-  background:rgba(2,10,30,.97);
+
+  z-index:999998;
+
+  background:
+    rgba(2,10,30,.97);
+
   display:none;
-  padding:3vh 4vw;
+
+  padding:
+    3vh 4vw;
+
   color:#fff;
 }
 
@@ -829,84 +1217,139 @@ body{
 
 .prayerPanel{
   height:94vh;
-  border:4px solid #d7a62d;
+
+  border:
+    4px solid #d7a62d;
+
   border-radius:28px;
+
   background:#071f50;
+
   padding:20px;
+
   overflow:hidden;
-  box-shadow:inset 0 0 0 3px #fff0a4;
+
+  box-shadow:
+    inset 0 0 0 3px #fff0a4;
 }
 
 .prayerTitle{
   text-align:center;
+
   color:#f7d66b;
-  font-size:clamp(34px,5vw,70px);
+
+  font-size:
+    clamp(34px,5vw,70px);
+
   font-weight:900;
+
   margin-bottom:12px;
 }
 
 .prayerViewport{
-  height:calc(100% - 95px);
+  height:
+    calc(100% - 95px);
+
   overflow:hidden;
+
   background:#fff8df;
+
   color:#241d11;
+
   border-radius:20px;
+
   padding:20px;
 }
 
 .prayerScroll{
   white-space:pre-wrap;
+
   text-align:right;
-  font-size:clamp(22px,3vw,42px);
+
+  font-size:
+    clamp(22px,3vw,42px);
+
   line-height:1.65;
+
   font-weight:700;
+
   animation:
-    prayerUp var(--prayer-scroll-speed,90s)
+    prayerUp
+    var(--prayer-scroll-speed,90s)
     linear infinite;
 }
 
 @keyframes prayerUp{
+
   from{
-    transform:translateY(0)
+    transform:
+      translateY(0);
   }
 
   to{
-    transform:translateY(-105%)
+    transform:
+      translateY(-105%);
   }
 }
 
 .prayerClose{
   position:absolute;
+
   left:18px;
   top:14px;
+
   background:#b51f26;
+
   color:#fff;
-  border:2px solid #fff;
+
+  border:
+    2px solid #fff;
+
   border-radius:50%;
+
   width:46px;
   height:46px;
+
   font-size:24px;
   font-weight:900;
 }
 
 
-/* STAR + DOVES */
+/* =========================================
+   STAR + DOVES
+========================================= */
 
 .center::before,
 .center::after{
   content:"🕊️";
+
   position:absolute;
+
   z-index:6;
+
   top:3.5%;
-  font-size:clamp(34px,6vw,82px);
-  filter:drop-shadow(0 4px 4px #0006);
+
+  font-size:
+    clamp(34px,6vw,82px);
+
+  filter:
+    drop-shadow(
+      0 4px 4px #0006
+    );
+
   animation:
-    doveFloat 3s ease-in-out infinite alternate;
+    doveFloat
+    3s
+    ease-in-out
+    infinite
+    alternate;
 }
 
 .center::before{
   left:4%;
-  transform:scaleX(-1);
+
+  transform:
+    scaleX(-1);
 }
 
 .center::after{
@@ -914,12 +1357,13 @@ body{
 }
 
 @keyframes doveFloat{
+
   from{
-    margin-top:-3px
+    margin-top:-3px;
   }
 
   to{
-    margin-top:6px
+    margin-top:6px;
   }
 }
 
@@ -931,26 +1375,55 @@ body{
 
 .medallion::before{
   content:"✡";
-  font-family:Arial,sans-serif;
-  font-size:clamp(72px,14vw,145px);
+
+  font-family:
+    Arial,sans-serif;
+
+  font-size:
+    clamp(72px,14vw,145px);
+
   line-height:1;
+
   color:#35e9ff;
+
   text-shadow:
     0 0 5px #fff,
     0 0 12px currentColor,
     0 0 28px currentColor,
     0 0 48px currentColor;
+
   animation:
-    starColors 5s linear infinite;
+    starColors
+    5s
+    linear
+    infinite;
 }
 
 @keyframes starColors{
-  0%{color:#ff2be6}
-  20%{color:#32e9ff}
-  40%{color:#386dff}
-  60%{color:#38ff96}
-  80%{color:#ffd52e}
-  100%{color:#ff2be6}
+
+  0%{
+    color:#ff2be6;
+  }
+
+  20%{
+    color:#32e9ff;
+  }
+
+  40%{
+    color:#386dff;
+  }
+
+  60%{
+    color:#38ff96;
+  }
+
+  80%{
+    color:#ffd52e;
+  }
+
+  100%{
+    color:#ff2be6;
+  }
 }
 
 </style>
@@ -959,65 +1432,73 @@ body{
 <body>
 
 
-<!-- MAIN BOARD -->
+<!-- ======================================
+     MAIN PAGE
+====================================== -->
 
-<div id="mainPage" class="rotatePage active">
+<div
+  id="mainPage"
+  class="rotatePage active"
+>
 
 <div class="board">
 
+
 <header class="header">
 
-  <div class="clock goldFrame">
-    <div class="city">
-      JERUSALEM
-    </div>
+<div class="clock goldFrame">
 
-    <div
-      class="time"
-      id="ilTime"
-    >
-      --:--:--
-    </div>
+  <div class="city">
+    JERUSALEM
   </div>
 
-
-  <div class="titlebox goldFrame">
-
-    <h1 id="synagogueName">
-      בית הכנסת בית תורה
-    </h1>
-
-    <div
-      class="rabbi"
-      id="rabbiName"
-    >
-      הרב ברוך
-    </div>
-
-    <div
-      class="date"
-      id="dateLine"
-    >
-      יום ראשון • 17 באלול 5786 • 30 באוגוסט 2026
-    </div>
-
+  <div
+    class="time"
+    id="ilTime"
+  >
+    --:--:--
   </div>
 
+</div>
 
-  <div class="clock goldFrame">
 
-    <div class="city">
-      NEW YORK
-    </div>
+<div class="titlebox goldFrame">
 
-    <div
-      class="time"
-      id="nyTime"
-    >
-      --:--:--
-    </div>
+  <h1 id="synagogueName">
+    בית הכנסת בית תורה
+  </h1>
 
+  <div
+    class="rabbi"
+    id="rabbiName"
+  >
+    הרב ברוך
   </div>
+
+  <div
+    class="date"
+    id="dateLine"
+  >
+    יום ראשון • 17 באלול 5786 • 30 באוגוסט 2026
+  </div>
+
+</div>
+
+
+<div class="clock goldFrame">
+
+  <div class="city">
+    NEW YORK
+  </div>
+
+  <div
+    class="time"
+    id="nyTime"
+  >
+    --:--:--
+  </div>
+
+</div>
 
 </header>
 
@@ -1026,331 +1507,343 @@ body{
 <main class="main">
 
 
+<!-- LEFT SIDE -->
+
 <section class="side">
 
-  <div class="sideBox goldFrame">
+<div class="sideBox goldFrame">
 
-    <h2>
-      זמני תפילה
-    </h2>
+<h2>
+  זמני תפילה
+</h2>
 
-    <div class="rows">
+<div class="rows">
 
-      <div class="row">
-        <span>שחרית</span>
-        <span id="pShacharit">
-          7:00 AM
-        </span>
-      </div>
+<div class="row">
+  <span>שחרית</span>
+  <span id="pShacharit">
+    7:00 AM
+  </span>
+</div>
 
-      <div class="row">
-        <span>מנחה</span>
-        <span id="pMincha">
-          4:00 PM
-        </span>
-      </div>
+<div class="row">
+  <span>מנחה</span>
+  <span id="pMincha">
+    4:00 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>ערבית</span>
-        <span id="pMaariv">
-          8:30 PM
-        </span>
-      </div>
+<div class="row">
+  <span>ערבית</span>
+  <span id="pMaariv">
+    8:30 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>שיעור תורה</span>
-        <span id="pShiur">
-          9:15 PM
-        </span>
-      </div>
+<div class="row">
+  <span>שיעור תורה</span>
+  <span id="pShiur">
+    9:15 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>שחרית שבת</span>
-        <span id="pShabbatShacharit">
-          9:00 AM
-        </span>
-      </div>
+<div class="row">
+  <span>שחרית שבת</span>
+  <span id="pShabbatShacharit">
+    9:00 AM
+  </span>
+</div>
 
-      <div class="row">
-        <span>מנחה שבת</span>
-        <span id="pShabbatMincha">
-          6:30 PM
-        </span>
-      </div>
+<div class="row">
+  <span>מנחה שבת</span>
+  <span id="pShabbatMincha">
+    6:30 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>ערבית ליל שבת</span>
-        <span id="pShabbatMaariv">
-          7:30 PM
-        </span>
-      </div>
+<div class="row">
+  <span>ערבית ליל שבת</span>
+  <span id="pShabbatMaariv">
+    7:30 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>הבדלה</span>
-        <span id="pHavdalah">
-          9:00 PM
-        </span>
-      </div>
+<div class="row">
+  <span>הבדלה</span>
+  <span id="pHavdalah">
+    9:00 PM
+  </span>
+</div>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 
-  <div class="sideBox goldFrame">
+<div class="sideBox goldFrame">
 
-    <h2>
-      מזל טוב
-    </h2>
+<h2>
+  מזל טוב
+</h2>
 
-    <div
-      class="smallText"
-      id="mazalText"
-    >
-      ברכת מזל טוב לחברי הקהילה
-    </div>
+<div
+  class="smallText"
+  id="mazalText"
+>
+  ברכת מזל טוב לחברי הקהילה
+</div>
 
-  </div>
+</div>
 
 </section>
 
 
+
+<!-- CENTER -->
 
 <section class="center">
 
-  <div class="medallion"></div>
+<div class="medallion"></div>
 
-  <div class="scrollWindow">
+<div class="scrollWindow">
 
-    <div class="scroller">
+<div class="scroller">
 
-      <div class="big goldText">
-        פרשת השבוע
-      </div>
+<div class="big goldText">
+  פרשת השבוע
+</div>
 
-      <div
-        class="big blue"
-        id="parashaText"
-      >
-        פרשת נצבים־וילך
-      </div>
+<div
+  class="big blue"
+  id="parashaText"
+>
+  פרשת נצבים־וילך
+</div>
 
-      <div
-        class="medium green"
-        id="center1"
-      >
-        ברכת מזל טוב לכל המתפללים ובני הקהילה
-      </div>
+<div
+  class="medium green"
+  id="center1"
+>
+  ברכת מזל טוב לכל המתפללים ובני הקהילה
+</div>
 
-      <div
-        class="medium blue"
-        id="center2"
-      >
-        יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים
-      </div>
+<div
+  class="medium blue"
+  id="center2"
+>
+  יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים
+</div>
 
-      <div
-        class="medium purple"
-        id="center3"
-      >
-        שבוע טוב ומבורך לכל משפחות בית הכנסת
-      </div>
+<div
+  class="medium purple"
+  id="center3"
+>
+  שבוע טוב ומבורך לכל משפחות בית הכנסת
+</div>
 
-      <div
-        class="medium redText"
-        id="center4"
-      >
-        זמני התפילה והשיעורים מתעדכנים בלוח
-      </div>
+<div
+  class="medium redText"
+  id="center4"
+>
+  זמני התפילה והשיעורים מתעדכנים בלוח
+</div>
 
-      <div
-        class="medium teal"
-        id="center5"
-      >
-        נא לעקוב אחר ההודעות החשובות של הקהילה
-      </div>
-
-
-      <div class="infoCard">
-
-        <div>
-          <b>תחנון שחרית:</b>
-          <span id="tachanun">
-            אומרים
-          </span>
-        </div>
-
-        <div>
-          <b>פרשת השבוע:</b>
-          <span id="parashaInfo">
-            נצבים־וילך
-          </span>
-        </div>
-
-        <div>
-          <b>גבורות:</b>
-          <span id="gevurot">
-            מוריד הטל
-          </span>
-        </div>
-
-        <div>
-          <b>הלל:</b>
-          <span id="hallel">
-            אין הלל
-          </span>
-        </div>
-
-      </div>
+<div
+  class="medium teal"
+  id="center5"
+>
+  נא לעקוב אחר ההודעות החשובות של הקהילה
+</div>
 
 
-      <div
-        class="medium green"
-        id="centerWelcome"
-      >
-        ברוכים הבאים לבית הכנסת בית תורה
-      </div>
+<div class="infoCard">
 
-      <div
-        class="medium goldText"
-        id="centerMotto"
-      >
-        תפילה • תורה • חסד • אחדות
-      </div>
+<div>
+  <b>תחנון שחרית:</b>
+  <span id="tachanun">
+    אומרים
+  </span>
+</div>
 
-      <div
-        class="medium blue"
-        id="centerBlessing"
-      >
-        שנזכה לשנה טובה ומתוקה ולבשורות טובות
-      </div>
+<div>
+  <b>פרשת השבוע:</b>
+  <span id="parashaInfo">
+    נצבים־וילך
+  </span>
+</div>
 
-      <div
-        class="memorial"
-        id="centerMemorial"
-      >
-        לעילוי נשמת זהבה חלא בת דינה זצ״ל
-      </div>
+<div>
+  <b>גבורות:</b>
+  <span id="gevurot">
+    מוריד הטל
+  </span>
+</div>
 
-    </div>
+<div>
+  <b>הלל:</b>
+  <span id="hallel">
+    אין הלל
+  </span>
+</div>
 
-  </div>
+</div>
+
+
+<div
+  class="medium green"
+  id="centerWelcome"
+>
+  ברוכים הבאים לבית הכנסת בית תורה
+</div>
+
+<div
+  class="medium goldText"
+  id="centerMotto"
+>
+  תפילה • תורה • חסד • אחדות
+</div>
+
+<div
+  class="medium blue"
+  id="centerBlessing"
+>
+  שנזכה לשנה טובה ומתוקה ולבשורות טובות
+</div>
+
+<div
+  class="memorial"
+  id="centerMemorial"
+>
+  לעילוי נשמת זהבה חלא בת דינה זצ״ל
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 
 
+<!-- RIGHT SIDE -->
+
 <section class="side">
 
-  <div class="sideBox goldFrame">
+<div class="sideBox goldFrame">
 
-    <h2>
-      זמני היום
-    </h2>
+<h2>
+  זמני היום
+</h2>
 
-    <div class="rows">
+<div class="rows">
 
-      <div class="row">
-        <span>עלות השחר</span>
-        <span id="zAlot">
-          5:02 AM
-        </span>
-      </div>
+<div class="row">
+  <span>עלות השחר</span>
+  <span id="zAlot">
+    5:02 AM
+  </span>
+</div>
 
-      <div class="row">
-        <span>זריחה</span>
-        <span id="zSunrise">
-          6:38 AM
-        </span>
-      </div>
+<div class="row">
+  <span>זריחה</span>
+  <span id="zSunrise">
+    6:38 AM
+  </span>
+</div>
 
-      <div class="row">
-        <span>סוף זמן ק״ש</span>
-        <span id="zShema">
-          9:27 AM
-        </span>
-      </div>
+<div class="row">
+  <span>סוף זמן ק״ש</span>
+  <span id="zShema">
+    9:27 AM
+  </span>
+</div>
 
-      <div class="row">
-        <span>חצות</span>
-        <span id="zChatzot">
-          12:10 PM
-        </span>
-      </div>
+<div class="row">
+  <span>חצות</span>
+  <span id="zChatzot">
+    12:10 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>מנחה גדולה</span>
-        <span id="zMinchaGedola">
-          12:40 PM
-        </span>
-      </div>
+<div class="row">
+  <span>מנחה גדולה</span>
+  <span id="zMinchaGedola">
+    12:40 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>שקיעה</span>
-        <span id="zSunset">
-          7:32 PM
-        </span>
-      </div>
+<div class="row">
+  <span>שקיעה</span>
+  <span id="zSunset">
+    7:32 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span>צאת הכוכבים</span>
-        <span id="zTzeit">
-          8:06 PM
-        </span>
-      </div>
+<div class="row">
+  <span>צאת הכוכבים</span>
+  <span id="zTzeit">
+    8:06 PM
+  </span>
+</div>
 
-      <div class="row">
-        <span class="red">
-          הדלקת נרות
-        </span>
+<div class="row">
 
-        <span
-          class="red"
-          id="zCandles"
-        >
-          7:13 PM
-        </span>
-      </div>
+<span class="red">
+  הדלקת נרות
+</span>
 
-      <div class="row">
-        <span class="red">
-          צאת שבת
-        </span>
+<span
+  class="red"
+  id="zCandles"
+>
+  7:13 PM
+</span>
 
-        <span
-          class="red"
-          id="zShabbatOut"
-        >
-          8:12 PM
-        </span>
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="sideBox goldFrame">
+<div class="row">
 
-    <h2>
-      הודעות
-    </h2>
+<span class="red">
+  צאת שבת
+</span>
 
-    <div
-      class="smallText"
-      id="announcementText"
-    >
-      ברוכים הבאים לבית הכנסת
-      <br>
-      נא להתעדכן בהודעות הקהילה
-    </div>
+<span
+  class="red"
+  id="zShabbatOut"
+>
+  8:12 PM
+</span>
 
-  </div>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="sideBox goldFrame">
+
+<h2>
+  הודעות
+</h2>
+
+<div
+  class="smallText"
+  id="announcementText"
+>
+  ברוכים הבאים לבית הכנסת
+  <br>
+  נא להתעדכן בהודעות הקהילה
+</div>
+
+</div>
 
 </section>
 
 
 </main>
+
 
 
 <footer
@@ -1360,13 +1853,33 @@ body{
   לעילוי נשמת זהבה חלא בת דינה זצ״ל
 </footer>
 
-</div>
+
+
+<!-- ======================================
+     ADMIN GEAR
+     NOW INSIDE THE BOARD
+====================================== -->
+
+<a
+  class="adminGear"
+  href="admin.html"
+  target="mbAdmin"
+  title="Admin"
+  aria-label="Admin"
+>
+  ⚙️
+</a>
+
 
 </div>
 
+</div>
 
 
-<!-- CANDLE PAGE -->
+
+<!-- ======================================
+     CANDLE PAGE
+====================================== -->
 
 <div
   id="candlePage"
@@ -1402,57 +1915,43 @@ body{
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 <div class="candle">
   <div class="flame"></div>
   <div class="wax"></div>
-  <div class="candleName">
-    נר נשמה
-  </div>
+  <div class="candleName">נר נשמה</div>
 </div>
 
 </div>
@@ -1467,7 +1966,9 @@ body{
 
 
 
-<!-- SHIUR PAGE -->
+<!-- ======================================
+     SHIUR PAGE
+====================================== -->
 
 <div
   id="shiurPage"
@@ -1549,7 +2050,9 @@ body{
 
 
 
-<!-- PRAYER OVERLAY -->
+<!-- ======================================
+     PRAYER OVERLAY
+====================================== -->
 
 <div
   id="prayerOverlay"
@@ -1586,6 +2089,10 @@ body{
 </div>
 
 
+
+<!-- ======================================
+     BOARD JAVASCRIPT
+====================================== -->
 
 <script>
 
@@ -2006,32 +2513,15 @@ function applyAdminSettings(){
 
   const zmids={
 
-    alot:
-      "zAlot",
-
-    sunrise:
-      "zSunrise",
-
-    shema:
-      "zShema",
-
-    chatzot:
-      "zChatzot",
-
-    minchaGedola:
-      "zMinchaGedola",
-
-    sunset:
-      "zSunset",
-
-    tzeit:
-      "zTzeit",
-
-    candles:
-      "zCandles",
-
-    shabbatOut:
-      "zShabbatOut"
+    alot:"zAlot",
+    sunrise:"zSunrise",
+    shema:"zShema",
+    chatzot:"zChatzot",
+    minchaGedola:"zMinchaGedola",
+    sunset:"zSunset",
+    tzeit:"zTzeit",
+    candles:"zCandles",
+    shabbatOut:"zShabbatOut"
 
   };
 
@@ -2585,28 +3075,15 @@ checkCommand();
 
 
 
-<!-- ADMIN GEAR -->
-
-<a
-  class="adminGear"
-  href="admin.html"
-  target="mbAdmin"
-  title="Admin"
-  aria-label="Admin"
->
-  ⚙️
-</a>
-
-
-
-<!-- SUPABASE -->
+<!-- ======================================
+     SUPABASE
+====================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
 <script src="supabase-config.js"></script>
 
 <script src="saas-common.js"></script>
-
 
 
 <script>
@@ -2768,15 +3245,11 @@ window.addEventListener(
 
 
 
+<!-- ======================================
+     PUBLIC PREVIEW
+====================================== -->
+
 <script>
-
-/*
-  PUBLIC PREVIEW
-
-  Visitor can see the board
-  for 1 minute, then goes
-  to login.html.
-*/
 
 setTimeout(
   function(){
