@@ -1,145 +1,732 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="google" content="notranslate">
-  <title>Register Your Synagogue</title>
+  <title>Register Synagogue</title>
+
   <style>
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;font-family:Arial,sans-serif;background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);color:#fff;display:grid;place-items:center;padding:24px}
-    .card{width:min(860px,96vw);background:linear-gradient(180deg,#0b2b5d,#061a3b);border:3px solid #d7a62d;border-radius:24px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;padding:28px}
-    h1{color:#f6d469;text-align:center;margin:0 0 8px}
-    .muted{color:#d8dfef;text-align:center;line-height:1.5}
-    .section{grid-column:1/-1;color:#f6d469;font-size:18px;font-weight:900;margin-top:10px;border-bottom:1px solid #d7a62d66;padding-bottom:5px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .wide{grid-column:1/-1}
-    label{display:flex;flex-direction:column;gap:6px;font-weight:800}
-    input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d7a62d;background:#fff;color:#111;font-size:16px}
-    .readonly{background:#e8edf7;color:#445}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
-    .msg{min-height:24px;text-align:center;margin-top:12px;font-weight:800}
-    button,.btn{display:inline-block;border:0;border-radius:11px;padding:12px 18px;background:#d7a62d;color:#07152d;font-weight:900;font-size:16px;cursor:pointer;text-decoration:none}
-    button:disabled{cursor:wait;opacity:.7}
-    .secondary{background:#fff;color:#07152d}
-    @media(max-width:650px){.grid{grid-template-columns:1fr}.wide,.section{grid-column:auto}}
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Arial,"Noto Sans Hebrew",sans-serif;
+      background:radial-gradient(
+        circle at top,
+        #143f7d,
+        #06152d 50%,
+        #020710
+      );
+      color:#fff;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .card{
+      width:min(820px,96vw);
+      background:linear-gradient(
+        180deg,
+        #0b2b5d,
+        #061a3b
+      );
+      border:3px solid #d7a62d;
+      border-radius:24px;
+      box-shadow:
+        0 20px 60px #0008,
+        inset 0 0 0 2px #fff2a633;
+      padding:28px;
+    }
+
+    h1{
+      color:#f6d469;
+      text-align:center;
+      margin:0 0 8px;
+    }
+
+    p{
+      line-height:1.55;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+
+    .wide{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-weight:800;
+    }
+
+    input,
+    select{
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #d7a62d;
+      background:#fff;
+      color:#111;
+      font-size:16px;
+    }
+
+    .auto-id{
+      width:100%;
+      padding:13px;
+      border-radius:10px;
+      border:1px solid #d7a62d;
+      background:#edf4ff;
+      color:#0b2f72;
+      font-size:16px;
+      font-weight:900;
+      text-align:center;
+    }
+
+    button,
+    .btn{
+      display:inline-block;
+      border:0;
+      border-radius:11px;
+      padding:12px 18px;
+      background:#d7a62d;
+      color:#07152d;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+      text-decoration:none;
+    }
+
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+
+    .secondary{
+      background:#fff;
+      color:#07152d;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:18px;
+    }
+
+    .msg{
+      min-height:24px;
+      text-align:center;
+      margin-top:12px;
+      font-weight:800;
+    }
+
+    .muted{
+      color:#d8dfef;
+      font-size:14px;
+      text-align:center;
+    }
+
+    .sectionTitle{
+      grid-column:1/-1;
+      color:#f6d469;
+      font-weight:900;
+      font-size:18px;
+      margin-top:6px;
+      border-bottom:1px solid #d7a62d66;
+      padding-bottom:6px;
+    }
+
+    @media(max-width:650px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .wide{
+        grid-column:auto;
+      }
+
+      .sectionTitle{
+        grid-column:auto;
+      }
+    }
   </style>
 </head>
-<body class="notranslate" translate="no">
-  <main class="card">
+
+<body>
+
+  <div class="card">
+
     <h1>Register Your Synagogue</h1>
-    <p class="muted">After approval, your 7-day free trial begins. Your Member ID is assigned automatically.</p>
 
-    <form id="registrationForm">
-      <div class="grid">
-        <div class="section">Contact &amp; Synagogue</div>
-        <label>Contact name<input id="fullName" autocomplete="name" required></label>
-        <label>Phone<input id="phone" type="tel" autocomplete="tel"></label>
-        <label>Synagogue name<input id="organizationName" required></label>
-        <label>Rabbi name<input id="leaderName"></label>
-        <label class="wide">Member ID<input class="readonly" value="Assigned automatically after registration" readonly></label>
+    <p class="muted">
+      After approval, your 7-day free trial begins.
+      Your Member ID is assigned automatically.
+    </p>
 
-        <div class="section">Address</div>
-        <label class="wide">Street address<input id="streetAddress" autocomplete="street-address"></label>
-        <label>City<input id="city" autocomplete="address-level2"></label>
-        <label>State / Province / Region<input id="stateRegion" autocomplete="address-level1"></label>
-        <label>ZIP / Postal code<input id="postalCode" autocomplete="postal-code"></label>
-        <label>Country<input id="country" autocomplete="country-name"></label>
+    <div class="grid">
 
-        <div class="section">Referral &amp; Marketing</div>
-        <label>How did you hear about us?
-          <select id="heardAbout">
-            <option value="">Select one</option>
-            <option>Google</option>
-            <option>Facebook</option>
-            <option>Instagram</option>
-            <option>Friend / Referral</option>
-            <option>Synagogue / Church</option>
-            <option>Event / Conference</option>
-            <option>Other</option>
-          </select>
-        </label>
-        <label>Referred by<input id="referredBy" placeholder="Name of person or synagogue"></label>
-        <label class="wide">Referral code (if you received one)<input id="referralCode" placeholder="Example: SYN-105"></label>
+      <!-- CONTACT -->
 
-        <div class="section">Login</div>
-        <label>Email<input id="email" type="email" autocomplete="email" required></label>
-        <label>Password<input id="password" type="password" minlength="8" autocomplete="new-password" required></label>
+      <div class="sectionTitle">
+        Contact & Synagogue
       </div>
 
-      <div class="actions">
-        <button id="registerButton" type="submit">Register</button>
-        <a class="btn secondary" href="login.html">Back to Login</a>
+      <label>
+        Contact name
+        <input
+          id="fullName"
+          autocomplete="name"
+        >
+      </label>
+
+      <label>
+        Phone
+        <input
+          id="phone"
+          type="tel"
+          autocomplete="tel"
+        >
+      </label>
+
+      <label>
+        Synagogue name
+        <input
+          id="synagogueName"
+        >
+      </label>
+
+      <label>
+        Rabbi name
+        <input
+          id="rabbiName"
+        >
+      </label>
+
+      <label class="wide">
+        Member ID
+
+        <div class="auto-id">
+          Assigned automatically after registration
+        </div>
+      </label>
+
+
+      <!-- ADDRESS -->
+
+      <div class="sectionTitle">
+        Address
       </div>
-      <div id="msg" class="msg" role="status" aria-live="polite"></div>
-    </form>
-  </main>
+
+      <label class="wide">
+        Street address
+
+        <input
+          id="addressLine1"
+          autocomplete="street-address"
+        >
+      </label>
+
+      <label>
+        City
+
+        <input
+          id="city"
+          autocomplete="address-level2"
+        >
+      </label>
+
+      <label>
+        State / Province / Region
+
+        <input
+          id="stateRegion"
+          autocomplete="address-level1"
+        >
+      </label>
+
+      <label>
+        ZIP / Postal code
+
+        <input
+          id="postalCode"
+          autocomplete="postal-code"
+        >
+      </label>
+
+      <label>
+        Country
+
+        <input
+          id="country"
+          autocomplete="country-name"
+          value="United States"
+        >
+      </label>
+
+
+      <!-- REFERRAL -->
+
+      <div class="sectionTitle">
+        Referral & Marketing
+      </div>
+
+      <label>
+        How did you hear about us?
+
+        <select id="heardAboutUs">
+
+          <option value="">
+            Select one
+          </option>
+
+          <option value="Friend / Referral">
+            Friend / Referral
+          </option>
+
+          <option value="Google">
+            Google
+          </option>
+
+          <option value="Facebook / Social Media">
+            Facebook / Social Media
+          </option>
+
+          <option value="Synagogue / Community">
+            Synagogue / Community
+          </option>
+
+          <option value="Advertisement">
+            Advertisement
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+      </label>
+
+      <label>
+        Referred by
+
+        <input
+          id="referredBy"
+          placeholder="Name of person or synagogue"
+        >
+      </label>
+
+      <label class="wide">
+        Referral code (if you received one)
+
+        <input
+          id="referralCodeUsed"
+          placeholder="Example: SYN-105"
+        >
+      </label>
+
+
+      <!-- LOGIN -->
+
+      <div class="sectionTitle">
+        Login
+      </div>
+
+      <label>
+        Email
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="email"
+        >
+      </label>
+
+      <label>
+        Password
+
+        <input
+          id="password"
+          type="password"
+          minlength="8"
+          autocomplete="new-password"
+        >
+      </label>
+
+    </div>
+
+
+    <div class="actions">
+
+      <button
+        id="registerBtn"
+        type="button"
+        onclick="register()"
+      >
+        Register
+      </button>
+
+      <a
+        class="btn secondary"
+        href="login.html"
+      >
+        Back to Login
+      </a>
+
+    </div>
+
+    <div
+      id="msg"
+      class="msg"
+    ></div>
+
+  </div>
+
+
+  <!-- SUPABASE -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
   <script src="supabase-config.js"></script>
+
   <script src="saas-common.js"></script>
+
+
   <script>
-    const form = document.getElementById('registrationForm');
-    const msg = document.getElementById('msg');
-    const registerButton = document.getElementById('registerButton');
 
-    const valueOf = (id) => document.getElementById(id).value.trim();
+    async function register(){
 
-    form.addEventListener('submit', registerAccount);
+      const msg =
+        document.getElementById("msg");
 
-    async function registerAccount(event) {
-      event.preventDefault();
+      const registerBtn =
+        document.getElementById("registerBtn");
 
-      const fullName = valueOf('fullName');
-      const organizationName = valueOf('organizationName');
-      const email = valueOf('email');
-      const password = document.getElementById('password').value;
 
-      if (!fullName || !organizationName || !email || password.length < 8) {
-        msg.textContent = 'Please complete the required contact, synagogue, email and password fields. The password must contain at least 8 characters.';
+      /*
+        IMPORTANT:
+        These names now match the columns expected
+        by your corrected handle_new_user() trigger.
+      */
+
+      const values = {
+
+        full_name:
+          document
+            .getElementById("fullName")
+            .value
+            .trim(),
+
+        phone:
+          document
+            .getElementById("phone")
+            .value
+            .trim(),
+
+        synagogue_name:
+          document
+            .getElementById("synagogueName")
+            .value
+            .trim(),
+
+        rabbi_name:
+          document
+            .getElementById("rabbiName")
+            .value
+            .trim(),
+
+
+        /* ADDRESS */
+
+        address_line1:
+          document
+            .getElementById("addressLine1")
+            .value
+            .trim(),
+
+        city:
+          document
+            .getElementById("city")
+            .value
+            .trim(),
+
+        state_region:
+          document
+            .getElementById("stateRegion")
+            .value
+            .trim(),
+
+        postal_code:
+          document
+            .getElementById("postalCode")
+            .value
+            .trim(),
+
+        country:
+          document
+            .getElementById("country")
+            .value
+            .trim(),
+
+
+        /* REFERRAL */
+
+        heard_about_us:
+          document
+            .getElementById("heardAboutUs")
+            .value,
+
+        referred_by:
+          document
+            .getElementById("referredBy")
+            .value
+            .trim(),
+
+        referral_code_used:
+          document
+            .getElementById("referralCodeUsed")
+            .value
+            .trim()
+            .toUpperCase(),
+
+
+        /*
+          Board / Member ID is assigned
+          automatically by Supabase.
+        */
+
+        board_slug:"auto"
+      };
+
+
+      const emailValue =
+        document
+          .getElementById("email")
+          .value
+          .trim();
+
+      const passwordValue =
+        document
+          .getElementById("password")
+          .value;
+
+
+      /* VALIDATION */
+
+      if(!values.full_name){
+
+        msg.textContent =
+          "Please enter the contact name.";
+
         return;
       }
 
-      msg.textContent = 'Creating account and assigning Member ID…';
-      registerButton.disabled = true;
 
-      try {
-        const sb = getSupabase();
-        const metadata = {
-          account_type: 'organization_owner',
-          full_name: fullName,
-          phone: valueOf('phone'),
-          organization_type: 'synagogue',
-          organization_name: organizationName,
-          leader_name: valueOf('leaderName'),
-          synagogue_name: organizationName,
-          rabbi_name: valueOf('leaderName'),
-          street_address: valueOf('streetAddress'),
-          city: valueOf('city'),
-          state_region: valueOf('stateRegion'),
-          postal_code: valueOf('postalCode'),
-          country: valueOf('country'),
-          heard_about: valueOf('heardAbout'),
-          referred_by: valueOf('referredBy'),
-          referral_code: valueOf('referralCode')
-        };
+      if(!values.phone){
 
-        const { error } = await sb.auth.signUp({
-          email,
-          password,
-          options: { data: metadata }
-        });
+        msg.textContent =
+          "Please enter a phone number.";
 
-        if (error) throw error;
-
-        form.reset();
-        msg.textContent = 'Registration received. Your Member ID has been assigned automatically. Check your email if confirmation is required. Your account is waiting for approval; after approval your 7-day free trial begins.';
-      } catch (error) {
-        msg.textContent = error.message || String(error);
-      } finally {
-        registerButton.disabled = false;
+        return;
       }
+
+
+      if(!values.synagogue_name){
+
+        msg.textContent =
+          "Please enter the synagogue name.";
+
+        return;
+      }
+
+
+      if(!emailValue){
+
+        msg.textContent =
+          "Please enter an email address.";
+
+        return;
+      }
+
+
+      if(passwordValue.length < 8){
+
+        msg.textContent =
+          "Password must be at least 8 characters.";
+
+        return;
+      }
+
+
+      msg.textContent =
+        "Creating account…";
+
+      registerBtn.disabled = true;
+
+
+      try{
+
+        const sb =
+          getSupabase();
+
+
+        /*
+          CREATE AUTH USER
+
+          The values object becomes:
+          auth.users.raw_user_meta_data
+
+          Your Supabase trigger then copies
+          these values into profiles and
+          creates the synagogue account.
+        */
+
+        const {
+          data,
+          error
+        } =
+          await sb.auth.signUp({
+
+            email:
+              emailValue,
+
+            password:
+              passwordValue,
+
+            options:{
+              data:
+                values
+            }
+
+          });
+
+
+        if(error){
+          throw error;
+        }
+
+
+        /*
+          If email confirmation is OFF,
+          Supabase may immediately give us
+          a live session.
+
+          In that case we also update the
+          profile directly as a backup.
+        */
+
+        if(
+          data &&
+          data.user &&
+          data.session
+        ){
+
+          const {
+            error:profileError
+          } =
+            await sb
+              .from("profiles")
+              .update({
+
+                address_line1:
+                  values.address_line1 || null,
+
+                city:
+                  values.city || null,
+
+                state_region:
+                  values.state_region || null,
+
+                postal_code:
+                  values.postal_code || null,
+
+                country:
+                  values.country || null,
+
+                heard_about_us:
+                  values.heard_about_us || null,
+
+                referred_by:
+                  values.referred_by || null,
+
+                referral_code_used:
+                  values.referral_code_used || null
+
+              })
+              .eq(
+                "user_id",
+                data.user.id
+              );
+
+
+          if(profileError){
+
+            console.warn(
+              "Profile supplemental update:",
+              profileError
+            );
+
+          }
+
+        }
+
+
+        msg.textContent =
+          "Registration received. " +
+          "Your Member ID has been assigned automatically. " +
+          "Check your email if confirmation is required. " +
+          "Your account is waiting for approval; " +
+          "after approval your 7-day free trial begins.";
+
+
+        /*
+          Optional:
+          Clear password after successful signup.
+        */
+
+        document
+          .getElementById("password")
+          .value = "";
+
+
+      }
+      catch(e){
+
+        console.error(
+          "Registration error:",
+          e
+        );
+
+
+        /*
+          Display Supabase's real error message.
+        */
+
+        msg.textContent =
+          e && e.message
+            ? e.message
+            : String(e);
+
+      }
+      finally{
+
+        registerBtn.disabled =
+          false;
+
+      }
+
     }
+
   </script>
+
 </body>
 </html>
