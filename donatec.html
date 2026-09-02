@@ -1,13 +1,995 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Donate to Our Church</title>
-<style>*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top,#194b85,#07172e 55%,#020711);font-family:Arial,sans-serif;color:#fff}.card{width:min(680px,96vw);text-align:center;background:#0a1c35;border:3px solid #d7a62d;border-radius:24px;padding:28px;box-shadow:0 20px 70px #0009,inset 0 0 0 2px #fff2a622}h1{color:#f8d66b;margin:0 0 8px}.org{font-size:22px;font-weight:900;margin:14px}.heart{font-size:56px}.muted{color:#d8e2f4;line-height:1.55}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}.btn,button{border:0;border-radius:12px;padding:13px 19px;font:inherit;font-weight:900;text-decoration:none;cursor:pointer;background:#fff;color:#09204c}.paypal{background:#ffc439;color:#111;font-size:19px}.secondary{background:#174f91;color:#fff;border:1px solid #86b5ee}.msg{min-height:25px;margin-top:14px;font-weight:800;color:#ffd873}input{width:100%;padding:13px;border:1px solid #d7a62d;border-radius:10px;font-size:16px}.slug{display:none;margin:15px auto 0;max-width:430px}.slug.show{display:block}</style></head>
-<body><main class="card"><div class="heart">💛</div><h1>Give Securely with PayPal</h1><div id="orgName" class="org">Loading church…</div><p class="muted">Your donation goes directly to this church's PayPal account. This message board never stores your PayPal password or payment details.</p><div id="slugBox" class="slug"><input id="slugInput" placeholder="Board ID, for example: grace-church"><div class="actions"><button onclick="loadBoard(slugInput.value)">Continue</button></div></div><div class="actions"><a id="paypalButton" class="btn paypal" href="#" target="_blank" rel="noopener">Donate with PayPal</a><a id="loginLink" class="btn secondary" href="member-loginc.html">Member Login</a><a id="registerLink" class="btn secondary" href="member-registerc.html">Register</a><a id="boardLink" class="btn secondary" href="indexc.html">Back to Board</a></div><div id="msg" class="msg"></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>תרומה לבית הכנסת</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+  background:
+    radial-gradient(
+      circle at top,
+      #19447f,
+      #071f50 55%,
+      #020b1d
+    );
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+
+.card{
+  width:min(720px,96vw);
+  background:#071f50;
+  border:3px solid #d7a62d;
+  border-radius:24px;
+  padding:30px;
+  box-shadow:0 8px 30px #0008;
+  text-align:center;
+}
+
+.heart{
+  font-size:48px;
+  margin-bottom:8px;
+}
+
+h1{
+  color:#f6d469;
+  margin:0 0 12px;
+  font-size:31px;
+}
+
+.synagogueTitle{
+  font-size:22px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.synagogueNumber{
+  color:#f6d469;
+  font-size:17px;
+  font-weight:900;
+  margin-bottom:18px;
+}
+
+.description{
+  color:#e7edff;
+  line-height:1.6;
+  margin-bottom:22px;
+}
+
+.infoBox{
+  background:#fff8df;
+  color:#07152d;
+  border:2px solid #d7a62d;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:18px;
+  text-align:left;
+  direction:ltr;
+}
+
+.infoLabel{
+  font-size:12px;
+  font-weight:900;
+  color:#76520e;
+  margin-bottom:5px;
+}
+
+.infoValue{
+  font-size:17px;
+  font-weight:900;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+
+label{
+  text-align:left;
+  direction:ltr;
+  font-weight:800;
+  font-size:13px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  margin-top:6px;
+  padding:12px;
+  border:2px solid #d7a62d;
+  border-radius:10px;
+  background:#fff;
+  color:#111;
+  font-size:15px;
+}
+
+textarea{
+  min-height:80px;
+  resize:vertical;
+}
+
+.wide{
+  grid-column:1/-1;
+}
+
+.amountButtons{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:7px;
+}
+
+.amountBtn{
+  border:2px solid #d7a62d;
+  border-radius:10px;
+  background:#fff8df;
+  color:#07152d;
+  padding:11px 6px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.amountBtn:hover{
+  background:#f6d469;
+}
+
+.mainButton{
+  margin-top:20px;
+  border:0;
+  border-radius:11px;
+  padding:13px 24px;
+  background:#d7a62d;
+  color:#07152d;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.mainButton:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+.backRow{
+  margin-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.backBtn{
+  text-decoration:none;
+  background:#164b8f;
+  color:#fff;
+  border-radius:9px;
+  padding:10px 14px;
+  font-weight:800;
+  font-size:13px;
+}
+
+.msg{
+  min-height:25px;
+  margin-top:16px;
+  font-weight:900;
+}
+
+.error{
+  color:#ffaaaa;
+}
+
+.success{
+  color:#9cffaa;
+}
+
+.loading{
+  color:#f6d469;
+}
+
+@media(max-width:650px){
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .wide{
+    grid-column:auto;
+  }
+
+  .amountButtons{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .card{
+    padding:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <div class="heart">
+    💛
+  </div>
+
+  <h1>
+    תרומה מאובטחת באמצעות PayPal
+  </h1>
+
+  <div
+    id="synagogueTitle"
+    class="synagogueTitle"
+  >
+    טוען בית כנסת...
+  </div>
+
+  <div
+    id="synagogueNumber"
+    class="synagogueNumber"
+  ></div>
+
+  <div class="description">
+    התרומה נשלחת לבית הכנסת הנבחר.
+    פרטי התשלום מטופלים באמצעות PayPal.
+  </div>
+
+
+  <!-- AUTO POPULATED SYNAGOGUE -->
+
+  <div class="infoBox">
+
+    <div class="infoLabel">
+      Synagogue
+    </div>
+
+    <div
+      id="synagogueDisplay"
+      class="infoValue"
+    >
+      Loading...
+    </div>
+
+  </div>
+
+
+  <!-- AUTO POPULATED MEMBER -->
+
+  <div
+    id="memberBox"
+    class="infoBox"
+    style="display:none"
+  >
+
+    <div class="infoLabel">
+      Member
+    </div>
+
+    <div
+      id="memberDisplay"
+      class="infoValue"
+    ></div>
+
+  </div>
+
+
+  <div class="grid">
+
+
+    <label>
+      Donor name
+
+      <input
+        id="donorName"
+        autocomplete="name"
+      >
+    </label>
+
+
+    <label>
+      Donor email
+
+      <input
+        id="donorEmail"
+        type="email"
+        autocomplete="email"
+      >
+    </label>
+
+
+    <label class="wide">
+
+      Donation purpose
+
+      <select id="purpose">
+
+        <option value="General Donation">
+          General Donation
+        </option>
+
+        <option value="Tzedakah">
+          Tzedakah
+        </option>
+
+        <option value="Kiddush">
+          Kiddush
+        </option>
+
+        <option value="Yahrzeit">
+          Yahrzeit
+        </option>
+
+        <option value="Building Fund">
+          Building Fund
+        </option>
+
+        <option value="Torah">
+          Torah
+        </option>
+
+        <option value="Other">
+          Other
+        </option>
+
+      </select>
+
+    </label>
+
+
+    <label class="wide">
+
+      Donation amount
+
+      <div class="amountButtons">
+
+        <button
+          class="amountBtn"
+          type="button"
+          onclick="setAmount(18)"
+        >
+          $18
+        </button>
+
+        <button
+          class="amountBtn"
+          type="button"
+          onclick="setAmount(36)"
+        >
+          $36
+        </button>
+
+        <button
+          class="amountBtn"
+          type="button"
+          onclick="setAmount(72)"
+        >
+          $72
+        </button>
+
+        <button
+          class="amountBtn"
+          type="button"
+          onclick="setAmount(180)"
+        >
+          $180
+        </button>
+
+      </div>
+
+      <input
+        id="amount"
+        type="number"
+        min="1"
+        step="0.01"
+        placeholder="Enter amount"
+      >
+
+    </label>
+
+
+    <label class="wide">
+
+      Dedication / message
+
+      <textarea
+        id="dedication"
+        placeholder="Optional dedication, yahrzeit name, blessing, message..."
+      ></textarea>
+
+    </label>
+
+  </div>
+
+
+  <button
+    id="continueBtn"
+    class="mainButton"
+    type="button"
+    disabled
+    onclick="continueDonation()"
+  >
+    המשך לתשלום
+  </button>
+
+
+  <div
+    id="msg"
+    class="msg loading"
+  >
+    טוען פרטי בית הכנסת...
+  </div>
+
+
+  <div class="backRow">
+
+    <a
+      id="membersLink"
+      class="backBtn"
+      href="members.html"
+    >
+      חזרה לחברים
+    </a>
+
+    <a
+      class="backBtn"
+      href="index.html"
+    >
+      חזרה ללוח
+    </a>
+
+  </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="saas-common.js"></script>
+
+
 <script>
-let paypalUrl='';
-function validPayPalUrl(value){try{const u=new URL(String(value||'').trim());const h=u.hostname.toLowerCase();return u.protocol==='https:'&&(h==='paypal.me'||h==='www.paypal.me'||h==='paypal.com'||h==='www.paypal.com'||h.endsWith('.paypal.com'))?u.href:''}catch(e){return ''}}
-function setLinks(slug){const q=slug?'?s='+encodeURIComponent(slug):'';loginLink.href='member-loginc.html'+q;registerLink.href='member-registerc.html'+q;boardLink.href='indexc.html'+q}
-async function loadBoard(rawSlug){const slug=String(rawSlug||'').trim().toLowerCase();setLinks(slug);if(!slug){orgName.textContent='Choose your church';slugBox.classList.add('show');paypalButton.style.display='none';return}slugBox.classList.remove('show');msg.textContent='';try{const sb=getSupabase();const {data,error}=await sb.rpc('get_public_board',{p_slug:slug});if(error)throw error;const row=Array.isArray(data)?data[0]:data;if(!row)throw new Error('This church was not found or is not active.');const s=row.settings||{};orgName.textContent=s.church||s.synagogue||row.synagogue_name||'Church';paypalUrl=validPayPalUrl(s.paypalDonationUrl);paypalButton.textContent=s.donateButtonLabel||'Donate with PayPal';paypalButton.style.display='inline-flex';if(!paypalUrl){paypalButton.style.display='none';msg.textContent='This church has not added its PayPal donation link yet.'}}catch(e){paypalButton.style.display='none';msg.textContent=e.message||String(e)}}
-paypalButton.addEventListener('click',e=>{if(!paypalUrl){e.preventDefault();return}paypalButton.href=paypalUrl});
-loadBoard(new URLSearchParams(location.search).get('s')||'');
-</script></body></html>
+
+let sb=null;
+
+let synagogueRecord=null;
+
+let memberNumber="";
+
+
+/* ========================================
+   URL INFORMATION
+======================================== */
+
+function getURLInfo(){
+
+  const params=
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  return {
+
+    synagogue:
+      (
+        params.get("synagogue")
+        ||
+        params.get("s")
+        ||
+        params.get("slug")
+        ||
+        ""
+      ).trim(),
+
+    member:
+      (
+        params.get("member")
+        ||
+        ""
+      ).trim()
+
+  };
+
+}
+
+
+/* ========================================
+   SET DONATION AMOUNT
+======================================== */
+
+function setAmount(amount){
+
+  document
+    .getElementById(
+      "amount"
+    )
+    .value=
+      amount;
+
+}
+
+
+/* ========================================
+   LOAD SYNAGOGUE
+======================================== */
+
+async function loadSynagogue(){
+
+  const msg=
+    document.getElementById(
+      "msg"
+    );
+
+  const button=
+    document.getElementById(
+      "continueBtn"
+    );
+
+
+  try{
+
+    const info=
+      getURLInfo();
+
+
+    if(!info.synagogue){
+
+      throw new Error(
+        "Synagogue number is missing from the donation link."
+      );
+
+    }
+
+
+    memberNumber=
+      info.member;
+
+
+    sb=
+      getSupabase();
+
+
+    /*
+      We already created this secure RPC
+      for public synagogue registration.
+      It also safely returns the synagogue
+      name and slug for this page.
+    */
+
+    const {
+      data,
+      error
+    }=
+      await sb.rpc(
+        "get_synagogue_for_registration",
+        {
+          p_slug:
+            info.synagogue
+        }
+      );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    const synagogue=
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+
+    if(!synagogue){
+
+      throw new Error(
+        "Synagogue not found."
+      );
+
+    }
+
+
+    synagogueRecord=
+      synagogue;
+
+
+    const name=
+      synagogue.synagogue_name
+      ||
+      "Synagogue";
+
+
+    const slug=
+      synagogue.slug
+      ||
+      info.synagogue;
+
+
+    /*
+      THIS IS THE PART YOU ASKED FOR:
+
+      It automatically displays:
+
+      108 — Tricia Fleming
+    */
+
+    document
+      .getElementById(
+        "synagogueTitle"
+      )
+      .textContent=
+        name;
+
+
+    document
+      .getElementById(
+        "synagogueNumber"
+      )
+      .textContent=
+        "Synagogue #"
+        +
+        slug;
+
+
+    document
+      .getElementById(
+        "synagogueDisplay"
+      )
+      .textContent=
+        slug
+        +
+        " — "
+        +
+        name;
+
+
+    /*
+      Automatically show the member number
+      when member=108-0014 is in the URL.
+    */
+
+    if(memberNumber){
+
+      document
+        .getElementById(
+          "memberBox"
+        )
+        .style.display=
+          "block";
+
+
+      document
+        .getElementById(
+          "memberDisplay"
+        )
+        .textContent=
+          memberNumber;
+
+    }
+
+
+    /*
+      Return to this synagogue's
+      member page.
+    */
+
+    document
+      .getElementById(
+        "membersLink"
+      )
+      .href=
+        "members.html";
+
+
+    button.disabled=
+      false;
+
+
+    msg.textContent=
+      "Ready for donation.";
+
+    msg.className=
+      "msg success";
+
+
+  }
+  catch(error){
+
+    console.error(
+      "Donation synagogue load error:",
+      error
+    );
+
+
+    msg.textContent=
+      error.message
+      ||
+      String(error);
+
+
+    msg.className=
+      "msg error";
+
+
+    button.disabled=
+      true;
+
+  }
+
+}
+
+
+/* ========================================
+   CONTINUE TO PAYMENT
+======================================== */
+
+async function continueDonation(){
+
+  const msg=
+    document.getElementById(
+      "msg"
+    );
+
+
+  const button=
+    document.getElementById(
+      "continueBtn"
+    );
+
+
+  if(!synagogueRecord){
+
+    msg.textContent=
+      "Synagogue information has not loaded.";
+
+    msg.className=
+      "msg error";
+
+    return;
+
+  }
+
+
+  const amount=
+    Number(
+      document
+        .getElementById(
+          "amount"
+        )
+        .value
+    );
+
+
+  if(
+    !Number.isFinite(amount)
+    ||
+    amount <= 0
+  ){
+
+    msg.textContent=
+      "Please enter a donation amount.";
+
+    msg.className=
+      "msg error";
+
+    return;
+
+  }
+
+
+  button.disabled=
+    true;
+
+
+  msg.textContent=
+    "Preparing secure PayPal donation...";
+
+  msg.className=
+    "msg loading";
+
+
+  try{
+
+    const donorName=
+      document
+        .getElementById(
+          "donorName"
+        )
+        .value
+        .trim();
+
+
+    const donorEmail=
+      document
+        .getElementById(
+          "donorEmail"
+        )
+        .value
+        .trim();
+
+
+    const purpose=
+      document
+        .getElementById(
+          "purpose"
+        )
+        .value;
+
+
+    const dedication=
+      document
+        .getElementById(
+          "dedication"
+        )
+        .value
+        .trim();
+
+
+    /*
+      Our secure Supabase Edge Function.
+    */
+
+    const {
+      data,
+      error
+    }=
+      await sb.functions.invoke(
+        "paypal-donation",
+        {
+          body:{
+
+            action:
+              "create",
+
+            synagogue_slug:
+              synagogueRecord.slug,
+
+            member_number:
+              memberNumber
+              ||
+              null,
+
+            amount:
+              amount,
+
+            purpose:
+              purpose,
+
+            dedication:
+              dedication
+              ||
+              null,
+
+            donor_name:
+              donorName
+              ||
+              null,
+
+            donor_email:
+              donorEmail
+              ||
+              null
+
+          }
+        }
+      );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(
+      !data
+      ||
+      !data.orderID
+    ){
+
+      throw new Error(
+        data?.error
+        ||
+        "PayPal order could not be created."
+      );
+
+    }
+
+
+    /*
+      We have successfully created the PayPal
+      order on the server.
+
+      The next step will be connecting this
+      order ID to the PayPal checkout button.
+    */
+
+    sessionStorage.setItem(
+      "paypal_donation_order_id",
+      data.orderID
+    );
+
+
+    sessionStorage.setItem(
+      "paypal_donation_synagogue",
+      synagogueRecord.slug
+    );
+
+
+    sessionStorage.setItem(
+      "paypal_donation_member",
+      memberNumber
+    );
+
+
+    msg.textContent=
+      "PayPal order created successfully. Order: "
+      +
+      data.orderID;
+
+
+    msg.className=
+      "msg success";
+
+
+  }
+  catch(error){
+
+    console.error(
+      "Donation error:",
+      error
+    );
+
+
+    msg.textContent=
+      error.message
+      ||
+      String(error);
+
+
+    msg.className=
+      "msg error";
+
+  }
+  finally{
+
+    button.disabled=
+      false;
+
+  }
+
+}
+
+
+/* ========================================
+   START PAGE
+======================================== */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  loadSynagogue
+);
+
+</script>
+
+</body>
+</html>
