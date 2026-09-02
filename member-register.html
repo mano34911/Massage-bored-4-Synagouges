@@ -111,6 +111,7 @@
 
     button:disabled{
       opacity:.6;
+      cursor:not-allowed;
     }
 
     .msg{
@@ -124,8 +125,14 @@
     .success{color:#9cffaa}
 
     @media(max-width:650px){
-      .grid{grid-template-columns:1fr}
-      .wide,.sectionTitle{grid-column:auto}
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .wide,
+      .sectionTitle{
+        grid-column:auto;
+      }
     }
   </style>
 </head>
@@ -146,11 +153,13 @@
 
   <div class="grid">
 
-    <div class="sectionTitle">Member Information</div>
+    <div class="sectionTitle">
+      Member Information
+    </div>
 
     <label>
       Full name
-      <input id="fullName">
+      <input id="fullName" autocomplete="name">
     </label>
 
     <label>
@@ -160,48 +169,55 @@
 
     <label>
       Email
-      <input id="email" type="email">
+      <input id="email" type="email" autocomplete="email">
     </label>
 
     <label>
       Phone
-      <input id="phone" type="tel">
+      <input id="phone" type="tel" autocomplete="tel">
     </label>
 
-    <div class="sectionTitle">Address</div>
+
+    <div class="sectionTitle">
+      Address
+    </div>
 
     <label class="wide">
       Street address
-      <input id="addressLine1">
+      <input id="addressLine1" autocomplete="street-address">
     </label>
 
     <label>
       City
-      <input id="city">
+      <input id="city" autocomplete="address-level2">
     </label>
 
     <label>
       State / Province / Region
-      <input id="stateRegion">
+      <input id="stateRegion" autocomplete="address-level1">
     </label>
 
     <label>
       ZIP / Postal code
-      <input id="postalCode">
+      <input id="postalCode" autocomplete="postal-code">
     </label>
 
     <label>
       Country
-      <input id="country" value="United States">
+      <input id="country" autocomplete="country-name" value="United States">
     </label>
 
-    <div class="sectionTitle">Member Number</div>
+
+    <div class="sectionTitle">
+      Member Number
+    </div>
 
     <div id="memberNumberBox" class="wide member-number">
       Assigned automatically after registration
     </div>
 
   </div>
+
 
   <div class="actions">
     <button id="registerBtn" type="button">
@@ -215,9 +231,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
 <script src="supabase-config.js"></script>
-
 <script src="saas-common.js"></script>
 
 
@@ -226,6 +240,10 @@
 let sb = null;
 let synagogueRecord = null;
 
+
+/* =========================================
+   GET SYNAGOGUE NUMBER FROM URL
+========================================= */
 
 function getSynagogueSlug(){
 
@@ -241,6 +259,10 @@ function getSynagogueSlug(){
 }
 
 
+/* =========================================
+   LOAD SYNAGOGUE
+========================================= */
+
 async function loadSynagogue(){
 
   const msg =
@@ -249,13 +271,16 @@ async function loadSynagogue(){
   const button =
     document.getElementById("registerBtn");
 
+  const synagogueName =
+    document.getElementById("synagogueName");
+
   const slug =
     getSynagogueSlug();
 
 
   if(!slug){
 
-    document.getElementById("synagogueName").textContent =
+    synagogueName.textContent =
       "Synagogue not specified";
 
     msg.textContent =
@@ -275,7 +300,10 @@ async function loadSynagogue(){
     sb = getSupabase();
 
 
-    const {data,error} =
+    const {
+      data,
+      error
+    } =
       await sb.rpc(
         "get_synagogue_for_registration",
         {
@@ -297,7 +325,7 @@ async function loadSynagogue(){
 
     if(!synagogue){
 
-      document.getElementById("synagogueName").textContent =
+      synagogueName.textContent =
         "Synagogue not found";
 
       msg.textContent =
@@ -316,19 +344,27 @@ async function loadSynagogue(){
       synagogue;
 
 
-    document.getElementById("synagogueName").textContent =
+    synagogueName.textContent =
       synagogue.synagogue_name;
 
 
     msg.textContent = "";
 
+    msg.className =
+      "msg";
+
   }
   catch(error){
 
-    console.error(error);
+    console.error(
+      "Load synagogue error:",
+      error
+    );
 
-    document.getElementById("synagogueName").textContent =
+
+    synagogueName.textContent =
       "Unable to load synagogue";
+
 
     msg.textContent =
       error.message || String(error);
@@ -343,6 +379,10 @@ async function loadSynagogue(){
 }
 
 
+/* =========================================
+   REGISTER MEMBER
+========================================= */
+
 async function registerMember(){
 
   const msg =
@@ -350,6 +390,9 @@ async function registerMember(){
 
   const button =
     document.getElementById("registerBtn");
+
+  const memberNumberBox =
+    document.getElementById("memberNumberBox");
 
 
   if(!synagogueRecord){
@@ -365,10 +408,17 @@ async function registerMember(){
 
 
   const fullName =
-    document.getElementById("fullName").value.trim();
+    document
+      .getElementById("fullName")
+      .value
+      .trim();
+
 
   const email =
-    document.getElementById("email").value.trim();
+    document
+      .getElementById("email")
+      .value
+      .trim();
 
 
   if(!fullName){
@@ -395,48 +445,10 @@ async function registerMember(){
   }
 
 
-  const member = {
-
-    synagogue_id:
-      synagogueRecord.id,
-
-    full_name:
-      fullName,
-
-    hebrew_name:
-      document.getElementById("hebrewName").value.trim() || null,
-
-    email:
-      email,
-
-    phone:
-      document.getElementById("phone").value.trim() || null,
-
-    address_line1:
-      document.getElementById("addressLine1").value.trim() || null,
-
-    city:
-      document.getElementById("city").value.trim() || null,
-
-    state_region:
-      document.getElementById("stateRegion").value.trim() || null,
-
-    postal_code:
-      document.getElementById("postalCode").value.trim() || null,
-
-    country:
-      document.getElementById("country").value.trim() || null,
-
-    status:
-      "active"
-
-  };
-
-
   button.disabled = true;
 
   msg.textContent =
-    "Registering...";
+    "Registering member...";
 
   msg.className =
     "msg";
@@ -444,12 +456,76 @@ async function registerMember(){
 
   try{
 
-    const {data,error} =
-      await sb
-        .from("synagogue_members")
-        .insert(member)
-        .select("member_number,full_name")
-        .single();
+    /*
+      IMPORTANT:
+      This page does NOT directly insert
+      into public.synagogue_members.
+
+      It calls the secure Supabase
+      register_synagogue_member() function.
+    */
+
+    const {
+      data,
+      error
+    } =
+      await sb.rpc(
+        "register_synagogue_member",
+        {
+
+          p_synagogue_slug:
+            synagogueRecord.slug,
+
+          p_full_name:
+            fullName,
+
+          p_hebrew_name:
+            document
+              .getElementById("hebrewName")
+              .value
+              .trim() || null,
+
+          p_email:
+            email,
+
+          p_phone:
+            document
+              .getElementById("phone")
+              .value
+              .trim() || null,
+
+          p_address_line1:
+            document
+              .getElementById("addressLine1")
+              .value
+              .trim() || null,
+
+          p_city:
+            document
+              .getElementById("city")
+              .value
+              .trim() || null,
+
+          p_state_region:
+            document
+              .getElementById("stateRegion")
+              .value
+              .trim() || null,
+
+          p_postal_code:
+            document
+              .getElementById("postalCode")
+              .value
+              .trim() || null,
+
+          p_country:
+            document
+              .getElementById("country")
+              .value
+              .trim() || null
+
+        }
+      );
 
 
     if(error){
@@ -457,23 +533,57 @@ async function registerMember(){
     }
 
 
-    document.getElementById("memberNumberBox").textContent =
-      data.member_number;
+    const member =
+      Array.isArray(data)
+        ? data[0]
+        : data;
+
+
+    if(!member){
+
+      throw new Error(
+        "Member registration returned no data."
+      );
+
+    }
+
+
+    memberNumberBox.textContent =
+      member.member_number;
 
 
     msg.innerHTML =
       "Registration successful.<br>" +
       "Your member number is <strong>" +
-      data.member_number +
+      escapeHtml(member.member_number) +
       "</strong>.";
+
 
     msg.className =
       "msg success";
 
+
+    /*
+      Clear form after success
+    */
+
+    document.getElementById("fullName").value = "";
+    document.getElementById("hebrewName").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("addressLine1").value = "";
+    document.getElementById("city").value = "";
+    document.getElementById("stateRegion").value = "";
+    document.getElementById("postalCode").value = "";
+
   }
   catch(error){
 
-    console.error(error);
+    console.error(
+      "Member registration error:",
+      error
+    );
+
 
     msg.textContent =
       error.message || String(error);
@@ -484,12 +594,38 @@ async function registerMember(){
   }
   finally{
 
-    button.disabled = false;
+    button.disabled =
+      false;
 
   }
 
 }
 
+
+/* =========================================
+   SAFE HTML
+========================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      character => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[character])
+    );
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
 
 document
   .getElementById("registerBtn")
@@ -498,6 +634,10 @@ document
     registerMember
   );
 
+
+/* =========================================
+   START
+========================================= */
 
 window.addEventListener(
   "DOMContentLoaded",
