@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Synagogue Member Registration</title>
+  <title>Member Registration</title>
 
   <style>
     *{box-sizing:border-box}
@@ -11,7 +11,7 @@
     body{
       margin:0;
       min-height:100vh;
-      font-family:Arial,"Noto Sans Hebrew",sans-serif;
+      font-family:Arial,sans-serif;
       background:radial-gradient(circle at top,#143f7d,#06152d 50%,#020710);
       color:#fff;
       display:grid;
@@ -24,7 +24,6 @@
       background:linear-gradient(180deg,#0b2b5d,#061a3b);
       border:3px solid #d7a62d;
       border-radius:24px;
-      box-shadow:0 20px 60px #0008,inset 0 0 0 2px #fff2a633;
       padding:28px;
     }
 
@@ -36,17 +35,15 @@
 
     .synagogue-name{
       text-align:center;
-      color:#fff;
       font-size:22px;
       font-weight:900;
-      margin-bottom:8px;
+      margin-bottom:6px;
     }
 
     .muted{
-      color:#d8dfef;
-      font-size:14px;
       text-align:center;
-      margin-bottom:22px;
+      color:#d8dfef;
+      margin-bottom:20px;
     }
 
     .grid{
@@ -86,45 +83,6 @@
       font-size:16px;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-      margin-top:20px;
-    }
-
-    button{
-      border:0;
-      border-radius:11px;
-      padding:12px 20px;
-      background:#d7a62d;
-      color:#07152d;
-      font-weight:900;
-      font-size:16px;
-      cursor:pointer;
-    }
-
-    button:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-    }
-
-    .msg{
-      min-height:28px;
-      text-align:center;
-      margin-top:16px;
-      font-weight:800;
-    }
-
-    .success{
-      color:#9cffaa;
-    }
-
-    .error{
-      color:#ffaaaa;
-    }
-
     .member-number{
       background:#edf4ff;
       color:#0b2f72;
@@ -135,15 +93,39 @@
       font-weight:900;
     }
 
-    @media(max-width:650px){
-      .grid{
-        grid-template-columns:1fr;
-      }
+    .actions{
+      text-align:center;
+      margin-top:20px;
+    }
 
-      .wide,
-      .sectionTitle{
-        grid-column:auto;
-      }
+    button{
+      border:0;
+      border-radius:11px;
+      padding:13px 22px;
+      background:#d7a62d;
+      color:#07152d;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:disabled{
+      opacity:.6;
+    }
+
+    .msg{
+      text-align:center;
+      margin-top:16px;
+      min-height:25px;
+      font-weight:800;
+    }
+
+    .error{color:#ffaaaa}
+    .success{color:#9cffaa}
+
+    @media(max-width:650px){
+      .grid{grid-template-columns:1fr}
+      .wide,.sectionTitle{grid-column:auto}
     }
   </style>
 </head>
@@ -164,13 +146,11 @@
 
   <div class="grid">
 
-    <div class="sectionTitle">
-      Member Information
-    </div>
+    <div class="sectionTitle">Member Information</div>
 
     <label>
       Full name
-      <input id="fullName" autocomplete="name">
+      <input id="fullName">
     </label>
 
     <label>
@@ -180,55 +160,51 @@
 
     <label>
       Email
-      <input id="email" type="email" autocomplete="email">
+      <input id="email" type="email">
     </label>
 
     <label>
       Phone
-      <input id="phone" type="tel" autocomplete="tel">
+      <input id="phone" type="tel">
     </label>
 
-    <div class="sectionTitle">
-      Address
-    </div>
+    <div class="sectionTitle">Address</div>
 
     <label class="wide">
       Street address
-      <input id="addressLine1" autocomplete="street-address">
+      <input id="addressLine1">
     </label>
 
     <label>
       City
-      <input id="city" autocomplete="address-level2">
+      <input id="city">
     </label>
 
     <label>
       State / Province / Region
-      <input id="stateRegion" autocomplete="address-level1">
+      <input id="stateRegion">
     </label>
 
     <label>
       ZIP / Postal code
-      <input id="postalCode" autocomplete="postal-code">
+      <input id="postalCode">
     </label>
 
     <label>
       Country
-      <input id="country" autocomplete="country-name" value="United States">
+      <input id="country" value="United States">
     </label>
 
-    <div class="sectionTitle">
-      Member Number
-    </div>
+    <div class="sectionTitle">Member Number</div>
 
-    <div class="wide member-number" id="memberNumberBox">
+    <div id="memberNumberBox" class="wide member-number">
       Assigned automatically after registration
     </div>
 
   </div>
 
   <div class="actions">
-    <button id="registerBtn" onclick="registerMember()">
+    <button id="registerBtn" type="button">
       Register
     </button>
   </div>
@@ -236,19 +212,20 @@
   <div id="msg" class="msg"></div>
 
 </div>
-  
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="saas-common.js"></script>
+
+
 <script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="supabase-config.js"></script>
-<script src="saas-common.js"></script>
-let sb;
+let sb = null;
 let synagogueRecord = null;
 
-
-/* -----------------------------
-   READ SYNAGOGUE ID FROM URL
------------------------------ */
 
 function getSynagogueSlug(){
 
@@ -264,16 +241,12 @@ function getSynagogueSlug(){
 }
 
 
-/* -----------------------------
-   LOAD SYNAGOGUE
------------------------------ */
-
 async function loadSynagogue(){
 
   const msg =
     document.getElementById("msg");
 
-  const registerBtn =
+  const button =
     document.getElementById("registerBtn");
 
   const slug =
@@ -282,8 +255,7 @@ async function loadSynagogue(){
 
   if(!slug){
 
-    document.getElementById("synagogueName")
-      .textContent =
+    document.getElementById("synagogueName").textContent =
       "Synagogue not specified";
 
     msg.textContent =
@@ -292,8 +264,7 @@ async function loadSynagogue(){
     msg.className =
       "msg error";
 
-    registerBtn.disabled =
-      true;
+    button.disabled = true;
 
     return;
   }
@@ -301,25 +272,14 @@ async function loadSynagogue(){
 
   try{
 
-    sb =
-      getSupabase();
+    sb = getSupabase();
 
 
-    /*
-      This calls the secure Supabase function
-      we created:
-
-      get_synagogue_for_registration(text)
-    */
-
-    const {
-      data,
-      error
-    } =
+    const {data,error} =
       await sb.rpc(
         "get_synagogue_for_registration",
         {
-          p_slug: slug
+          p_slug:slug
         }
       );
 
@@ -330,25 +290,23 @@ async function loadSynagogue(){
 
 
     const synagogue =
-      data && data.length
+      Array.isArray(data)
         ? data[0]
-        : null;
+        : data;
 
 
     if(!synagogue){
 
-      document.getElementById("synagogueName")
-        .textContent =
+      document.getElementById("synagogueName").textContent =
         "Synagogue not found";
 
       msg.textContent =
-        "The synagogue registration link is invalid.";
+        "Invalid synagogue registration link.";
 
       msg.className =
         "msg error";
 
-      registerBtn.disabled =
-        true;
+      button.disabled = true;
 
       return;
     }
@@ -358,61 +316,40 @@ async function loadSynagogue(){
       synagogue;
 
 
-    document.getElementById("synagogueName")
-      .textContent =
+    document.getElementById("synagogueName").textContent =
       synagogue.synagogue_name;
 
 
-    msg.textContent =
-      "";
-
-    msg.className =
-      "msg";
+    msg.textContent = "";
 
   }
-  catch(e){
+  catch(error){
 
-    console.error(
-      "Load synagogue error:",
-      e
-    );
+    console.error(error);
 
-
-    document.getElementById("synagogueName")
-      .textContent =
+    document.getElementById("synagogueName").textContent =
       "Unable to load synagogue";
 
-
     msg.textContent =
-      e && e.message
-        ? e.message
-        : String(e);
+      error.message || String(error);
 
     msg.className =
       "msg error";
 
-    registerBtn.disabled =
-      true;
+    button.disabled = true;
 
   }
 
 }
 
 
-/* -----------------------------
-   REGISTER MEMBER
------------------------------ */
-
 async function registerMember(){
 
   const msg =
     document.getElementById("msg");
 
-  const btn =
+  const button =
     document.getElementById("registerBtn");
-
-  const memberNumberBox =
-    document.getElementById("memberNumberBox");
 
 
   if(!synagogueRecord){
@@ -427,72 +364,14 @@ async function registerMember(){
   }
 
 
-  const member = {
+  const fullName =
+    document.getElementById("fullName").value.trim();
 
-    synagogue_id:
-      synagogueRecord.id,
-
-    full_name:
-      document
-        .getElementById("fullName")
-        .value
-        .trim(),
-
-    hebrew_name:
-      document
-        .getElementById("hebrewName")
-        .value
-        .trim() || null,
-
-    email:
-      document
-        .getElementById("email")
-        .value
-        .trim() || null,
-
-    phone:
-      document
-        .getElementById("phone")
-        .value
-        .trim() || null,
-
-    address_line1:
-      document
-        .getElementById("addressLine1")
-        .value
-        .trim() || null,
-
-    city:
-      document
-        .getElementById("city")
-        .value
-        .trim() || null,
-
-    state_region:
-      document
-        .getElementById("stateRegion")
-        .value
-        .trim() || null,
-
-    postal_code:
-      document
-        .getElementById("postalCode")
-        .value
-        .trim() || null,
-
-    country:
-      document
-        .getElementById("country")
-        .value
-        .trim() || null,
-
-    status:
-      "active"
-
-  };
+  const email =
+    document.getElementById("email").value.trim();
 
 
-  if(!member.full_name){
+  if(!fullName){
 
     msg.textContent =
       "Please enter your full name.";
@@ -504,7 +383,7 @@ async function registerMember(){
   }
 
 
-  if(!member.email){
+  if(!email){
 
     msg.textContent =
       "Please enter your email address.";
@@ -516,11 +395,48 @@ async function registerMember(){
   }
 
 
-  btn.disabled =
-    true;
+  const member = {
+
+    synagogue_id:
+      synagogueRecord.id,
+
+    full_name:
+      fullName,
+
+    hebrew_name:
+      document.getElementById("hebrewName").value.trim() || null,
+
+    email:
+      email,
+
+    phone:
+      document.getElementById("phone").value.trim() || null,
+
+    address_line1:
+      document.getElementById("addressLine1").value.trim() || null,
+
+    city:
+      document.getElementById("city").value.trim() || null,
+
+    state_region:
+      document.getElementById("stateRegion").value.trim() || null,
+
+    postal_code:
+      document.getElementById("postalCode").value.trim() || null,
+
+    country:
+      document.getElementById("country").value.trim() || null,
+
+    status:
+      "active"
+
+  };
+
+
+  button.disabled = true;
 
   msg.textContent =
-    "Registering member...";
+    "Registering...";
 
   msg.className =
     "msg";
@@ -528,26 +444,11 @@ async function registerMember(){
 
   try{
 
-    /*
-      Insert new member.
-
-      The database trigger automatically
-      creates the member number such as:
-
-      108-0001
-      108-0002
-    */
-
-    const {
-      data,
-      error
-    } =
+    const {data,error} =
       await sb
         .from("synagogue_members")
         .insert(member)
-        .select(
-          "id,member_number,full_name,email"
-        )
+        .select("member_number,full_name")
         .single();
 
 
@@ -556,50 +457,26 @@ async function registerMember(){
     }
 
 
-    memberNumberBox.textContent =
+    document.getElementById("memberNumberBox").textContent =
       data.member_number;
 
 
     msg.innerHTML =
       "Registration successful.<br>" +
-      "Welcome <strong>" +
-      escapeHtml(data.full_name) +
-      "</strong>.<br>" +
       "Your member number is <strong>" +
-      escapeHtml(data.member_number) +
+      data.member_number +
       "</strong>.";
 
     msg.className =
       "msg success";
 
-
-    /*
-      Clear form after successful registration.
-    */
-
-    document.getElementById("fullName").value = "";
-    document.getElementById("hebrewName").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("phone").value = "";
-    document.getElementById("addressLine1").value = "";
-    document.getElementById("city").value = "";
-    document.getElementById("stateRegion").value = "";
-    document.getElementById("postalCode").value = "";
-
-
   }
-  catch(e){
+  catch(error){
 
-    console.error(
-      "Member registration error:",
-      e
-    );
-
+    console.error(error);
 
     msg.textContent =
-      e && e.message
-        ? e.message
-        : String(e);
+      error.message || String(error);
 
     msg.className =
       "msg error";
@@ -607,44 +484,25 @@ async function registerMember(){
   }
   finally{
 
-    btn.disabled =
-      false;
+    button.disabled = false;
 
   }
 
 }
 
 
-/* -----------------------------
-   SAFE HTML OUTPUT
------------------------------ */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(
-      /[&<>"']/g,
-      function(character){
-
-        return {
-          "&":"&amp;",
-          "<":"&lt;",
-          ">":"&gt;",
-          '"':"&quot;",
-          "'":"&#39;"
-        }[character];
-
-      }
-    );
-
-}
+document
+  .getElementById("registerBtn")
+  .addEventListener(
+    "click",
+    registerMember
+  );
 
 
-/* -----------------------------
-   START PAGE
------------------------------ */
-
-loadSynagogue();
+window.addEventListener(
+  "DOMContentLoaded",
+  loadSynagogue
+);
 
 </script>
 
