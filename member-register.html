@@ -162,7 +162,6 @@
     Register as a member of this synagogue.
   </div>
 
-
   <div class="grid">
 
     <div class="sectionTitle">
@@ -188,7 +187,6 @@
       Phone
       <input id="phone" type="tel" autocomplete="tel">
     </label>
-
 
     <div class="sectionTitle">
       Address
@@ -219,17 +217,15 @@
       <input id="country" autocomplete="country-name" value="United States">
     </label>
 
-
     <div class="sectionTitle">
       Member Number
     </div>
 
-    <div class="wide member-number">
+    <div class="wide member-number" id="memberNumberBox">
       Assigned automatically after registration
     </div>
 
   </div>
-
 
   <div class="actions">
     <button id="registerBtn" onclick="registerMember()">
@@ -245,12 +241,15 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <script src="supabase-config.js"></script>
 
-
 <script>
 
 let sb;
 let synagogueRecord = null;
 
+
+/* -----------------------------
+   READ SYNAGOGUE ID FROM URL
+----------------------------- */
 
 function getSynagogueSlug(){
 
@@ -266,10 +265,17 @@ function getSynagogueSlug(){
 }
 
 
+/* -----------------------------
+   LOAD SYNAGOGUE
+----------------------------- */
+
 async function loadSynagogue(){
 
   const msg =
     document.getElementById("msg");
+
+  const registerBtn =
+    document.getElementById("registerBtn");
 
   const slug =
     getSynagogueSlug();
@@ -287,75 +293,116 @@ async function loadSynagogue(){
     msg.className =
       "msg error";
 
-    document.getElementById("registerBtn")
-      .disabled = true;
+    registerBtn.disabled =
+      true;
 
     return;
   }
 
 
-  sb =
-    getSupabase();
+  try{
+
+    sb =
+      getSupabase();
 
 
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("synagogues")
-      .select("id,slug,synagogue_name,status")
-      .eq("slug",slug)
-      .maybeSingle();
+    /*
+      This calls the secure Supabase function
+      we created:
+
+      get_synagogue_for_registration(text)
+    */
+
+    const {
+      data,
+      error
+    } =
+      await sb.rpc(
+        "get_synagogue_for_registration",
+        {
+          p_slug: slug
+        }
+      );
 
 
-  if(error){
-
-    console.error(error);
-
-    msg.textContent =
-      error.message;
-
-    msg.className =
-      "msg error";
-
-    return;
-  }
+    if(error){
+      throw error;
+    }
 
 
-  if(!data){
+    const synagogue =
+      data && data.length
+        ? data[0]
+        : null;
+
+
+    if(!synagogue){
+
+      document.getElementById("synagogueName")
+        .textContent =
+        "Synagogue not found";
+
+      msg.textContent =
+        "The synagogue registration link is invalid.";
+
+      msg.className =
+        "msg error";
+
+      registerBtn.disabled =
+        true;
+
+      return;
+    }
+
+
+    synagogueRecord =
+      synagogue;
+
 
     document.getElementById("synagogueName")
       .textContent =
-      "Synagogue not found";
+      synagogue.synagogue_name;
+
 
     msg.textContent =
-      "The synagogue registration link is invalid.";
+      "";
+
+    msg.className =
+      "msg";
+
+  }
+  catch(e){
+
+    console.error(
+      "Load synagogue error:",
+      e
+    );
+
+
+    document.getElementById("synagogueName")
+      .textContent =
+      "Unable to load synagogue";
+
+
+    msg.textContent =
+      e && e.message
+        ? e.message
+        : String(e);
 
     msg.className =
       "msg error";
 
-    document.getElementById("registerBtn")
-      .disabled = true;
+    registerBtn.disabled =
+      true;
 
-    return;
   }
-
-
-  synagogueRecord =
-    data;
-
-
-  document.getElementById("synagogueName")
-    .textContent =
-    data.synagogue_name;
-
-
-  msg.textContent =
-    "";
 
 }
 
+
+/* -----------------------------
+   REGISTER MEMBER
+----------------------------- */
 
 async function registerMember(){
 
@@ -364,6 +411,9 @@ async function registerMember(){
 
   const btn =
     document.getElementById("registerBtn");
+
+  const memberNumberBox =
+    document.getElementById("memberNumberBox");
 
 
   if(!synagogueRecord){
@@ -439,6 +489,7 @@ async function registerMember(){
 
     status:
       "active"
+
   };
 
 
@@ -454,7 +505,20 @@ async function registerMember(){
   }
 
 
-  btn.disabled = true;
+  if(!member.email){
+
+    msg.textContent =
+      "Please enter your email address.";
+
+    msg.className =
+      "msg error";
+
+    return;
+  }
+
+
+  btn.disabled =
+    true;
 
   msg.textContent =
     "Registering member...";
@@ -465,6 +529,16 @@ async function registerMember(){
 
   try{
 
+    /*
+      Insert new member.
+
+      The database trigger automatically
+      creates the member number such as:
+
+      108-0001
+      108-0002
+    */
+
     const {
       data,
       error
@@ -472,7 +546,9 @@ async function registerMember(){
       await sb
         .from("synagogue_members")
         .insert(member)
-        .select("member_number,full_name")
+        .select(
+          "id,member_number,full_name,email"
+        )
         .single();
 
 
@@ -481,15 +557,26 @@ async function registerMember(){
     }
 
 
+    memberNumberBox.textContent =
+      data.member_number;
+
+
     msg.innerHTML =
       "Registration successful.<br>" +
+      "Welcome <strong>" +
+      escapeHtml(data.full_name) +
+      "</strong>.<br>" +
       "Your member number is <strong>" +
-      data.member_number +
+      escapeHtml(data.member_number) +
       "</strong>.";
 
     msg.className =
       "msg success";
 
+
+    /*
+      Clear form after successful registration.
+    */
 
     document.getElementById("fullName").value = "";
     document.getElementById("hebrewName").value = "";
@@ -504,7 +591,11 @@ async function registerMember(){
   }
   catch(e){
 
-    console.error(e);
+    console.error(
+      "Member registration error:",
+      e
+    );
+
 
     msg.textContent =
       e && e.message
@@ -517,12 +608,42 @@ async function registerMember(){
   }
   finally{
 
-    btn.disabled = false;
+    btn.disabled =
+      false;
 
   }
 
 }
 
+
+/* -----------------------------
+   SAFE HTML OUTPUT
+----------------------------- */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      function(character){
+
+        return {
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          '"':"&quot;",
+          "'":"&#39;"
+        }[character];
+
+      }
+    );
+
+}
+
+
+/* -----------------------------
+   START PAGE
+----------------------------- */
 
 loadSynagogue();
 
