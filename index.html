@@ -535,6 +535,44 @@ body{
 }
 
 
+/* =========================================
+   JOIN SYNAGOGUE BUTTON
+   NEW MEMBERS
+========================================= */
+
+.joinButton{
+  position:absolute;
+  left:208px;
+  bottom:14px;
+  z-index:999999;
+  min-width:190px;
+  height:52px;
+  padding:0 18px;
+  border-radius:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  background:#fff8df;
+  border:3px solid #d7a62d;
+  color:#071f50;
+  font-size:17px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 3px 14px #0007, inset 0 0 0 1px #ffffff88;
+  transition:transform .15s ease, background .15s ease;
+}
+
+.joinButton:hover{
+  transform:scale(1.05);
+  background:#ffffff;
+}
+
+.joinButton:active{
+  transform:scale(.96);
+}
+
+
 /* PHONE PORTRAIT */
 
 @media
@@ -631,6 +669,16 @@ and
     padding:0 13px;
     font-size:15px;
   }
+
+  .joinButton{
+    left:172px;
+    bottom:8px;
+    height:44px;
+    min-width:150px;
+    padding:0 11px;
+    font-size:13px;
+  }
+
 }
 
 
@@ -1927,6 +1975,16 @@ and
   aria-label="Donate"
 >
   💛 Donate
+</a>
+
+<a
+  id="joinButton"
+  class="joinButton"
+  href="member-register.html"
+  title="Join this synagogue"
+  aria-label="Join this synagogue as a new member"
+>
+  👥 New Member — Join
 </a>
 
 
@@ -3226,6 +3284,19 @@ async function initTenantBoard(){
   if(donateButton){
     donateButton.href =
       "donate.html?synagogue="
+      +
+      encodeURIComponent(slug);
+  }
+
+
+  const joinButton =
+    document.getElementById(
+      "joinButton"
+    );
+
+  if(joinButton){
+    joinButton.href =
+      "member-register.html?synagogue="
       +
       encodeURIComponent(slug);
   }
