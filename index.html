@@ -497,6 +497,44 @@ body{
 }
 
 
+/* =========================================
+   DONATE BUTTON
+   INSIDE BOTTOM LEFT OF BOARD
+========================================= */
+
+.donateButton{
+  position:absolute;
+  left:76px;
+  bottom:14px;
+  z-index:999999;
+  min-width:118px;
+  height:52px;
+  padding:0 18px;
+  border-radius:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  background:#d7a62d;
+  border:3px solid #071f50;
+  color:#071f50;
+  font-size:18px;
+  font-weight:900;
+  text-decoration:none;
+  box-shadow:0 3px 14px #0007, inset 0 0 0 1px #fff7c955;
+  transition:transform .15s ease, background .15s ease;
+}
+
+.donateButton:hover{
+  transform:scale(1.05);
+  background:#f7d66b;
+}
+
+.donateButton:active{
+  transform:scale(.96);
+}
+
+
 /* PHONE PORTRAIT */
 
 @media
@@ -582,6 +620,16 @@ and
     bottom:8px;
 
     font-size:24px;
+  }
+
+
+  .donateButton{
+    left:60px;
+    bottom:8px;
+    height:44px;
+    min-width:104px;
+    padding:0 13px;
+    font-size:15px;
   }
 }
 
@@ -1871,6 +1919,17 @@ and
 </a>
 
 
+<a
+  id="donateButton"
+  class="donateButton"
+  href="donate.html"
+  title="Donate"
+  aria-label="Donate"
+>
+  💛 Donate
+</a>
+
+
 </div>
 
 </div>
@@ -3156,6 +3215,19 @@ async function initTenantBoard(){
 
   if(!slug){
     return;
+  }
+
+
+  const donateButton =
+    document.getElementById(
+      "donateButton"
+    );
+
+  if(donateButton){
+    donateButton.href =
+      "donate.html?synagogue="
+      +
+      encodeURIComponent(slug);
   }
 
 
