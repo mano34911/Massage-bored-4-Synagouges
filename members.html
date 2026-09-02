@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Synagogue Members</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:
+    radial-gradient(
+      circle at top,
+      #143f7d,
+      #06152d 50%,
+      #020710
+    );
+  color:#fff;
+  padding:24px;
+}
+
+.wrap{
+  width:min(1500px,98vw);
+  margin:auto;
+  background:
+    linear-gradient(
+      180deg,
+      #0b2b5d,
+      #061a3b
+    );
+  border:3px solid #d7a62d;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 5px 25px #0008;
+}
+
+h1{
+  text-align:center;
+  margin:0;
+  color:#f6d469;
+  font-size:34px;
+}
+
+.subtitle{
+  text-align:center;
+  color:#dce7ff;
+  margin-top:8px;
+}
+
+.topbar{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+button,
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:11px 16px;
+  font-weight:900;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  background:#d7a62d;
+  color:#07152d;
+}
+
+.btn.blue{
+  background:#0b4a99;
+  color:#fff;
+}
+
+.btn.green{
+  background:#16834c;
+  color:#fff;
+}
+
+.btn.gray{
+  background:#eee;
+  color:#07152d;
+}
+
+.btn.red{
+  background:#a91e24;
+  color:#fff;
+}
+
+button:hover,
+.btn:hover{
+  filter:brightness(1.08);
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:24px 0;
+}
+
+.stat{
+  padding:16px;
+  border-radius:14px;
+  background:#fff8df;
+  color:#102b59;
+  border:2px solid #d7a62d;
+  text-align:center;
+}
+
+.stat .number{
+  font-size:28px;
+  font-weight:900;
+}
+
+.stat .label{
+  font-size:13px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.searchBox{
+  margin-bottom:15px;
+}
+
+.searchBox input{
+  width:100%;
+  border-radius:10px;
+  border:2px solid #d7a62d;
+  background:#fff;
+  color:#111;
+  padding:13px;
+  font-size:16px;
+}
+
+.tableWrap{
+  overflow:auto;
+  background:white;
+  border-radius:14px;
+  border:2px solid #d7a62d;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1250px;
+  color:#111;
+}
+
+thead{
+  background:#f4dfa0;
+  color:#07152d;
+}
+
+th,
+td{
+  padding:10px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+  vertical-align:top;
+  font-size:13px;
+}
+
+th{
+  font-weight:900;
+  position:sticky;
+  top:0;
+  z-index:2;
+}
+
+tbody tr:hover{
+  background:#fff9e7;
+}
+
+.memberNumber{
+  font-size:16px;
+  font-weight:900;
+  color:#06377a;
+}
+
+.status{
+  display:inline-block;
+  border-radius:20px;
+  padding:5px 9px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.status.active{
+  background:#c9f6da;
+  color:#095d31;
+}
+
+.status.inactive{
+  background:#eee;
+  color:#555;
+}
+
+.msg{
+  text-align:center;
+  font-weight:900;
+  margin:14px 0;
+  min-height:22px;
+}
+
+.error{
+  color:#ffaaaa;
+}
+
+.success{
+  color:#9cffaa;
+}
+
+.empty{
+  padding:35px;
+  text-align:center;
+  font-weight:800;
+  color:#555;
+}
+
+.accountBar{
+  position:fixed;
+  top:10px;
+  left:10px;
+  z-index:999;
+  max-width:350px;
+  background:#071f50;
+  border:2px solid #d7a62d;
+  border-radius:12px;
+  padding:8px 12px;
+  color:white;
+  font-size:12px;
+  font-weight:800;
+  box-shadow:0 3px 12px #0008;
+}
+
+.accountBar button{
+  padding:5px 9px;
+  margin-left:8px;
+  background:#a91e24;
+  color:white;
+}
+
+@media(max-width:800px){
+
+  body{
+    padding:10px;
+  }
+
+  .wrap{
+    padding:14px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:27px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="accountBar">
+
+  <span id="accountText">
+    Loading account...
+  </span>
+
+  <button
+    type="button"
+    onclick="logoutApp()"
+  >
+    Logout
+  </button>
+
+</div>
+
+
+<div class="wrap">
+
+  <h1>
+    👥 Synagogue Members
+  </h1>
+
+  <div
+    id="synagogueName"
+    class="subtitle"
+  >
+    Loading synagogue...
+  </div>
+
+
+  <div class="topbar">
+
+    <a
+      class="btn blue"
+      href="admin.html"
+    >
+      ⚙️ Admin
+    </a>
+
+    <a
+      class="btn gray"
+      href="index.html"
+    >
+      📺 Board
+    </a>
+
+    <button
+      type="button"
+      onclick="loadMembers()"
+    >
+      🔄 Refresh
+    </button>
+
+    <a
+      id="registerMemberLink"
+      class="btn green"
+      href="#"
+      target="_blank"
+    >
+      ➕ Register Member
+    </a>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+
+      <div
+        id="totalMembers"
+        class="number"
+      >
+        0
+      </div>
+
+      <div class="label">
+        Total Members
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div
+        id="activeMembers"
+        class="number"
+      >
+        0
+      </div>
+
+      <div class="label">
+        Active Members
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div
+        id="newestMember"
+        class="number"
+      >
+        —
+      </div>
+
+      <div class="label">
+        Newest Member Number
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="searchBox">
+
+    <input
+      id="searchInput"
+      placeholder="Search member number, name, email, phone..."
+      oninput="renderMembers()"
+    >
+
+  </div>
+
+
+  <div
+    id="msg"
+    class="msg"
+  ></div>
+
+
+  <div class="tableWrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>
+            Member #
+          </th>
+
+          <th>
+            Full Name
+          </th>
+
+          <th>
+            Hebrew Name
+          </th>
+
+          <th>
+            Email
+          </th>
+
+          <th>
+            Phone
+          </th>
+
+          <th>
+            Address
+          </th>
+
+          <th>
+            Status
+          </th>
+
+          <th>
+            Registered
+          </th>
+
+          <th>
+            Donations
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody id="memberRows">
+
+        <tr>
+
+          <td
+            colspan="9"
+            class="empty"
+          >
+            Loading members...
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+<script src="supabase-config.js"></script>
+
+<script src="saas-common.js"></script>
+
+
+
+<script>
+
+let sb=null;
+
+let currentSynagogue=null;
+
+let allMembers=[];
+
+
+/* ========================================
+   SAFE HTML
+======================================== */
+
+function esc(value){
+
+  return String(
+    value ?? ""
+  ).replace(
+    /[&<>"']/g,
+    c=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
+
+}
+
+
+/* ========================================
+   DATE
+======================================== */
+
+function formatDate(value){
+
+  if(!value){
+    return "—";
+  }
+
+  const d=
+    new Date(value);
+
+  if(
+    Number.isNaN(
+      d.getTime()
+    )
+  ){
+    return value;
+  }
+
+  return d.toLocaleString();
+
+}
+
+
+/* ========================================
+   ADDRESS
+======================================== */
+
+function memberAddress(m){
+
+  return [
+    m.address_line1,
+    m.city,
+    m.state_region,
+    m.postal_code,
+    m.country
+  ]
+  .filter(Boolean)
+  .join(", ")
+  ||
+  "—";
+
+}
+
+
+/* ========================================
+   SECURITY / LOGIN
+======================================== */
+
+async function guard(){
+
+  sb=
+    getSupabase();
+
+
+  const {
+    data:{
+      session
+    }
+  }=
+    await sb.auth.getSession();
+
+
+  if(!session){
+
+    location.href=
+      "login.html";
+
+    return false;
+  }
+
+
+  const {
+    data:profile,
+    error:profileError
+  }=
+    await sb
+      .from("profiles")
+      .select("role,full_name,email")
+      .eq(
+        "user_id",
+        session.user.id
+      )
+      .single();
+
+
+  if(
+    profileError
+    ||
+    !profile
+  ){
+
+    console.error(
+      profileError
+    );
+
+    location.href=
+      "login.html";
+
+    return false;
+  }
+
+
+  /*
+    Master admin can use master admin.
+  */
+
+  if(
+    profile.role ===
+    "master"
+  ){
+
+    location.href=
+      "master-admin.html";
+
+    return false;
+  }
+
+
+  const {
+    data:synagogue,
+    error:synagogueError
+  }=
+    await sb
+      .from("synagogues")
+      .select(
+        "id,slug,synagogue_name,rabbi_name,status,owner_user_id"
+      )
+      .eq(
+        "owner_user_id",
+        session.user.id
+      )
+      .single();
+
+
+  if(
+    synagogueError
+    ||
+    !synagogue
+  ){
+
+    console.error(
+      synagogueError
+    );
+
+    location.href=
+      "pending.html";
+
+    return false;
+  }
+
+
+  currentSynagogue=
+    synagogue;
+
+
+  document
+    .getElementById(
+      "synagogueName"
+    )
+    .textContent=
+      synagogue.synagogue_name;
+
+
+  document
+    .getElementById(
+      "accountText"
+    )
+    .textContent=
+      synagogue.synagogue_name;
+
+
+  /*
+    Each synagogue automatically gets
+    its own member registration link.
+  */
+
+  document
+    .getElementById(
+      "registerMemberLink"
+    )
+    .href=
+      "member-register.html?synagogue="
+      +
+      encodeURIComponent(
+        synagogue.slug
+      );
+
+
+  return true;
+
+}
+
+
+/* ========================================
+   LOAD MEMBERS
+======================================== */
+
+async function loadMembers(){
+
+  const msg=
+    document.getElementById(
+      "msg"
+    );
+
+
+  const rows=
+    document.getElementById(
+      "memberRows"
+    );
+
+
+  msg.className=
+    "msg";
+
+  msg.textContent=
+    "Loading members...";
+
+
+  rows.innerHTML=`
+    <tr>
+      <td
+        colspan="9"
+        class="empty"
+      >
+        Loading members...
+      </td>
+    </tr>
+  `;
+
+
+  try{
+
+    if(!sb){
+
+      const ok=
+        await guard();
+
+      if(!ok){
+        return;
+      }
+
+    }
+
+
+    const {
+      data,
+      error
+    }=
+      await sb.rpc(
+        "get_my_synagogue_members"
+      );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    allMembers=
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    updateStats();
+
+    renderMembers();
+
+
+    msg.textContent=
+      allMembers.length
+      +
+      " member(s) loaded.";
+
+    msg.className=
+      "msg success";
+
+  }
+  catch(error){
+
+    console.error(
+      "Load members error:",
+      error
+    );
+
+
+    msg.textContent=
+      error.message
+      ||
+      String(error);
+
+
+    msg.className=
+      "msg error";
+
+
+    rows.innerHTML=`
+      <tr>
+        <td
+          colspan="9"
+          class="empty"
+        >
+          Unable to load members.
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/* ========================================
+   STATS
+======================================== */
+
+function updateStats(){
+
+  document
+    .getElementById(
+      "totalMembers"
+    )
+    .textContent=
+      allMembers.length;
+
+
+  const active=
+    allMembers.filter(
+      m=>
+        String(
+          m.status || ""
+        ).toLowerCase()
+        ===
+        "active"
+    );
+
+
+  document
+    .getElementById(
+      "activeMembers"
+    )
+    .textContent=
+      active.length;
+
+
+  document
+    .getElementById(
+      "newestMember"
+    )
+    .textContent=
+      allMembers[0]
+        ?.member_number
+      ||
+      "—";
+
+}
+
+
+/* ========================================
+   RENDER MEMBERS
+======================================== */
+
+function renderMembers(){
+
+  const rows=
+    document.getElementById(
+      "memberRows"
+    );
+
+
+  const search=
+    document
+      .getElementById(
+        "searchInput"
+      )
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  let list=
+    allMembers;
+
+
+  if(search){
+
+    list=
+      allMembers.filter(
+        m=>{
+
+          const haystack=
+            [
+              m.member_number,
+              m.full_name,
+              m.hebrew_name,
+              m.email,
+              m.phone,
+              m.address_line1,
+              m.city,
+              m.state_region,
+              m.postal_code,
+              m.country
+            ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+
+
+          return haystack.includes(
+            search
+          );
+
+        }
+      );
+
+  }
+
+
+  if(
+    list.length === 0
+  ){
+
+    rows.innerHTML=`
+      <tr>
+        <td
+          colspan="9"
+          class="empty"
+        >
+          No members found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  rows.innerHTML=
+    list.map(
+      m=>{
+
+        const status=
+          String(
+            m.status || "active"
+          ).toLowerCase();
+
+
+        const donateUrl=
+          "donate.html?synagogue="
+          +
+          encodeURIComponent(
+            currentSynagogue?.slug || ""
+          )
+          +
+          "&member="
+          +
+          encodeURIComponent(
+            m.member_number || ""
+          );
+
+
+        return `
+          <tr>
+
+            <td>
+              <span class="memberNumber">
+                ${esc(
+                  m.member_number
+                  ||
+                  "—"
+                )}
+              </span>
+            </td>
+
+
+            <td>
+              <strong>
+                ${esc(
+                  m.full_name
+                  ||
+                  "—"
+                )}
+              </strong>
+            </td>
+
+
+            <td>
+              ${esc(
+                m.hebrew_name
+                ||
+                "—"
+              )}
+            </td>
+
+
+            <td>
+              ${esc(
+                m.email
+                ||
+                "—"
+              )}
+            </td>
+
+
+            <td>
+              ${esc(
+                m.phone
+                ||
+                "—"
+              )}
+            </td>
+
+
+            <td>
+              ${esc(
+                memberAddress(m)
+              )}
+            </td>
+
+
+            <td>
+
+              <span
+                class="status ${
+                  status === "active"
+                    ? "active"
+                    : "inactive"
+                }"
+              >
+
+                ${esc(status)}
+
+              </span>
+
+            </td>
+
+
+            <td>
+              ${esc(
+                formatDate(
+                  m.created_at
+                )
+              )}
+            </td>
+
+
+            <td>
+
+              <a
+                class="btn green"
+                href="${esc(donateUrl)}"
+                target="_blank"
+              >
+                💳 Donate
+              </a>
+
+            </td>
+
+          </tr>
+        `;
+
+      }
+    )
+    .join("");
+
+}
+
+
+/* ========================================
+   START PAGE
+======================================== */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  async ()=>{
+
+    const ok=
+      await guard();
+
+    if(ok){
+      await loadMembers();
+    }
+
+  }
+);
+
+</script>
+
+
+</body>
+</html>
