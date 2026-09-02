@@ -1,12 +1,19 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>תרומה לבית הכנסת</title>
+<meta charset="utf-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>Synagogue Donation</title>
+
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -14,7 +21,10 @@
 body{
   margin:0;
   min-height:100vh;
-  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+
+  font-family:
+    Arial,
+    sans-serif;
 
   background:
     radial-gradient(
@@ -33,12 +43,19 @@ body{
   padding:24px;
 }
 
+
 .card{
-  width:min(720px,96vw);
+
+  width:min(
+    720px,
+    96vw
+  );
 
   background:#071f50;
 
-  border:3px solid #d7a62d;
+  border:
+    3px solid #d7a62d;
+
   border-radius:24px;
 
   padding:30px;
@@ -47,43 +64,70 @@ body{
     0 8px 30px #0008;
 
   text-align:center;
+
 }
+
 
 .heart{
+
   font-size:48px;
+
   margin-bottom:8px;
+
 }
 
+
 h1{
+
   color:#f6d469;
 
   margin:
     0 0 12px;
 
   font-size:31px;
+
 }
+
 
 .synagogueTitle{
+
   font-size:22px;
+
   font-weight:900;
+
   margin-bottom:6px;
+
 }
+
 
 .synagogueNumber{
+
   color:#f6d469;
+
   font-size:17px;
+
   font-weight:900;
+
   margin-bottom:18px;
+
 }
+
 
 .description{
+
   color:#e7edff;
+
   line-height:1.6;
+
   margin-bottom:22px;
+
 }
 
+
 .infoBox{
+
   background:#fff8df;
+
   color:#07152d;
 
   border:
@@ -96,50 +140,76 @@ h1{
   margin-bottom:14px;
 
   text-align:left;
-  direction:ltr;
+
 }
+
 
 .infoLabel{
+
   font-size:12px;
+
   font-weight:900;
+
   color:#76520e;
+
   margin-bottom:5px;
+
 }
+
 
 .infoValue{
+
   font-size:17px;
+
   font-weight:900;
+
 }
+
 
 .memberDetails{
+
   margin-top:7px;
+
   font-size:13px;
+
   font-weight:700;
+
   color:#42516c;
+
   line-height:1.5;
+
 }
 
+
 .grid{
+
   display:grid;
+
   grid-template-columns:
     1fr 1fr;
 
   gap:12px;
 
   margin-top:15px;
+
 }
+
 
 label{
+
   text-align:left;
-  direction:ltr;
 
   font-weight:800;
+
   font-size:13px;
+
 }
+
 
 input,
 select,
 textarea{
+
   width:100%;
 
   margin-top:6px;
@@ -152,100 +222,233 @@ textarea{
   border-radius:10px;
 
   background:#fff;
+
   color:#111;
 
   font-size:15px;
+
 }
+
 
 input[readonly]{
+
   background:#edf4ff;
+
   color:#0b2f72;
+
   font-weight:900;
+
 }
+
 
 textarea{
+
   min-height:100px;
+
   resize:vertical;
+
 }
+
 
 .wide{
+
   grid-column:
     1 / -1;
+
 }
 
+
 .amountButtons{
+
   display:grid;
+
   grid-template-columns:
-    repeat(4,1fr);
+    repeat(
+      4,
+      1fr
+    );
 
   gap:8px;
 
   margin-top:7px;
+
 }
 
+
 .amountBtn{
+
   border:
     2px solid #d7a62d;
 
   border-radius:10px;
 
   background:#fff8df;
+
   color:#07152d;
 
   padding:
     11px 6px;
 
   font-weight:900;
+
   cursor:pointer;
+
 }
+
 
 .amountBtn:hover{
+
   background:#f6d469;
+
 }
+
 
 .amountBtn.selected{
+
   background:#d7a62d;
+
   color:#07152d;
+
 }
 
-.mainButton{
-  margin-top:20px;
 
-  border:0;
-  border-radius:11px;
+.paySection{
 
-  padding:
-    13px 24px;
+  margin-top:25px;
 
-  background:#d7a62d;
-  color:#07152d;
+  padding-top:20px;
 
-  font-size:16px;
+  border-top:
+    1px solid #d7a62d66;
+
+}
+
+
+.payTitle{
+
+  color:#f6d469;
+
+  font-size:20px;
+
   font-weight:900;
 
-  cursor:pointer;
+  margin-bottom:12px;
+
 }
 
-.mainButton:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+
+#paypal-button-container{
+
+  width:100%;
+
+  max-width:520px;
+
+  margin:
+    0 auto;
+
 }
+
+
+.msg{
+
+  min-height:25px;
+
+  margin-top:16px;
+
+  font-weight:900;
+
+  line-height:1.5;
+
+}
+
+
+.error{
+
+  color:#ffaaaa;
+
+}
+
+
+.success{
+
+  color:#9cffaa;
+
+}
+
+
+.loading{
+
+  color:#f6d469;
+
+}
+
+
+.receipt{
+
+  display:none;
+
+  margin-top:20px;
+
+  background:#e9fff0;
+
+  border:
+    3px solid #31a45b;
+
+  border-radius:14px;
+
+  padding:18px;
+
+  color:#075326;
+
+  text-align:left;
+
+}
+
+
+.receipt h2{
+
+  text-align:center;
+
+  margin:
+    0 0 14px;
+
+  color:#087231;
+
+}
+
+
+.receiptRow{
+
+  padding:
+    5px 0;
+
+  border-bottom:
+    1px solid #9edab5;
+
+}
+
 
 .backRow{
+
   margin-top:18px;
 
   display:flex;
+
   justify-content:center;
 
   gap:8px;
 
   flex-wrap:wrap;
+
 }
 
+
 .backBtn{
+
   text-decoration:none;
 
   background:#164b8f;
+
   color:#fff;
 
   border-radius:9px;
@@ -254,49 +457,51 @@ textarea{
     10px 14px;
 
   font-weight:800;
+
   font-size:13px;
+
 }
 
-.msg{
-  min-height:25px;
 
-  margin-top:16px;
-
-  font-weight:900;
-}
-
-.error{
-  color:#ffaaaa;
-}
-
-.success{
-  color:#9cffaa;
-}
-
-.loading{
-  color:#f6d469;
-}
-
-@media(max-width:650px){
+@media(
+  max-width:650px
+){
 
   .grid{
+
     grid-template-columns:1fr;
+
   }
+
 
   .wide{
+
     grid-column:auto;
+
   }
+
 
   .amountButtons{
+
     grid-template-columns:
-      repeat(2,1fr);
+      repeat(
+        2,
+        1fr
+      );
+
   }
 
+
   .card{
+
     padding:20px;
+
   }
+
 }
+
 </style>
+
 </head>
 
 
@@ -305,13 +510,14 @@ textarea{
 
 <div class="card">
 
+
   <div class="heart">
     💛
   </div>
 
 
   <h1>
-    תרומה מאובטחת באמצעות PayPal
+    Secure Synagogue Donation
   </h1>
 
 
@@ -319,7 +525,7 @@ textarea{
     id="synagogueTitle"
     class="synagogueTitle"
   >
-    טוען בית כנסת...
+    Loading synagogue...
   </div>
 
 
@@ -330,21 +536,22 @@ textarea{
 
 
   <div class="description">
-    התרומה נשלחת לבית הכנסת הנבחר.
-    פרטי התשלום מטופלים באמצעות PayPal.
+
+    Your donation will be securely processed through PayPal.
+
   </div>
 
 
 
-  <!-- =====================================
-       SYNAGOGUE INFORMATION
-  ====================================== -->
+  <!-- SYNAGOGUE -->
 
   <div class="infoBox">
+
 
     <div class="infoLabel">
       Synagogue
     </div>
+
 
     <div
       id="synagogueDisplay"
@@ -353,19 +560,19 @@ textarea{
       Loading...
     </div>
 
+
   </div>
 
 
 
-  <!-- =====================================
-       MEMBER INFORMATION
-  ====================================== -->
+  <!-- MEMBER -->
 
   <div
     id="memberBox"
     class="infoBox"
     style="display:none"
   >
+
 
     <div class="infoLabel">
       Member
@@ -383,13 +590,12 @@ textarea{
       class="memberDetails"
     ></div>
 
+
   </div>
 
 
 
-  <!-- =====================================
-       DONATION FORM
-  ====================================== -->
+  <!-- DONATION FORM -->
 
   <div class="grid">
 
@@ -404,6 +610,7 @@ textarea{
       >
 
     </label>
+
 
 
     <label>
@@ -426,37 +633,46 @@ textarea{
 
       <select id="purpose">
 
+
         <option value="General Donation">
           General Donation
         </option>
+
 
         <option value="Tzedakah">
           Tzedakah
         </option>
 
+
         <option value="Kiddush">
           Kiddush
         </option>
+
 
         <option value="Yahrzeit">
           Yahrzeit
         </option>
 
+
         <option value="Building Fund">
           Building Fund
         </option>
+
 
         <option value="Torah">
           Torah
         </option>
 
+
         <option value="Tree / Landscaping">
           Tree / Landscaping
         </option>
 
+
         <option value="Other">
           Other
         </option>
+
 
       </select>
 
@@ -468,7 +684,9 @@ textarea{
 
       Donation amount
 
+
       <div class="amountButtons">
+
 
         <button
           class="amountBtn"
@@ -505,6 +723,7 @@ textarea{
           $180
         </button>
 
+
       </div>
 
 
@@ -513,8 +732,9 @@ textarea{
         type="number"
         min="1"
         step="0.01"
-        placeholder="Enter amount"
+        placeholder="Enter custom amount"
       >
+
 
     </label>
 
@@ -526,7 +746,7 @@ textarea{
 
       <textarea
         id="dedication"
-        placeholder="Optional dedication, yahrzeit name, blessing, message..."
+        placeholder="Optional dedication, yahrzeit name, blessing or message..."
       ></textarea>
 
     </label>
@@ -536,34 +756,119 @@ textarea{
 
 
 
-  <button
-    id="continueBtn"
-    class="mainButton"
-    type="button"
-    disabled
-    onclick="continueDonation()"
-  >
-    המשך לתשלום
-  </button>
+  <!-- PAYPAL -->
+
+  <div class="paySection">
+
+
+    <div class="payTitle">
+      Choose PayPal to Donate
+    </div>
+
+
+    <div
+      id="paypal-button-container"
+    ></div>
+
+
+  </div>
+
 
 
   <div
     id="msg"
     class="msg loading"
   >
-    טוען פרטי בית הכנסת והחבר...
+    Loading donation information...
+  </div>
+
+
+
+  <!-- SUCCESS RECEIPT -->
+
+  <div
+    id="receipt"
+    class="receipt"
+  >
+
+
+    <h2>
+      ✓ Donation Successful
+    </h2>
+
+
+    <div class="receiptRow">
+
+      <strong>
+        Synagogue:
+      </strong>
+
+      <span id="receiptSynagogue">
+      </span>
+
+    </div>
+
+
+    <div class="receiptRow">
+
+      <strong>
+        Member:
+      </strong>
+
+      <span id="receiptMember">
+      </span>
+
+    </div>
+
+
+    <div class="receiptRow">
+
+      <strong>
+        Donor:
+      </strong>
+
+      <span id="receiptDonor">
+      </span>
+
+    </div>
+
+
+    <div class="receiptRow">
+
+      <strong>
+        Amount:
+      </strong>
+
+      <span id="receiptAmount">
+      </span>
+
+    </div>
+
+
+    <div class="receiptRow">
+
+      <strong>
+        PayPal Transaction:
+      </strong>
+
+      <span id="receiptTransaction">
+      </span>
+
+    </div>
+
+
   </div>
 
 
 
   <div class="backRow">
 
+
     <a
-      id="membersLink"
       class="backBtn"
       href="members.html"
     >
-      חזרה לחברים
+      👥 Members
     </a>
 
 
@@ -572,42 +877,63 @@ textarea{
       class="backBtn"
       href="index.html"
     >
-      חזרה ללוח
+      📺 Board
     </a>
 
+
   </div>
+
 
 </div>
 
 
 
-<!-- =====================================
-     SUPABASE
-====================================== -->
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
+
 <script src="supabase-config.js"></script>
+
 
 <script src="saas-common.js"></script>
 
 
+
+<!-- PAYPAL LIVE SDK -->
+
+<script
+  src="https://www.paypal.com/sdk/js?client-id=AZD0NtTugRgLzVbjLm9jtprCTer2z7-r3VMjSnrLaU3Ms1VJso-50DMmDBmMpdMioEhUUVMfB-4T7lRe&currency=USD&intent=capture"
+></script>
+
+
+
 <script>
+
 
 let sb=null;
 
+
 let synagogueRecord=null;
 
+
 let memberRecord=null;
+
 
 let memberNumber="";
 
 
-/* ========================================
+let paypalRendered=false;
+
+
+
+/* =========================================
    URL
-======================================== */
+========================================= */
+
 
 function getURLInfo(){
+
 
   const params=
     new URLSearchParams(
@@ -617,34 +943,49 @@ function getURLInfo(){
 
   return{
 
+
     synagogue:
       (
-        params.get("synagogue")
+        params.get(
+          "synagogue"
+        )
         ||
-        params.get("s")
+        params.get(
+          "s"
+        )
         ||
-        params.get("slug")
+        params.get(
+          "slug"
+        )
         ||
         ""
       ).trim(),
 
+
     member:
       (
-        params.get("member")
+        params.get(
+          "member"
+        )
         ||
         ""
       ).trim()
 
+
   };
+
 
 }
 
 
-/* ========================================
-   HTML ESCAPE
-======================================== */
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
 
 function esc(value){
+
 
   return String(
     value ?? ""
@@ -654,25 +995,33 @@ function esc(value){
     character=>({
 
       "&":"&amp;",
+
       "<":"&lt;",
+
       ">":"&gt;",
+
       '"':"&quot;",
+
       "'":"&#39;"
 
     }[character])
   );
 
+
 }
 
 
-/* ========================================
-   AMOUNT BUTTONS
-======================================== */
+
+/* =========================================
+   AMOUNT
+========================================= */
+
 
 function setAmount(
   amount,
   button
 ){
+
 
   document
     .getElementById(
@@ -704,14 +1053,18 @@ function setAmount(
 
   }
 
+
 }
 
 
-/* ========================================
+
+/* =========================================
    LOAD SYNAGOGUE
-======================================== */
+========================================= */
+
 
 async function loadSynagogue(){
+
 
   const info=
     getURLInfo();
@@ -722,7 +1075,7 @@ async function loadSynagogue(){
   ){
 
     throw new Error(
-      "Synagogue number is missing from donation link."
+      "Synagogue number is missing."
     );
 
   }
@@ -739,24 +1092,34 @@ async function loadSynagogue(){
     await sb.rpc(
       "get_synagogue_for_registration",
       {
+
         p_slug:
           info.synagogue
+
       }
     );
 
 
   if(error){
+
     throw error;
+
   }
 
 
   const synagogue=
-    Array.isArray(data)
-      ? data[0]
-      : data;
+    Array.isArray(
+      data
+    )
+      ?
+      data[0]
+      :
+      data;
 
 
-  if(!synagogue){
+  if(
+    !synagogue
+  ){
 
     throw new Error(
       "Synagogue not found."
@@ -823,7 +1186,10 @@ async function loadSynagogue(){
       );
 
 
-  if(memberNumber){
+  if(
+    memberNumber
+  ){
+
 
     document
       .getElementById(
@@ -840,39 +1206,29 @@ async function loadSynagogue(){
       .textContent=
         memberNumber;
 
+
   }
+
 
 }
 
 
-/* ========================================
+
+/* =========================================
    LOAD MEMBER
-======================================== */
+========================================= */
+
 
 async function loadMember(){
+
 
   if(
     !memberNumber
   ){
 
-    /*
-      No member number in URL.
-      Donation may be from a guest.
-    */
-
     return;
 
   }
-
-
-  /*
-    Since this member donation link is opened
-    from the authenticated synagogue Members
-    page, we use the secure RPC we already
-    created:
-
-    get_my_synagogue_members()
-  */
 
 
   const {
@@ -887,7 +1243,6 @@ async function loadMember(){
   if(error){
 
     console.error(
-      "Member load error:",
       error
     );
 
@@ -899,9 +1254,13 @@ async function loadMember(){
 
 
   const members=
-    Array.isArray(data)
-      ? data
-      : [];
+    Array.isArray(
+      data
+    )
+      ?
+      data
+      :
+      [];
 
 
   const member=
@@ -919,7 +1278,9 @@ async function loadMember(){
     );
 
 
-  if(!member){
+  if(
+    !member
+  ){
 
     throw new Error(
       "Member "
@@ -932,42 +1293,10 @@ async function loadMember(){
   }
 
 
-  /*
-    Extra safety:
-    Make sure member belongs to
-    this synagogue.
-  */
-
-  if(
-    synagogueRecord
-    &&
-    member.synagogue_id
-    &&
-    synagogueRecord.id
-    &&
-    String(
-      member.synagogue_id
-    )
-    !==
-    String(
-      synagogueRecord.id
-    )
-  ){
-
-    throw new Error(
-      "This member does not belong to this synagogue."
-    );
-
-  }
-
-
   memberRecord=
     member;
 
 
-  /* =====================================
-     AUTOMATIC DONOR NAME
-  ====================================== */
 
   document
     .getElementById(
@@ -979,9 +1308,6 @@ async function loadMember(){
       "";
 
 
-  /* =====================================
-     AUTOMATIC DONOR EMAIL
-  ====================================== */
 
   document
     .getElementById(
@@ -993,11 +1319,6 @@ async function loadMember(){
       "";
 
 
-  /*
-    Since this is a known registered member,
-    lock the fields so the donation remains
-    attached to the correct member.
-  */
 
   document
     .getElementById(
@@ -1005,6 +1326,7 @@ async function loadMember(){
     )
     .readOnly=
       true;
+
 
 
   document
@@ -1015,11 +1337,8 @@ async function loadMember(){
       true;
 
 
-  /* =====================================
-     DISPLAY MEMBER INFORMATION
-  ====================================== */
 
-  let details=[];
+  const details=[];
 
 
   if(
@@ -1061,153 +1380,24 @@ async function loadMember(){
     )
     .innerHTML=
       details
-        .map(
-          esc
-        )
-        .join(
-          " &nbsp; • &nbsp; "
-        );
+      .map(
+        esc
+      )
+      .join(
+        " &nbsp; • &nbsp; "
+      );
+
 
 }
 
 
-/* ========================================
-   INITIALIZE PAGE
-======================================== */
 
-async function initializeDonationPage(){
-
-  const msg=
-    document.getElementById(
-      "msg"
-    );
+/* =========================================
+   VALIDATE DONATION
+========================================= */
 
 
-  const button=
-    document.getElementById(
-      "continueBtn"
-    );
-
-
-  try{
-
-    sb=
-      getSupabase();
-
-
-    msg.textContent=
-      "Loading synagogue...";
-
-    msg.className=
-      "msg loading";
-
-
-    await loadSynagogue();
-
-
-    /*
-      If URL contains member=108-0014,
-      now load that member.
-    */
-
-    if(memberNumber){
-
-      msg.textContent=
-        "Loading member "
-        +
-        memberNumber
-        +
-        "...";
-
-
-      await loadMember();
-
-    }
-
-
-    button.disabled=
-      false;
-
-
-    if(memberRecord){
-
-      msg.textContent=
-        "Member "
-        +
-        memberRecord.member_number
-        +
-        " loaded — ready for donation.";
-
-    }
-    else{
-
-      msg.textContent=
-        "Ready for donation.";
-
-    }
-
-
-    msg.className=
-      "msg success";
-
-
-  }
-  catch(error){
-
-    console.error(
-      error
-    );
-
-
-    msg.textContent=
-      error.message
-      ||
-      String(error);
-
-
-    msg.className=
-      "msg error";
-
-
-    button.disabled=
-      true;
-
-  }
-
-}
-
-
-/* ========================================
-   CREATE PAYPAL DONATION
-======================================== */
-
-async function continueDonation(){
-
-  const msg=
-    document.getElementById(
-      "msg"
-    );
-
-
-  const button=
-    document.getElementById(
-      "continueBtn"
-    );
-
-
-  if(
-    !synagogueRecord
-  ){
-
-    msg.textContent=
-      "Synagogue information has not loaded.";
-
-    msg.className=
-      "msg error";
-
-    return;
-
-  }
+function getDonationForm(){
 
 
   const amount=
@@ -1218,25 +1408,6 @@ async function continueDonation(){
         )
         .value
     );
-
-
-  if(
-    !Number.isFinite(
-      amount
-    )
-    ||
-    amount <= 0
-  ){
-
-    msg.textContent=
-      "Please enter a donation amount.";
-
-    msg.className=
-      "msg error";
-
-    return;
-
-  }
 
 
   const donorName=
@@ -1257,17 +1428,45 @@ async function continueDonation(){
       .trim();
 
 
+  const purpose=
+    document
+      .getElementById(
+        "purpose"
+      )
+      .value;
+
+
+  const dedication=
+    document
+      .getElementById(
+        "dedication"
+      )
+      .value
+      .trim();
+
+
+  if(
+    !Number.isFinite(
+      amount
+    )
+    ||
+    amount <= 0
+  ){
+
+    throw new Error(
+      "Please enter a donation amount."
+    );
+
+  }
+
+
   if(
     !donorName
   ){
 
-    msg.textContent=
-      "Donor name is required.";
-
-    msg.className=
-      "msg error";
-
-    return;
+    throw new Error(
+      "Donor name is required."
+    );
 
   }
 
@@ -1276,149 +1475,593 @@ async function continueDonation(){
     !donorEmail
   ){
 
-    msg.textContent=
-      "Donor email is required.";
+    throw new Error(
+      "Donor email is required."
+    );
 
-    msg.className=
-      "msg error";
+  }
+
+
+  return{
+
+    amount,
+
+    donorName,
+
+    donorEmail,
+
+    purpose,
+
+    dedication
+
+  };
+
+
+}
+
+
+
+/* =========================================
+   PAYPAL BUTTON
+========================================= */
+
+
+function renderPayPal(){
+
+
+  if(
+    paypalRendered
+  ){
 
     return;
 
   }
 
 
-  button.disabled=
+  if(
+    typeof paypal ===
+    "undefined"
+  ){
+
+    throw new Error(
+      "PayPal checkout could not load."
+    );
+
+  }
+
+
+  paypalRendered=
     true;
 
 
-  msg.textContent=
-    "Preparing secure PayPal donation...";
 
-  msg.className=
-    "msg loading";
+  paypal
+    .Buttons({
+
+
+
+      style:{
+
+        layout:
+          "vertical",
+
+        shape:
+          "rect",
+
+        label:
+          "paypal",
+
+        height:
+          48
+
+      },
+
+
+
+      /* ===================================
+         CREATE ORDER
+      =================================== */
+
+
+      createOrder:
+        async function(){
+
+
+          const msg=
+            document.getElementById(
+              "msg"
+            );
+
+
+          try{
+
+
+            if(
+              !synagogueRecord
+            ){
+
+              throw new Error(
+                "Synagogue information has not loaded."
+              );
+
+            }
+
+
+            const donation=
+              getDonationForm();
+
+
+            msg.textContent=
+              "Creating secure PayPal order...";
+
+
+            msg.className=
+              "msg loading";
+
+
+
+            const {
+              data,
+              error
+            }=
+              await sb.functions.invoke(
+                "paypal-donation",
+                {
+
+                  body:{
+
+                    action:
+                      "create",
+
+                    synagogue_slug:
+                      synagogueRecord.slug,
+
+                    member_number:
+                      memberNumber
+                      ||
+                      null,
+
+                    amount:
+                      donation.amount,
+
+                    purpose:
+                      donation.purpose,
+
+                    dedication:
+                      donation.dedication
+                      ||
+                      null,
+
+                    donor_name:
+                      donation.donorName,
+
+                    donor_email:
+                      donation.donorEmail
+
+                  }
+
+                }
+              );
+
+
+
+            if(error){
+
+              throw error;
+
+            }
+
+
+
+            if(
+              !data
+              ||
+              !data.orderID
+            ){
+
+              throw new Error(
+                data?.error
+                ||
+                "PayPal order could not be created."
+              );
+
+            }
+
+
+
+            sessionStorage.setItem(
+              "paypal_donation_order_id",
+              data.orderID
+            );
+
+
+            msg.textContent=
+              "PayPal order created. Please approve the payment.";
+
+
+            msg.className=
+              "msg success";
+
+
+            return data.orderID;
+
+
+          }
+          catch(error){
+
+
+            console.error(
+              "PayPal create error:",
+              error
+            );
+
+
+            msg.textContent=
+              error.message
+              ||
+              String(error);
+
+
+            msg.className=
+              "msg error";
+
+
+            throw error;
+
+
+          }
+
+
+        },
+
+
+
+      /* ===================================
+         APPROVE + CAPTURE
+      =================================== */
+
+
+      onApprove:
+        async function(data){
+
+
+          const msg=
+            document.getElementById(
+              "msg"
+            );
+
+
+          try{
+
+
+            msg.textContent=
+              "Payment approved. Completing donation...";
+
+
+            msg.className=
+              "msg loading";
+
+
+
+            const {
+              data:
+                captureResult,
+
+              error
+            }=
+              await sb.functions.invoke(
+                "paypal-donation",
+                {
+
+                  body:{
+
+                    action:
+                      "capture",
+
+                    orderID:
+                      data.orderID
+
+                  }
+
+                }
+              );
+
+
+
+            if(error){
+
+              throw error;
+
+            }
+
+
+
+            if(
+              !captureResult
+              ||
+              captureResult.status
+              !==
+              "COMPLETED"
+            ){
+
+              throw new Error(
+                captureResult?.error
+                ||
+                "PayPal payment was not completed."
+              );
+
+            }
+
+
+
+            const donation=
+              getDonationForm();
+
+
+
+            msg.textContent=
+              "✓ Donation completed successfully!";
+
+
+            msg.className=
+              "msg success";
+
+
+
+            document
+              .getElementById(
+                "receiptSynagogue"
+              )
+              .textContent=
+                synagogueRecord.slug
+                +
+                " — "
+                +
+                synagogueRecord.synagogue_name;
+
+
+
+            document
+              .getElementById(
+                "receiptMember"
+              )
+              .textContent=
+                memberNumber
+                ||
+                "Guest";
+
+
+
+            document
+              .getElementById(
+                "receiptDonor"
+              )
+              .textContent=
+                donation.donorName;
+
+
+
+            document
+              .getElementById(
+                "receiptAmount"
+              )
+              .textContent=
+                "$"
+                +
+                Number(
+                  donation.amount
+                )
+                .toFixed(
+                  2
+                );
+
+
+
+            document
+              .getElementById(
+                "receiptTransaction"
+              )
+              .textContent=
+                captureResult.transactionID
+                ||
+                data.orderID;
+
+
+
+            document
+              .getElementById(
+                "receipt"
+              )
+              .style.display=
+                "block";
+
+
+
+            document
+              .getElementById(
+                "paypal-button-container"
+              )
+              .style.display=
+                "none";
+
+
+
+          }
+          catch(error){
+
+
+            console.error(
+              "PayPal capture error:",
+              error
+            );
+
+
+            msg.textContent=
+              error.message
+              ||
+              String(error);
+
+
+            msg.className=
+              "msg error";
+
+
+          }
+
+
+        },
+
+
+
+      /* ===================================
+         CANCEL
+      =================================== */
+
+
+      onCancel:
+        function(){
+
+
+          const msg=
+            document.getElementById(
+              "msg"
+            );
+
+
+          msg.textContent=
+            "PayPal payment was cancelled. No donation was charged.";
+
+
+          msg.className=
+            "msg error";
+
+
+        },
+
+
+
+      /* ===================================
+         PAYPAL ERROR
+      =================================== */
+
+
+      onError:
+        function(error){
+
+
+          console.error(
+            "PayPal button error:",
+            error
+          );
+
+
+          const msg=
+            document.getElementById(
+              "msg"
+            );
+
+
+          msg.textContent=
+            "PayPal encountered an error. Please try again.";
+
+
+          msg.className=
+            "msg error";
+
+
+        }
+
+
+    })
+    .render(
+      "#paypal-button-container"
+    );
+
+
+}
+
+
+
+/* =========================================
+   INITIALIZE
+========================================= */
+
+
+async function initializeDonationPage(){
+
+
+  const msg=
+    document.getElementById(
+      "msg"
+    );
 
 
   try{
 
-    const purpose=
-      document
-        .getElementById(
-          "purpose"
-        )
-        .value;
 
-
-    const dedication=
-      document
-        .getElementById(
-          "dedication"
-        )
-        .value
-        .trim();
-
-
-    const {
-      data,
-      error
-    }=
-      await sb.functions.invoke(
-        "paypal-donation",
-        {
-          body:{
-
-            action:
-              "create",
-
-            synagogue_slug:
-              synagogueRecord.slug,
-
-            member_number:
-              memberNumber
-              ||
-              null,
-
-            amount:
-              amount,
-
-            purpose:
-              purpose,
-
-            dedication:
-              dedication
-              ||
-              null,
-
-            donor_name:
-              donorName,
-
-            donor_email:
-              donorEmail
-
-          }
-        }
-      );
-
-
-    if(error){
-      throw error;
-    }
-
-
-    if(
-      !data
-      ||
-      !data.orderID
-    ){
-
-      throw new Error(
-        data?.error
-        ||
-        "PayPal order could not be created."
-      );
-
-    }
-
-
-    sessionStorage.setItem(
-      "paypal_donation_order_id",
-      data.orderID
-    );
-
-
-    sessionStorage.setItem(
-      "paypal_donation_synagogue",
-      synagogueRecord.slug
-    );
-
-
-    sessionStorage.setItem(
-      "paypal_donation_member",
-      memberNumber
-    );
-
-
-    sessionStorage.setItem(
-      "paypal_donation_name",
-      donorName
-    );
-
-
-    sessionStorage.setItem(
-      "paypal_donation_email",
-      donorEmail
-    );
-
-
-    sessionStorage.setItem(
-      "paypal_donation_amount",
-      String(amount)
-    );
+    sb=
+      getSupabase();
 
 
     msg.textContent=
-      "Donation prepared successfully. PayPal order: "
-      +
-      data.orderID;
+      "Loading synagogue...";
+
+
+    msg.className=
+      "msg loading";
+
+
+
+    await loadSynagogue();
+
+
+
+    if(
+      memberNumber
+    ){
+
+
+      msg.textContent=
+        "Loading member "
+        +
+        memberNumber
+        +
+        "...";
+
+
+      await loadMember();
+
+
+    }
+
+
+
+    renderPayPal();
+
+
+
+    if(
+      memberRecord
+    ){
+
+
+      msg.textContent=
+        "Member "
+        +
+        memberRecord.member_number
+        +
+        " loaded — choose an amount and use PayPal below.";
+
+
+    }
+    else{
+
+
+      msg.textContent=
+        "Choose an amount and use PayPal below.";
+
+
+    }
 
 
     msg.className=
@@ -1428,8 +2071,8 @@ async function continueDonation(){
   }
   catch(error){
 
+
     console.error(
-      "Donation error:",
       error
     );
 
@@ -1443,25 +2086,19 @@ async function continueDonation(){
     msg.className=
       "msg error";
 
-  }
-  finally{
-
-    button.disabled=
-      false;
 
   }
+
 
 }
 
 
-/* ========================================
-   START
-======================================== */
 
 window.addEventListener(
   "DOMContentLoaded",
   initializeDonationPage
 );
+
 
 </script>
 
