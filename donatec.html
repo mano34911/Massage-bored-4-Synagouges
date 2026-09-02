@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>תרומה לבית הכנסת</title>
 
 <style>
@@ -14,6 +15,7 @@ body{
   margin:0;
   min-height:100vh;
   font-family:Arial,"Noto Sans Hebrew",sans-serif;
+
   background:
     radial-gradient(
       circle at top,
@@ -21,20 +23,29 @@ body{
       #071f50 55%,
       #020b1d
     );
+
   color:#fff;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   padding:24px;
 }
 
 .card{
   width:min(720px,96vw);
+
   background:#071f50;
+
   border:3px solid #d7a62d;
   border-radius:24px;
+
   padding:30px;
-  box-shadow:0 8px 30px #0008;
+
+  box-shadow:
+    0 8px 30px #0008;
+
   text-align:center;
 }
 
@@ -45,7 +56,10 @@ body{
 
 h1{
   color:#f6d469;
-  margin:0 0 12px;
+
+  margin:
+    0 0 12px;
+
   font-size:31px;
 }
 
@@ -71,10 +85,16 @@ h1{
 .infoBox{
   background:#fff8df;
   color:#07152d;
-  border:2px solid #d7a62d;
+
+  border:
+    2px solid #d7a62d;
+
   border-radius:14px;
+
   padding:14px;
-  margin-bottom:18px;
+
+  margin-bottom:14px;
+
   text-align:left;
   direction:ltr;
 }
@@ -91,16 +111,28 @@ h1{
   font-weight:900;
 }
 
+.memberDetails{
+  margin-top:7px;
+  font-size:13px;
+  font-weight:700;
+  color:#42516c;
+  line-height:1.5;
+}
+
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:
+    1fr 1fr;
+
   gap:12px;
+
   margin-top:15px;
 }
 
 label{
   text-align:left;
   direction:ltr;
+
   font-weight:800;
   font-size:13px;
 }
@@ -109,37 +141,60 @@ input,
 select,
 textarea{
   width:100%;
+
   margin-top:6px;
+
   padding:12px;
-  border:2px solid #d7a62d;
+
+  border:
+    2px solid #d7a62d;
+
   border-radius:10px;
+
   background:#fff;
   color:#111;
+
   font-size:15px;
 }
 
+input[readonly]{
+  background:#edf4ff;
+  color:#0b2f72;
+  font-weight:900;
+}
+
 textarea{
-  min-height:80px;
+  min-height:100px;
   resize:vertical;
 }
 
 .wide{
-  grid-column:1/-1;
+  grid-column:
+    1 / -1;
 }
 
 .amountButtons{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:8px;
+
   margin-top:7px;
 }
 
 .amountBtn{
-  border:2px solid #d7a62d;
+  border:
+    2px solid #d7a62d;
+
   border-radius:10px;
+
   background:#fff8df;
   color:#07152d;
-  padding:11px 6px;
+
+  padding:
+    11px 6px;
+
   font-weight:900;
   cursor:pointer;
 }
@@ -148,15 +203,26 @@ textarea{
   background:#f6d469;
 }
 
-.mainButton{
-  margin-top:20px;
-  border:0;
-  border-radius:11px;
-  padding:13px 24px;
+.amountBtn.selected{
   background:#d7a62d;
   color:#07152d;
+}
+
+.mainButton{
+  margin-top:20px;
+
+  border:0;
+  border-radius:11px;
+
+  padding:
+    13px 24px;
+
+  background:#d7a62d;
+  color:#07152d;
+
   font-size:16px;
   font-weight:900;
+
   cursor:pointer;
 }
 
@@ -167,25 +233,35 @@ textarea{
 
 .backRow{
   margin-top:18px;
+
   display:flex;
   justify-content:center;
+
   gap:8px;
+
   flex-wrap:wrap;
 }
 
 .backBtn{
   text-decoration:none;
+
   background:#164b8f;
   color:#fff;
+
   border-radius:9px;
-  padding:10px 14px;
+
+  padding:
+    10px 14px;
+
   font-weight:800;
   font-size:13px;
 }
 
 .msg{
   min-height:25px;
+
   margin-top:16px;
+
   font-weight:900;
 }
 
@@ -212,7 +288,8 @@ textarea{
   }
 
   .amountButtons{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .card{
@@ -222,7 +299,9 @@ textarea{
 </style>
 </head>
 
+
 <body>
+
 
 <div class="card">
 
@@ -230,9 +309,11 @@ textarea{
     💛
   </div>
 
+
   <h1>
     תרומה מאובטחת באמצעות PayPal
   </h1>
+
 
   <div
     id="synagogueTitle"
@@ -241,10 +322,12 @@ textarea{
     טוען בית כנסת...
   </div>
 
+
   <div
     id="synagogueNumber"
     class="synagogueNumber"
   ></div>
+
 
   <div class="description">
     התרומה נשלחת לבית הכנסת הנבחר.
@@ -252,7 +335,10 @@ textarea{
   </div>
 
 
-  <!-- AUTO POPULATED SYNAGOGUE -->
+
+  <!-- =====================================
+       SYNAGOGUE INFORMATION
+  ====================================== -->
 
   <div class="infoBox">
 
@@ -270,7 +356,10 @@ textarea{
   </div>
 
 
-  <!-- AUTO POPULATED MEMBER -->
+
+  <!-- =====================================
+       MEMBER INFORMATION
+  ====================================== -->
 
   <div
     id="memberBox"
@@ -282,28 +371,43 @@ textarea{
       Member
     </div>
 
+
     <div
       id="memberDisplay"
       class="infoValue"
     ></div>
 
+
+    <div
+      id="memberDetails"
+      class="memberDetails"
+    ></div>
+
   </div>
 
+
+
+  <!-- =====================================
+       DONATION FORM
+  ====================================== -->
 
   <div class="grid">
 
 
     <label>
+
       Donor name
 
       <input
         id="donorName"
         autocomplete="name"
       >
+
     </label>
 
 
     <label>
+
       Donor email
 
       <input
@@ -311,7 +415,9 @@ textarea{
         type="email"
         autocomplete="email"
       >
+
     </label>
+
 
 
     <label class="wide">
@@ -344,6 +450,10 @@ textarea{
           Torah
         </option>
 
+        <option value="Tree / Landscaping">
+          Tree / Landscaping
+        </option>
+
         <option value="Other">
           Other
         </option>
@@ -351,6 +461,7 @@ textarea{
       </select>
 
     </label>
+
 
 
     <label class="wide">
@@ -362,36 +473,40 @@ textarea{
         <button
           class="amountBtn"
           type="button"
-          onclick="setAmount(18)"
+          onclick="setAmount(18,this)"
         >
           $18
         </button>
 
+
         <button
           class="amountBtn"
           type="button"
-          onclick="setAmount(36)"
+          onclick="setAmount(36,this)"
         >
           $36
         </button>
 
-        <button
-          class="amountBtn"
-          type="button"
-          onclick="setAmount(72)"
-        >
-          $72
-        </button>
 
         <button
           class="amountBtn"
           type="button"
-          onclick="setAmount(180)"
+          onclick="setAmount(72,this)"
+        >
+          $72
+        </button>
+
+
+        <button
+          class="amountBtn"
+          type="button"
+          onclick="setAmount(180,this)"
         >
           $180
         </button>
 
       </div>
+
 
       <input
         id="amount"
@@ -402,6 +517,7 @@ textarea{
       >
 
     </label>
+
 
 
     <label class="wide">
@@ -415,7 +531,9 @@ textarea{
 
     </label>
 
+
   </div>
+
 
 
   <button
@@ -433,8 +551,9 @@ textarea{
     id="msg"
     class="msg loading"
   >
-    טוען פרטי בית הכנסת...
+    טוען פרטי בית הכנסת והחבר...
   </div>
+
 
 
   <div class="backRow">
@@ -447,7 +566,9 @@ textarea{
       חזרה לחברים
     </a>
 
+
     <a
+      id="boardLink"
       class="backBtn"
       href="index.html"
     >
@@ -459,6 +580,10 @@ textarea{
 </div>
 
 
+
+<!-- =====================================
+     SUPABASE
+====================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
@@ -473,11 +598,13 @@ let sb=null;
 
 let synagogueRecord=null;
 
+let memberRecord=null;
+
 let memberNumber="";
 
 
 /* ========================================
-   URL INFORMATION
+   URL
 ======================================== */
 
 function getURLInfo(){
@@ -488,7 +615,7 @@ function getURLInfo(){
     );
 
 
-  return {
+  return{
 
     synagogue:
       (
@@ -514,10 +641,38 @@ function getURLInfo(){
 
 
 /* ========================================
-   SET DONATION AMOUNT
+   HTML ESCAPE
 ======================================== */
 
-function setAmount(amount){
+function esc(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /[&<>"']/g,
+    character=>({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+
+    }[character])
+  );
+
+}
+
+
+/* ========================================
+   AMOUNT BUTTONS
+======================================== */
+
+function setAmount(
+  amount,
+  button
+){
 
   document
     .getElementById(
@@ -525,6 +680,29 @@ function setAmount(amount){
     )
     .value=
       amount;
+
+
+  document
+    .querySelectorAll(
+      ".amountBtn"
+    )
+    .forEach(
+      b=>
+        b.classList.remove(
+          "selected"
+        )
+    );
+
+
+  if(button){
+
+    button
+      .classList
+      .add(
+        "selected"
+      );
+
+  }
 
 }
 
@@ -535,10 +713,375 @@ function setAmount(amount){
 
 async function loadSynagogue(){
 
+  const info=
+    getURLInfo();
+
+
+  if(
+    !info.synagogue
+  ){
+
+    throw new Error(
+      "Synagogue number is missing from donation link."
+    );
+
+  }
+
+
+  memberNumber=
+    info.member;
+
+
+  const {
+    data,
+    error
+  }=
+    await sb.rpc(
+      "get_synagogue_for_registration",
+      {
+        p_slug:
+          info.synagogue
+      }
+    );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  const synagogue=
+    Array.isArray(data)
+      ? data[0]
+      : data;
+
+
+  if(!synagogue){
+
+    throw new Error(
+      "Synagogue not found."
+    );
+
+  }
+
+
+  synagogueRecord=
+    synagogue;
+
+
+  const name=
+    synagogue.synagogue_name
+    ||
+    "Synagogue";
+
+
+  const slug=
+    synagogue.slug
+    ||
+    info.synagogue;
+
+
+  document
+    .getElementById(
+      "synagogueTitle"
+    )
+    .textContent=
+      name;
+
+
+  document
+    .getElementById(
+      "synagogueNumber"
+    )
+    .textContent=
+      "Synagogue #"
+      +
+      slug;
+
+
+  document
+    .getElementById(
+      "synagogueDisplay"
+    )
+    .textContent=
+      slug
+      +
+      " — "
+      +
+      name;
+
+
+  document
+    .getElementById(
+      "boardLink"
+    )
+    .href=
+      "index.html?s="
+      +
+      encodeURIComponent(
+        slug
+      );
+
+
+  if(memberNumber){
+
+    document
+      .getElementById(
+        "memberBox"
+      )
+      .style.display=
+        "block";
+
+
+    document
+      .getElementById(
+        "memberDisplay"
+      )
+      .textContent=
+        memberNumber;
+
+  }
+
+}
+
+
+/* ========================================
+   LOAD MEMBER
+======================================== */
+
+async function loadMember(){
+
+  if(
+    !memberNumber
+  ){
+
+    /*
+      No member number in URL.
+      Donation may be from a guest.
+    */
+
+    return;
+
+  }
+
+
+  /*
+    Since this member donation link is opened
+    from the authenticated synagogue Members
+    page, we use the secure RPC we already
+    created:
+
+    get_my_synagogue_members()
+  */
+
+
+  const {
+    data,
+    error
+  }=
+    await sb.rpc(
+      "get_my_synagogue_members"
+    );
+
+
+  if(error){
+
+    console.error(
+      "Member load error:",
+      error
+    );
+
+    throw new Error(
+      "Unable to load member information."
+    );
+
+  }
+
+
+  const members=
+    Array.isArray(data)
+      ? data
+      : [];
+
+
+  const member=
+    members.find(
+      m=>
+        String(
+          m.member_number
+          ||
+          ""
+        )
+        ===
+        String(
+          memberNumber
+        )
+    );
+
+
+  if(!member){
+
+    throw new Error(
+      "Member "
+      +
+      memberNumber
+      +
+      " was not found."
+    );
+
+  }
+
+
+  /*
+    Extra safety:
+    Make sure member belongs to
+    this synagogue.
+  */
+
+  if(
+    synagogueRecord
+    &&
+    member.synagogue_id
+    &&
+    synagogueRecord.id
+    &&
+    String(
+      member.synagogue_id
+    )
+    !==
+    String(
+      synagogueRecord.id
+    )
+  ){
+
+    throw new Error(
+      "This member does not belong to this synagogue."
+    );
+
+  }
+
+
+  memberRecord=
+    member;
+
+
+  /* =====================================
+     AUTOMATIC DONOR NAME
+  ====================================== */
+
+  document
+    .getElementById(
+      "donorName"
+    )
+    .value=
+      member.full_name
+      ||
+      "";
+
+
+  /* =====================================
+     AUTOMATIC DONOR EMAIL
+  ====================================== */
+
+  document
+    .getElementById(
+      "donorEmail"
+    )
+    .value=
+      member.email
+      ||
+      "";
+
+
+  /*
+    Since this is a known registered member,
+    lock the fields so the donation remains
+    attached to the correct member.
+  */
+
+  document
+    .getElementById(
+      "donorName"
+    )
+    .readOnly=
+      true;
+
+
+  document
+    .getElementById(
+      "donorEmail"
+    )
+    .readOnly=
+      true;
+
+
+  /* =====================================
+     DISPLAY MEMBER INFORMATION
+  ====================================== */
+
+  let details=[];
+
+
+  if(
+    member.full_name
+  ){
+
+    details.push(
+      member.full_name
+    );
+
+  }
+
+
+  if(
+    member.email
+  ){
+
+    details.push(
+      member.email
+    );
+
+  }
+
+
+  if(
+    member.phone
+  ){
+
+    details.push(
+      member.phone
+    );
+
+  }
+
+
+  document
+    .getElementById(
+      "memberDetails"
+    )
+    .innerHTML=
+      details
+        .map(
+          esc
+        )
+        .join(
+          " &nbsp; • &nbsp; "
+        );
+
+}
+
+
+/* ========================================
+   INITIALIZE PAGE
+======================================== */
+
+async function initializeDonationPage(){
+
   const msg=
     document.getElementById(
       "msg"
     );
+
 
   const button=
     document.getElementById(
@@ -548,165 +1091,61 @@ async function loadSynagogue(){
 
   try{
 
-    const info=
-      getURLInfo();
-
-
-    if(!info.synagogue){
-
-      throw new Error(
-        "Synagogue number is missing from the donation link."
-      );
-
-    }
-
-
-    memberNumber=
-      info.member;
-
-
     sb=
       getSupabase();
 
 
-    /*
-      We already created this secure RPC
-      for public synagogue registration.
-      It also safely returns the synagogue
-      name and slug for this page.
-    */
+    msg.textContent=
+      "Loading synagogue...";
 
-    const {
-      data,
-      error
-    }=
-      await sb.rpc(
-        "get_synagogue_for_registration",
-        {
-          p_slug:
-            info.synagogue
-        }
-      );
+    msg.className=
+      "msg loading";
 
 
-    if(error){
-      throw error;
-    }
-
-
-    const synagogue=
-      Array.isArray(data)
-        ? data[0]
-        : data;
-
-
-    if(!synagogue){
-
-      throw new Error(
-        "Synagogue not found."
-      );
-
-    }
-
-
-    synagogueRecord=
-      synagogue;
-
-
-    const name=
-      synagogue.synagogue_name
-      ||
-      "Synagogue";
-
-
-    const slug=
-      synagogue.slug
-      ||
-      info.synagogue;
+    await loadSynagogue();
 
 
     /*
-      THIS IS THE PART YOU ASKED FOR:
-
-      It automatically displays:
-
-      108 — Tricia Fleming
-    */
-
-    document
-      .getElementById(
-        "synagogueTitle"
-      )
-      .textContent=
-        name;
-
-
-    document
-      .getElementById(
-        "synagogueNumber"
-      )
-      .textContent=
-        "Synagogue #"
-        +
-        slug;
-
-
-    document
-      .getElementById(
-        "synagogueDisplay"
-      )
-      .textContent=
-        slug
-        +
-        " — "
-        +
-        name;
-
-
-    /*
-      Automatically show the member number
-      when member=108-0014 is in the URL.
+      If URL contains member=108-0014,
+      now load that member.
     */
 
     if(memberNumber){
 
-      document
-        .getElementById(
-          "memberBox"
-        )
-        .style.display=
-          "block";
+      msg.textContent=
+        "Loading member "
+        +
+        memberNumber
+        +
+        "...";
 
 
-      document
-        .getElementById(
-          "memberDisplay"
-        )
-        .textContent=
-          memberNumber;
+      await loadMember();
 
     }
-
-
-    /*
-      Return to this synagogue's
-      member page.
-    */
-
-    document
-      .getElementById(
-        "membersLink"
-      )
-      .href=
-        "members.html";
 
 
     button.disabled=
       false;
 
 
-    msg.textContent=
-      "Ready for donation.";
+    if(memberRecord){
+
+      msg.textContent=
+        "Member "
+        +
+        memberRecord.member_number
+        +
+        " loaded — ready for donation.";
+
+    }
+    else{
+
+      msg.textContent=
+        "Ready for donation.";
+
+    }
+
 
     msg.className=
       "msg success";
@@ -716,7 +1155,6 @@ async function loadSynagogue(){
   catch(error){
 
     console.error(
-      "Donation synagogue load error:",
       error
     );
 
@@ -740,7 +1178,7 @@ async function loadSynagogue(){
 
 
 /* ========================================
-   CONTINUE TO PAYMENT
+   CREATE PAYPAL DONATION
 ======================================== */
 
 async function continueDonation(){
@@ -757,7 +1195,9 @@ async function continueDonation(){
     );
 
 
-  if(!synagogueRecord){
+  if(
+    !synagogueRecord
+  ){
 
     msg.textContent=
       "Synagogue information has not loaded.";
@@ -781,13 +1221,63 @@ async function continueDonation(){
 
 
   if(
-    !Number.isFinite(amount)
+    !Number.isFinite(
+      amount
+    )
     ||
     amount <= 0
   ){
 
     msg.textContent=
       "Please enter a donation amount.";
+
+    msg.className=
+      "msg error";
+
+    return;
+
+  }
+
+
+  const donorName=
+    document
+      .getElementById(
+        "donorName"
+      )
+      .value
+      .trim();
+
+
+  const donorEmail=
+    document
+      .getElementById(
+        "donorEmail"
+      )
+      .value
+      .trim();
+
+
+  if(
+    !donorName
+  ){
+
+    msg.textContent=
+      "Donor name is required.";
+
+    msg.className=
+      "msg error";
+
+    return;
+
+  }
+
+
+  if(
+    !donorEmail
+  ){
+
+    msg.textContent=
+      "Donor email is required.";
 
     msg.className=
       "msg error";
@@ -810,24 +1300,6 @@ async function continueDonation(){
 
   try{
 
-    const donorName=
-      document
-        .getElementById(
-          "donorName"
-        )
-        .value
-        .trim();
-
-
-    const donorEmail=
-      document
-        .getElementById(
-          "donorEmail"
-        )
-        .value
-        .trim();
-
-
     const purpose=
       document
         .getElementById(
@@ -844,10 +1316,6 @@ async function continueDonation(){
         .value
         .trim();
 
-
-    /*
-      Our secure Supabase Edge Function.
-    */
 
     const {
       data,
@@ -881,14 +1349,10 @@ async function continueDonation(){
               null,
 
             donor_name:
-              donorName
-              ||
-              null,
+              donorName,
 
             donor_email:
               donorEmail
-              ||
-              null
 
           }
         }
@@ -915,14 +1379,6 @@ async function continueDonation(){
     }
 
 
-    /*
-      We have successfully created the PayPal
-      order on the server.
-
-      The next step will be connecting this
-      order ID to the PayPal checkout button.
-    */
-
     sessionStorage.setItem(
       "paypal_donation_order_id",
       data.orderID
@@ -941,8 +1397,26 @@ async function continueDonation(){
     );
 
 
+    sessionStorage.setItem(
+      "paypal_donation_name",
+      donorName
+    );
+
+
+    sessionStorage.setItem(
+      "paypal_donation_email",
+      donorEmail
+    );
+
+
+    sessionStorage.setItem(
+      "paypal_donation_amount",
+      String(amount)
+    );
+
+
     msg.textContent=
-      "PayPal order created successfully. Order: "
+      "Donation prepared successfully. PayPal order: "
       +
       data.orderID;
 
@@ -981,15 +1455,16 @@ async function continueDonation(){
 
 
 /* ========================================
-   START PAGE
+   START
 ======================================== */
 
 window.addEventListener(
   "DOMContentLoaded",
-  loadSynagogue
+  initializeDonationPage
 );
 
 </script>
+
 
 </body>
 </html>
