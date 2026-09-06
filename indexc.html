@@ -30,12 +30,10 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  position:relative;
 }
 
-/* IMPORTANT:
-   position:relative makes the admin gear stay
-   inside this board instead of the browser edge.
-*/
+/* BOARD */
 .board{
   position:relative;
 
@@ -444,14 +442,17 @@ body{
 
 /* =========================================
    ADMIN GEAR
+   NOT FIXED
    INSIDE BOTTOM LEFT OF BOARD
 ========================================= */
 
 .adminGear{
   position:absolute;
 
-  left:14px;
-  bottom:14px;
+  left:14px !important;
+  right:auto !important;
+  bottom:14px !important;
+  top:auto !important;
 
   z-index:999999;
 
@@ -485,44 +486,53 @@ body{
 }
 
 .adminGear:hover{
-  transform:
-    scale(1.08);
-
+  transform:scale(1.08);
   background:#0b2f72;
 }
 
 .adminGear:active{
-  transform:
-    scale(.94);
+  transform:scale(.94);
 }
 
 
 /* =========================================
    DONATE BUTTON
-   INSIDE BOTTOM LEFT OF BOARD
 ========================================= */
 
 .donateButton{
   position:absolute;
   left:76px;
+  right:auto;
   bottom:14px;
   z-index:999999;
+
   min-width:118px;
   height:52px;
   padding:0 18px;
+
   border-radius:28px;
+
   display:flex;
   align-items:center;
   justify-content:center;
   gap:7px;
+
   background:#d7a62d;
   border:3px solid #071f50;
+
   color:#071f50;
+
   font-size:18px;
   font-weight:900;
   text-decoration:none;
-  box-shadow:0 3px 14px #0007, inset 0 0 0 1px #fff7c955;
-  transition:transform .15s ease, background .15s ease;
+
+  box-shadow:
+    0 3px 14px #0007,
+    inset 0 0 0 1px #fff7c955;
+
+  transition:
+    transform .15s ease,
+    background .15s ease;
 }
 
 .donateButton:hover{
@@ -536,31 +546,43 @@ body{
 
 
 /* =========================================
-   JOIN SYNAGOGUE BUTTON
-   NEW MEMBERS
+   JOIN BUTTON
 ========================================= */
 
 .joinButton{
   position:absolute;
   left:208px;
+  right:auto;
   bottom:14px;
   z-index:999999;
+
   min-width:190px;
   height:52px;
   padding:0 18px;
+
   border-radius:28px;
+
   display:flex;
   align-items:center;
   justify-content:center;
   gap:7px;
+
   background:#fff8df;
   border:3px solid #d7a62d;
+
   color:#071f50;
+
   font-size:17px;
   font-weight:900;
   text-decoration:none;
-  box-shadow:0 3px 14px #0007, inset 0 0 0 1px #ffffff88;
-  transition:transform .15s ease, background .15s ease;
+
+  box-shadow:
+    0 3px 14px #0007,
+    inset 0 0 0 1px #ffffff88;
+
+  transition:
+    transform .15s ease,
+    background .15s ease;
 }
 
 .joinButton:hover{
@@ -630,9 +652,7 @@ and
 
   .row{
     display:block;
-
-    padding:
-      4px 0;
+    padding:4px 0;
   }
 
   .center{
@@ -654,31 +674,36 @@ and
     width:44px;
     height:44px;
 
-    left:8px;
-    bottom:8px;
+    left:8px !important;
+    right:auto !important;
+    bottom:8px !important;
 
     font-size:24px;
   }
 
-
   .donateButton{
     left:60px;
+    right:auto;
     bottom:8px;
+
     height:44px;
     min-width:104px;
+
     padding:0 13px;
     font-size:15px;
   }
 
   .joinButton{
     left:172px;
+    right:auto;
     bottom:8px;
+
     height:44px;
     min-width:150px;
+
     padding:0 11px;
     font-size:13px;
   }
-
 }
 
 
@@ -731,10 +756,6 @@ and
    PAGE ROTATION
 ========================================= */
 
-body{
-  position:relative;
-}
-
 .rotatePage{
   position:absolute;
   inset:0;
@@ -754,7 +775,6 @@ body{
 .rotatePage.active{
   opacity:1;
   visibility:visible;
-
   pointer-events:auto;
 }
 
@@ -1019,7 +1039,6 @@ and
 
   .specialFrame{
     height:97vh;
-
     padding:15px;
   }
 }
@@ -1236,13 +1255,11 @@ and
   #candlePage .specialFrame{
     width:95vw;
     height:92vh;
-
     padding:10px;
   }
 
   #candlePage .specialTitle{
     font-size:38px;
-
     margin-bottom:4px;
   }
 
@@ -1443,9 +1460,7 @@ and
 
 .center::before{
   left:4%;
-
-  transform:
-    scaleX(-1);
+  transform:scaleX(-1);
 }
 
 .center::after{
@@ -1617,58 +1632,42 @@ and
 
 <div class="row">
   <span>שחרית</span>
-  <span id="pShacharit">
-    7:00 AM
-  </span>
+  <span id="pShacharit">7:00 AM</span>
 </div>
 
 <div class="row">
   <span>מנחה</span>
-  <span id="pMincha">
-    4:00 PM
-  </span>
+  <span id="pMincha">4:00 PM</span>
 </div>
 
 <div class="row">
   <span>ערבית</span>
-  <span id="pMaariv">
-    8:30 PM
-  </span>
+  <span id="pMaariv">8:30 PM</span>
 </div>
 
 <div class="row">
   <span>שיעור תורה</span>
-  <span id="pShiur">
-    9:15 PM
-  </span>
+  <span id="pShiur">9:15 PM</span>
 </div>
 
 <div class="row">
   <span>שחרית שבת</span>
-  <span id="pShabbatShacharit">
-    9:00 AM
-  </span>
+  <span id="pShabbatShacharit">9:00 AM</span>
 </div>
 
 <div class="row">
   <span>מנחה שבת</span>
-  <span id="pShabbatMincha">
-    6:30 PM
-  </span>
+  <span id="pShabbatMincha">6:30 PM</span>
 </div>
 
 <div class="row">
   <span>ערבית ליל שבת</span>
-  <span id="pShabbatMaariv">
-    7:30 PM
-  </span>
+  <span id="pShabbatMaariv">7:30 PM</span>
 </div>
 
 <div class="row">
   <span>הבדלה</span>
-  <span id="pHavdalah">
-    9:00 PM
-  </span>
+  <span id="pHavdalah">9:00 PM</span>
 </div>
 
 </div>
@@ -1678,9 +1677,7 @@ and
 
 <div class="sideBox goldFrame">
 
-<h2>
-  מזל טוב
-</h2>
+<h2>מזל טוב</h2>
 
 <div
   class="smallText"
@@ -1756,30 +1753,22 @@ and
 
 <div>
   <b>תחנון שחרית:</b>
-  <span id="tachanun">
-    אומרים
-  </span>
+  <span id="tachanun">אומרים</span>
 </div>
 
 <div>
   <b>פרשת השבוע:</b>
-  <span id="parashaInfo">
-    נצבים־וילך
-  </span>
+  <span id="parashaInfo">נצבים־וילך</span>
 </div>
 
 <div>
   <b>גבורות:</b>
-  <span id="gevurot">
-    מוריד הטל
-  </span>
+  <span id="gevurot">מוריד הטל</span>
 </div>
 
 <div>
   <b>הלל:</b>
-  <span id="hallel">
-    אין הלל
-  </span>
+  <span id="hallel">אין הלל</span>
 </div>
 
 </div>
@@ -1827,90 +1816,53 @@ and
 
 <div class="sideBox goldFrame">
 
-<h2>
-  זמני היום
-</h2>
+<h2>זמני היום</h2>
 
 <div class="rows">
 
 <div class="row">
   <span>עלות השחר</span>
-  <span id="zAlot">
-    5:02 AM
-  </span>
+  <span id="zAlot">5:02 AM</span>
 </div>
 
 <div class="row">
   <span>זריחה</span>
-  <span id="zSunrise">
-    6:38 AM
-  </span>
+  <span id="zSunrise">6:38 AM</span>
 </div>
 
 <div class="row">
   <span>סוף זמן ק״ש</span>
-  <span id="zShema">
-    9:27 AM
-  </span>
+  <span id="zShema">9:27 AM</span>
 </div>
 
 <div class="row">
   <span>חצות</span>
-  <span id="zChatzot">
-    12:10 PM
-  </span>
+  <span id="zChatzot">12:10 PM</span>
 </div>
 
 <div class="row">
   <span>מנחה גדולה</span>
-  <span id="zMinchaGedola">
-    12:40 PM
-  </span>
+  <span id="zMinchaGedola">12:40 PM</span>
 </div>
 
 <div class="row">
   <span>שקיעה</span>
-  <span id="zSunset">
-    7:32 PM
-  </span>
+  <span id="zSunset">7:32 PM</span>
 </div>
 
 <div class="row">
   <span>צאת הכוכבים</span>
-  <span id="zTzeit">
-    8:06 PM
-  </span>
+  <span id="zTzeit">8:06 PM</span>
 </div>
 
 <div class="row">
-
-<span class="red">
-  הדלקת נרות
-</span>
-
-<span
-  class="red"
-  id="zCandles"
->
-  7:13 PM
-</span>
-
+  <span class="red">הדלקת נרות</span>
+  <span class="red" id="zCandles">7:13 PM</span>
 </div>
 
-
 <div class="row">
-
-<span class="red">
-  צאת שבת
-</span>
-
-<span
-  class="red"
-  id="zShabbatOut"
->
-  8:12 PM
-</span>
-
+  <span class="red">צאת שבת</span>
+  <span class="red" id="zShabbatOut">8:12 PM</span>
 </div>
 
 </div>
@@ -1920,9 +1872,7 @@ and
 
 <div class="sideBox goldFrame">
 
-<h2>
-  הודעות
-</h2>
+<h2>הודעות</h2>
 
 <div
   class="smallText"
@@ -1937,7 +1887,6 @@ and
 
 </section>
 
-
 </main>
 
 
@@ -1950,12 +1899,7 @@ and
 </footer>
 
 
-
-<!-- ======================================
-     ADMIN GEAR
-     NOW INSIDE THE BOARD
-====================================== -->
-
+<!-- ADMIN GEAR -->
 <a
   class="adminGear"
   href="admin.html"
@@ -1976,6 +1920,7 @@ and
 >
   💛 Donate
 </a>
+
 
 <a
   id="joinButton"
@@ -2227,9 +2172,7 @@ function fmtClock(tz){
       second:"2-digit",
       hour12:false
     }
-  ).format(
-    new Date()
-  );
+  ).format(new Date());
 
 }
 
@@ -2237,14 +2180,10 @@ function fmtClock(tz){
 function tick(){
 
   nyTime.textContent =
-    fmtClock(
-      "America/New_York"
-    );
+    fmtClock("America/New_York");
 
   ilTime.textContent =
-    fmtClock(
-      "Asia/Jerusalem"
-    );
+    fmtClock("Asia/Jerusalem");
 
 }
 
@@ -2262,44 +2201,32 @@ function getSettings(){
 
   const d={
 
-    synagogue:
-      "בית הכנסת בית תורה",
+    synagogue:"בית הכנסת בית תורה",
 
-    rabbi:
-      "הרב ברוך",
+    rabbi:"הרב ברוך",
 
-    shacharit:
-      "7:00 AM",
+    shacharit:"7:00 AM",
 
-    mincha:
-      "4:00 PM",
+    mincha:"4:00 PM",
 
-    maariv:
-      "8:30 PM",
+    maariv:"8:30 PM",
 
-    shiurTime:
-      "9:15 PM",
+    shiurTime:"9:15 PM",
 
-    shabbatShacharit:
-      "9:00 AM",
+    shabbatShacharit:"9:00 AM",
 
-    shabbatMincha:
-      "6:30 PM",
+    shabbatMincha:"6:30 PM",
 
-    shabbatMaariv:
-      "7:30 PM",
+    shabbatMaariv:"7:30 PM",
 
-    havdalah:
-      "9:00 PM",
+    havdalah:"9:00 PM",
 
-    mazal:
-      "ברכת מזל טוב לחברי הקהילה",
+    mazal:"ברכת מזל טוב לחברי הקהילה",
 
     announcement:
       "ברוכים הבאים לבית הכנסת\nנא להתעדכן בהודעות הקהילה",
 
-    parasha:
-      "פרשת נצבים־וילך",
+    parasha:"פרשת נצבים־וילך",
 
     center1:
       "ברכת מזל טוב לכל המתפללים ובני הקהילה",
@@ -2316,17 +2243,13 @@ function getSettings(){
     center5:
       "נא לעקוב אחר ההודעות החשובות של הקהילה",
 
-    tachanun:
-      "אומרים",
+    tachanun:"אומרים",
 
-    parashaInfo:
-      "נצבים־וילך",
+    parashaInfo:"נצבים־וילך",
 
-    gevurot:
-      "מוריד הטל",
+    gevurot:"מוריד הטל",
 
-    hallel:
-      "אין הלל",
+    hallel:"אין הלל",
 
     centerWelcome:
       "ברוכים הבאים לבית הכנסת בית תורה",
