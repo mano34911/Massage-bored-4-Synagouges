@@ -1,0 +1,30 @@
+// Add this file to the same folder as admin.html.
+// Then include <script src="members-button.js"></script> before </body> in admin.html.
+(function(){
+  function addMembersButton(){
+    const control=document.getElementById('control');
+    if(!control || document.getElementById('membersAdminButton')) return;
+
+    const actions=control.querySelector('.actions') || control;
+    const a=document.createElement('a');
+    a.id='membersAdminButton';
+    a.href='members-admin.html';
+    a.className='btn';
+    a.style.background='#0b2f72';
+    a.style.textDecoration='none';
+    a.textContent='👥 ניהול חברי בית הכנסת';
+    actions.appendChild(a);
+
+    const nav=document.querySelector('.nav');
+    if(nav && !document.getElementById('membersNavButton')){
+      const n=document.createElement('button');
+      n.id='membersNavButton';
+      n.type='button';
+      n.textContent='👥 חברים';
+      n.onclick=function(){ location.href='members-admin.html'; };
+      nav.appendChild(n);
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',addMembersButton);
+  else addMembersButton();
+})();

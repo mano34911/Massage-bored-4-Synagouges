@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="he" dir="rtl" translate="no" class="notranslate">
+<head>
+<meta charset="utf-8">
+<meta name="google" content="notranslate">
+<meta http-equiv="Content-Language" content="he">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ניהול חברי בית הכנסת</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#061b48;color:#241d11;font-family:Arial,"Noto Sans Hebrew",sans-serif;padding:12px}
+.wrap{max-width:1250px;margin:auto;background:#fff8df;border:4px solid #d7a62d;border-radius:24px;box-shadow:0 0 0 3px #fff0a4;padding:16px}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.top h1{margin:0;color:#0b2f72;font-size:clamp(26px,5vw,44px)}
+.btn{border:0;border-radius:11px;padding:11px 14px;font-weight:900;cursor:pointer;background:#0b2f72;color:white;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn.green{background:#17824b}.btn.red{background:#b91f28}.btn.gold{background:#d7a62d;color:#2b210f}.btn.gray{background:#ddd6c1;color:#132c60}
+.btn.orange{background:#a95d00}.btn.small{padding:8px 10px;font-size:13px}
+.toolbar{display:grid;grid-template-columns:1fr auto auto;gap:9px;margin:15px 0}
+input,textarea,select{width:100%;padding:11px;border:2px solid #cab46d;border-radius:9px;font:inherit;background:white}
+.section{border:2px solid #d6bf78;border-radius:18px;padding:14px;margin:14px 0;background:#fffdf3}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+.stat{background:white;border:2px solid #d7c47e;border-radius:14px;padding:12px;text-align:center}
+.stat b{font-size:28px;color:#0b2f72;display:block}.stat span{font-size:13px;color:#6b6251}
+.tableWrap{overflow:auto;border:2px solid #d6bf78;border-radius:14px;background:white}
+table{width:100%;border-collapse:collapse;min-width:1050px}
+th,td{padding:10px;border-bottom:1px solid #eadfb6;text-align:right;vertical-align:top}
+th{position:sticky;top:0;background:#0b2f72;color:white;z-index:1}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.statusPill{display:inline-block;border-radius:999px;padding:5px 9px;font-weight:900;font-size:12px}
+.pending{background:#fff0a8;color:#725300}.approved{background:#ccefdc;color:#0b6336}.suspended{background:#ffd1d4;color:#8b1117}
+.small{font-size:12px;color:#6b6251}.muted{color:#7b7468}.error{color:#b91f28;font-weight:900}.ok{color:#17824b;font-weight:900}
+#tenantBar{position:fixed;left:10px;top:10px;z-index:99999;background:#071f50;color:#fff;border:2px solid #d7a62d;border-radius:12px;padding:8px 12px;font:700 13px Arial;box-shadow:0 3px 12px #0008;max-width:360px}
+.modalBack{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:14px;z-index:100000}
+.modal{width:min(760px,100%);max-height:92vh;overflow:auto;background:#fff8df;border:4px solid #d7a62d;border-radius:20px;padding:16px}
+.modal h2{margin-top:0;color:#0b2f72}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.wide{grid-column:1/-1}
+label{font-weight:900;color:#6a4b10}
+.loading{padding:28px;text-align:center;font-weight:900;color:#0b2f72}
+.notice{border:2px solid #d7c47e;border-radius:12px;padding:10px;background:#fff9df;margin:10px 0}
+@media(max-width:800px){.summary{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.wide{grid-column:auto}.wrap{padding:10px}}
+</style>
+</head>
+<body class="notranslate" translate="no">
+<div id="tenantBar"><span id="tenantText">טוען חשבון…</span> <button class="btn red small" onclick="safeLogout()">Logout</button></div>
+
+<div class="wrap">
+  <div class="top">
+    <h1>👥 ניהול חברי בית הכנסת</h1>
+    <div class="actions">
+      <a class="btn gray" href="admin.html">⚙️ חזרה לניהול הלוח</a>
+      <a class="btn gray" href="index.html">📺 חזרה ללוח</a>
+    </div>
+  </div>
+
+  <div class="notice">
+    <b>אבטחת סיסמאות:</b> לא ניתן לראות סיסמה קיימת של חבר. Supabase שומר סיסמאות בצורה מוצפנת/מגובבת.
+    הרב יכול להגדיר לחבר <b>סיסמה זמנית חדשה</b>.
+  </div>
+
+  <div class="summary">
+    <div class="stat"><b id="countAll">0</b><span>סה״כ חברים</span></div>
+    <div class="stat"><b id="countPending">0</b><span>ממתינים לאישור</span></div>
+    <div class="stat"><b id="countApproved">0</b><span>מאושרים</span></div>
+    <div class="stat"><b id="countSuspended">0</b><span>מושעים</span></div>
+  </div>
+
+  <div class="toolbar">
+    <input id="search" placeholder="חיפוש לפי שם, אימייל, טלפון, מספר חבר…" oninput="renderMembers()">
+    <button class="btn green" onclick="openAdd()">➕ הוסף חבר</button>
+    <button class="btn gold" onclick="loadMembers()">↻ רענן</button>
+  </div>
+
+  <div id="message"></div>
+
+  <div class="tableWrap">
+    <table>
+      <thead>
+        <tr>
+          <th>מס׳</th><th>שם</th><th>Login / Email</th><th>טלפון</th><th>כתובת</th>
+          <th>סטטוס</th><th>נרשם</th><th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody id="memberRows"><tr><td colspan="8" class="loading">טוען חברים…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="editBack" class="modalBack">
+  <div class="modal">
+    <h2 id="editTitle">עריכת חבר</h2>
+    <input id="editId" type="hidden">
+    <div class="grid">
+      <label>שם מלא<input id="editName"></label>
+      <label>Login / Email<input id="editEmail" type="email" dir="ltr"></label>
+      <label>טלפון<input id="editPhone" dir="ltr"></label>
+      <label>כתובת<input id="editAddress1"></label>
+      <label>כתובת 2<input id="editAddress2"></label>
+      <label>עיר<input id="editCity"></label>
+      <label>מדינה / State<input id="editState"></label>
+      <label>מיקוד<input id="editPostal"></label>
+      <label class="wide">הערות<textarea id="editNotes"></textarea></label>
+    </div>
+    <div class="actions" style="margin-top:12px">
+      <button class="btn green" onclick="saveEdit()">💾 שמור שינויים</button>
+      <button class="btn gray" onclick="closeEdit()">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<div id="addBack" class="modalBack">
+  <div class="modal">
+    <h2>➕ הוספת חבר חדש</h2>
+    <div class="grid">
+      <label>שם מלא<input id="addName"></label>
+      <label>Login / Email<input id="addEmail" type="email" dir="ltr"></label>
+      <label>סיסמה זמנית<input id="addPassword" type="text" dir="ltr" autocomplete="new-password"></label>
+      <label>טלפון<input id="addPhone" dir="ltr"></label>
+      <label>כתובת<input id="addAddress1"></label>
+      <label>כתובת 2<input id="addAddress2"></label>
+      <label>עיר<input id="addCity"></label>
+      <label>מדינה / State<input id="addState"></label>
+      <label>מיקוד<input id="addPostal"></label>
+      <label class="wide">הערות<textarea id="addNotes"></textarea></label>
+    </div>
+    <div class="actions" style="margin-top:12px">
+      <button class="btn green" onclick="createMember()">✓ צור חבר</button>
+      <button class="btn gray" onclick="closeAdd()">ביטול</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+<script>
+let currentSynagogue=null;
+let currentSynagogueId=null;
+let members=[];
+
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+function money(c){ return '$'+((Number(c||0))/100).toFixed(2); }
+function msg(text,type='ok'){ document.getElementById('message').innerHTML='<div class="'+type+'">'+esc(text)+'</div>'; setTimeout(()=>{document.getElementById('message').innerHTML=''},3500); }
+
+async function safeLogout(){
+  try{ if(typeof logoutApp==='function'){ await logoutApp(); return; } }catch(e){}
+  try{ const sb=getSupabase(); await sb.auth.signOut(); }catch(e){}
+  location.href='login.html';
+}
+
+async function invoke(action,payload={}){
+  const sb=getSupabase();
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session) throw new Error('Not signed in');
+  const {data,error}=await sb.functions.invoke('member-admin',{
+    body:{action,synagogue_id:currentSynagogueId,...payload},
+    headers:{Authorization:'Bearer '+session.access_token}
+  });
+  if(error) throw error;
+  if(data && data.error) throw new Error(data.error);
+  return data;
+}
+
+async function init(){
+  if(!appConfigured()){ document.getElementById('tenantText').textContent='Supabase not configured'; return; }
+  const sb=getSupabase();
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session){ location.href='login.html'; return; }
+
+  const {data:profile,error:pe}=await sb.from('profiles').select('role').eq('user_id',session.user.id).single();
+  if(pe){ console.error(pe); location.href='login.html'; return; }
+
+  if(profile.role==='master'){
+    const q=new URLSearchParams(location.search);
+    const sid=q.get('s');
+    if(!sid){ document.getElementById('tenantText').textContent='Master: missing synagogue id'; return; }
+    currentSynagogueId=sid;
+    const {data:syn,error}=await sb.from('synagogues').select('*').eq('id',sid).single();
+    if(error||!syn){ msg('Synagogue not found','error'); return; }
+    currentSynagogue=syn;
+  }else{
+    const {data:syn,error}=await sb.from('synagogues').select('*').eq('owner_user_id',session.user.id).single();
+    if(error||!syn){ console.error(error); location.href='pending.html'; return; }
+    currentSynagogue=syn;
+    currentSynagogueId=syn.id;
+  }
+
+  document.getElementById('tenantText').textContent=
+    `${currentSynagogue.synagogue_name||'Synagogue'} • Members Admin`;
+  await loadMembers();
+}
+
+async function loadMembers(){
+  document.getElementById('memberRows').innerHTML='<tr><td colspan="8" class="loading">טוען חברים…</td></tr>';
+  try{
+    const r=await invoke('list');
+    members=Array.isArray(r.members)?r.members:[];
+    renderMembers();
+  }catch(e){
+    console.error(e);
+    document.getElementById('memberRows').innerHTML='<tr><td colspan="8" class="error">שגיאה בטעינת החברים</td></tr>';
+    msg(e.message||'Load failed','error');
+  }
+}
+
+function statusText(s){ return s==='approved'?'מאושר':s==='suspended'?'מושעה':'ממתין'; }
+function addressOf(m){ return [m.address_line1,m.address_line2,m.city,m.state,m.postal_code].filter(Boolean).join(', '); }
+
+function renderMembers(){
+  const q=document.getElementById('search').value.trim().toLowerCase();
+  const filtered=members.filter(m=>{
+    const hay=[m.member_number,m.full_name,m.login_email,m.phone,addressOf(m),m.status].join(' ').toLowerCase();
+    return !q || hay.includes(q);
+  });
+
+  document.getElementById('countAll').textContent=members.length;
+  document.getElementById('countPending').textContent=members.filter(x=>x.status==='pending').length;
+  document.getElementById('countApproved').textContent=members.filter(x=>x.status==='approved').length;
+  document.getElementById('countSuspended').textContent=members.filter(x=>x.status==='suspended').length;
+
+  if(!filtered.length){
+    document.getElementById('memberRows').innerHTML='<tr><td colspan="8" class="loading">אין חברים להצגה</td></tr>';
+    return;
+  }
+
+  document.getElementById('memberRows').innerHTML=filtered.map(m=>{
+    const pill=`<span class="statusPill ${esc(m.status)}">${esc(statusText(m.status))}</span>`;
+    let buttons=`<button class="btn small" onclick="openEdit('${m.id}')">✏️ ערוך</button>`;
+    if(m.status!=='approved') buttons+=`<button class="btn green small" onclick="approveMember('${m.id}')">✓ אשר</button>`;
+    if(m.status!=='suspended') buttons+=`<button class="btn orange small" onclick="suspendMember('${m.id}')">⏸ השעה</button>`;
+    if(m.status==='suspended') buttons+=`<button class="btn green small" onclick="approveMember('${m.id}')">▶ הפעל</button>`;
+    buttons+=`<button class="btn gold small" onclick="setPassword('${m.id}')">🔑 סיסמה חדשה</button>`;
+    buttons+=`<button class="btn red small" onclick="deleteMember('${m.id}')">🗑 מחק</button>`;
+    return `<tr>
+      <td>${esc(m.member_number||'')}</td>
+      <td><b>${esc(m.full_name||'')}</b><div class="small">${esc(m.notes||'')}</div></td>
+      <td dir="ltr">${esc(m.login_email||'')}</td>
+      <td dir="ltr">${esc(m.phone||'')}</td>
+      <td>${esc(addressOf(m))}</td>
+      <td>${pill}</td>
+      <td>${m.created_at?esc(new Date(m.created_at).toLocaleDateString()):''}</td>
+      <td><div class="actions">${buttons}</div></td>
+    </tr>`;
+  }).join('');
+}
+
+function memberById(id){ return members.find(x=>x.id===id); }
+function openEdit(id){
+  const m=memberById(id); if(!m)return;
+  editId.value=m.id; editName.value=m.full_name||''; editEmail.value=m.login_email||''; editPhone.value=m.phone||'';
+  editAddress1.value=m.address_line1||''; editAddress2.value=m.address_line2||''; editCity.value=m.city||'';
+  editState.value=m.state||''; editPostal.value=m.postal_code||''; editNotes.value=m.notes||'';
+  editBack.style.display='flex';
+}
+function closeEdit(){ editBack.style.display='none'; }
+
+async function saveEdit(){
+  try{
+    await invoke('edit',{member_id:editId.value,member:{
+      full_name:editName.value.trim(),login_email:editEmail.value.trim(),phone:editPhone.value.trim(),
+      address_line1:editAddress1.value.trim(),address_line2:editAddress2.value.trim(),city:editCity.value.trim(),
+      state:editState.value.trim(),postal_code:editPostal.value.trim(),notes:editNotes.value.trim()
+    }});
+    closeEdit(); msg('פרטי החבר נשמרו ✓'); await loadMembers();
+  }catch(e){ msg(e.message||'Save failed','error'); }
+}
+
+function openAdd(){
+  ['addName','addEmail','addPassword','addPhone','addAddress1','addAddress2','addCity','addState','addPostal','addNotes'].forEach(id=>document.getElementById(id).value='');
+  addBack.style.display='flex';
+}
+function closeAdd(){ addBack.style.display='none'; }
+
+async function createMember(){
+  if(!addName.value.trim() || !addEmail.value.trim() || addPassword.value.length<6){ msg('יש להזין שם, אימייל וסיסמה זמנית של לפחות 6 תווים','error'); return; }
+  try{
+    await invoke('create',{member:{
+      full_name:addName.value.trim(),login_email:addEmail.value.trim(),temporary_password:addPassword.value,
+      phone:addPhone.value.trim(),address_line1:addAddress1.value.trim(),address_line2:addAddress2.value.trim(),
+      city:addCity.value.trim(),state:addState.value.trim(),postal_code:addPostal.value.trim(),notes:addNotes.value.trim()
+    }});
+    closeAdd(); msg('החבר נוצר בהצלחה ✓'); await loadMembers();
+  }catch(e){ msg(e.message||'Create failed','error'); }
+}
+
+async function approveMember(id){
+  try{ await invoke('approve',{member_id:id}); msg('החבר מאושר ✓'); await loadMembers(); }
+  catch(e){ msg(e.message||'Approve failed','error'); }
+}
+async function suspendMember(id){
+  if(!confirm('להשעות את החבר? הוא לא יוכל להתחבר.'))return;
+  try{ await invoke('suspend',{member_id:id}); msg('החבר הושעה'); await loadMembers(); }
+  catch(e){ msg(e.message||'Suspend failed','error'); }
+}
+async function deleteMember(id){
+  const m=memberById(id);
+  if(!confirm(`למחוק לצמיתות את ${m?.full_name||'החבר'}? פעולה זו אינה ניתנת לביטול.`))return;
+  try{ await invoke('delete',{member_id:id}); msg('החבר נמחק'); await loadMembers(); }
+  catch(e){ msg(e.message||'Delete failed','error'); }
+}
+async function setPassword(id){
+  const p=prompt('הזן סיסמה זמנית חדשה (לפחות 6 תווים):');
+  if(p===null)return;
+  if(p.length<6){ msg('הסיסמה חייבת להכיל לפחות 6 תווים','error'); return; }
+  try{ await invoke('set_password',{member_id:id,new_password:p}); msg('הסיסמה הזמנית עודכנה ✓'); }
+  catch(e){ msg(e.message||'Password update failed','error'); }
+}
+
+window.addEventListener('DOMContentLoaded',init);
+</script>
+</body>
+</html>
