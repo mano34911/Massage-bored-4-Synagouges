@@ -1,934 +1,36 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="UTF-8">
 
-<title>בית הכנסת בית תורה</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>לוח בית הכנסת - שיעור יומי</title>
+
+<meta name="theme-color" content="#00152b">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
-:root{
-  --navy:#061f57;
-  --navy2:#0b2f72;
-  --gold:#d7a62d;
-  --gold2:#f7d66b;
-  --cream:#fff7dc;
-  --ink:#2b210f;
-}
+/* ============================================================
+   BASIC PAGE
+============================================================ */
 
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
 html,
-body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#ddd;
-  font-family:Arial,"Noto Sans Hebrew","David Libre",sans-serif;
-}
-
-body{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-
-/* ============================================================
-   ORIGINAL MAIN BOARD
-============================================================ */
-
-.board{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  padding:8px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f7f0dc,
-      #fff,
-      #e4dcc8
-    );
-
-  border:3px solid #9b741c;
-
-  box-shadow:
-    inset 0 0 0 3px #f4d264;
-
-  display:grid;
-  grid-template-rows:auto 1fr auto;
-  gap:8px;
-
-  color:var(--ink);
-}
-
-
-.goldFrame{
-  border:3px solid var(--gold);
-
-  box-shadow:
-    inset 0 0 0 2px #fff3bd,
-    0 1px 4px #6a4d0b55;
-
-  border-radius:24px;
-
-  background:
-    linear-gradient(
-      #fffdf3,
-      #f7efd4
-    );
-}
-
-
-/* ============================================================
-   HEADER
-============================================================ */
-
-.header{
-  display:grid;
-  grid-template-columns:18% 1fr 18%;
-  gap:8px;
-  align-items:stretch;
-}
-
-
-.clock{
-  background:
-    linear-gradient(
-      180deg,
-      #071c50,
-      #0a3275
-    );
-
-  color:#fff7d6;
-  text-align:center;
-
-  border-radius:25px;
-  border:3px solid var(--gold2);
-
-  padding:10px 4px;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-
-
-.clock .city{
-  font-size:clamp(12px,2.1vw,28px);
-  font-weight:900;
-}
-
-
-.clock .time{
-  font-size:clamp(18px,3.5vw,42px);
-  font-weight:900;
-  letter-spacing:.5px;
-}
-
-
-.titlebox{
-  padding:9px 18px;
-  text-align:center;
-}
-
-
-.titlebox h1{
-  margin:0;
-  color:#0d2d6b;
-
-  font-size:
-    clamp(28px,4.6vw,60px);
-
-  line-height:1.04;
-}
-
-
-.titlebox .rabbi{
-  font-size:
-    clamp(16px,2.4vw,30px);
-
-  font-weight:800;
-  color:#7a4c10;
-
-  margin-top:4px;
-}
-
-
-.titlebox .date{
-  font-size:
-    clamp(13px,1.9vw,24px);
-
-  font-weight:700;
-  margin-top:5px;
-}
-
-
-/* ============================================================
-   MAIN
-============================================================ */
-
-.main{
-  min-height:0;
-
-  display:grid;
-
-  grid-template-columns:
-    19% 1fr 19%;
-
-  gap:8px;
-}
-
-
-.side{
-  min-height:0;
-
-  display:grid;
-
-  grid-template-rows:
-    2fr .75fr;
-
-  gap:8px;
-}
-
-
-.sideBox{
-  overflow:hidden;
-  padding:10px 7px;
-  text-align:center;
-}
-
-
-.sideBox h2{
-  display:inline-block;
-
-  margin:0 0 10px;
-
-  padding:12px 14px;
-
-  border-radius:22px;
-
-  background:
-    linear-gradient(
-      #f9dc83,
-      #c7932b
-    );
-
-  border:3px solid #9c6b12;
-
-  color:#574016;
-
-  font-size:
-    clamp(17px,2.5vw,33px);
-
-  box-shadow:
-    inset 0 0 0 2px #ffeaa6;
-}
-
-
-.rows{
-  font-weight:800;
-
-  font-size:
-    clamp(13px,1.75vw,22px);
-
-  line-height:1.12;
-}
-
-
-.row{
-  display:flex;
-  justify-content:space-between;
-
-  gap:6px;
-
-  border-bottom:
-    2px dotted #b69b63;
-
-  padding:6px 2px;
-}
-
-
-.row .red{
-  color:#b11313;
-}
-
-
-.smallText{
-  font-size:
-    clamp(15px,2.1vw,27px);
-
-  line-height:1.35;
-  font-weight:800;
-}
-
-
-/* ============================================================
-   CENTER
-============================================================ */
-
-.center{
-  min-height:0;
-
-  border-radius:34px;
-
-  background:
-    linear-gradient(
-      #0a2b68 0 13%,
-      #fff8df 13% 90%,
-      #0a2b68 90%
-    );
-
-  border:4px solid var(--gold);
-
-  box-shadow:
-    inset 0 0 0 3px #fff0a4;
-
-  position:relative;
-
-  padding:
-    11% 6% 12%;
-
-  overflow:hidden;
-}
-
-
-.medallion{
-  position:absolute;
-  z-index:5;
-
-  top:-4px;
-  left:50%;
-
-  transform:
-    translateX(-50%);
-
-  width:
-    min(20vw,155px);
-
-  aspect-ratio:1;
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle at 40% 35%,
-      #1f4388,
-      #071d51 72%
-    );
-
-  border:
-    12px solid #e3b343;
-
-  box-shadow:
-    0 0 0 5px #896714;
-}
-
-
-.scrollWindow{
-  width:100%;
-  height:100%;
-
-  overflow:hidden;
-
-  position:relative;
-
-  text-align:center;
-}
-
-
-.scroller{
-  position:absolute;
-  top:0;
-
-  width:100%;
-
-  animation:
-    scrollUp
-    var(--main-scroll-speed,34s)
-    linear infinite;
-
-  will-change:transform;
-}
-
-
-.scrollWindow:hover .scroller{
-  animation-play-state:paused;
-}
-
-
-@keyframes scrollUp{
-
-  from{
-    transform:translateY(0);
-  }
-
-  to{
-    transform:translateY(-115%);
-  }
-
-}
-
-
-.big{
-  font-size:
-    clamp(25px,4.1vw,58px);
-
-  font-weight:900;
-  line-height:1.2;
-
-  margin:10px 0;
-}
-
-
-.medium{
-  font-size:
-    clamp(19px,3vw,40px);
-
-  font-weight:900;
-  line-height:1.32;
-
-  margin:12px 0;
-}
-
-
-.blue{color:#143b86}
-.green{color:#17824b}
-.purple{color:#693c8f}
-.redText{color:#b51f26}
-.goldText{color:#9f6d09}
-.teal{color:#0e7881}
-
-
-/* ============================================================
-   BIG GREEN שנה טובה
-============================================================ */
-
-.holidayMessage{
-  color:#17824b;
-
-  font-size:
-    clamp(34px,5vw,72px);
-
-  font-weight:950;
-
-  line-height:1.18;
-
-  text-align:center;
-
-  margin:20px auto;
-
-  text-shadow:
-    0 1px 1px #fff,
-    0 0 6px #6fd5a255;
-}
-
-
-.infoCard{
-  border:3px solid #b78b2b;
-
-  border-radius:24px;
-
-  background:#fffdf3;
-
-  padding:10px;
-
-  margin:18px auto;
-
-  width:94%;
-
-  font-size:
-    clamp(14px,2vw,25px);
-
-  font-weight:800;
-}
-
-
-.memorial{
-  border:3px solid #b98a29;
-
-  border-radius:18px;
-
-  background:#fff3c8;
-
-  padding:12px 8px;
-
-  margin:14px auto;
-
-  font-size:
-    clamp(16px,2.3vw,30px);
-
-  font-weight:900;
-
-  color:#6a4315;
-}
-
-
-/* ============================================================
-   FOOTER
-============================================================ */
-
-.footer{
-  background:
-    linear-gradient(
-      #0b2f72,
-      #071b4c
-    );
-
-  color:#fff7d4;
-
-  border:3px solid var(--gold);
-
-  box-shadow:
-    inset 0 0 0 2px #f6db7d;
-
-  border-radius:16px;
-
-  padding:10px 18px;
-
-  text-align:center;
-
-  font-size:
-    clamp(16px,2.4vw,31px);
-
-  font-weight:900;
-
-  white-space:nowrap;
-
-  overflow:hidden;
-}
-
-
-/* ============================================================
-   ORIGINAL LEFT ADMIN
-============================================================ */
-
-.adminGear{
-  position:absolute;
-
-  left:14px;
-  bottom:14px;
-
-  z-index:999999;
-
-  width:52px;
-  height:52px;
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  background:#071f50;
-
-  border:3px solid #d7a62d;
-
-  color:#fff;
-
-  font-size:29px;
-
-  text-decoration:none;
-
-  box-shadow:
-    0 3px 14px #0009,
-    inset 0 0 0 1px #ffffff33;
-}
-
-
-/* ============================================================
-   NEW TINY ADMIN BOTTOM RIGHT
-============================================================ */
-
-.tinyAdminGear{
-  position:absolute;
-
-  right:8px;
-  bottom:8px;
-
-  z-index:999999;
-
-  width:29px;
-  height:29px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:50%;
-
-  background:#071f50cc;
-
-  border:1px solid #d7a62d;
-
-  color:#fff;
-
-  font-size:15px;
-
-  text-decoration:none;
-
-  opacity:.7;
-}
-
-
-.tinyAdminGear:hover{
-  opacity:1;
-}
-
-
-/* ============================================================
-   DONATE
-============================================================ */
-
-.donateButton{
-  position:absolute;
-
-  left:76px;
-  bottom:14px;
-
-  z-index:999999;
-
-  min-width:118px;
-
-  height:52px;
-
-  padding:0 18px;
-
-  border-radius:28px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  gap:7px;
-
-  background:#d7a62d;
-
-  border:3px solid #071f50;
-
-  color:#071f50;
-
-  font-size:18px;
-
-  font-weight:900;
-
-  text-decoration:none;
-}
-
-
-/* ============================================================
-   JOIN
-============================================================ */
-
-.joinButton{
-  position:absolute;
-
-  left:208px;
-  bottom:14px;
-
-  z-index:999999;
-
-  min-width:190px;
-
-  height:52px;
-
-  padding:0 18px;
-
-  border-radius:28px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  gap:7px;
-
-  background:#fff8df;
-
-  border:3px solid #d7a62d;
-
-  color:#071f50;
-
-  font-size:17px;
-
-  font-weight:900;
-
-  text-decoration:none;
-}
-
-
-/* ============================================================
-   PAGE ROTATION
-============================================================ */
-
-.rotatePage{
-  position:absolute;
-  inset:0;
-
-  width:100%;
-  height:100%;
-
-  opacity:0;
-  visibility:hidden;
-
-  pointer-events:none;
-
-  transition:
-    opacity .55s ease;
-}
-
-
-.rotatePage.active{
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
-}
-
-
-#mainPage{
-  position:absolute;
-  inset:0;
-}
-
-
-/* ============================================================
-   CANDLE PAGE
-============================================================ */
-
-.specialPage{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:
-    clamp(10px,2vw,28px);
-
-  background:
-    radial-gradient(
-      circle at 50% 15%,
-      #17447f 0,
-      #071f50 42%,
-      #020d27 100%
-    );
-
-  color:#fff;
-}
-
-
-.specialFrame{
-  width:min(96vw,1300px);
-
-  height:min(94vh,900px);
-
-  border:4px solid var(--gold);
-
-  box-shadow:
-    inset 0 0 0 3px #fff0a4,
-    0 0 28px #d7a62d88;
-
-  border-radius:32px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #092b69,
-      #061b48
-    );
-
-  padding:
-    clamp(18px,4vw,48px);
-
-  text-align:center;
-
-  overflow:hidden;
-}
-
-
-.specialTitle{
-  color:#f7d66b;
-
-  font-size:
-    clamp(38px,6vw,82px);
-
-  font-weight:900;
-
-  margin:0 0 20px;
-
-  text-shadow:
-    0 2px 8px #000;
-}
-
-
-.candleViewport{
-  height:calc(100% - 82px);
-
-  overflow:hidden;
-
-  position:relative;
-}
-
-
-.candleScroll{
-  min-height:100%;
-
-  animation:
-    candleUp
-    var(--candle-scroll-speed,45s)
-    linear infinite;
-}
-
-
-@keyframes candleUp{
-
-  from{
-    transform:
-      translateY(12vh);
-  }
-
-  to{
-    transform:
-      translateY(calc(-100% + 12vh));
-  }
-
-}
-
-
-.candleGrid{
-  height:auto;
-
-  min-height:100%;
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(4,minmax(0,1fr));
-
-  gap:
-    clamp(14px,2vw,28px);
-
-  padding:
-    16px 8px 55vh;
-}
-
-
-.candle{
-  display:flex;
-  flex-direction:column;
-
-  align-items:center;
-  justify-content:center;
-
-  min-height:235px;
-}
-
-
-.flame{
-  width:44px;
-  height:72px;
-
-  border-radius:
-    50% 50% 45% 45%;
-
-  background:
-    radial-gradient(
-      ellipse at 50% 68%,
-      #ffffff 0 12%,
-      #fff7a8 13% 27%,
-      #58d8ff 28% 39%,
-      #ffbd35 40% 62%,
-      #ff5a2f 63% 82%,
-      #b82cff 83% 100%
-    );
-
-  box-shadow:
-    0 0 20px #fff6b8,
-    0 0 42px #ffb21f,
-    0 0 72px #45cfff;
-
-  animation:
-    flicker
-    .85s
-    ease-in-out
-    infinite
-    alternate;
-}
-
-
-@keyframes flicker{
-
-  from{
-    transform:
-      rotate(-2deg)
-      scale(.96);
-  }
-
-  to{
-    transform:
-      rotate(2deg)
-      scale(1.05);
-  }
-
-}
-
-
-.wax{
-  width:72px;
-  height:118px;
-
-  border-radius:
-    14px 14px 18px 18px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #d9f5ff,
-      #fff,
-      #fff3c9,
-      #e3d3ff
-    );
-
-  border:2px solid #fff8d6;
-
-  box-shadow:
-    inset 0 0 18px #fff,
-    0 8px 24px #0009;
-}
-
-
-.candleName{
-  margin-top:14px;
-
-  color:#ffe36d;
-
-  font-size:
-    clamp(28px,3.6vw,46px);
-
-  font-weight:950;
-
-  line-height:1.13;
-
-  text-shadow:
-    0 2px 4px #000,
-    0 0 9px currentColor;
-
-  overflow-wrap:anywhere;
-}
-
-
-/* ============================================================
-   שיעור יומי PAGE
-   THIS IS THE DESIGN YOU SENT
-============================================================ */
-
-#shiurPage{
-  position:absolute;
-  inset:0;
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
   background:
     radial-gradient(
@@ -939,36 +41,49 @@ body{
       #000b18 100%
     );
 
-  color:#fff;
+  color: white;
+
+  font-family:
+    Arial,
+    "Noto Sans Hebrew",
+    sans-serif;
 }
 
 
-.shiurApp{
-  width:100vw;
-  height:100vh;
+/* ============================================================
+   MAIN CONTAINER
+============================================================ */
 
-  display:flex;
-  flex-direction:column;
+#app {
+  width: 100vw;
+  height: 100vh;
 
-  position:relative;
+  display: flex;
+  flex-direction: column;
+
+  position: relative;
 }
 
 
-.shiurTopHeader{
-  height:14vh;
+/* ============================================================
+   TOP HEADER
+============================================================ */
 
-  min-height:100px;
+.topHeader {
 
-  display:flex;
+  height: 14vh;
 
-  flex-direction:column;
+  min-height: 100px;
 
-  align-items:center;
-  justify-content:center;
+  display: flex;
+  flex-direction: column;
 
-  text-align:center;
+  align-items: center;
+  justify-content: center;
 
-  padding:8px 20px;
+  text-align: center;
+
+  padding: 8px 20px;
 
   background:
     linear-gradient(
@@ -977,79 +92,99 @@ body{
       rgba(0,20,42,.82)
     );
 
-  border-bottom:
-    3px solid #1ab6ff;
+  border-bottom: 3px solid #1ab6ff;
 
   box-shadow:
     0 0 20px rgba(27,182,255,.65);
 }
 
 
-.shiurBh{
-  position:absolute;
+.bh {
+  position: absolute;
 
-  top:12px;
-  right:20px;
+  top: 12px;
+  right: 20px;
 
-  font-size:
-    clamp(20px,2.5vw,34px);
+  font-size: clamp(20px,2.5vw,34px);
 
-  color:#5cffaa;
+  color: #5cffaa;
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.shiurSynagogueName{
-  margin:0;
+.synagogueName {
 
-  font-size:
-    clamp(32px,5vw,72px);
+  margin: 0;
 
-  color:#fff;
+  font-size: clamp(
+    32px,
+    5vw,
+    72px
+  );
+
+  color: white;
 
   text-shadow:
     0 0 10px #0099ff,
     0 0 22px #0099ff;
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.shiurSubtitle{
-  margin-top:4px;
+.subtitle {
 
-  font-size:
-    clamp(18px,2.2vw,32px);
+  margin-top: 4px;
 
-  color:#62e6a0;
+  font-size: clamp(
+    18px,
+    2.2vw,
+    32px
+  );
 
-  font-weight:bold;
+  color: #62e6a0;
+
+  font-weight: bold;
 }
 
 
-.lessonArea{
-  height:80vh;
+/* ============================================================
+   LESSON AREA
+============================================================ */
 
-  display:flex;
+.lessonArea {
 
-  align-items:center;
-  justify-content:center;
+  height: 80vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   padding:
-    10px 2vw 12px;
+    10px
+    2vw
+    12px;
 }
 
 
-.lessonFrame{
-  position:relative;
+/* ============================================================
+   BIG DAILY LESSON FRAME
+============================================================ */
 
-  width:97%;
-  height:100%;
+.lessonFrame {
 
-  border-radius:34px;
+  position: relative;
 
-  padding:16px;
+  width: 97%;
+
+  height: 100%;
+
+  border-radius: 34px;
+
+  padding: 16px;
 
   background:
     linear-gradient(
@@ -1058,116 +193,144 @@ body{
       rgba(0,15,31,.98)
     );
 
-  border:
-    6px solid #22aaff;
+  border: 6px solid #22aaff;
 
   box-shadow:
+
     0 0 16px #22aaff,
+
     0 0 38px rgba(0,175,255,.6),
+
     0 0 70px rgba(0,255,145,.25),
+
     inset 0 0 28px rgba(0,150,255,.12);
 
-  overflow:hidden;
+  overflow: hidden;
 }
 
 
-.lessonFrame::before{
-  content:"✡";
+/* ============================================================
+   DECORATIVE CORNERS
+============================================================ */
 
-  position:absolute;
+.lessonFrame::before {
 
-  top:7px;
-  left:18px;
+  content: "✡";
 
-  font-size:
-    clamp(35px,4vw,65px);
+  position: absolute;
 
-  color:#2fd58d;
+  top: 7px;
+  left: 18px;
+
+  font-size: clamp(35px,4vw,65px);
+
+  color: #2fd58d;
 
   text-shadow:
     0 0 12px #2fd58d;
 
-  z-index:10;
+  z-index: 10;
 }
 
 
-.lessonFrame::after{
-  content:"✡";
+.lessonFrame::after {
 
-  position:absolute;
+  content: "✡";
 
-  top:7px;
-  right:18px;
+  position: absolute;
 
-  font-size:
-    clamp(35px,4vw,65px);
+  top: 7px;
+  right: 18px;
 
-  color:#28baff;
+  font-size: clamp(35px,4vw,65px);
+
+  color: #28baff;
 
   text-shadow:
     0 0 12px #28baff;
 
-  z-index:10;
+  z-index: 10;
 }
 
 
-.lessonTitle{
-  height:13%;
+/* ============================================================
+   LESSON TITLE
+============================================================ */
 
-  min-height:80px;
+.lessonTitle {
 
-  display:flex;
+  height: 13%;
 
-  align-items:center;
-  justify-content:center;
+  min-height: 80px;
 
-  text-align:center;
+  display: flex;
 
-  font-size:
-    clamp(38px,6vw,88px);
+  align-items: center;
 
-  line-height:1;
+  justify-content: center;
 
-  font-weight:900;
+  text-align: center;
 
-  color:#fff;
+  font-size: clamp(
+    38px,
+    6vw,
+    88px
+  );
+
+  line-height: 1;
+
+  font-weight: 900;
+
+  color: #ffffff;
 
   text-shadow:
+
     0 0 10px #0aa8ff,
+
     0 0 24px #0aa8ff;
 
   border-bottom:
-    2px solid rgba(64,210,255,.55);
+
+    2px solid
+    rgba(64,210,255,.55);
 }
 
 
-.lessonWindow{
-  position:relative;
+/* ============================================================
+   SCROLLING WINDOW
+============================================================ */
 
-  height:84%;
+.lessonWindow {
 
-  width:100%;
+  position: relative;
 
-  overflow:hidden;
+  height: 84%;
 
-  margin-top:1%;
+  width: 100%;
+
+  overflow: hidden;
+
+  margin-top: 1%;
 }
 
 
-.lessonWindow::before{
-  content:"";
+/* gradient masks */
 
-  position:absolute;
+.lessonWindow::before {
 
-  left:0;
-  right:0;
-  top:0;
+  content: "";
 
-  height:9%;
+  position: absolute;
 
-  z-index:5;
+  left: 0;
+  right: 0;
+  top: 0;
 
-  pointer-events:none;
+  height: 9%;
+
+  z-index: 5;
+
+  pointer-events: none;
 
   background:
     linear-gradient(
@@ -1178,20 +341,21 @@ body{
 }
 
 
-.lessonWindow::after{
-  content:"";
+.lessonWindow::after {
 
-  position:absolute;
+  content: "";
 
-  left:0;
-  right:0;
-  bottom:0;
+  position: absolute;
 
-  height:10%;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-  z-index:5;
+  height: 10%;
 
-  pointer-events:none;
+  z-index: 5;
+
+  pointer-events: none;
 
   background:
     linear-gradient(
@@ -1202,79 +366,102 @@ body{
 }
 
 
-.lessonScroll{
-  position:absolute;
+/* ============================================================
+   SCROLLING TEXT
+============================================================ */
 
-  width:94%;
+.lessonScroll {
 
-  left:3%;
+  position: absolute;
 
-  top:100%;
+  width: 94%;
 
-  text-align:center;
+  left: 3%;
+
+  top: 100%;
+
+  text-align: center;
 
   padding:
-    30px 3vw 120px;
+    30px
+    3vw
+    120px;
 
-  font-size:
-    clamp(30px,4.1vw,64px);
+  font-size: clamp(
+    30px,
+    4.1vw,
+    64px
+  );
 
-  line-height:1.7;
+  line-height: 1.7;
 
-  font-weight:800;
+  font-weight: 800;
 
   animation:
     scrollLesson
-    40s
+    110s
     linear
     infinite;
 
-  will-change:transform;
+  will-change: transform;
 }
 
 
-.lessonBlock{
-  margin:34px auto;
+/* ============================================================
+   BLUE + GREEN TEXT
+============================================================ */
 
-  max-width:1500px;
+.lessonBlock {
+
+  margin:
+    34px
+    auto;
+
+  max-width: 1500px;
 }
 
 
-.lessonBlock.blueLesson{
-  color:#35bfff;
+.lessonBlock:nth-child(odd) {
+
+  color: #35bfff;
 
   text-shadow:
     0 0 7px rgba(53,191,255,.7);
 }
 
 
-.lessonBlock.greenLesson{
-  color:#56e39a;
+.lessonBlock:nth-child(even) {
+
+  color: #56e39a;
 
   text-shadow:
     0 0 7px rgba(86,227,154,.65);
 }
 
 
-.lessonHeading{
-  display:block;
+.lessonHeading {
 
-  margin-bottom:10px;
+  display: block;
 
-  color:#fff;
+  margin-bottom: 10px;
 
-  font-size:1.08em;
+  color: white;
 
-  font-weight:900;
+  font-size: 1.08em;
+
+  font-weight: 900;
 }
 
 
-.lessonSeparator{
-  width:55%;
+.lessonSeparator {
 
-  height:2px;
+  width: 55%;
 
-  margin:30px auto;
+  height: 2px;
+
+  margin:
+    30px
+    auto;
 
   background:
     linear-gradient(
@@ -1287,304 +474,141 @@ body{
 }
 
 
-@keyframes scrollLesson{
+/* ============================================================
+   SCROLL ANIMATION
+============================================================ */
 
-  from{
+@keyframes scrollLesson {
+
+  from {
     transform:
       translateY(0);
   }
 
-  to{
+  to {
     transform:
       translateY(
-        calc(-100% - 110vh)
+        calc(
+          -100% - 110vh
+        )
       );
   }
 
 }
 
 
-.shiurBottomBar{
-  position:absolute;
+/* ============================================================
+   BOTTOM STATUS
+============================================================ */
 
-  bottom:4px;
-  left:0;
+.bottomBar {
 
-  width:100%;
+  position: absolute;
 
-  height:5vh;
+  bottom: 4px;
 
-  min-height:34px;
+  left: 0;
 
-  display:flex;
+  width: 100%;
 
-  justify-content:center;
-  align-items:center;
+  height: 5vh;
 
-  gap:24px;
+  min-height: 34px;
 
-  font-size:
-    clamp(13px,1.3vw,20px);
+  display: flex;
 
-  color:#aacbdd;
+  justify-content: center;
 
-  z-index:20;
+  align-items: center;
 
-  direction:ltr;
+  gap: 24px;
+
+  font-size: clamp(
+    13px,
+    1.3vw,
+    20px
+  );
+
+  color: #aacbdd;
+
+  z-index: 20;
+
+  direction: ltr;
 }
 
 
-.shiurStatus{
-  display:flex;
+.status {
 
-  align-items:center;
+  display: flex;
 
-  gap:7px;
+  align-items: center;
+
+  gap: 7px;
 }
 
 
-.shiurStatusDot{
-  width:10px;
-  height:10px;
+.statusDot {
 
-  border-radius:50%;
+  width: 10px;
 
-  background:#44e69a;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #44e69a;
 
   box-shadow:
     0 0 9px #44e69a;
 }
 
 
-/* ============================================================
-   PRAYER OVERLAY
-============================================================ */
+.statusDot.error {
 
-.prayerOverlay{
-  position:fixed;
-  inset:0;
-
-  z-index:999998;
-
-  background:
-    rgba(2,10,30,.97);
-
-  display:none;
-
-  padding:
-    3vh 4vw;
-
-  color:#fff;
-}
-
-
-.prayerOverlay.show{
-  display:block;
-}
-
-
-.prayerPanel{
-  height:94vh;
-
-  border:
-    4px solid #d7a62d;
-
-  border-radius:28px;
-
-  background:#071f50;
-
-  padding:20px;
-
-  overflow:hidden;
+  background: #ff5656;
 
   box-shadow:
-    inset 0 0 0 3px #fff0a4;
-}
-
-
-.prayerTitle{
-  text-align:center;
-
-  color:#f7d66b;
-
-  font-size:
-    clamp(34px,5vw,70px);
-
-  font-weight:900;
-
-  margin-bottom:12px;
-}
-
-
-.prayerViewport{
-  height:
-    calc(100% - 95px);
-
-  overflow:hidden;
-
-  background:#fff8df;
-
-  color:#241d11;
-
-  border-radius:20px;
-
-  padding:20px;
-}
-
-
-.prayerScroll{
-  white-space:pre-wrap;
-
-  text-align:right;
-
-  font-size:
-    clamp(22px,3vw,42px);
-
-  line-height:1.65;
-
-  font-weight:700;
-
-  animation:
-    prayerUp
-    var(--prayer-scroll-speed,90s)
-    linear infinite;
-}
-
-
-@keyframes prayerUp{
-
-  from{
-    transform:
-      translateY(0);
-  }
-
-  to{
-    transform:
-      translateY(-105%);
-  }
-
-}
-
-
-.prayerClose{
-  position:absolute;
-
-  left:18px;
-  top:14px;
-
-  background:#b51f26;
-
-  color:#fff;
-
-  border:2px solid #fff;
-
-  border-radius:50%;
-
-  width:46px;
-  height:46px;
-
-  font-size:24px;
-  font-weight:900;
+    0 0 9px #ff5656;
 }
 
 
 /* ============================================================
-   DOVES + STAR
+   REFRESH BUTTON
 ============================================================ */
 
-.center::before,
-.center::after{
-  content:"🕊️";
+.refreshButton {
 
-  position:absolute;
+  position: absolute;
 
-  z-index:6;
+  left: 12px;
 
-  top:3.5%;
+  bottom: 12px;
 
-  font-size:
-    clamp(34px,6vw,82px);
+  z-index: 50;
 
-  filter:
-    drop-shadow(
-      0 4px 4px #0006
-    );
+  border: 1px solid
+    rgba(65,190,255,.5);
 
-  animation:
-    doveFloat
-    3s
-    ease-in-out
-    infinite
-    alternate;
+  border-radius: 12px;
+
+  padding:
+    8px
+    13px;
+
+  background:
+    rgba(0,20,40,.75);
+
+  color: #7ad6ff;
+
+  font-size: 14px;
+
+  cursor: pointer;
 }
 
 
-.center::before{
-  left:4%;
+.refreshButton:hover {
 
-  transform:
-    scaleX(-1);
-}
-
-
-.center::after{
-  right:4%;
-}
-
-
-@keyframes doveFloat{
-
-  from{
-    margin-top:-3px;
-  }
-
-  to{
-    margin-top:6px;
-  }
-
-}
-
-
-.medallion{
-  display:grid;
-  place-items:center;
-  overflow:visible;
-}
-
-
-.medallion::before{
-  content:"✡";
-
-  font-size:
-    clamp(72px,14vw,145px);
-
-  line-height:1;
-
-  color:#35e9ff;
-
-  text-shadow:
-    0 0 5px #fff,
-    0 0 12px currentColor,
-    0 0 28px currentColor,
-    0 0 48px currentColor;
-
-  animation:
-    starColors
-    5s
-    linear
-    infinite;
-}
-
-
-@keyframes starColors{
-
-  0%{color:#ff2be6}
-  20%{color:#32e9ff}
-  40%{color:#386dff}
-  60%{color:#38ff96}
-  80%{color:#ffd52e}
-  100%{color:#ff2be6}
-
+  background:
+    rgba(0,100,170,.45);
 }
 
 
@@ -1593,409 +617,749 @@ body{
 ============================================================ */
 
 @media
-(max-width:700px)
-and
-(orientation:portrait){
+(max-width: 650px) {
 
-  .board{
-    padding:5px;
-    gap:5px;
+  .topHeader {
+
+    height: 13vh;
   }
 
-  .header{
-    grid-template-columns:
-      22% 1fr 22%;
 
-    gap:5px;
-  }
+  .lessonArea {
 
-  .main{
-    grid-template-columns:
-      22% 1fr 22%;
+    height: 82vh;
 
-    gap:5px;
-  }
-
-  .clock{
-    padding:6px 2px;
-
-    border-radius:18px;
-  }
-
-  .titlebox{
-    padding:6px;
-  }
-
-  .side{
-    gap:5px;
-  }
-
-  .sideBox{
-    padding:6px 3px;
-  }
-
-  .row{
-    display:block;
-
-    padding:4px 0;
-  }
-
-  .center{
     padding:
-      15% 4% 13%;
+      7px;
   }
 
-  .medallion{
-    width:26vw;
 
-    border-width:8px;
+  .lessonFrame {
+
+    width: 98%;
+
+    border-width: 4px;
+
+    border-radius: 22px;
   }
 
-  .adminGear{
-    width:44px;
-    height:44px;
 
-    left:8px;
-    bottom:8px;
+  .lessonScroll {
 
-    font-size:24px;
-  }
+    width: 96%;
 
-  .tinyAdminGear{
-    right:6px;
-    bottom:6px;
-
-    width:25px;
-    height:25px;
-
-    font-size:13px;
-  }
-
-  .donateButton{
-    left:60px;
-    bottom:8px;
-
-    height:44px;
-
-    min-width:104px;
-
-    padding:0 13px;
-
-    font-size:15px;
-  }
-
-  .joinButton{
-    left:172px;
-    bottom:8px;
-
-    height:44px;
-
-    min-width:150px;
-
-    padding:0 11px;
-
-    font-size:13px;
-  }
-
-  .holidayMessage{
-    font-size:
-      clamp(28px,8vw,48px);
-  }
-
-  .shiurTopHeader{
-    height:13vh;
-  }
-
-  .lessonArea{
-    height:82vh;
-    padding:7px;
-  }
-
-  .lessonFrame{
-    width:98%;
-
-    border-width:4px;
-
-    border-radius:22px;
-  }
-
-  .lessonScroll{
-    width:96%;
-
-    left:2%;
+    left: 2%;
 
     font-size:
-      clamp(25px,7vw,44px);
+      clamp(
+        25px,
+        7vw,
+        44px
+      );
 
-    line-height:1.65;
+    line-height: 1.65;
+  }
+
+
+  .bottomBar {
+
+    font-size: 11px;
+
+    gap: 10px;
   }
 
 }
 
 
 /* ============================================================
-   LANDSCAPE
+   LANDSCAPE TV
 ============================================================ */
 
 @media
-(orientation:landscape){
+(min-width: 1200px) {
 
-  .board{
-    max-width:1600px;
-  }
+  .lessonScroll {
 
-  .header{
-    grid-template-columns:
-      16% 1fr 16%;
-  }
-
-  .main{
-    grid-template-columns:
-      18% 1fr 18%;
-  }
-
-  .center{
-    padding:
-      10% 5% 10%;
-  }
-
-  .medallion{
-    width:
-      min(13vw,150px);
+    font-size:
+      clamp(
+        38px,
+        3.6vw,
+        68px
+      );
   }
 
 }
 
 </style>
+
 </head>
 
 
 <body>
 
+<div id="app">
+
 
 <!-- ============================================================
-     ORIGINAL MAIN PAGE
+     HEADER
 ============================================================ -->
 
-<div
-  id="mainPage"
-  class="rotatePage active"
->
+<header class="topHeader">
 
-<div class="board">
+  <div class="bh">
+    ב״ה
+  </div>
 
+  <h1 class="synagogueName">
+    בית תורה
+  </h1>
 
-<header class="header">
-
-<div class="clock goldFrame">
-
-<div class="city">
-JERUSALEM
-</div>
-
-<div
-  class="time"
-  id="ilTime"
->
---:--:--
-</div>
-
-</div>
-
-
-<div class="titlebox goldFrame">
-
-<h1 id="synagogueName">
-בית הכנסת בית תורה
-</h1>
-
-<div
-  class="rabbi"
-  id="rabbiName"
->
-הרב ברוך
-</div>
-
-<div
-  class="date"
-  id="dateLine"
->
-יום שישי
-</div>
-
-</div>
-
-
-<div class="clock goldFrame">
-
-<div class="city">
-NEW YORK
-</div>
-
-<div
-  class="time"
-  id="nyTime"
->
---:--:--
-</div>
-
-</div>
+  <div class="subtitle">
+    לוח מודעות דיגיטלי
+  </div>
 
 </header>
 
 
+<!-- ============================================================
+     DAILY LESSON
+============================================================ -->
 
-<main class="main">
+<main class="lessonArea">
+
+  <section class="lessonFrame">
+
+    <div
+      id="lessonTitle"
+      class="lessonTitle"
+    >
+      ✡ שיעור יומי ✡
+    </div>
 
 
-<!-- LEFT -->
+    <div class="lessonWindow">
 
-<section class="side">
+      <div
+        id="dailyLessonText"
+        class="lessonScroll"
+      >
 
-<div class="sideBox goldFrame">
+        <div class="lessonBlock">
 
-<h2>
-זמני תפילה
-</h2>
+          <span class="lessonHeading">
+            טוען שיעור יומי...
+          </span>
 
-<div class="rows">
+          אנא המתן
 
-<div class="row">
-<span>שחרית</span>
-<span id="pShacharit">
-7:00 AM
-</span>
-</div>
+        </div>
 
-<div class="row">
-<span>מנחה</span>
-<span id="pMincha">
-4:00 PM
-</span>
-</div>
+      </div>
 
-<div class="row">
-<span>ערבית</span>
-<span id="pMaariv">
-8:30 PM
-</span>
-</div>
+    </div>
 
-<div class="row">
-<span>שיעור תורה</span>
-<span id="pShiur">
-9:15 PM
-</span>
-</div>
+  </section>
 
-<div class="row">
-<span>שחרית שבת</span>
-<span id="pShabbatShacharit">
-9:00 AM
-</span>
-</div>
+</main>
 
-<div class="row">
-<span>מנחה שבת</span>
-<span id="pShabbatMincha">
-6:30 PM
-</span>
-</div>
 
-<div class="row">
-<span>ערבית ליל שבת</span>
-<span id="pShabbatMaariv">
-7:30 PM
-</span>
-</div>
+<!-- ============================================================
+     STATUS
+============================================================ -->
 
-<div class="row">
-<span>הבדלה</span>
-<span id="pHavdalah">
-9:00 PM
-</span>
-</div>
+<div class="bottomBar">
 
-</div>
+  <div class="status">
+
+    <span
+      id="statusDot"
+      class="statusDot"
+    ></span>
+
+    <span id="statusText">
+      Connecting...
+    </span>
+
+  </div>
+
+
+  <div id="lastUpdate">
+  </div>
 
 </div>
 
 
-
-<div class="sideBox goldFrame">
-
-<h2>
-מזל טוב
-</h2>
-
-<div
-  class="smallText"
-  id="mazalText"
+<button
+  class="refreshButton"
+  onclick="loadDailyLesson()"
 >
-ברכת מזל טוב לחברי הקהילה
-</div>
-
-</div>
-
-</section>
+  ↻ Refresh
+</button>
 
 
-
-<!-- CENTER -->
-
-<section class="center">
-
-<div class="medallion"></div>
-
-<div class="scrollWindow">
-
-<div class="scroller">
-
-
-<div class="big goldText">
-פרשת השבוע
 </div>
 
 
-<div
-  class="big blue"
-  id="parashaText"
->
-פרשת נצבים־וילך
-</div>
+
+<script>
+
+/* ============================================================
+   SUPABASE CONNECTION
+============================================================ */
+
+/*
+   Your existing Voice/Synagogue Supabase project.
+   The publishable key is safe to use in browser pages
+   PROVIDED that your Supabase RLS policies are configured.
+*/
+
+const SUPABASE_URL =
+  "https://oyeeeooymrzemxfrvcon.supabase.co";
 
 
-<div
-  class="medium green"
-  id="center1"
->
-ברכת מזל טוב לכל המתפללים ובני הקהילה
-</div>
+const SUPABASE_PUBLIC_KEY =
+  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
 
 
-<div
-  class="medium blue"
-  id="center2"
->
-יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים
-</div>
+const db =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLIC_KEY
+  );
 
 
-<div
-  class="medium purple"
-  id="center3"
->
-שבוע טוב ומבורך לכל משפחות בית הכנסת
-</div>
+/* ============================================================
+   ELEMENTS
+============================================================ */
+
+const lessonText =
+  document.getElementById(
+    "dailyLessonText"
+  );
 
 
-<div
-  class="medium redText"
-  id="center4"
->
-זמני התפילה והשיעורים מתעדכנים בלוח
-</div>
+const lessonTitle =
+  document.getElementById(
+    "lessonTitle"
+  );
 
 
-<div
-  class
+const statusText =
+  document.getElementById(
+    "statusText"
+  );
+
+
+const statusDot =
+  document.getElementById(
+    "statusDot"
+  );
+
+
+const lastUpdate =
+  document.getElementById(
+    "lastUpdate"
+  );
+
+
+/* ============================================================
+   SAFE HTML
+============================================================ */
+
+function escapeHtml(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    )
+
+    .replaceAll(
+      "\n",
+      "<br>"
+    );
+
+}
+
+
+/* ============================================================
+   CREATE SECTION
+============================================================ */
+
+function createBlock(
+  heading,
+  text
+) {
+
+  if (!text) {
+
+    return "";
+
+  }
+
+
+  return `
+
+    <div class="lessonBlock">
+
+      <span class="lessonHeading">
+
+        ${escapeHtml(heading)}
+
+      </span>
+
+      ${escapeHtml(text)}
+
+    </div>
+
+    <div class="lessonSeparator"></div>
+
+  `;
+
+}
+
+
+/* ============================================================
+   DEFAULT LESSON
+============================================================ */
+
+function showDefaultLesson() {
+
+  lessonTitle.innerHTML =
+    "✡ שיעור יומי ✡";
+
+
+  lessonText.innerHTML = `
+
+    ${createBlock(
+      "📖 פסוק יומי",
+      "קָרוֹב ה׳ לְכָל קֹרְאָיו, לְכֹל אֲשֶׁר יִקְרָאֻהוּ בֶאֱמֶת."
+    )}
+
+
+    ${createBlock(
+      "🕯️ הלכה יומית",
+      "כל יום הוא הזדמנות להוסיף עוד מצווה, עוד תפילה ועוד מעשה חסד."
+    )}
+
+
+    ${createBlock(
+      "❤️ מוסר יומי",
+      "האדם יכול לשנות את יומו במילה טובה, בסבלנות ובמעשה טוב."
+    )}
+
+
+    ${createBlock(
+      "🔥 חסידות",
+      "כאשר יהודי פונה אל הקב״ה באמת, הוא מגלה שהקב״ה קרוב אליו."
+    )}
+
+
+    ${createBlock(
+      "📜 תהילים",
+      "אמירת תהילים בכוונה מחזקת את האמונה ומקרבת את הלב לעבודת ה׳."
+    )}
+
+
+    ${createBlock(
+      "📚 דף יומי",
+      "לימוד תורה בכל יום מחבר את האדם לשרשרת התורה של עם ישראל."
+    )}
+
+
+    ${createBlock(
+      "🌟 מסר להיום",
+      "הוסף היום עוד מצווה, עוד חסד ועוד שלום."
+    )}
+
+  `;
+
+
+  restartScrolling();
+
+}
+
+
+/* ============================================================
+   LOAD FROM SUPABASE
+============================================================ */
+
+async function loadDailyLesson() {
+
+  setStatus(
+    "Checking for new lesson...",
+    true
+  );
+
+
+  try {
+
+
+    /*
+       Table expected:
+
+       daily_lessons
+
+       columns:
+
+       id
+       lesson_date
+       title
+       pasuk
+       halacha
+       mussar
+       chassidut
+       tehillim
+       daf_yomi
+       message
+       active
+       created_at
+    */
+
+
+    const {
+      data,
+      error
+    } =
+      await db
+
+      .from(
+        "daily_lessons"
+      )
+
+      .select(
+        "*"
+      )
+
+      .eq(
+        "active",
+        true
+      )
+
+      .order(
+        "lesson_date",
+        {
+          ascending: false
+        }
+      )
+
+      .limit(1)
+
+      .maybeSingle();
+
+
+    if (error) {
+
+      throw error;
+
+    }
+
+
+    if (!data) {
+
+      console.log(
+        "No lesson found."
+      );
+
+      showDefaultLesson();
+
+      setStatus(
+        "Default lesson displayed",
+        false
+      );
+
+      return;
+
+    }
+
+
+    displayLesson(
+      data
+    );
+
+
+    setStatus(
+      "LIVE • Auto Update",
+      true
+    );
+
+
+    const now =
+      new Date();
+
+
+    lastUpdate.textContent =
+      "Updated: " +
+      now.toLocaleTimeString();
+
+
+  } catch (err) {
+
+
+    console.error(
+      "Daily lesson error:",
+      err
+    );
+
+
+    showDefaultLesson();
+
+
+    setStatus(
+      "Offline / Default lesson",
+      false
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   DISPLAY LESSON
+============================================================ */
+
+function displayLesson(data) {
+
+  lessonTitle.innerHTML =
+
+    escapeHtml(
+      data.title ||
+      "✡ שיעור יומי ✡"
+    );
+
+
+  let html = "";
+
+
+  html +=
+    createBlock(
+      "📖 פסוק יומי",
+      data.pasuk
+    );
+
+
+  html +=
+    createBlock(
+      "🕯️ הלכה יומית",
+      data.halacha
+    );
+
+
+  html +=
+    createBlock(
+      "❤️ מוסר יומי",
+      data.mussar
+    );
+
+
+  html +=
+    createBlock(
+      "🔥 חסידות / תניא",
+      data.chassidut
+    );
+
+
+  html +=
+    createBlock(
+      "📜 תהילים",
+      data.tehillim
+    );
+
+
+  html +=
+    createBlock(
+      "📚 דף יומי",
+      data.daf_yomi
+    );
+
+
+  html +=
+    createBlock(
+      "🌟 המסר להיום",
+      data.message
+    );
+
+
+  if (!html.trim()) {
+
+    html = `
+
+      <div class="lessonBlock">
+
+        אין תוכן לשיעור היומי
+
+      </div>
+
+    `;
+
+  }
+
+
+  lessonText.innerHTML =
+    html;
+
+
+  restartScrolling();
+
+}
+
+
+/* ============================================================
+   RESTART SCROLL FROM BOTTOM
+============================================================ */
+
+function restartScrolling() {
+
+  lessonText.style.animation =
+    "none";
+
+
+  void lessonText.offsetHeight;
+
+
+  lessonText.style.animation =
+    "scrollLesson 110s linear infinite";
+
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+function setStatus(
+  text,
+  good
+) {
+
+  statusText.textContent =
+    text;
+
+
+  if (good) {
+
+    statusDot.classList.remove(
+      "error"
+    );
+
+  } else {
+
+    statusDot.classList.add(
+      "error"
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   AUTO REFRESH EVERY 60 SECONDS
+============================================================ */
+
+setInterval(
+
+  () => {
+
+    loadDailyLesson();
+
+  },
+
+  60000
+
+);
+
+
+/* ============================================================
+   REALTIME SUPABASE UPDATE
+============================================================ */
+
+db
+
+.channel(
+  "daily-lesson-live"
+)
+
+.on(
+
+  "postgres_changes",
+
+  {
+
+    event: "*",
+
+    schema: "public",
+
+    table: "daily_lessons"
+
+  },
+
+  payload => {
+
+    console.log(
+      "New daily lesson update:",
+      payload
+    );
+
+
+    loadDailyLesson();
+
+  }
+
+)
+
+.subscribe(
+  status => {
+
+    console.log(
+      "Realtime status:",
+      status
+    );
+
+  }
+);
+
+
+/* ============================================================
+   INITIAL LOAD
+============================================================ */
+
+loadDailyLesson();
+
+
+</script>
+
+</body>
+</html>
