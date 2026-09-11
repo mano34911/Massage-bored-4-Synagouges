@@ -3,9 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <title>בית הכנסת בית תורה</title>
 
 <style>
+
 :root{
   --navy:#061f57;
   --navy2:#0b2f72;
@@ -15,9 +17,12 @@
   --ink:#2b210f;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
-html,body{
+html,
+body{
   margin:0;
   width:100%;
   height:100%;
@@ -30,31 +35,47 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
+  position:relative;
 }
+
+
+/* ============================================================
+   MAIN BOARD
+============================================================ */
 
 .board{
   position:relative;
+
   width:100vw;
   height:100vh;
+
   padding:8px;
 
   background:
     linear-gradient(
       135deg,
       #f7f0dc,
-      #fff,
+      #ffffff,
       #e4dcc8
     );
 
   border:3px solid #9b741c;
-  box-shadow:inset 0 0 0 3px #f4d264;
+
+  box-shadow:
+    inset 0 0 0 3px #f4d264;
 
   display:grid;
-  grid-template-rows:auto 1fr auto;
+
+  grid-template-rows:
+    auto
+    1fr
+    auto;
+
   gap:8px;
 
   color:var(--ink);
 }
+
 
 .goldFrame{
   border:3px solid var(--gold);
@@ -72,12 +93,24 @@ body{
     );
 }
 
+
+/* ============================================================
+   HEADER
+============================================================ */
+
 .header{
   display:grid;
-  grid-template-columns:18% 1fr 18%;
+
+  grid-template-columns:
+    18%
+    1fr
+    18%;
+
   gap:8px;
+
   align-items:stretch;
 }
+
 
 .clock{
   background:
@@ -88,78 +121,162 @@ body{
     );
 
   color:#fff7d6;
+
   text-align:center;
 
   border-radius:25px;
-  border:3px solid var(--gold2);
 
-  padding:10px 4px;
+  border:
+    3px solid
+    var(--gold2);
+
+  padding:
+    10px
+    4px;
 
   display:flex;
+
   flex-direction:column;
+
   justify-content:center;
 }
 
+
 .clock .city{
-  font-size:clamp(12px,2.1vw,28px);
+  font-size:
+    clamp(
+      12px,
+      2.1vw,
+      28px
+    );
+
   font-weight:900;
 }
 
+
 .clock .time{
-  font-size:clamp(18px,3.5vw,42px);
+  font-size:
+    clamp(
+      18px,
+      3.5vw,
+      42px
+    );
+
   font-weight:900;
+
   letter-spacing:.5px;
 }
 
+
 .titlebox{
-  padding:9px 18px;
+  padding:
+    9px
+    18px;
+
   text-align:center;
 }
+
 
 .titlebox h1{
   margin:0;
+
   color:#0d2d6b;
-  font-size:clamp(28px,4.6vw,60px);
+
+  font-size:
+    clamp(
+      28px,
+      4.6vw,
+      60px
+    );
+
   line-height:1.04;
 }
 
+
 .titlebox .rabbi{
-  font-size:clamp(16px,2.4vw,30px);
+  font-size:
+    clamp(
+      16px,
+      2.4vw,
+      30px
+    );
+
   font-weight:800;
+
   color:#7a4c10;
+
   margin-top:4px;
 }
 
+
 .titlebox .date{
-  font-size:clamp(13px,1.9vw,24px);
+  font-size:
+    clamp(
+      13px,
+      1.9vw,
+      24px
+    );
+
   font-weight:700;
+
   margin-top:5px;
 }
 
+
+/* ============================================================
+   MAIN CONTENT
+============================================================ */
+
 .main{
   min-height:0;
+
   display:grid;
-  grid-template-columns:19% 1fr 19%;
+
+  grid-template-columns:
+    19%
+    1fr
+    19%;
+
   gap:8px;
 }
+
 
 .side{
   min-height:0;
+
   display:grid;
-  grid-template-rows:2fr .75fr;
+
+  grid-template-rows:
+    2fr
+    .75fr;
+
   gap:8px;
 }
 
+
 .sideBox{
   overflow:hidden;
-  padding:10px 7px;
+
+  padding:
+    10px
+    7px;
+
   text-align:center;
 }
 
+
 .sideBox h2{
   display:inline-block;
-  margin:0 0 10px;
-  padding:12px 14px;
+
+  margin:
+    0
+    0
+    10px;
+
+  padding:
+    12px
+    14px;
+
   border-radius:22px;
 
   background:
@@ -168,38 +285,78 @@ body{
       #c7932b
     );
 
-  border:3px solid #9c6b12;
+  border:
+    3px solid
+    #9c6b12;
+
   color:#574016;
 
-  font-size:clamp(17px,2.5vw,33px);
+  font-size:
+    clamp(
+      17px,
+      2.5vw,
+      33px
+    );
 
   box-shadow:
     inset 0 0 0 2px #ffeaa6;
 }
 
+
 .rows{
   font-weight:800;
-  font-size:clamp(13px,1.75vw,22px);
+
+  font-size:
+    clamp(
+      13px,
+      1.75vw,
+      22px
+    );
+
   line-height:1.12;
 }
 
+
 .row{
   display:flex;
-  justify-content:space-between;
+
+  justify-content:
+    space-between;
+
   gap:6px;
-  border-bottom:2px dotted #b69b63;
-  padding:6px 2px;
+
+  border-bottom:
+    2px dotted
+    #b69b63;
+
+  padding:
+    6px
+    2px;
 }
+
 
 .row .red{
   color:#b11313;
 }
 
+
 .smallText{
-  font-size:clamp(15px,2.1vw,27px);
+  font-size:
+    clamp(
+      15px,
+      2.1vw,
+      27px
+    );
+
   line-height:1.35;
+
   font-weight:800;
 }
+
+
+/* ============================================================
+   CENTER
+============================================================ */
 
 .center{
   min-height:0;
@@ -213,28 +370,42 @@ body{
       #0a2b68 90%
     );
 
-  border:4px solid var(--gold);
+  border:
+    4px solid
+    var(--gold);
 
   box-shadow:
     inset 0 0 0 3px #fff0a4;
 
   position:relative;
 
-  padding:11% 6% 12%;
+  padding:
+    11%
+    6%
+    12%;
 
   overflow:hidden;
 }
 
+
 .medallion{
   position:absolute;
+
   z-index:5;
 
   top:-4px;
+
   left:50%;
 
-  transform:translateX(-50%);
+  transform:
+    translateX(-50%);
 
-  width:min(20vw,155px);
+  width:
+    min(
+      20vw,
+      155px
+    );
+
   aspect-ratio:1;
 
   border-radius:50%;
@@ -246,87 +417,226 @@ body{
       #071d51 72%
     );
 
-  border:12px solid #e3b343;
-  box-shadow:0 0 0 5px #896714;
+  border:
+    12px solid
+    #e3b343;
+
+  box-shadow:
+    0 0 0 5px
+    #896714;
 }
+
 
 .scrollWindow{
   width:100%;
   height:100%;
+
   overflow:hidden;
+
   position:relative;
+
   text-align:center;
 }
 
+
 .scroller{
   position:absolute;
+
   top:0;
+
   width:100%;
 
   animation:
     scrollUp
-    var(--main-scroll-speed,34s)
-    linear infinite;
+    var(
+      --main-scroll-speed,
+      34s
+    )
+    linear
+    infinite;
 
   will-change:transform;
 }
 
-.scrollWindow:hover .scroller{
-  animation-play-state:paused;
+
+.scrollWindow:hover
+.scroller{
+  animation-play-state:
+    paused;
 }
 
+
 @keyframes scrollUp{
+
   from{
-    transform:translateY(0);
+    transform:
+      translateY(0);
   }
 
   to{
-    transform:translateY(-115%);
+    transform:
+      translateY(-115%);
   }
+
 }
+
 
 .big{
-  font-size:clamp(25px,4.1vw,58px);
+  font-size:
+    clamp(
+      25px,
+      4.1vw,
+      58px
+    );
+
   font-weight:900;
+
   line-height:1.2;
-  margin:10px 0;
+
+  margin:
+    10px
+    0;
 }
+
 
 .medium{
-  font-size:clamp(19px,3vw,40px);
+  font-size:
+    clamp(
+      19px,
+      3vw,
+      40px
+    );
+
   font-weight:900;
+
   line-height:1.32;
-  margin:12px 0;
+
+  margin:
+    12px
+    0;
 }
 
-.blue{color:#143b86}
-.green{color:#17824b}
-.purple{color:#693c8f}
-.redText{color:#b51f26}
-.goldText{color:#9f6d09}
-.teal{color:#0e7881}
+
+.blue{
+  color:#143b86;
+}
+
+.green{
+  color:#17824b;
+}
+
+.purple{
+  color:#693c8f;
+}
+
+.redText{
+  color:#b51f26;
+}
+
+.goldText{
+  color:#9f6d09;
+}
+
+.teal{
+  color:#0e7881;
+}
+
+
+/* ============================================================
+   BIG GREEN HOLIDAY MESSAGE
+============================================================ */
+
+.holidayMessage{
+  color:#13884d !important;
+
+  font-size:
+    clamp(
+      34px,
+      5.2vw,
+      78px
+    ) !important;
+
+  line-height:1.2;
+
+  font-weight:950 !important;
+
+  text-align:center;
+
+  margin:
+    22px
+    auto;
+
+  padding:
+    14px
+    8px;
+
+  text-shadow:
+    0 1px 1px #ffffff,
+    0 0 10px rgba(23,130,75,.28);
+}
+
 
 .infoCard{
-  border:3px solid #b78b2b;
+  border:
+    3px solid
+    #b78b2b;
+
   border-radius:24px;
+
   background:#fffdf3;
+
   padding:10px;
-  margin:18px auto;
+
+  margin:
+    18px
+    auto;
+
   width:94%;
-  font-size:clamp(14px,2vw,25px);
+
+  font-size:
+    clamp(
+      14px,
+      2vw,
+      25px
+    );
+
   font-weight:800;
 }
 
+
 .memorial{
-  border:3px solid #b98a29;
+  border:
+    3px solid
+    #b98a29;
+
   border-radius:18px;
+
   background:#fff3c8;
-  padding:12px 8px;
-  margin:14px auto;
-  font-size:clamp(16px,2.3vw,30px);
+
+  padding:
+    12px
+    8px;
+
+  margin:
+    14px
+    auto;
+
+  font-size:
+    clamp(
+      16px,
+      2.3vw,
+      30px
+    );
+
   font-weight:900;
+
   color:#6a4315;
 }
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
 
 .footer{
   background:
@@ -337,127 +647,288 @@ body{
 
   color:#fff7d4;
 
-  border:3px solid var(--gold);
+  border:
+    3px solid
+    var(--gold);
 
   box-shadow:
     inset 0 0 0 2px #f6db7d;
 
   border-radius:16px;
 
-  padding:10px 18px;
+  padding:
+    10px
+    18px;
 
   text-align:center;
 
-  font-size:clamp(16px,2.4vw,31px);
+  font-size:
+    clamp(
+      16px,
+      2.4vw,
+      31px
+    );
+
   font-weight:900;
 
   white-space:nowrap;
+
   overflow:hidden;
 }
 
 
-/* =========================================================
-   ADMIN / DONATE / JOIN
-========================================================= */
+/* ============================================================
+   BOTTOM LEFT ADMIN
+============================================================ */
 
 .adminGear{
   position:absolute;
+
   left:14px;
   bottom:14px;
+
   z-index:999999;
+
   width:52px;
   height:52px;
+
   border-radius:50%;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   background:#071f50;
-  border:3px solid #d7a62d;
+
+  border:
+    3px solid
+    #d7a62d;
+
   color:#fff;
+
   font-size:29px;
+
   text-decoration:none;
-  box-shadow:0 3px 14px #0009,inset 0 0 0 1px #ffffff33;
+
+  box-shadow:
+    0 3px 14px #0009,
+    inset 0 0 0 1px #ffffff33;
 }
+
+
+/* ============================================================
+   TINY BOTTOM RIGHT ADMIN GEAR
+============================================================ */
+
+.tinyAdminGear{
+  position:absolute;
+
+  right:8px;
+  bottom:8px;
+
+  z-index:999999;
+
+  width:30px;
+  height:30px;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    rgba(
+      7,
+      31,
+      80,
+      .75
+    );
+
+  border:
+    1px solid
+    #d7a62d;
+
+  color:#ffffff;
+
+  font-size:16px;
+
+  text-decoration:none;
+
+  opacity:.65;
+
+  box-shadow:
+    0 2px 8px #0007;
+
+  transition:
+    opacity .15s ease,
+    transform .15s ease;
+}
+
+
+.tinyAdminGear:hover{
+  opacity:1;
+
+  transform:
+    scale(1.12);
+}
+
+
+/* ============================================================
+   DONATE
+============================================================ */
 
 .donateButton{
   position:absolute;
+
   left:76px;
   bottom:14px;
+
   z-index:999999;
+
   min-width:118px;
+
   height:52px;
-  padding:0 18px;
+
+  padding:
+    0
+    18px;
+
   border-radius:28px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   gap:7px;
+
   background:#d7a62d;
-  border:3px solid #071f50;
+
+  border:
+    3px solid
+    #071f50;
+
   color:#071f50;
+
   font-size:18px;
+
   font-weight:900;
+
   text-decoration:none;
+
+  box-shadow:
+    0 3px 14px #0007;
 }
+
+
+/* ============================================================
+   JOIN
+============================================================ */
 
 .joinButton{
   position:absolute;
+
   left:208px;
   bottom:14px;
+
   z-index:999999;
+
   min-width:190px;
+
   height:52px;
-  padding:0 18px;
+
+  padding:
+    0
+    18px;
+
   border-radius:28px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   gap:7px;
+
   background:#fff8df;
-  border:3px solid #d7a62d;
+
+  border:
+    3px solid
+    #d7a62d;
+
   color:#071f50;
+
   font-size:17px;
+
   font-weight:900;
+
   text-decoration:none;
+
+  box-shadow:
+    0 3px 14px #0007;
 }
 
 
-/* =========================================================
-   PAGE ROTATION
-========================================================= */
-
-body{
-  position:relative;
-}
+/* ============================================================
+   ROTATING PAGES
+============================================================ */
 
 .rotatePage{
   position:absolute;
+
   inset:0;
+
   width:100%;
+
   height:100%;
+
   opacity:0;
+
   visibility:hidden;
+
   pointer-events:none;
-  transition:opacity .65s ease;
+
+  transition:
+    opacity .65s ease;
 }
+
 
 .rotatePage.active{
   opacity:1;
+
   visibility:visible;
+
   pointer-events:auto;
 }
 
+
 #mainPage{
   position:absolute;
+
   inset:0;
 }
 
+
 .specialPage{
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
-  padding:clamp(10px,2vw,28px);
+  padding:
+    clamp(
+      10px,
+      2vw,
+      28px
+    );
 
   background:
     radial-gradient(
@@ -470,11 +941,23 @@ body{
   color:#fff;
 }
 
-.specialFrame{
-  width:min(96vw,1300px);
-  height:min(94vh,900px);
 
-  border:4px solid var(--gold);
+.specialFrame{
+  width:
+    min(
+      96vw,
+      1300px
+    );
+
+  height:
+    min(
+      94vh,
+      900px
+    );
+
+  border:
+    4px solid
+    var(--gold);
 
   box-shadow:
     inset 0 0 0 3px #fff0a4,
@@ -489,82 +972,145 @@ body{
       #061b48
     );
 
-  padding:clamp(18px,4vw,48px);
+  padding:
+    clamp(
+      18px,
+      4vw,
+      48px
+    );
 
   text-align:center;
+
   overflow:hidden;
 }
+
 
 .specialTitle{
   color:#f7d66b;
 
-  font-size:clamp(38px,6vw,82px);
+  font-size:
+    clamp(
+      38px,
+      6vw,
+      82px
+    );
 
   font-weight:900;
 
-  margin:0 0 20px;
+  margin:
+    0
+    0
+    20px;
 
-  text-shadow:0 2px 8px #000;
+  text-shadow:
+    0 2px 8px #000;
 }
 
 
-/* =========================================================
+/* ============================================================
    CANDLE PAGE
-========================================================= */
+============================================================ */
 
 .candleViewport{
-  height:calc(100% - 82px);
+  height:
+    calc(
+      100% - 82px
+    );
+
   overflow:hidden;
+
   position:relative;
 }
+
 
 .candleScroll{
   min-height:100%;
 
   animation:
     candleUp
-    var(--candle-scroll-speed,45s)
-    linear infinite;
+    var(
+      --candle-scroll-speed,
+      45s
+    )
+    linear
+    infinite;
 }
 
+
 @keyframes candleUp{
+
   from{
-    transform:translateY(12vh);
+    transform:
+      translateY(12vh);
   }
 
   to{
-    transform:translateY(calc(-100% + 12vh));
+    transform:
+      translateY(
+        calc(
+          -100%
+          +
+          12vh
+        )
+      );
   }
+
 }
+
 
 .candleGrid{
   height:auto;
+
   min-height:100%;
 
   display:grid;
 
   grid-template-columns:
-    repeat(4,minmax(0,1fr));
+    repeat(
+      4,
+      minmax(
+        0,
+        1fr
+      )
+    );
 
-  gap:clamp(14px,2vw,28px);
+  gap:
+    clamp(
+      14px,
+      2vw,
+      28px
+    );
 
-  padding:16px 8px 55vh;
+  padding:
+    16px
+    8px
+    55vh;
 }
+
 
 .candle{
   display:flex;
+
   flex-direction:column;
+
   align-items:center;
+
   justify-content:center;
 
   min-height:235px;
 }
 
+
 .flame{
   width:44px;
+
   height:72px;
 
-  border-radius:50% 50% 45% 45%;
+  border-radius:
+    50%
+    50%
+    45%
+    45%;
 
   background:
     radial-gradient(
@@ -586,24 +1132,38 @@ body{
     flicker
     .85s
     ease-in-out
-    infinite alternate;
+    infinite
+    alternate;
 }
 
+
 @keyframes flicker{
+
   from{
-    transform:rotate(-2deg) scale(.96);
+    transform:
+      rotate(-2deg)
+      scale(.96);
   }
 
   to{
-    transform:rotate(2deg) scale(1.05);
+    transform:
+      rotate(2deg)
+      scale(1.05);
   }
+
 }
+
 
 .wax{
   width:72px;
+
   height:118px;
 
-  border-radius:14px 14px 18px 18px;
+  border-radius:
+    14px
+    14px
+    18px
+    18px;
 
   background:
     linear-gradient(
@@ -614,49 +1174,68 @@ body{
       #e3d3ff 100%
     );
 
-  border:2px solid #fff8d6;
+  border:
+    2px solid
+    #fff8d6;
 
   box-shadow:
     inset 0 0 18px #fff,
     0 8px 24px #0009;
 }
 
+
 .candleName{
   margin-top:14px;
 
   color:#ffe36d;
 
-  font-size:clamp(28px,3.6vw,46px);
+  font-size:
+    clamp(
+      28px,
+      3.6vw,
+      46px
+    );
 
   font-weight:950;
+
   line-height:1.13;
 
   text-shadow:
     0 2px 4px #000,
     0 0 9px currentColor;
+
+  overflow-wrap:anywhere;
 }
 
 
-/* =========================================================
-   NEW LARGE שיעור יומי PAGE
-========================================================= */
+/* ============================================================
+   LARGE DAILY SHIUR
+============================================================ */
 
 #shiurPage{
-  padding:1.2vh 1.2vw;
+  padding:
+    1vh
+    1vw;
 }
 
-#shiurPage .specialFrame{
+
+#shiurPage
+.specialFrame{
   width:98vw;
+
   height:97vh;
 
   max-width:none;
 
   padding:
-    clamp(12px,1.7vw,28px);
+    12px
+    18px;
 
   border-radius:32px;
 
-  border:5px solid #d7a62d;
+  border:
+    5px solid
+    var(--gold);
 
   background:
     linear-gradient(
@@ -670,16 +1249,22 @@ body{
 
   box-shadow:
     inset 0 0 0 3px #fff0a4,
-    0 0 28px #d7a62daa;
+    0 0 30px #d7a62daa;
+
+  position:relative;
 }
 
-#shiurPage .specialTitle{
+
+#shiurPage
+.specialTitle{
   height:10%;
 
-  min-height:65px;
+  min-height:60px;
 
   display:flex;
+
   align-items:center;
+
   justify-content:center;
 
   margin:0;
@@ -687,20 +1272,22 @@ body{
   color:#f7d66b;
 
   font-size:
-    clamp(40px,5.5vw,82px);
+    clamp(
+      40px,
+      5.5vw,
+      82px
+    );
 
   line-height:1;
-
-  text-shadow:
-    0 3px 8px #000,
-    0 0 12px #f7d66b77;
 }
+
 
 .shiurBody{
   position:relative;
 
   width:100%;
-  height:79%;
+
+  height:80%;
 
   overflow:hidden;
 
@@ -708,36 +1295,35 @@ body{
 
   background:
     linear-gradient(
-      180deg,
       #fffdf3,
       #fff8df
     );
 
   border:
-    4px solid #d7a62d;
+    4px solid
+    #d7a62d;
 
   box-shadow:
     inset 0 0 0 3px #fff2b2;
 
-  padding:
-    0
-    clamp(16px,3vw,48px);
-
   margin-top:1%;
 }
+
 
 .shiurBody::before{
   content:"";
 
   position:absolute;
 
-  z-index:20;
-
   left:0;
+
   right:0;
+
   top:0;
 
-  height:7%;
+  height:8%;
+
+  z-index:20;
 
   pointer-events:none;
 
@@ -749,18 +1335,21 @@ body{
     );
 }
 
+
 .shiurBody::after{
   content:"";
 
   position:absolute;
 
-  z-index:20;
-
   left:0;
+
   right:0;
+
   bottom:0;
 
   height:8%;
+
+  z-index:20;
 
   pointer-events:none;
 
@@ -773,14 +1362,11 @@ body{
 }
 
 
-/* IMPORTANT:
-   starts under screen
-   then moves upward
-*/
 .shiurScroll{
   position:absolute;
 
   top:100%;
+
   left:3%;
 
   width:94%;
@@ -789,72 +1375,113 @@ body{
 
   animation:
     shiurUp
-    var(--shiur-scroll-speed,75s)
-    linear infinite;
+    var(
+      --shiur-scroll-speed,
+      75s
+    )
+    linear
+    infinite;
 
   will-change:transform;
 }
 
+
 @keyframes shiurUp{
+
   from{
-    transform:translateY(0);
+    transform:
+      translateY(0);
   }
 
   to{
-    transform:translateY(calc(-100% - 90vh));
+    transform:
+      translateY(
+        calc(
+          -100%
+          -
+          90vh
+        )
+      );
   }
+
 }
 
 
-/* Blue / green alternating lesson blocks */
-
 .shiurSection{
   margin:
-    clamp(25px,4vh,58px)
+    clamp(
+      24px,
+      4vh,
+      58px
+    )
     auto;
 
   padding:
-    clamp(10px,2vh,24px)
-    clamp(8px,2vw,24px);
+    10px
+    22px;
 
   width:96%;
 
   text-align:center;
 }
 
-.shiurSection:nth-child(odd){
-  color:#113d92;
+
+/* alternating blue / green */
+
+.shiurSection:nth-of-type(4n+1){
+  color:#143b86;
 }
 
-.shiurSection:nth-child(even){
-  color:#13884d;
+
+.shiurSection:nth-of-type(4n+3){
+  color:#17824b;
 }
+
 
 .shiurHeading{
   color:#9f6d09;
 
   font-size:
-    clamp(30px,4vw,58px);
+    clamp(
+      30px,
+      4vw,
+      58px
+    );
 
   font-weight:950;
 
   margin:
-    0 0 12px;
-
-  text-shadow:
-    0 1px 1px #fff;
+    0
+    0
+    12px;
 }
+
 
 .shiurText{
   font-size:
-    clamp(27px,3.7vw,54px);
+    clamp(
+      27px,
+      3.7vw,
+      54px
+    );
 
-  line-height:1.52;
+  line-height:1.55;
 
   font-weight:900;
 
   white-space:pre-line;
 }
+
+
+.shiurBlue{
+  color:#143b86;
+}
+
+
+.shiurGreen{
+  color:#17824b;
+}
+
 
 .shiurSeparator{
   width:55%;
@@ -862,7 +1489,8 @@ body{
   height:3px;
 
   margin:
-    20px auto;
+    22px
+    auto;
 
   background:
     linear-gradient(
@@ -876,10 +1504,12 @@ body{
   border-radius:10px;
 }
 
+
 .shiurStatus{
   position:absolute;
 
   right:24px;
+
   bottom:12px;
 
   z-index:30;
@@ -887,17 +1517,23 @@ body{
   direction:ltr;
 
   font-size:
-    clamp(12px,1.3vw,18px);
-
-  font-weight:800;
+    clamp(
+      12px,
+      1.3vw,
+      18px
+    );
 
   color:#d9f5ff;
+
+  font-weight:800;
 }
+
 
 .shiurStatusDot{
   display:inline-block;
 
   width:10px;
+
   height:10px;
 
   margin-right:5px;
@@ -907,37 +1543,51 @@ body{
   background:#4cf59b;
 
   box-shadow:
-    0 0 8px #4cf59b;
+    0 0 8px
+    #4cf59b;
 }
 
 
-/* =========================================================
+/* ============================================================
    PRAYER OVERLAY
-========================================================= */
+============================================================ */
 
 .prayerOverlay{
   position:fixed;
+
   inset:0;
 
   z-index:999998;
 
-  background:rgba(2,10,30,.97);
+  background:
+    rgba(
+      2,
+      10,
+      30,
+      .97
+    );
 
   display:none;
 
-  padding:3vh 4vw;
+  padding:
+    3vh
+    4vw;
 
   color:#fff;
 }
+
 
 .prayerOverlay.show{
   display:block;
 }
 
+
 .prayerPanel{
   height:94vh;
 
-  border:4px solid #d7a62d;
+  border:
+    4px solid
+    #d7a62d;
 
   border-radius:28px;
 
@@ -951,21 +1601,32 @@ body{
     inset 0 0 0 3px #fff0a4;
 }
 
+
 .prayerTitle{
   text-align:center;
 
   color:#f7d66b;
 
   font-size:
-    clamp(34px,5vw,70px);
+    clamp(
+      34px,
+      5vw,
+      70px
+    );
 
   font-weight:900;
 
   margin-bottom:12px;
 }
 
+
 .prayerViewport{
-  height:calc(100% - 95px);
+  height:
+    calc(
+      100%
+      -
+      95px
+    );
 
   overflow:hidden;
 
@@ -978,13 +1639,18 @@ body{
   padding:20px;
 }
 
+
 .prayerScroll{
   white-space:pre-wrap;
 
   text-align:right;
 
   font-size:
-    clamp(22px,3vw,42px);
+    clamp(
+      22px,
+      3vw,
+      42px
+    );
 
   line-height:1.65;
 
@@ -992,45 +1658,60 @@ body{
 
   animation:
     prayerUp
-    var(--prayer-scroll-speed,90s)
-    linear infinite;
+    var(
+      --prayer-scroll-speed,
+      90s
+    )
+    linear
+    infinite;
 }
 
+
 @keyframes prayerUp{
+
   from{
-    transform:translateY(0);
+    transform:
+      translateY(0);
   }
 
   to{
-    transform:translateY(-105%);
+    transform:
+      translateY(-105%);
   }
+
 }
+
 
 .prayerClose{
   position:absolute;
 
   left:18px;
+
   top:14px;
 
   background:#b51f26;
 
   color:#fff;
 
-  border:2px solid #fff;
+  border:
+    2px solid
+    #fff;
 
   border-radius:50%;
 
   width:46px;
+
   height:46px;
 
   font-size:24px;
+
   font-weight:900;
 }
 
 
-/* =========================================================
-   STAR + DOVES
-========================================================= */
+/* ============================================================
+   DOVES
+============================================================ */
 
 .center::before,
 .center::after{
@@ -1043,45 +1724,77 @@ body{
   top:3.5%;
 
   font-size:
-    clamp(34px,6vw,82px);
+    clamp(
+      34px,
+      6vw,
+      82px
+    );
 
   filter:
     drop-shadow(
-      0 4px 4px #0006
+      0
+      4px
+      4px
+      #0006
     );
 
   animation:
     doveFloat
     3s
     ease-in-out
-    infinite alternate;
+    infinite
+    alternate;
 }
+
 
 .center::before{
   left:4%;
-  transform:scaleX(-1);
+
+  transform:
+    scaleX(-1);
 }
+
 
 .center::after{
   right:4%;
 }
 
+
 @keyframes doveFloat{
-  from{margin-top:-3px}
-  to{margin-top:6px}
+
+  from{
+    margin-top:-3px;
+  }
+
+  to{
+    margin-top:6px;
+  }
+
 }
+
+
+/* ============================================================
+   STAR
+============================================================ */
 
 .medallion{
   display:grid;
+
   place-items:center;
+
   overflow:visible;
 }
+
 
 .medallion::before{
   content:"✡";
 
   font-size:
-    clamp(72px,14vw,145px);
+    clamp(
+      72px,
+      14vw,
+      145px
+    );
 
   line-height:1;
 
@@ -1096,244 +1809,445 @@ body{
   animation:
     starColors
     5s
-    linear infinite;
+    linear
+    infinite;
 }
+
 
 @keyframes starColors{
-  0%{color:#ff2be6}
-  20%{color:#32e9ff}
-  40%{color:#386dff}
-  60%{color:#38ff96}
-  80%{color:#ffd52e}
-  100%{color:#ff2be6}
+
+  0%{
+    color:#ff2be6;
+  }
+
+  20%{
+    color:#32e9ff;
+  }
+
+  40%{
+    color:#386dff;
+  }
+
+  60%{
+    color:#38ff96;
+  }
+
+  80%{
+    color:#ffd52e;
+  }
+
+  100%{
+    color:#ff2be6;
+  }
+
 }
 
 
-/* =========================================================
+/* ============================================================
    MOBILE
-========================================================= */
+============================================================ */
 
-@media(max-width:700px) and (orientation:portrait){
+@media
+(max-width:700px)
+and
+(orientation:portrait){
 
   .board{
     padding:5px;
     gap:5px;
   }
 
+
   .header{
-    grid-template-columns:22% 1fr 22%;
+    grid-template-columns:
+      22%
+      1fr
+      22%;
+
     gap:5px;
   }
+
 
   .main{
-    grid-template-columns:22% 1fr 22%;
+    grid-template-columns:
+      22%
+      1fr
+      22%;
+
     gap:5px;
   }
 
+
   .clock{
-    padding:6px 2px;
+    padding:
+      6px
+      2px;
+
     border-radius:18px;
   }
+
 
   .titlebox{
     padding:6px;
   }
 
+
   .side{
     gap:5px;
   }
 
+
   .sideBox{
-    padding:6px 3px;
+    padding:
+      6px
+      3px;
   }
+
 
   .row{
     display:block;
-    padding:4px 0;
+
+    padding:
+      4px
+      0;
   }
 
+
   .center{
-    padding:15% 4% 13%;
+    padding:
+      15%
+      4%
+      13%;
   }
+
 
   .medallion{
     width:26vw;
+
     border-width:8px;
   }
 
+
   .adminGear{
     width:44px;
+
     height:44px;
+
     left:8px;
+
     bottom:8px;
+
     font-size:24px;
   }
 
-  .donateButton{
-    left:60px;
-    bottom:8px;
-    height:44px;
-    min-width:104px;
-    padding:0 13px;
-    font-size:15px;
-  }
 
-  .joinButton{
-    left:172px;
-    bottom:8px;
-    height:44px;
-    min-width:150px;
-    padding:0 11px;
+  .tinyAdminGear{
+    right:6px;
+
+    bottom:6px;
+
+    width:26px;
+
+    height:26px;
+
     font-size:13px;
   }
 
-  #shiurPage .specialFrame{
+
+  .donateButton{
+    left:60px;
+
+    bottom:8px;
+
+    height:44px;
+
+    min-width:104px;
+
+    padding:
+      0
+      13px;
+
+    font-size:15px;
+  }
+
+
+  .joinButton{
+    left:172px;
+
+    bottom:8px;
+
+    height:44px;
+
+    min-width:150px;
+
+    padding:
+      0
+      11px;
+
+    font-size:13px;
+  }
+
+
+  #shiurPage
+  .specialFrame{
     width:98vw;
+
     height:98vh;
+
     padding:8px;
   }
 
-  #shiurPage .specialTitle{
-    font-size:clamp(35px,10vw,56px);
+
+  #shiurPage
+  .specialTitle{
+    font-size:
+      clamp(
+        35px,
+        10vw,
+        56px
+      );
   }
+
 
   .shiurBody{
     height:82%;
-    padding:0 10px;
   }
+
 
   .shiurHeading{
-    font-size:clamp(27px,8vw,40px);
+    font-size:
+      clamp(
+        27px,
+        8vw,
+        40px
+      );
   }
 
+
   .shiurText{
-    font-size:clamp(24px,7vw,36px);
+    font-size:
+      clamp(
+        24px,
+        7vw,
+        36px
+      );
+
     line-height:1.5;
   }
+
+
+  .holidayMessage{
+    font-size:
+      clamp(
+        28px,
+        8vw,
+        48px
+      ) !important;
+  }
+
 }
 
 
-/* =========================================================
+/* ============================================================
    LANDSCAPE
-========================================================= */
+============================================================ */
 
-@media(orientation:landscape){
+@media
+(orientation:landscape){
 
   .board{
     max-width:1600px;
   }
 
+
   .header{
-    grid-template-columns:16% 1fr 16%;
+    grid-template-columns:
+      16%
+      1fr
+      16%;
   }
+
 
   .main{
-    grid-template-columns:18% 1fr 18%;
+    grid-template-columns:
+      18%
+      1fr
+      18%;
   }
+
 
   .center{
-    padding:10% 5% 10%;
+    padding:
+      10%
+      5%
+      10%;
   }
 
+
   .medallion{
-    width:min(13vw,150px);
+    width:
+      min(
+        13vw,
+        150px
+      );
   }
+
 }
 
 </style>
 </head>
 
+
 <body>
 
 
-<!-- ======================================================
+<!-- ============================================================
      MAIN PAGE
-====================================================== -->
+============================================================ -->
 
-<div id="mainPage" class="rotatePage active">
+<div
+  id="mainPage"
+  class="rotatePage active"
+>
 
 <div class="board">
 
+
+<!-- HEADER -->
+
 <header class="header">
 
+
 <div class="clock goldFrame">
-  <div class="city">JERUSALEM</div>
-  <div class="time" id="ilTime">--:--:--</div>
+
+<div class="city">
+JERUSALEM
 </div>
+
+<div
+  class="time"
+  id="ilTime"
+>
+--:--:--
+</div>
+
+</div>
+
 
 <div class="titlebox goldFrame">
 
-  <h1 id="synagogueName">
-    בית הכנסת בית תורה
-  </h1>
+<h1 id="synagogueName">
+בית הכנסת בית תורה
+</h1>
 
-  <div class="rabbi" id="rabbiName">
-    הרב ברוך
-  </div>
+<div
+  class="rabbi"
+  id="rabbiName"
+>
+הרב ברוך
+</div>
 
-  <div class="date" id="dateLine">
-    בית הכנסת בית תורה
-  </div>
+<div
+  class="date"
+  id="dateLine"
+>
+בית הכנסת בית תורה
+</div>
 
 </div>
 
+
 <div class="clock goldFrame">
-  <div class="city">NEW YORK</div>
-  <div class="time" id="nyTime">--:--:--</div>
+
+<div class="city">
+NEW YORK
+</div>
+
+<div
+  class="time"
+  id="nyTime"
+>
+--:--:--
+</div>
+
 </div>
 
 </header>
 
 
+
+<!-- MAIN -->
+
 <main class="main">
 
 
+<!-- LEFT -->
+
 <section class="side">
+
 
 <div class="sideBox goldFrame">
 
-<h2>זמני תפילה</h2>
+<h2>
+זמני תפילה
+</h2>
 
 <div class="rows">
 
 <div class="row">
 <span>שחרית</span>
-<span id="pShacharit">7:00 AM</span>
+<span id="pShacharit">
+7:00 AM
+</span>
 </div>
 
 <div class="row">
 <span>מנחה</span>
-<span id="pMincha">4:00 PM</span>
+<span id="pMincha">
+4:00 PM
+</span>
 </div>
 
 <div class="row">
 <span>ערבית</span>
-<span id="pMaariv">8:30 PM</span>
+<span id="pMaariv">
+8:30 PM
+</span>
 </div>
 
 <div class="row">
 <span>שיעור תורה</span>
-<span id="pShiur">9:15 PM</span>
+<span id="pShiur">
+9:15 PM
+</span>
 </div>
 
 <div class="row">
 <span>שחרית שבת</span>
-<span id="pShabbatShacharit">9:00 AM</span>
+<span id="pShabbatShacharit">
+9:00 AM
+</span>
 </div>
 
 <div class="row">
 <span>מנחה שבת</span>
-<span id="pShabbatMincha">6:30 PM</span>
+<span id="pShabbatMincha">
+6:30 PM
+</span>
 </div>
 
 <div class="row">
 <span>ערבית ליל שבת</span>
-<span id="pShabbatMaariv">7:30 PM</span>
+<span id="pShabbatMaariv">
+7:30 PM
+</span>
 </div>
 
 <div class="row">
 <span>הבדלה</span>
-<span id="pHavdalah">9:00 PM</span>
+<span id="pHavdalah">
+9:00 PM
+</span>
 </div>
 
 </div>
@@ -1343,16 +2257,25 @@ body{
 
 <div class="sideBox goldFrame">
 
-<h2>מזל טוב</h2>
+<h2>
+מזל טוב
+</h2>
 
-<div class="smallText" id="mazalText">
+<div
+  class="smallText"
+  id="mazalText"
+>
 ברכת מזל טוב לחברי הקהילה
 </div>
 
 </div>
 
+
 </section>
 
+
+
+<!-- CENTER -->
 
 <section class="center">
 
@@ -1362,146 +2285,258 @@ body{
 
 <div class="scroller">
 
+
 <div class="big goldText">
 פרשת השבוע
 </div>
 
-<div class="big blue" id="parashaText">
+
+<div
+  class="big blue"
+  id="parashaText"
+>
 פרשת נצבים־וילך
 </div>
 
-<div class="medium green" id="center1">
+
+<div
+  class="medium green"
+  id="center1"
+>
 ברכת מזל טוב לכל המתפללים ובני הקהילה
 </div>
 
-<div class="medium blue" id="center2">
+
+<div
+  class="medium blue"
+  id="center2"
+>
 יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים
 </div>
 
-<div class="medium purple" id="center3">
+
+<div
+  class="medium purple"
+  id="center3"
+>
 שבוע טוב ומבורך לכל משפחות בית הכנסת
 </div>
 
-<div class="medium redText" id="center4">
+
+<div
+  class="medium redText"
+  id="center4"
+>
 זמני התפילה והשיעורים מתעדכנים בלוח
 </div>
 
-<div class="medium teal" id="center5">
+
+<div
+  class="medium teal"
+  id="center5"
+>
 נא לעקוב אחר ההודעות החשובות של הקהילה
 </div>
+
 
 
 <div class="infoCard">
 
 <div>
 <b>תחנון שחרית:</b>
-<span id="tachanun">אומרים</span>
+<span id="tachanun">
+אומרים
+</span>
 </div>
 
 <div>
 <b>פרשת השבוע:</b>
-<span id="parashaInfo">נצבים־וילך</span>
+<span id="parashaInfo">
+נצבים־וילך
+</span>
 </div>
 
 <div>
 <b>גבורות:</b>
-<span id="gevurot">מוריד הטל</span>
+<span id="gevurot">
+מוריד הטל
+</span>
 </div>
 
 <div>
 <b>הלל:</b>
-<span id="hallel">אין הלל</span>
+<span id="hallel">
+אין הלל
+</span>
 </div>
 
 </div>
 
 
-<div class="medium green" id="centerWelcome">
+
+<div
+  class="medium green"
+  id="centerWelcome"
+>
 ברוכים הבאים לבית הכנסת בית תורה
 </div>
 
-<div class="medium goldText" id="centerMotto">
+
+<div
+  class="medium goldText"
+  id="centerMotto"
+>
 תפילה • תורה • חסד • אחדות
 </div>
 
-<div class="medium blue" id="centerBlessing">
-שנזכה לשנה טובה ומתוקה ולבשורות טובות
+
+
+<!-- BIG GREEN HOLIDAY MESSAGE -->
+
+<div
+  class="holidayMessage"
+  id="centerBlessing"
+>
+🍎🍯 שנה טובה ומתוקה 🍯🍎
+<br>
+כתיבה וחתימה טובה
 </div>
 
-<div class="memorial" id="centerMemorial">
+
+
+<div
+  class="memorial"
+  id="centerMemorial"
+>
 לעילוי נשמת זהבה חלא בת דינה זצ״ל
 </div>
 
-</div>
 
+</div>
 </div>
 
 </section>
 
 
+
+<!-- RIGHT -->
+
 <section class="side">
+
 
 <div class="sideBox goldFrame">
 
-<h2>זמני היום</h2>
+<h2>
+זמני היום
+</h2>
+
 
 <div class="rows">
 
+
 <div class="row">
 <span>עלות השחר</span>
-<span id="zAlot">5:02 AM</span>
+<span id="zAlot">
+5:02 AM
+</span>
 </div>
+
 
 <div class="row">
 <span>זריחה</span>
-<span id="zSunrise">6:38 AM</span>
+<span id="zSunrise">
+6:38 AM
+</span>
 </div>
+
 
 <div class="row">
 <span>סוף זמן ק״ש</span>
-<span id="zShema">9:27 AM</span>
+<span id="zShema">
+9:27 AM
+</span>
 </div>
+
 
 <div class="row">
 <span>חצות</span>
-<span id="zChatzot">12:10 PM</span>
+<span id="zChatzot">
+12:10 PM
+</span>
 </div>
+
 
 <div class="row">
 <span>מנחה גדולה</span>
-<span id="zMinchaGedola">12:40 PM</span>
+<span id="zMinchaGedola">
+12:40 PM
+</span>
 </div>
+
 
 <div class="row">
 <span>שקיעה</span>
-<span id="zSunset">7:32 PM</span>
+<span id="zSunset">
+7:32 PM
+</span>
 </div>
+
 
 <div class="row">
 <span>צאת הכוכבים</span>
-<span id="zTzeit">8:06 PM</span>
+<span id="zTzeit">
+8:06 PM
+</span>
 </div>
+
 
 <div class="row">
-<span class="red">הדלקת נרות</span>
-<span class="red" id="zCandles">7:13 PM</span>
+
+<span class="red">
+הדלקת נרות
+</span>
+
+<span
+  class="red"
+  id="zCandles"
+>
+7:13 PM
+</span>
+
 </div>
+
 
 <div class="row">
-<span class="red">צאת שבת</span>
-<span class="red" id="zShabbatOut">8:12 PM</span>
-</div>
+
+<span class="red">
+צאת שבת
+</span>
+
+<span
+  class="red"
+  id="zShabbatOut"
+>
+8:12 PM
+</span>
 
 </div>
 
+
 </div>
+</div>
+
 
 
 <div class="sideBox goldFrame">
 
-<h2>הודעות</h2>
+<h2>
+הודעות
+</h2>
 
-<div class="smallText" id="announcementText">
+<div
+  class="smallText"
+  id="announcementText"
+>
 ברוכים הבאים לבית הכנסת
 <br>
 נא להתעדכן בהודעות הקהילה
@@ -1509,98 +2544,161 @@ body{
 
 </div>
 
+
 </section>
+
 
 </main>
 
 
-<footer class="footer" id="footerMemorial">
+
+<footer
+  class="footer"
+  id="footerMemorial"
+>
 לעילוי נשמת זהבה חלא בת דינה זצ״ל
 </footer>
 
 
-<a class="adminGear"
-   href="admin.html"
-   target="mbAdmin">
+
+<!-- LEFT ADMIN -->
+
+<a
+  class="adminGear"
+  href="admin.html"
+  target="mbAdmin"
+  title="Admin"
+>
 ⚙️
 </a>
 
-<a id="donateButton"
-   class="donateButton"
-   href="donate.html">
+
+
+<!-- TINY RIGHT ADMIN -->
+
+<a
+  class="tinyAdminGear"
+  href="admin.html"
+  target="mbAdmin"
+  title="Admin"
+  aria-label="Admin"
+>
+⚙
+</a>
+
+
+
+<!-- DONATE -->
+
+<a
+  id="donateButton"
+  class="donateButton"
+  href="donate.html"
+>
 💛 Donate
 </a>
 
-<a id="joinButton"
-   class="joinButton"
-   href="member-register.html">
+
+
+<!-- JOIN -->
+
+<a
+  id="joinButton"
+  class="joinButton"
+  href="member-register.html"
+>
 👥 New Member — Join
 </a>
 
+
 </div>
 </div>
 
 
 
-<!-- ======================================================
+<!-- ============================================================
      CANDLE PAGE
-====================================================== -->
+============================================================ -->
 
-<div id="candlePage"
-     class="rotatePage specialPage">
+<div
+  id="candlePage"
+  class="rotatePage specialPage"
+>
 
 <div class="specialFrame">
 
-<h1 class="specialTitle"
-    id="candleTitle">
+
+<h1
+  class="specialTitle"
+  id="candleTitle"
+>
 🕯️ נרות נשמה 🕯️
 </h1>
+
 
 <div class="candleViewport">
 
 <div class="candleScroll">
 
-<div class="candleGrid"
-     id="candleGrid">
+<div
+  class="candleGrid"
+  id="candleGrid"
+>
 
 <div class="candle">
+
 <div class="flame"></div>
+
 <div class="wax"></div>
+
 <div class="candleName">
 לעילוי נשמת זהבה חלא בת דינה זצ״ל
 </div>
-</div>
 
 </div>
 
 </div>
-</div>
 
 </div>
+
+</div>
+
+
+</div>
 </div>
 
 
 
-<!-- ======================================================
-     LARGE DAILY שיעור PAGE
-====================================================== -->
+<!-- ============================================================
+     SHIUR PAGE
+============================================================ -->
 
-<div id="shiurPage"
-     class="rotatePage specialPage">
+<div
+  id="shiurPage"
+  class="rotatePage specialPage"
+>
 
 <div class="specialFrame">
 
-<h1 class="specialTitle"
-    id="shiurTitle">
+
+<h1
+  class="specialTitle"
+  id="shiurTitle"
+>
 📖 שיעור יומי
 </h1>
 
 
+
 <div class="shiurBody">
 
-<div class="shiurScroll"
-     id="shiurScroll">
+<div
+  class="shiurScroll"
+  id="shiurScroll"
+>
 
+
+<!-- PASUK -->
 
 <div class="shiurSection">
 
@@ -1608,8 +2706,10 @@ body{
 📖 פסוק היום
 </div>
 
-<div class="shiurText"
-     id="shiurPasuk">
+<div
+  class="shiurText shiurBlue"
+  id="shiurPasuk"
+>
 ״שויתי ה׳ לנגדי תמיד״
 </div>
 
@@ -1619,14 +2719,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- HALACHA -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 🕯️ הלכה למעשה
 </div>
 
-<div class="shiurText"
-     id="shiurHalacha">
+<div
+  class="shiurText shiurGreen"
+  id="shiurHalacha"
+>
 צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.
 </div>
 
@@ -1636,14 +2741,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- MUSSAR -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 ❤️ מוסר
 </div>
 
-<div class="shiurText"
-     id="shiurMussar">
+<div
+  class="shiurText shiurBlue"
+  id="shiurMussar"
+>
 מעט אור דוחה הרבה מן החושך.
 </div>
 
@@ -1653,14 +2763,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- CHASSIDUS -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 🔥 חסידות / תניא
 </div>
 
-<div class="shiurText"
-     id="shiurChassidut">
+<div
+  class="shiurText shiurGreen"
+  id="shiurChassidut"
+>
 כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.
 </div>
 
@@ -1670,14 +2785,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- TEHILLIM -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 📜 תהילים
 </div>
 
-<div class="shiurText"
-     id="shiurTehillim">
+<div
+  class="shiurText shiurBlue"
+  id="shiurTehillim"
+>
 תהילים של היום
 </div>
 
@@ -1687,14 +2807,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- DAF -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 📚 דף יומי
 </div>
 
-<div class="shiurText"
-     id="shiurDaf">
+<div
+  class="shiurText shiurGreen"
+  id="shiurDaf"
+>
 הדף היומי של היום
 </div>
 
@@ -1704,14 +2829,19 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- TAKEAWAY -->
+
 <div class="shiurSection">
 
 <div class="shiurHeading">
 🌟 המסר להיום
 </div>
 
-<div class="shiurText"
-     id="shiurTakeaway">
+<div
+  class="shiurText shiurBlue"
+  id="shiurTakeaway"
+>
 להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.
 </div>
 
@@ -1721,10 +2851,15 @@ body{
 <div class="shiurSeparator"></div>
 
 
+
+<!-- MEMORIAL -->
+
 <div class="shiurSection">
 
-<div class="shiurText"
-     id="shiurMemorial">
+<div
+  class="shiurText shiurGreen"
+  id="shiurMemorial"
+>
 לעילוי נשמת זהבה חלא בת דינה זצ״ל
 </div>
 
@@ -1735,9 +2870,11 @@ body{
 </div>
 
 
+
 <div class="shiurStatus">
 
-<span class="shiurStatusDot"></span>
+<span class="shiurStatusDot">
+</span>
 
 <span id="shiurStatusText">
 AUTO UPDATE
@@ -1751,40 +2888,57 @@ AUTO UPDATE
 
 
 
-<!-- ======================================================
+<!-- ============================================================
      PRAYER
-====================================================== -->
+============================================================ -->
 
-<div id="prayerOverlay"
-     class="prayerOverlay">
+<div
+  id="prayerOverlay"
+  class="prayerOverlay"
+>
 
-<button id="prayerClose"
-        class="prayerClose">
+<button
+  id="prayerClose"
+  class="prayerClose"
+>
 ×
 </button>
 
+
 <div class="prayerPanel">
 
-<div id="prayerTitle"
-     class="prayerTitle">
+
+<div
+  id="prayerTitle"
+  class="prayerTitle"
+>
 תפילה
 </div>
 
+
 <div class="prayerViewport">
 
-<div id="prayerScroll"
-     class="prayerScroll"></div>
+<div
+  id="prayerScroll"
+  class="prayerScroll"
+></div>
 
 </div>
 
+
 </div>
 </div>
 
 
+
+<!-- ============================================================
+     MAIN JAVASCRIPT
+============================================================ -->
 
 <script>
 
-window.name="messageBoard";
+window.name =
+  "messageBoard";
 
 
 function fmtClock(tz){
@@ -1798,76 +2952,130 @@ function fmtClock(tz){
       second:"2-digit",
       hour12:false
     }
-  ).format(new Date());
+  )
+  .format(
+    new Date()
+  );
 
 }
+
 
 
 function tick(){
 
-  document.getElementById("nyTime").textContent =
-    fmtClock("America/New_York");
+  const ny =
+    document.getElementById(
+      "nyTime"
+    );
 
-  document.getElementById("ilTime").textContent =
-    fmtClock("Asia/Jerusalem");
+  const il =
+    document.getElementById(
+      "ilTime"
+    );
+
+
+  if(ny){
+
+    ny.textContent =
+      fmtClock(
+        "America/New_York"
+      );
+
+  }
+
+
+  if(il){
+
+    il.textContent =
+      fmtClock(
+        "Asia/Jerusalem"
+      );
+
+  }
 
 }
 
 
+
 tick();
 
-setInterval(tick,1000);
+
+setInterval(
+  tick,
+  1000
+);
 
 
 
 function getSettings(){
 
-  const d={
+  const defaults={
 
-    synagogue:"בית הכנסת בית תורה",
+    synagogue:
+      "בית הכנסת בית תורה",
 
-    rabbi:"הרב ברוך",
+    rabbi:
+      "הרב ברוך",
 
-    shacharit:"7:00 AM",
+    shacharit:
+      "7:00 AM",
 
-    mincha:"4:00 PM",
+    mincha:
+      "4:00 PM",
 
-    maariv:"8:30 PM",
+    maariv:
+      "8:30 PM",
 
-    shiurTime:"9:15 PM",
+    shiurTime:
+      "9:15 PM",
 
-    shabbatShacharit:"9:00 AM",
+    shabbatShacharit:
+      "9:00 AM",
 
-    shabbatMincha:"6:30 PM",
+    shabbatMincha:
+      "6:30 PM",
 
-    shabbatMaariv:"7:30 PM",
+    shabbatMaariv:
+      "7:30 PM",
 
-    havdalah:"9:00 PM",
+    havdalah:
+      "9:00 PM",
 
-    mazal:"ברכת מזל טוב לחברי הקהילה",
+    mazal:
+      "ברכת מזל טוב לחברי הקהילה",
 
     announcement:
       "ברוכים הבאים לבית הכנסת\nנא להתעדכן בהודעות הקהילה",
 
-    parasha:"פרשת נצבים־וילך",
+    parasha:
+      "פרשת נצבים־וילך",
 
-    center1:"ברכת מזל טוב לכל המתפללים ובני הקהילה",
+    center1:
+      "ברכת מזל טוב לכל המתפללים ובני הקהילה",
 
-    center2:"יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים",
+    center2:
+      "יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים",
 
-    center3:"שבוע טוב ומבורך לכל משפחות בית הכנסת",
+    center3:
+      "שבוע טוב ומבורך לכל משפחות בית הכנסת",
 
-    center4:"זמני התפילה והשיעורים מתעדכנים בלוח",
+    center4:
+      "זמני התפילה והשיעורים מתעדכנים בלוח",
 
-    center5:"נא לעקוב אחר ההודעות החשובות של הקהילה",
+    center5:
+      "נא לעקוב אחר ההודעות החשובות של הקהילה",
 
-    tachanun:"אומרים",
+    tachanun:
+      "אומרים",
 
-    parashaInfo:"נצבים־וילך",
+    parashaInfo:
+      "נצבים־וילך",
 
-    gevurot:"מוריד הטל",
+    gevurot:
+      "מוריד הטל",
 
-    hallel:"אין הלל",
+    hallel:
+      "אין הלל",
 
     centerWelcome:
       "ברוכים הבאים לבית הכנסת בית תורה",
@@ -1876,35 +3084,70 @@ function getSettings(){
       "תפילה • תורה • חסד • אחדות",
 
     centerBlessing:
-      "שנזכה לשנה טובה ומתוקה ולבשורות טובות",
+      "🍎🍯 שנה טובה ומתוקה 🍯🍎\nכתיבה וחתימה טובה",
 
     memorial:
       "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
 
     zmanim:{
-      alot:"5:02 AM",
-      sunrise:"6:38 AM",
-      shema:"9:27 AM",
-      chatzot:"12:10 PM",
-      minchaGedola:"12:40 PM",
-      sunset:"7:32 PM",
-      tzeit:"8:06 PM",
-      candles:"7:13 PM",
-      shabbatOut:"8:12 PM"
+
+      alot:
+        "5:02 AM",
+
+      sunrise:
+        "6:38 AM",
+
+      shema:
+        "9:27 AM",
+
+      chatzot:
+        "12:10 PM",
+
+      minchaGedola:
+        "12:40 PM",
+
+      sunset:
+        "7:32 PM",
+
+      tzeit:
+        "8:06 PM",
+
+      candles:
+        "7:13 PM",
+
+      shabbatOut:
+        "8:12 PM"
+
     },
 
-    candleTitle:"🕯️ נרות נשמה 🕯️",
+    candleTitle:
+      "🕯️ נרות נשמה 🕯️",
 
     candleNames:[
+
       "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
+
       "נר נשמה",
+
       "נר נשמה",
+
+      "נר נשמה",
+
+      "נר נשמה",
+
+      "נר נשמה",
+
+      "נר נשמה",
+
       "נר נשמה"
+
     ],
 
-    shiurTitle:"📖 שיעור יומי",
+    shiurTitle:
+      "📖 שיעור יומי",
 
-    shiurPasuk:"״שויתי ה׳ לנגדי תמיד״",
+    shiurPasuk:
+      "״שויתי ה׳ לנגדי תמיד״",
 
     shiurHalacha:
       "צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.",
@@ -1927,28 +3170,43 @@ function getSettings(){
     shiurMemorial:
       "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
 
-    mainScroll:34,
+    mainScroll:
+      34,
 
-    candleScroll:26,
+    candleScroll:
+      26,
 
-    shiurScroll:75,
+    shiurScroll:
+      75,
 
-    prayerScroll:90,
+    prayerScroll:
+      90,
 
-    mainDuration:30,
+    mainDuration:
+      30,
 
-    candleDuration:30,
+    candleDuration:
+      30,
 
-    shiurDuration:30,
+    shiurDuration:
+      30,
 
     prayerTexts:{
+
       shacharit:"",
+
       mincha:"",
+
       maariv:"",
+
       shabbatShacharit:"",
+
       shabbatMincha:"",
+
       shabbatMaariv:"",
+
       havdalah:""
+
     }
 
   };
@@ -1960,18 +3218,22 @@ function getSettings(){
       JSON.parse(
         localStorage.getItem(
           "mb_full_settings"
-        ) || "{}"
+        )
+        ||
+        "{}"
       );
 
 
     const remote =
-      window.__tenantRemoteSettings || {};
+      window.__tenantRemoteSettings
+      ||
+      {};
 
 
     const merged =
       Object.assign(
         {},
-        d,
+        defaults,
         local,
         remote
       );
@@ -1980,7 +3242,7 @@ function getSettings(){
     merged.zmanim =
       Object.assign(
         {},
-        d.zmanim,
+        defaults.zmanim,
         local.zmanim || {},
         remote.zmanim || {}
       );
@@ -1989,7 +3251,7 @@ function getSettings(){
     merged.prayerTexts =
       Object.assign(
         {},
-        d.prayerTexts,
+        defaults.prayerTexts,
         local.prayerTexts || {},
         remote.prayerTexts || {}
       );
@@ -2000,41 +3262,58 @@ function getSettings(){
   }
   catch(e){
 
-    return d;
+    return defaults;
 
   }
 
 }
 
 
-let settings=getSettings();
+
+let settings =
+  getSettings();
 
 
-const setText=(id,v)=>{
 
-  const e=
-    document.getElementById(id);
+const setText =
+  (id,value)=>{
 
-  if(e){
-    e.textContent=v ?? "";
-  }
-
-};
+    const element =
+      document.getElementById(id);
 
 
-function escapeHtml(x){
+    if(element){
 
-  return String(x ?? "")
-    .replace(
-      /[&<>"']/g,
-      c=>({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[c])
-    );
+      element.textContent =
+        value ?? "";
+
+    }
+
+  };
+
+
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /[&<>"']/g,
+    character=>({
+
+      "&":"&amp;",
+
+      "<":"&lt;",
+
+      ">":"&gt;",
+
+      '"':"&quot;",
+
+      "'":"&#39;"
+
+    }[character])
+  );
 
 }
 
@@ -2042,20 +3321,28 @@ function escapeHtml(x){
 
 function restartShiurScroll(){
 
-  const el =
+  const element =
     document.getElementById(
       "shiurScroll"
     );
 
-  if(!el){
+
+  if(!element){
+
     return;
+
   }
 
-  el.style.animation="none";
 
-  void el.offsetHeight;
+  element.style.animation =
+    "none";
 
-  el.style.animation="";
+
+  void element.offsetHeight;
+
+
+  element.style.animation =
+    "";
 
 }
 
@@ -2063,32 +3350,45 @@ function restartShiurScroll(){
 
 function applyAdminSettings(){
 
-  settings=getSettings();
+  settings =
+    getSettings();
 
 
-  const r=
+  const root =
     document.documentElement;
 
 
-  r.style.setProperty(
+  root.style.setProperty(
     "--main-scroll-speed",
-    (settings.mainScroll || 34)+"s"
+    (settings.mainScroll || 34)
+    +
+    "s"
   );
 
-  r.style.setProperty(
+
+  root.style.setProperty(
     "--candle-scroll-speed",
-    (settings.candleScroll || 26)+"s"
+    (settings.candleScroll || 26)
+    +
+    "s"
   );
 
-  r.style.setProperty(
+
+  root.style.setProperty(
     "--shiur-scroll-speed",
-    (settings.shiurScroll || 75)+"s"
+    (settings.shiurScroll || 75)
+    +
+    "s"
   );
 
-  r.style.setProperty(
+
+  root.style.setProperty(
     "--prayer-scroll-speed",
-    (settings.prayerScroll || 90)+"s"
+    (settings.prayerScroll || 90)
+    +
+    "s"
   );
+
 
 
   setText(
@@ -2096,50 +3396,60 @@ function applyAdminSettings(){
     settings.synagogue
   );
 
+
   setText(
     "rabbiName",
     settings.rabbi
   );
+
 
   setText(
     "pShacharit",
     settings.shacharit
   );
 
+
   setText(
     "pMincha",
     settings.mincha
   );
+
 
   setText(
     "pMaariv",
     settings.maariv
   );
 
+
   setText(
     "pShiur",
     settings.shiurTime
   );
+
 
   setText(
     "pShabbatShacharit",
     settings.shabbatShacharit
   );
 
+
   setText(
     "pShabbatMincha",
     settings.shabbatMincha
   );
+
 
   setText(
     "pShabbatMaariv",
     settings.shabbatMaariv
   );
 
+
   setText(
     "pHavdalah",
     settings.havdalah
   );
+
 
   setText(
     "mazalText",
@@ -2147,15 +3457,16 @@ function applyAdminSettings(){
   );
 
 
-  const an=
+
+  const announcement =
     document.getElementById(
       "announcementText"
     );
 
 
-  if(an){
+  if(announcement){
 
-    an.innerHTML =
+    announcement.innerHTML =
       escapeHtml(
         settings.announcement || ""
       )
@@ -2167,75 +3478,108 @@ function applyAdminSettings(){
   }
 
 
+
   setText(
     "parashaText",
     settings.parasha
   );
+
 
   setText(
     "center1",
     settings.center1
   );
 
+
   setText(
     "center2",
     settings.center2
   );
+
 
   setText(
     "center3",
     settings.center3
   );
 
+
   setText(
     "center4",
     settings.center4
   );
+
 
   setText(
     "center5",
     settings.center5
   );
 
+
   setText(
     "tachanun",
     settings.tachanun
   );
+
 
   setText(
     "parashaInfo",
     settings.parashaInfo
   );
 
+
   setText(
     "gevurot",
     settings.gevurot
   );
+
 
   setText(
     "hallel",
     settings.hallel
   );
 
+
   setText(
     "centerWelcome",
     settings.centerWelcome
   );
+
 
   setText(
     "centerMotto",
     settings.centerMotto
   );
 
-  setText(
-    "centerBlessing",
-    settings.centerBlessing
-  );
+
+
+  const holiday =
+    document.getElementById(
+      "centerBlessing"
+    );
+
+
+  if(holiday){
+
+    holiday.innerHTML =
+      escapeHtml(
+        settings.centerBlessing
+        ||
+        "🍎🍯 שנה טובה ומתוקה 🍯🍎\nכתיבה וחתימה טובה"
+      )
+      .replace(
+        /\n/g,
+        "<br>"
+      );
+
+  }
+
+
 
   setText(
     "centerMemorial",
     settings.memorial
   );
+
 
   setText(
     "footerMemorial",
@@ -2243,28 +3587,36 @@ function applyAdminSettings(){
   );
 
 
-  const zm=
+
+  const zmanim =
     settings.zmanim || {};
 
 
-  const zmids={
+  const zmanimIds={
 
-    alot:"zAlot",
+    alot:
+      "zAlot",
 
-    sunrise:"zSunrise",
+    sunrise:
+      "zSunrise",
 
-    shema:"zShema",
+    shema:
+      "zShema",
 
-    chatzot:"zChatzot",
+    chatzot:
+      "zChatzot",
 
     minchaGedola:
       "zMinchaGedola",
 
-    sunset:"zSunset",
+    sunset:
+      "zSunset",
 
-    tzeit:"zTzeit",
+    tzeit:
+      "zTzeit",
 
-    candles:"zCandles",
+    candles:
+      "zCandles",
 
     shabbatOut:
       "zShabbatOut"
@@ -2272,14 +3624,20 @@ function applyAdminSettings(){
   };
 
 
-  Object.keys(zmids)
+  Object.keys(
+    zmanimIds
+  )
   .forEach(
-    k=>
+    key=>{
+
       setText(
-        zmids[k],
-        zm[k] || ""
-      )
+        zmanimIds[key],
+        zmanim[key] || ""
+      );
+
+    }
   );
+
 
 
   setText(
@@ -2288,35 +3646,46 @@ function applyAdminSettings(){
   );
 
 
-  const cg=
+
+  const candleGrid =
     document.getElementById(
       "candleGrid"
     );
 
 
-  if(cg){
+  if(candleGrid){
 
-    const names=
+    const names =
       Array.isArray(
         settings.candleNames
       )
-      ? settings.candleNames
-      : [];
+      ?
+      settings.candleNames
+      :
+      [];
 
 
-    cg.innerHTML =
+    candleGrid.innerHTML =
       names
       .map(
-        n=>`
+        name=>`
+
         <div class="candle">
+
           <div class="flame"></div>
+
           <div class="wax"></div>
+
           <div class="candleName">
+
             ${escapeHtml(
-              n || "נר נשמה"
+              name || "נר נשמה"
             )}
+
           </div>
+
         </div>
+
         `
       )
       .join("");
@@ -2324,45 +3693,54 @@ function applyAdminSettings(){
   }
 
 
+
   setText(
     "shiurTitle",
     settings.shiurTitle
   );
+
 
   setText(
     "shiurPasuk",
     settings.shiurPasuk
   );
 
+
   setText(
     "shiurHalacha",
     settings.shiurHalacha
   );
+
 
   setText(
     "shiurMussar",
     settings.shiurMussar
   );
 
+
   setText(
     "shiurChassidut",
     settings.shiurChassidut
   );
+
 
   setText(
     "shiurTehillim",
     settings.shiurTehillim
   );
 
+
   setText(
     "shiurDaf",
     settings.shiurDaf
   );
 
+
   setText(
     "shiurTakeaway",
     settings.shiurTakeaway
   );
+
 
   setText(
     "shiurMemorial",
@@ -2377,12 +3755,22 @@ applyAdminSettings();
 
 
 
-/* =========================================================
-   PAGE ROTATION
-   Main 30 sec
-   Candles 30 sec
-   Shiur 30 sec
-========================================================= */
+window.addEventListener(
+  "storage",
+  ()=>{
+
+    applyAdminSettings();
+
+    checkCommand();
+
+  }
+);
+
+
+
+/* ============================================================
+   ROTATION
+============================================================ */
 
 const rotationPages=[
 
@@ -2401,11 +3789,16 @@ const rotationPages=[
 ];
 
 
-let rotationIndex=0;
+let rotationIndex =
+  0;
 
-let rotationPaused=false;
 
-let rotationTimer=null;
+let rotationPaused =
+  false;
+
+
+let rotationTimer =
+  null;
 
 
 
@@ -2413,11 +3806,17 @@ function durations(){
 
   return [
 
-    (settings.mainDuration || 30)*1000,
+    (settings.mainDuration || 30)
+    *
+    1000,
 
-    (settings.candleDuration || 30)*1000,
+    (settings.candleDuration || 30)
+    *
+    1000,
 
-    (settings.shiurDuration || 30)*1000
+    (settings.shiurDuration || 30)
+    *
+    1000
 
   ];
 
@@ -2425,21 +3824,26 @@ function durations(){
 
 
 
-function showPage(i){
+function showPage(index){
 
-  rotationPages.forEach(
-    (p,n)=>
-      p.classList.toggle(
+  rotationPages
+  .forEach(
+    (page,pageIndex)=>{
+
+      page.classList.toggle(
         "active",
-        n===i
-      )
+        pageIndex===index
+      );
+
+    }
   );
 
 
-  rotationIndex=i;
+  rotationIndex =
+    index;
 
 
-  if(i===2){
+  if(index===2){
 
     restartShiurScroll();
 
@@ -2451,83 +3855,113 @@ function showPage(i){
 
 function scheduleRotation(){
 
-  clearTimeout(rotationTimer);
+  clearTimeout(
+    rotationTimer
+  );
 
 
   if(rotationPaused){
+
     return;
+
   }
 
 
-  rotationTimer=
+  rotationTimer =
     setTimeout(
       ()=>{
 
         showPage(
-          (rotationIndex+1)%3
+          (
+            rotationIndex
+            +
+            1
+          )
+          %
+          3
         );
+
 
         scheduleRotation();
 
       },
 
-      durations()[rotationIndex]
+      durations()[
+        rotationIndex
+      ]
 
     );
 
 }
 
 
+
 scheduleRotation();
 
 
 
-/* =========================================================
+/* ============================================================
    PRAYER
-========================================================= */
+============================================================ */
 
-function showPrayer(key,title){
+function showPrayer(
+  key,
+  title
+){
 
-  const txt=
-    (settings.prayerTexts || {})[key]
+  const text =
+    (
+      settings.prayerTexts
+      ||
+      {}
+    )[key]
     ||
     localStorage.getItem(
-      "prayer_"+key
+      "prayer_"
+      +
+      key
     )
     ||
     "";
 
 
-  const titleEl=
+  const titleElement =
     document.getElementById(
       "prayerTitle"
     );
 
 
-  const scrollEl=
+  const scrollElement =
     document.getElementById(
       "prayerScroll"
     );
 
 
-  const overlay=
+  const overlay =
     document.getElementById(
       "prayerOverlay"
     );
 
 
-  titleEl.textContent=title;
+  titleElement.textContent =
+    title;
 
-  scrollEl.textContent=
-    txt ||
+
+  scrollElement.textContent =
+    text
+    ||
     "לא הוזן נוסח תפילה במנהל.";
 
 
-  scrollEl.style.animation="none";
+  scrollElement.style.animation =
+    "none";
 
-  void scrollEl.offsetHeight;
 
-  scrollEl.style.animation="";
+  void scrollElement.offsetHeight;
+
+
+  scrollElement.style.animation =
+    "";
 
 
   overlay.classList.add(
@@ -2541,126 +3975,197 @@ function showPrayer(key,title){
 function hidePrayer(){
 
   document
-    .getElementById(
-      "prayerOverlay"
-    )
-    .classList
-    .remove(
-      "show"
-    );
+  .getElementById(
+    "prayerOverlay"
+  )
+  .classList
+  .remove(
+    "show"
+  );
 
 }
 
 
 
 document
-  .getElementById(
-    "prayerClose"
-  )
-  .onclick=
-    hidePrayer;
+.getElementById(
+  "prayerClose"
+)
+.onclick =
+  hidePrayer;
 
 
 
-let lastCommandId="";
+/* ============================================================
+   ADMIN COMMANDS
+============================================================ */
+
+let lastCommandId =
+  "";
 
 
+function executeCommand(command){
 
-function executeCommand(c){
+  if(
+    !command
+    ||
+    !command.action
+  ){
 
-  if(!c || !c.action){
     return;
+
   }
 
 
-  const cid=
+  const commandId =
     String(
-      c.id ||
-      c.at ||
-      c.action
+      command.id
+      ||
+      command.at
+      ||
+      command.action
     );
 
 
-  if(cid===lastCommandId){
+  if(
+    commandId
+    ===
+    lastCommandId
+  ){
+
     return;
+
   }
 
 
-  lastCommandId=cid;
+  lastCommandId =
+    commandId;
 
 
   applyAdminSettings();
 
 
-  if(c.action==="showMain"){
 
-    rotationPaused=true;
+  if(
+    command.action
+    ===
+    "showMain"
+  ){
 
-    clearTimeout(rotationTimer);
+    rotationPaused =
+      true;
+
+
+    clearTimeout(
+      rotationTimer
+    );
+
 
     hidePrayer();
+
 
     showPage(0);
 
   }
 
 
-  else if(c.action==="showCandle"){
+  else if(
+    command.action
+    ===
+    "showCandle"
+  ){
 
-    rotationPaused=true;
+    rotationPaused =
+      true;
 
-    clearTimeout(rotationTimer);
+
+    clearTimeout(
+      rotationTimer
+    );
+
 
     hidePrayer();
+
 
     showPage(1);
 
   }
 
 
-  else if(c.action==="showShiur"){
+  else if(
+    command.action
+    ===
+    "showShiur"
+  ){
 
-    rotationPaused=true;
+    rotationPaused =
+      true;
 
-    clearTimeout(rotationTimer);
+
+    clearTimeout(
+      rotationTimer
+    );
+
 
     hidePrayer();
+
 
     showPage(2);
 
   }
 
 
-  else if(c.action==="startAll"){
+  else if(
+    command.action
+    ===
+    "startAll"
+  ){
 
-    rotationPaused=false;
+    rotationPaused =
+      false;
+
 
     hidePrayer();
 
+
     showPage(0);
+
 
     scheduleRotation();
 
   }
 
 
-  else if(c.action==="stopAll"){
+  else if(
+    command.action
+    ===
+    "stopAll"
+  ){
 
-    rotationPaused=true;
+    rotationPaused =
+      true;
 
-    clearTimeout(rotationTimer);
+
+    clearTimeout(
+      rotationTimer
+    );
 
   }
 
 
-  else if(c.action==="hidePrayer"){
+  else if(
+    command.action
+    ===
+    "hidePrayer"
+  ){
 
     hidePrayer();
 
   }
 
 
-  const pm={
+
+  const prayerMap={
 
     showShacharit:[
       "shacharit",
@@ -2700,14 +4205,25 @@ function executeCommand(c){
   };
 
 
-  if(pm[c.action]){
+  if(
+    prayerMap[
+      command.action
+    ]
+  ){
 
-    rotationPaused=true;
+    rotationPaused =
+      true;
 
-    clearTimeout(rotationTimer);
+
+    clearTimeout(
+      rotationTimer
+    );
+
 
     showPrayer(
-      ...pm[c.action]
+      ...prayerMap[
+        command.action
+      ]
     );
 
   }
@@ -2718,7 +4234,7 @@ function executeCommand(c){
 
 function checkCommand(){
 
-  const raw=
+  const raw =
     localStorage.getItem(
       "mb_command"
     )
@@ -2727,7 +4243,9 @@ function checkCommand(){
 
 
   if(!raw){
+
     return;
+
   }
 
 
@@ -2744,8 +4262,12 @@ function checkCommand(){
 
 
 
-const boardChannel=
-  ("BroadcastChannel" in window)
+const boardChannel =
+  (
+    "BroadcastChannel"
+    in
+    window
+  )
   ?
   new BroadcastChannel(
     "mb_admin_channel"
@@ -2756,25 +4278,17 @@ const boardChannel=
 
 if(boardChannel){
 
-  boardChannel.onmessage=
-    e=>
+  boardChannel.onmessage =
+    event=>{
+
       executeCommand(
-        e.data
+        event.data
       );
+
+    };
 
 }
 
-
-window.addEventListener(
-  "storage",
-  ()=>{
-
-    applyAdminSettings();
-
-    checkCommand();
-
-  }
-);
 
 
 setInterval(
@@ -2789,9 +4303,9 @@ checkCommand();
 
 
 
-<!-- ======================================================
+<!-- ============================================================
      SUPABASE
-====================================================== -->
+============================================================ -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 
@@ -2803,38 +4317,48 @@ checkCommand();
 
 <script>
 
-/* =========================================================
-   LOAD SYNAGOGUE ACCOUNT
-========================================================= */
-
-let currentSynagogueSlug="";
+let currentSynagogueSlug =
+  "";
 
 
 async function initTenantBoard(){
 
   if(
-    typeof appConfigured!=="function"
-    ||
-    !appConfigured()
+    typeof appConfigured
+    !==
+    "function"
   ){
+
     return;
+
   }
 
 
-  const sb=
+  if(
+    !appConfigured()
+  ){
+
+    return;
+
+  }
+
+
+  const sb =
     getSupabase();
 
 
-  const params=
+  const params =
     new URLSearchParams(
       location.search
     );
 
 
-  let slug=
+  let slug =
     params.get("s")
     ||
-    params.get("synagogue")
+    params.get(
+      "synagogue"
+    )
     ||
     "";
 
@@ -2845,18 +4369,22 @@ async function initTenantBoard(){
       data:{
         session
       }
-    }=
+    } =
       await sb.auth.getSession();
 
 
     if(session){
 
       const {
-        data:syn
-      }=
+        data:synagogue
+      } =
         await sb
-        .from("synagogues")
-        .select("slug")
+        .from(
+          "synagogues"
+        )
+        .select(
+          "slug"
+        )
         .eq(
           "owner_user_id",
           session.user.id
@@ -2864,8 +4392,11 @@ async function initTenantBoard(){
         .maybeSingle();
 
 
-      if(syn){
-        slug=syn.slug;
+      if(synagogue){
+
+        slug =
+          synagogue.slug;
+
       }
 
     }
@@ -2874,14 +4405,18 @@ async function initTenantBoard(){
 
 
   if(!slug){
+
     return;
+
   }
 
 
-  currentSynagogueSlug=slug;
+  currentSynagogueSlug =
+    slug;
 
 
-  const donateButton=
+
+  const donateButton =
     document.getElementById(
       "donateButton"
     );
@@ -2889,15 +4424,18 @@ async function initTenantBoard(){
 
   if(donateButton){
 
-    donateButton.href=
+    donateButton.href =
       "donate.html?synagogue="
       +
-      encodeURIComponent(slug);
+      encodeURIComponent(
+        slug
+      );
 
   }
 
 
-  const joinButton=
+
+  const joinButton =
     document.getElementById(
       "joinButton"
     );
@@ -2905,18 +4443,21 @@ async function initTenantBoard(){
 
   if(joinButton){
 
-    joinButton.href=
+    joinButton.href =
       "member-register.html?synagogue="
       +
-      encodeURIComponent(slug);
+      encodeURIComponent(
+        slug
+      );
 
   }
+
 
 
   const {
     data,
     error
-  }=
+  } =
     await sb.rpc(
       "get_public_board",
       {
@@ -2927,7 +4468,10 @@ async function initTenantBoard(){
 
   if(error){
 
-    console.error(error);
+    console.error(
+      "Board error:",
+      error
+    );
 
     return;
 
@@ -2935,11 +4479,13 @@ async function initTenantBoard(){
 
 
   if(!data){
+
     return;
+
   }
 
 
-  const row=
+  const row =
     Array.isArray(data)
     ?
     data[0]
@@ -2947,14 +4493,16 @@ async function initTenantBoard(){
     data;
 
 
-  const remote=
+  const remote =
     Object.assign(
       {},
-      row.settings || {}
+      row.settings
+      ||
+      {}
     );
 
 
-  remote.synagogue=
+  remote.synagogue =
     remote.synagogue
     ||
     row.synagogue_name
@@ -2962,7 +4510,7 @@ async function initTenantBoard(){
     "";
 
 
-  remote.rabbi=
+  remote.rabbi =
     remote.rabbi
     ||
     row.rabbi_name
@@ -2970,11 +4518,11 @@ async function initTenantBoard(){
     "";
 
 
-  window.__tenantRemoteSettings=
+  window.__tenantRemoteSettings =
     remote;
 
 
-  settings=
+  settings =
     getSettings();
 
 
@@ -2997,24 +4545,28 @@ window.addEventListener(
 
 
 
-/* =========================================================
-   AUTOMATIC שיעור יומי
-========================================================= */
+/* ============================================================
+   AUTOMATIC DAILY LESSON
+============================================================ */
 
 async function loadDailyLesson(){
 
   if(
-    typeof getSupabase!=="function"
+    typeof getSupabase
+    !==
+    "function"
   ){
+
     return;
+
   }
 
 
-  const sb=
+  const sb =
     getSupabase();
 
 
-  const status=
+  const status =
     document.getElementById(
       "shiurStatusText"
     );
@@ -3022,38 +4574,21 @@ async function loadDailyLesson(){
 
   try{
 
-
-    let q=
-      sb
-      .from("daily_lessons")
-      .select("*")
-      .eq("active",true);
-
-
-    /*
-      If your daily_lessons table has synagogue_slug,
-      use the matching synagogue automatically.
-    */
-
-    if(currentSynagogueSlug){
-
-      /*
-        We don't force the filter here,
-        because some existing tables may not yet have
-        synagogue_slug.
-
-        Later we can enable:
-        q = q.eq("synagogue_slug",currentSynagogueSlug);
-      */
-
-    }
-
-
     const {
       data,
       error
-    }=
-      await q
+    } =
+      await sb
+      .from(
+        "daily_lessons"
+      )
+      .select(
+        "*"
+      )
+      .eq(
+        "active",
+        true
+      )
       .order(
         "lesson_date",
         {
@@ -3071,10 +4606,14 @@ async function loadDailyLesson(){
         error.message
       );
 
+
       if(status){
-        status.textContent=
+
+        status.textContent =
           "ADMIN LESSON";
+
       }
+
 
       return;
 
@@ -3084,13 +4623,17 @@ async function loadDailyLesson(){
     if(!data){
 
       if(status){
-        status.textContent=
+
+        status.textContent =
           "ADMIN LESSON";
+
       }
+
 
       return;
 
     }
+
 
 
     if(data.title){
@@ -3188,24 +4731,23 @@ async function loadDailyLesson(){
 
     if(status){
 
-      status.textContent=
+      status.textContent =
         "LIVE • AUTO UPDATED";
 
     }
 
-
   }
-  catch(err){
+  catch(error){
 
     console.error(
       "Lesson load error:",
-      err
+      error
     );
 
 
     if(status){
 
-      status.textContent=
+      status.textContent =
         "ADMIN LESSON";
 
     }
@@ -3216,9 +4758,7 @@ async function loadDailyLesson(){
 
 
 
-/* =========================================================
-   CHECK EVERY 60 SECONDS
-========================================================= */
+/* check every minute */
 
 setInterval(
   loadDailyLesson,
@@ -3227,31 +4767,41 @@ setInterval(
 
 
 
-/* =========================================================
-   LIVE SUPABASE UPDATES
-========================================================= */
+/* ============================================================
+   REALTIME SUPABASE
+============================================================ */
 
-let lessonRealtimeStarted=false;
+let lessonRealtimeStarted =
+  false;
 
 
 function startLessonRealtime(){
 
-  if(lessonRealtimeStarted){
+  if(
+    lessonRealtimeStarted
+  ){
+
     return;
+
   }
 
 
   if(
-    typeof getSupabase!=="function"
+    typeof getSupabase
+    !==
+    "function"
   ){
+
     return;
+
   }
 
 
-  lessonRealtimeStarted=true;
+  lessonRealtimeStarted =
+    true;
 
 
-  const sb=
+  const sb =
     getSupabase();
 
 
@@ -3259,14 +4809,18 @@ function startLessonRealtime(){
   .channel(
     "daily-lessons-board-live"
   )
-
   .on(
     "postgres_changes",
 
     {
+
       event:"*",
+
       schema:"public",
-      table:"daily_lessons"
+
+      table:
+        "daily_lessons"
+
     },
 
     ()=>{
@@ -3276,10 +4830,35 @@ function startLessonRealtime(){
     }
 
   )
-
   .subscribe();
 
 }
+
+</script>
+
+
+
+<!-- ============================================================
+     PUBLIC PREVIEW REDIRECT
+     change/remove this if this is your permanent display page
+============================================================ -->
+
+<script>
+
+/*
+Uncomment this only if you WANT the public preview
+to go back to login after 60 seconds.
+
+setTimeout(
+  function(){
+
+    window.location.href =
+      "login.html";
+
+  },
+  60000
+);
+*/
 
 </script>
 
