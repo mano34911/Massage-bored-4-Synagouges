@@ -2,10 +2,15 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
 
-<title>חזון עובדיה</title>
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+>
+
+<title>חזון עובדיה - לוח בית הכנסת</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -27,9 +32,9 @@ body{
   padding:5px;
 }
 
-/* ===============================
-   OUTER PAINTING FRAME
-================================ */
+/* =====================================================
+   OUTER FRAME
+===================================================== */
 
 .board{
   width:100%;
@@ -51,10 +56,9 @@ body{
   padding:7px;
 }
 
-
-/* ===============================
-   TOP AREA
-================================ */
+/* =====================================================
+   TOP
+===================================================== */
 
 .top{
   display:grid;
@@ -70,12 +74,11 @@ body{
 }
 
 .clock{
-  background:
-    linear-gradient(
-      180deg,
-      #061e59,
-      #103b85
-    );
+  background:linear-gradient(
+    180deg,
+    #061e59,
+    #103b85
+  );
 
   color:#fff;
   min-height:205px;
@@ -86,7 +89,6 @@ body{
   align-items:center;
 
   text-align:center;
-
   padding:7px;
 }
 
@@ -111,7 +113,6 @@ body{
   align-items:center;
 
   text-align:center;
-
   padding:8px;
 }
 
@@ -134,10 +135,9 @@ body{
   line-height:1.35;
 }
 
-
-/* ===============================
-   MAIN THREE COLUMNS
-================================ */
+/* =====================================================
+   MAIN 3 COLUMNS
+===================================================== */
 
 .main-layout{
   display:grid;
@@ -147,14 +147,14 @@ body{
   align-items:stretch;
 }
 
-
-/* ===============================
-   SIDE PANELS
-================================ */
+/* =====================================================
+   SIDE COLUMNS
+===================================================== */
 
 .side{
   border:4px solid #d0a329;
   border-radius:27px;
+
   background:#fffdf2;
 
   box-shadow:
@@ -162,7 +162,6 @@ body{
     0 2px 5px rgba(0,0,0,.15);
 
   padding:8px 6px;
-
   min-height:780px;
 
   overflow:hidden;
@@ -190,6 +189,7 @@ body{
 
 .row{
   text-align:center;
+
   font-size:clamp(12px,2vw,20px);
   font-weight:800;
 
@@ -204,26 +204,19 @@ body{
   color:#ae261e;
 }
 
-
-/* ====================================================
+/* =====================================================
    CENTER BOX
 
-   THIS IS THE ONLY PLACE WHERE LESSON/CANDLES DISPLAY
-==================================================== */
+   IMPORTANT:
+   HOME / שיעור / CANDLES ALL STAY INSIDE THIS BOX
+===================================================== */
 
 .center-box{
-
-  /*
-     Very important:
-     everything is clipped inside this box.
-  */
-
   position:relative;
 
   min-height:780px;
 
   border:4px solid #d0a329;
-
   border-radius:27px;
 
   background:#fffdf2;
@@ -234,12 +227,6 @@ body{
 
   overflow:hidden;
 }
-
-
-/*
-   All 3 center displays occupy ONLY
-   the dimensions of .center-box.
-*/
 
 .center-page{
   position:absolute;
@@ -252,28 +239,22 @@ body{
   width:100%;
   height:100%;
 
+  padding:15px;
+
   overflow:hidden;
 
   background:#fffdf2;
 
-  padding:15px;
-
   display:none;
 }
-
-
-/*
-  Only one center page becomes visible.
-*/
 
 .center-page.active{
   display:flex;
 }
 
-
-/* ===============================
-   NORMAL MAIN CENTER
-================================ */
+/* =====================================================
+   NORMAL CENTER
+===================================================== */
 
 #homePage{
   flex-direction:column;
@@ -281,11 +262,9 @@ body{
   text-align:center;
 }
 
-
 .star{
   width:125px;
   height:125px;
-
   min-height:125px;
 
   border-radius:50%;
@@ -304,7 +283,7 @@ body{
     0 0 0 7px #965c36,
     0 5px 12px rgba(0,0,0,.25);
 
-  color:white;
+  color:#fff;
 
   display:flex;
   justify-content:center;
@@ -319,7 +298,6 @@ body{
   color:#188a87;
 
   font-size:clamp(21px,3.7vw,38px);
-
   font-weight:900;
 
   line-height:1.35;
@@ -331,7 +309,6 @@ body{
   width:94%;
 
   border:4px solid #b88b20;
-
   border-radius:28px;
 
   padding:13px 8px;
@@ -339,7 +316,6 @@ body{
   background:#fffdf5;
 
   font-size:clamp(14px,2.4vw,24px);
-
   font-weight:900;
 
   line-height:1.45;
@@ -349,7 +325,6 @@ body{
   color:#289668;
 
   font-size:clamp(20px,3.4vw,34px);
-
   font-weight:900;
 
   line-height:1.45;
@@ -361,7 +336,6 @@ body{
   color:#946618;
 
   font-size:clamp(18px,3vw,30px);
-
   font-weight:900;
 
   margin-top:18px;
@@ -373,7 +347,6 @@ body{
   color:#173b80;
 
   font-size:clamp(18px,3vw,30px);
-
   font-weight:900;
 
   line-height:1.5;
@@ -385,7 +358,6 @@ body{
   width:94%;
 
   border:4px solid #b88b20;
-
   border-radius:24px;
 
   background:#fff0c8;
@@ -397,30 +369,21 @@ body{
   color:#745118;
 
   font-size:clamp(15px,2.4vw,24px);
-
   font-weight:900;
 
   line-height:1.4;
 }
 
-
-/* =============================================
+/* =====================================================
    שיעור יומי
-   THIS CANNOT LEAVE THE CENTER BOX
-============================================= */
+===================================================== */
 
 #lessonPage{
   justify-content:center;
   align-items:center;
 }
 
-
-/*
-  Reduced size so gold center border remains visible.
-*/
-
 .lesson-frame{
-
   width:88%;
   height:90%;
 
@@ -428,7 +391,6 @@ body{
   max-height:90%;
 
   border:4px solid #b88b20;
-
   border-radius:27px;
 
   background:#fffaf0;
@@ -443,7 +405,6 @@ body{
 }
 
 .lesson-title{
-
   flex:0 0 auto;
 
   background:#f3dda0;
@@ -457,12 +418,24 @@ body{
   color:#173b80;
 
   font-size:clamp(23px,4vw,41px);
-
   font-weight:900;
 }
 
-.lesson-scroll{
+.lesson-date{
+  text-align:center;
 
+  padding:5px;
+
+  background:#fff4ce;
+
+  color:#7a5414;
+
+  font-weight:800;
+
+  font-size:clamp(12px,2vw,18px);
+}
+
+.lesson-scroll{
   flex:1;
 
   width:100%;
@@ -475,7 +448,6 @@ body{
   text-align:center;
 
   font-size:clamp(17px,2.8vw,29px);
-
   font-weight:800;
 
   line-height:1.55;
@@ -492,11 +464,19 @@ body{
   margin:5px 0 15px;
 }
 
+.lesson-loading{
+  color:#87631c;
+  font-size:20px;
+  padding:30px 10px;
+}
 
-/* =============================================
+.lesson-error{
+  color:#9c261e;
+}
+
+/* =====================================================
    CANDLES
-   ALSO REMAINS INSIDE THE SAME CENTER BOX
-============================================= */
+===================================================== */
 
 #candlesPage{
   justify-content:center;
@@ -504,12 +484,10 @@ body{
 }
 
 .candle-frame{
-
   width:88%;
   height:90%;
 
   border:4px solid #b88b20;
-
   border-radius:27px;
 
   background:
@@ -534,7 +512,6 @@ body{
   color:#173b80;
 
   font-size:clamp(23px,4vw,40px);
-
   font-weight:900;
 
   margin-bottom:25px;
@@ -543,38 +520,35 @@ body{
 .candles{
   font-size:clamp(70px,13vw,145px);
   line-height:1;
+
   margin-bottom:25px;
 }
 
 .candle-message{
-
   color:#754b13;
 
   font-size:clamp(19px,3.2vw,33px);
-
   font-weight:900;
 
   line-height:1.5;
 }
 
-
-/* ===============================
-   BOTTOM BOXES
-================================ */
+/* =====================================================
+   BOTTOM
+===================================================== */
 
 .bottom{
   display:grid;
   grid-template-columns:21% 58% 21%;
   gap:7px;
+
   margin-top:7px;
 }
 
 .bottom-box{
-
   min-height:180px;
 
   border:4px solid #d0a329;
-
   border-radius:27px;
 
   background:#fffdf2;
@@ -589,13 +563,11 @@ body{
 }
 
 .bottom-title{
-
   display:inline-block;
 
   background:#e7c65f;
 
   border:4px solid #b88b1d;
-
   border-radius:18px;
 
   padding:7px 13px;
@@ -607,58 +579,52 @@ body{
   margin-bottom:12px;
 }
 
-
-/* ===================================
+/* =====================================================
    ADMIN GEAR
-
-   Kept ABOVE Safari bottom controls
-=================================== */
+===================================================== */
 
 .admin-gear{
-
   position:fixed !important;
-
-  /*
-   env(safe-area-inset-bottom) helps
-   on iPhone.
-  */
-
-  bottom:calc(75px + env(safe-area-inset-bottom)) !important;
 
   right:14px !important;
 
-  width:52px;
-  height:52px;
+  /*
+     Keep it above iPhone Safari toolbar.
+  */
+
+  bottom:calc(82px + env(safe-area-inset-bottom)) !important;
+
+  width:56px;
+  height:56px;
 
   display:flex !important;
 
   align-items:center;
   justify-content:center;
 
-  background:#ffffff;
+  background:#fff;
 
-  border:3px solid #c39218;
+  border:4px solid #c39218;
 
   border-radius:50%;
 
   color:#46320d;
 
-  font-size:27px;
+  font-size:29px;
 
   text-decoration:none;
 
   box-shadow:
-    0 3px 12px rgba(0,0,0,.45);
+    0 3px 14px rgba(0,0,0,.5);
 
   z-index:2147483647 !important;
 
-  opacity:.95;
+  opacity:.98;
 }
 
-
-/* ===============================
+/* =====================================================
    MOBILE
-================================ */
+===================================================== */
 
 @media(max-width:700px){
 
@@ -724,18 +690,22 @@ body{
     border-width:7px;
   }
 
-  /*
-   Keep lesson even smaller on phones.
-  */
-
   .lesson-frame,
   .candle-frame{
     width:90%;
     max-width:90%;
+
     height:90%;
     max-height:90%;
   }
 
+  .admin-gear{
+    right:10px !important;
+    bottom:calc(85px + env(safe-area-inset-bottom)) !important;
+
+    width:54px;
+    height:54px;
+  }
 }
 
 </style>
@@ -746,28 +716,39 @@ body{
 
 <div class="board">
 
-
-<!-- ===============================
+<!-- =====================================================
      TOP
-================================ -->
+===================================================== -->
 
 <div class="top">
 
   <div class="topbox clock">
-    <div class="city">NEW YORK</div>
-    <div class="time" id="nyTime">--:--:--</div>
+
+    <div class="city">
+      NEW YORK
+    </div>
+
+    <div
+      class="time"
+      id="nyTime">
+      --:--:--
+    </div>
+
   </div>
 
 
   <div class="topbox header">
 
-    <h1>חזון עובדיה</h1>
+    <h1>
+      חזון עובדיה
+    </h1>
 
-    <h1>Hazon-Ovadia</h1>
+    <h1>
+      Hazon-Ovadia
+    </h1>
 
     <h2>
-      דניאל נבון
-      Daniel Navon
+      דניאל נבון Daniel Navon
     </h2>
 
     <div
@@ -795,15 +776,14 @@ body{
 </div>
 
 
-
-<!-- ===============================
+<!-- =====================================================
      MAIN AREA
-================================ -->
+===================================================== -->
 
 <div class="main-layout">
 
 
-<!-- LEFT COLUMN -->
+<!-- LEFT -->
 
 <div class="side">
 
@@ -859,95 +839,231 @@ body{
 </div>
 
 
+<!-- =====================================================
+     CENTER
 
-<!-- =================================================
-     CENTER BOX
-
-     HOME / שיעור יומי / CANDLES
-     ALL LIVE INSIDE THIS EXACT BOX
-================================================== -->
+     ONLY THIS BOX CHANGES
+===================================================== -->
 
 <div
   class="center-box"
   id="centerBox">
 
 
-  <!-- NORMAL CENTER -->
+<!-- NORMAL MAIN CENTER -->
 
-  <div
-    class="center-page active"
-    id="homePage">
+<div
+  class="center-page active"
+  id="homePage">
 
+  <div class="star">
+    ✡
+  </div>
 
-    <div class="star">
-      ✡
-    </div>
+  <div class="main-message">
 
+    נא לעקוב אחר ההודעות
 
-    <div class="main-message">
+    <br>
 
-      נא לעקוב אחר ההודעות
+    החשובות של הקהילה
 
-      <br>
-
-      החשובות של הקהילה
-
-    </div>
+  </div>
 
 
-    <div class="week-info">
+  <div class="week-info">
 
+    <strong>
       תחנון שחרית:
-      אומרים
+    </strong>
 
-      <br>
+    אומרים
 
+    <br>
+
+    <strong>
       פרשת השבוע:
-      נצבים־וילך
+    </strong>
 
-      <br>
+    נצבים־וילך
 
+    <br>
+
+    <strong>
       גבורות:
-      מוריד הטל
+    </strong>
 
-      <br>
+    מוריד הטל
 
+    <br>
+
+    <strong>
       הלל:
-      אין הלל
+    </strong>
+
+    אין הלל
+
+  </div>
+
+
+  <div class="welcome">
+
+    ברוכים הבאים לבית
+
+    <br>
+
+    הכנסת חזון עובדיה
+
+  </div>
+
+
+  <div class="values">
+
+    תפילה • תורה • חסד • אחדות
+
+  </div>
+
+
+  <div class="blessing">
+
+    שנזכה לשנה טובה
+
+    <br>
+
+    ומתוקה ולבשורות טובות
+
+  </div>
+
+
+  <div class="memorial">
+
+    לעילוי נשמת
+
+    <br>
+
+    זהבה חלא בת דינה זצ״ל
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     שיעור יומי
+     LOADED FROM SUPABASE
+===================================================== -->
+
+<div
+  class="center-page"
+  id="lessonPage">
+
+  <div class="lesson-frame">
+
+
+    <div
+      class="lesson-title"
+      id="lessonTitle">
+
+      שיעור יומי
 
     </div>
 
 
-    <div class="welcome">
+    <div
+      class="lesson-date"
+      id="lessonDate">
 
-      ברוכים הבאים לבית
-
-      <br>
-
-      הכנסת חזון עובדיה
+      שיעור היום
 
     </div>
 
 
-    <div class="values">
+    <div
+      class="lesson-scroll"
+      id="lessonScroll">
 
-      תפילה • תורה • חסד • אחדות
+
+      <div
+        class="lesson-loading"
+        id="lessonLoading">
+
+        טוען שיעור יומי...
+
+      </div>
+
+
+      <div
+        id="lessonContent"
+        style="display:none;">
+
+
+        <h3 id="pasukTitle">
+          פסוק היום
+        </h3>
+
+        <p id="pasukText"></p>
+
+
+        <h3 id="halachaTitle">
+          הלכה יומית
+        </h3>
+
+        <p id="halachaText"></p>
+
+
+        <h3 id="mussarTitle">
+          מוסר יומי
+        </h3>
+
+        <p id="mussarText"></p>
+
+
+        <h3 id="chassidutTitle">
+          חסידות ותניא
+        </h3>
+
+        <p id="chassidutText"></p>
+
+
+        <h3 id="takeawayTitle">
+          המסר להיום
+        </h3>
+
+        <p id="takeawayText"></p>
+
+
+      </div>
 
     </div>
 
+  </div>
 
-    <div class="blessing">
+</div>
 
-      שנזכה לשנה טובה
 
-      <br>
+<!-- =====================================================
+     CANDLES
+===================================================== -->
 
-      ומתוקה ולבשורות טובות
+<div
+  class="center-page"
+  id="candlesPage">
 
+  <div class="candle-frame">
+
+    <div class="candle-title">
+      נרות שבת קודש
     </div>
 
+    <div class="candles">
+      🕯️ 🕯️
+    </div>
 
-    <div class="memorial">
+    <div class="candle-message">
+
+      שבת שלום ומבורך
+
+      <br><br>
 
       לעילוי נשמת
 
@@ -955,225 +1071,62 @@ body{
 
       זהבה חלא בת דינה זצ״ל
 
-    </div>
+      <br><br>
 
-  </div>
-
-
-
-  <!-- ==========================================
-       שיעור יומי
-       THIS IS INSIDE center-box
-  =========================================== -->
-
-  <div
-    class="center-page"
-    id="lessonPage">
-
-
-    <div class="lesson-frame">
-
-
-      <div class="lesson-title">
-        שיעור יומי
-      </div>
-
-
-      <div class="lesson-scroll">
-
-
-        <h3>
-          פסוק היום
-        </h3>
-
-        <p>
-
-          עִבְדוּ אֶת ה׳
-          בְּשִׂמְחָה,
-          בֹּאוּ לְפָנָיו
-          בִּרְנָנָה.
-
-        </p>
-
-
-        <h3>
-          הלכה יומית
-        </h3>
-
-        <p>
-
-          טוב להתחיל את היום
-          בהודאה לה׳,
-          להתפלל בכוונה
-          ולדבר בנחת
-          ובכבוד עם כל אדם.
-
-        </p>
-
-
-        <h3>
-          מוסר יומי
-        </h3>
-
-        <p>
-
-          מילה טובה,
-          חיוך ועזרה לזולת
-          יכולים לשנות
-          את כל היום של אדם.
-
-        </p>
-
-
-        <h3>
-          חסידות ותניא
-        </h3>
-
-        <p>
-
-          לכל יהודי יש
-          נשמה אלוקית.
-
-          תפקידנו לגלות
-          את האור שבה
-          באמצעות תורה,
-          מצוות ומעשים טובים.
-
-        </p>
-
-
-        <h3>
-          המסר להיום
-        </h3>
-
-        <p>
-
-          עשה היום
-          מעשה טוב נוסף.
-
-          <br>
-
-          אמור מילה טובה
-          לאדם אחר
-
-          <br>
-
-          והוסף אור בעולם.
-
-        </p>
-
-
-      </div>
+      תנצב״ה
 
     </div>
 
   </div>
 
-
-
-  <!-- ==========================================
-       CANDLES
-       ALSO INSIDE center-box
-  =========================================== -->
-
-  <div
-    class="center-page"
-    id="candlesPage">
-
-
-    <div class="candle-frame">
-
-
-      <div class="candle-title">
-        נרות שבת קודש
-      </div>
-
-
-      <div class="candles">
-
-        🕯️ 🕯️
-
-      </div>
-
-
-      <div class="candle-message">
-
-        שבת שלום ומבורך
-
-        <br><br>
-
-        לעילוי נשמת
-
-        <br>
-
-        זהבה חלא בת דינה זצ״ל
-
-        <br><br>
-
-        תנצב״ה
-
-      </div>
-
-    </div>
-
-  </div>
+</div>
 
 
 </div>
 
 
-
-<!-- RIGHT COLUMN -->
+<!-- RIGHT -->
 
 <div class="side">
-
 
   <div class="side-heading">
     זמני תפילה
   </div>
-
 
   <div class="row">
     שחרית<br>
     08:30
   </div>
 
-
   <div class="row">
     מנחה<br>
     18:30
   </div>
-
 
   <div class="row">
     ערבית<br>
     19:30
   </div>
 
-
   <div class="row">
     שיעור תורה<br>
     17:30
   </div>
-
 
   <div class="row">
     שחרית שבת<br>
     08:30
   </div>
 
-
   <div class="row">
     מנחה שבת<br>
     18:30
   </div>
 
-
   <div class="row">
     ערבית ליל שבת<br>
     19:00
   </div>
-
 
   <div class="row">
     הבדלה<br>
@@ -1182,98 +1135,393 @@ body{
 
 </div>
 
-
 </div>
 
 
-
-<!-- ===============================
-     BOTTOM AREA
-================================ -->
+<!-- =====================================================
+     BOTTOM
+===================================================== -->
 
 <div class="bottom">
 
 
-<div class="bottom-box">
+  <div class="bottom-box">
 
-  <div class="bottom-title">
-    הודעות
+    <div class="bottom-title">
+      הודעות
+    </div>
+
+    <br>
+
+    ברוכים הבאים
+    לבית הכנסת
+
   </div>
 
-  <br>
 
-  ברוכים הבאים
-  לבית הכנסת
+  <div class="bottom-box">
 
-</div>
+    <div class="bottom-title">
+      הקדשה
+    </div>
 
+    <br>
 
+    לעילוי נשמת
 
-<div class="bottom-box">
+    <br>
 
-  <div class="bottom-title">
-    הקדשה
+    זהבה חלא בת דינה זצ״ל
+
   </div>
 
-  <br>
 
-  לעילוי נשמת
+  <div class="bottom-box">
 
-  <br>
+    <div class="bottom-title">
+      מזל טוב
+    </div>
 
-  זהבה חלא בת דינה זצ״ל
+    <br>
 
-</div>
+    ברכת מזל טוב
 
+    <br>
 
+    לחברי הקהילה
 
-<div class="bottom-box">
-
-  <div class="bottom-title">
-    מזל טוב
   </div>
 
-  <br>
 
-  ברכת מזל טוב
-
-  <br>
-
-  לחברי הקהילה
+</div>
 
 </div>
 
 
-</div>
-
-
-</div>
-
-
-
-<!-- =======================================
+<!-- =====================================================
      ADMIN GEAR
-======================================= -->
+===================================================== -->
 
 <a
   href="admin.html"
   class="admin-gear"
-  aria-label="Admin"
-  title="Admin">
+  title="Admin"
+  aria-label="Admin">
   ⚙️
 </a>
 
 
-
 <script>
 
-/* =============================================
+/* =====================================================
+   SUPABASE
+
+   Your project URL is already entered.
+
+   IMPORTANT:
+   Use only your PUBLIC / PUBLISHABLE / ANON key here.
+   NEVER put a service_role key in index.html.
+===================================================== */
+
+const SUPABASE_URL =
+  "https://oyeeeooymrzemxfrvcon.supabase.co";
+
+
+const SUPABASE_KEY =
+  "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+
+let db = null;
+
+
+try{
+
+  db = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+}catch(error){
+
+  console.error(
+    "Supabase initialization error:",
+    error
+  );
+
+}
+
+
+/* =====================================================
+   LOAD שיעור יומי FROM SUPABASE
+===================================================== */
+
+async function loadDailyLesson(){
+
+  if(!db){
+    return;
+  }
+
+
+  const loading =
+    document.getElementById(
+      "lessonLoading"
+    );
+
+
+  const content =
+    document.getElementById(
+      "lessonContent"
+    );
+
+
+  try{
+
+
+    const {
+      data,
+      error
+    } = await db
+
+      .from("daily_lesson")
+
+      .select("*")
+
+      .eq(
+        "active",
+        true
+      )
+
+      .order(
+        "lesson_date",
+        {
+          ascending:false
+        }
+      )
+
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      )
+
+      .limit(1)
+
+      .maybeSingle();
+
+
+
+    if(error){
+
+      console.error(
+        "Daily lesson error:",
+        error
+      );
+
+      loading.innerHTML =
+        "לא ניתן לטעון את השיעור כרגע";
+
+      loading.classList.add(
+        "lesson-error"
+      );
+
+      return;
+    }
+
+
+
+    if(!data){
+
+      loading.innerHTML =
+        "עדיין לא הוזן שיעור יומי";
+
+      return;
+    }
+
+
+
+    /* TITLE */
+
+    document.getElementById(
+      "lessonTitle"
+    ).textContent =
+
+      data.title ||
+      "שיעור יומי";
+
+
+
+    /* DATE */
+
+    if(data.lesson_date){
+
+      const date =
+        new Date(
+          data.lesson_date +
+          "T12:00:00"
+        );
+
+
+      document.getElementById(
+        "lessonDate"
+      ).textContent =
+
+        new Intl.DateTimeFormat(
+          "he-IL",
+          {
+            weekday:"long",
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+          }
+        ).format(date);
+
+    }
+
+
+
+    /* PASUK */
+
+    document.getElementById(
+      "pasukTitle"
+    ).textContent =
+
+      data.pasuk_title ||
+      "פסוק היום";
+
+
+    document.getElementById(
+      "pasukText"
+    ).textContent =
+
+      data.pasuk || "";
+
+
+
+    /* HALACHA */
+
+    document.getElementById(
+      "halachaTitle"
+    ).textContent =
+
+      data.halacha_title ||
+      "הלכה יומית";
+
+
+    document.getElementById(
+      "halachaText"
+    ).textContent =
+
+      data.halacha || "";
+
+
+
+    /* MUSSAR */
+
+    document.getElementById(
+      "mussarTitle"
+    ).textContent =
+
+      data.mussar_title ||
+      "מוסר יומי";
+
+
+    document.getElementById(
+      "mussarText"
+    ).textContent =
+
+      data.mussar || "";
+
+
+
+    /* CHASSIDUT */
+
+    document.getElementById(
+      "chassidutTitle"
+    ).textContent =
+
+      data.chassidut_title ||
+      "חסידות ותניא";
+
+
+    document.getElementById(
+      "chassidutText"
+    ).textContent =
+
+      data.chassidut || "";
+
+
+
+    /* TAKEAWAY */
+
+    document.getElementById(
+      "takeawayTitle"
+    ).textContent =
+
+      data.takeaway_title ||
+      "המסר להיום";
+
+
+    document.getElementById(
+      "takeawayText"
+    ).textContent =
+
+      data.takeaway || "";
+
+
+
+    loading.style.display =
+      "none";
+
+
+    content.style.display =
+      "block";
+
+
+    console.log(
+      "Daily lesson updated from Supabase."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Daily lesson exception:",
+      error
+    );
+
+  }
+
+}
+
+
+
+/* Load immediately */
+
+loadDailyLesson();
+
+
+/*
+   Check Supabase every 5 minutes.
+
+   This means you can update the שיעור
+   in Supabase without changing index.html.
+*/
+
+setInterval(
+  loadDailyLesson,
+  5 * 60 * 1000
+);
+
+
+/* =====================================================
    CLOCKS
-============================================= */
+===================================================== */
 
 function updateClocks(){
 
-  const now = new Date();
+  const now =
+    new Date();
 
 
   document.getElementById(
@@ -1283,10 +1531,18 @@ function updateClocks(){
     new Intl.DateTimeFormat(
       "en-US",
       {
-        timeZone:"America/New_York",
-        hour:"2-digit",
-        minute:"2-digit",
-        second:"2-digit",
+        timeZone:
+          "America/New_York",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit",
+
+        second:
+          "2-digit",
+
         hour12:false
       }
     ).format(now);
@@ -1300,10 +1556,18 @@ function updateClocks(){
     new Intl.DateTimeFormat(
       "en-US",
       {
-        timeZone:"Asia/Jerusalem",
-        hour:"2-digit",
-        minute:"2-digit",
-        second:"2-digit",
+        timeZone:
+          "Asia/Jerusalem",
+
+        hour:
+          "2-digit",
+
+        minute:
+          "2-digit",
+
+        second:
+          "2-digit",
+
         hour12:false
       }
     ).format(now);
@@ -1313,20 +1577,21 @@ function updateClocks(){
 
 updateClocks();
 
+
 setInterval(
   updateClocks,
   1000
 );
 
 
-
-/* =============================================
+/* =====================================================
    DATE
-============================================= */
+===================================================== */
 
 function updateDate(){
 
-  const now = new Date();
+  const now =
+    new Date();
 
 
   const regular =
@@ -1342,6 +1607,7 @@ function updateDate(){
     ).format(now);
 
 
+
   const hebrew =
 
     new Intl.DateTimeFormat(
@@ -1352,6 +1618,7 @@ function updateDate(){
         year:"numeric"
       }
     ).format(now);
+
 
 
   document.getElementById(
@@ -1368,35 +1635,49 @@ function updateDate(){
 updateDate();
 
 
+/* =====================================================
+   CENTER ROTATION
 
-/* ==================================================
-   IMPORTANT
+   IMPORTANT:
 
-   NO WINDOW LOCATION
-   NO IFRAME
-   NO index1.html
-   NO lesson.html
+   This NEVER opens another HTML page.
 
-   ONLY switch content INSIDE center-box.
-================================================== */
+   It only changes what is visible
+   INSIDE .center-box.
+===================================================== */
 
 const homePage =
-  document.getElementById("homePage");
+  document.getElementById(
+    "homePage"
+  );
+
 
 const lessonPage =
-  document.getElementById("lessonPage");
+  document.getElementById(
+    "lessonPage"
+  );
+
 
 const candlesPage =
-  document.getElementById("candlesPage");
+  document.getElementById(
+    "candlesPage"
+  );
+
 
 
 function hideCenterPages(){
 
-  homePage.classList.remove("active");
+  homePage.classList.remove(
+    "active"
+  );
 
-  lessonPage.classList.remove("active");
+  lessonPage.classList.remove(
+    "active"
+  );
 
-  candlesPage.classList.remove("active");
+  candlesPage.classList.remove(
+    "active"
+  );
 
 }
 
@@ -1406,7 +1687,9 @@ function showHome(){
 
   hideCenterPages();
 
-  homePage.classList.add("active");
+  homePage.classList.add(
+    "active"
+  );
 
 }
 
@@ -1416,15 +1699,28 @@ function showLesson(){
 
   hideCenterPages();
 
-  lessonPage.classList.add("active");
 
-  const scroller =
-    lessonPage.querySelector(
-      ".lesson-scroll"
+  /*
+    Refresh Supabase when the
+    lesson is about to appear.
+  */
+
+  loadDailyLesson();
+
+
+  lessonPage.classList.add(
+    "active"
+  );
+
+
+  const scroll =
+    document.getElementById(
+      "lessonScroll"
     );
 
-  if(scroller){
-    scroller.scrollTop = 0;
+
+  if(scroll){
+    scroll.scrollTop = 0;
   }
 
 }
@@ -1435,94 +1731,121 @@ function showCandles(){
 
   hideCenterPages();
 
-  candlesPage.classList.add("active");
-
-}
-
-
-
-/* =============================================
-   ROTATION
-
-   Main        30 seconds
-   שיעור יומי 30 seconds
-   Main        30 seconds
-   Candles     30 seconds
-
-   Then repeat.
-============================================= */
-
-const rotation = [
-
-  {
-    page:"home",
-    time:30000
-  },
-
-  {
-    page:"lesson",
-    time:30000
-  },
-
-  {
-    page:"home",
-    time:30000
-  },
-
-  {
-    page:"candles",
-    time:30000
-  }
-
-];
-
-
-let currentSlide = 0;
-
-
-
-function rotateCenter(){
-
-  const item =
-    rotation[currentSlide];
-
-
-  if(item.page === "home"){
-    showHome();
-  }
-
-  else if(item.page === "lesson"){
-    showLesson();
-  }
-
-  else if(item.page === "candles"){
-    showCandles();
-  }
-
-
-  setTimeout(
-    function(){
-
-      currentSlide++;
-
-      if(
-        currentSlide >=
-        rotation.length
-      ){
-        currentSlide = 0;
-      }
-
-      rotateCenter();
-
-    },
-
-    item.time
+  candlesPage.classList.add(
+    "active"
   );
 
 }
 
 
-rotateCenter();
+/* =====================================================
+   ROTATION
+
+   Main       = 30 seconds
+   שיעור יומי = 30 seconds
+   Main       = 30 seconds
+   Candles    = 30 seconds
+===================================================== */
+
+const rotation = [
+
+  {
+    page:"home",
+    duration:30000
+  },
+
+  {
+    page:"lesson",
+    duration:30000
+  },
+
+  {
+    page:"home",
+    duration:30000
+  },
+
+  {
+    page:"candles",
+    duration:30000
+  }
+
+];
+
+
+let rotationIndex = 0;
+
+
+
+function runRotation(){
+
+  const item =
+    rotation[
+      rotationIndex
+    ];
+
+
+  if(
+    item.page ===
+    "home"
+  ){
+
+    showHome();
+
+  }
+
+
+  else if(
+    item.page ===
+    "lesson"
+  ){
+
+    showLesson();
+
+  }
+
+
+  else if(
+    item.page ===
+    "candles"
+  ){
+
+    showCandles();
+
+  }
+
+
+
+  setTimeout(
+
+    function(){
+
+
+      rotationIndex++;
+
+
+      if(
+        rotationIndex >=
+        rotation.length
+      ){
+
+        rotationIndex = 0;
+
+      }
+
+
+      runRotation();
+
+
+    },
+
+    item.duration
+
+  );
+
+}
+
+
+runRotation();
 
 </script>
 
