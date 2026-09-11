@@ -2,2602 +2,966 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-
 <meta
   name="viewport"
   content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
-
 <title>לוח בית הכנסת</title>
 
-<meta name="theme-color" content="#06245c">
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-
-/* ============================================================
-   RESET
-============================================================ */
-
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-
-  overflow: hidden;
-
-  font-family:
-    Arial,
-    "Noto Sans Hebrew",
-    sans-serif;
-
-  background: #061f57;
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#f6edcb;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#2e2412;
 }
 
+body{
+  padding:6px;
+}
 
-/* ============================================================
-   MAIN BOARD
-============================================================ */
-
-#board {
-
-  position: relative;
-
-  width: 100vw;
-  height: 100vh;
-
-  padding: 10px;
-
-  display: grid;
-
-  grid-template-rows:
-    16vh
-    1fr;
-
-  gap: 8px;
-
+.board{
+  width:100%;
+  min-height:100vh;
+  border:7px solid #d4a62a;
   background:
-    linear-gradient(
-      90deg,
-      #06255e 0,
-      #0b3476 2.5%,
-      #f4c43a 2.7%,
-      #fff7dc 3.3%,
-      #fff7dc 96.7%,
-      #f4c43a 97.3%,
-      #0b3476 97.5%,
-      #06255e 100%
-    );
-
-  border: 4px solid #e8b92e;
-}
-
-
-/* ============================================================
-   GOLD PANELS
-============================================================ */
-
-.goldPanel {
-
-  border: 4px solid #d4a42b;
-
-  border-radius: 28px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #fffdf4,
-      #fbf1cc
-    );
-
+    linear-gradient(#fffdf4,#f7edc8);
   box-shadow:
-    inset 0 0 0 2px #fff6c8,
-    0 3px 8px rgba(0,0,0,.25);
+    inset 0 0 0 3px #fff2a7,
+    inset 0 0 18px rgba(128,89,0,.4);
+  padding:8px;
 }
 
-
-/* ============================================================
-   TOP ROW
-============================================================ */
-
-.topRow {
-
-  display: grid;
-
-  grid-template-columns:
-    20%
-    1fr
-    20%;
-
-  gap: 10px;
+.top-grid{
+  display:grid;
+  grid-template-columns:21% 58% 21%;
+  gap:8px;
+  align-items:stretch;
 }
 
-
-/* ============================================================
-   CLOCKS
-============================================================ */
-
-.clockBox {
-
-  border: 4px solid #e1ae2b;
-
-  border-radius: 30px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #061b52,
-      #0b3378
-    );
-
-  color: white;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
+.clock-box,
+.header-box,
+.side-box,
+.center-panel{
+  border:4px solid #d0a52e;
+  border-radius:28px;
+  background:#fffdf4;
   box-shadow:
-    inset 0 0 0 2px #fff2a7,
-    0 4px 8px #0005;
+    inset 0 0 15px rgba(183,136,22,.22),
+    0 2px 6px rgba(0,0,0,.15);
 }
 
-
-.clockCity {
-
-  font-size:
-    clamp(
-      15px,
-      2.2vw,
-      27px
-    );
-
-  font-weight: 900;
+.clock-box{
+  background:linear-gradient(#08276d,#0d347f);
+  color:white;
+  text-align:center;
+  padding:22px 6px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 
-
-.clockTime {
-
-  margin-top: 5px;
-
-  font-size:
-    clamp(
-      22px,
-      3.8vw,
-      44px
-    );
-
-  font-weight: 900;
+.clock-city{
+  font-weight:900;
+  font-size:clamp(14px,2.8vw,24px);
 }
 
-
-/* ============================================================
-   TITLE
-============================================================ */
-
-.titleBox {
-
-  text-align: center;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 6px;
+.clock-time{
+  font-weight:900;
+  font-size:clamp(20px,4vw,34px);
+  margin-top:6px;
+  letter-spacing:1px;
 }
 
-
-#synagogueName {
-
-  margin: 0;
-
-  color: #0b2d70;
-
-  font-size:
-    clamp(
-      34px,
-      5.7vw,
-      72px
-    );
-
-  line-height: 1;
-
-  font-weight: 950;
+.header-box{
+  padding:12px 8px 10px;
+  text-align:center;
 }
 
-
-#rabbiName {
-
-  margin-top: 6px;
-
-  color: #795018;
-
-  font-size:
-    clamp(
-      17px,
-      2.6vw,
-      34px
-    );
-
-  font-weight: 900;
+.header-box h1{
+  margin:0;
+  color:#17366e;
+  font-size:clamp(28px,5vw,48px);
+  line-height:1;
 }
 
-
-#dateLine {
-
-  margin-top: 6px;
-
-  color: #262018;
-
-  font-size:
-    clamp(
-      14px,
-      2vw,
-      25px
-    );
-
-  font-weight: 800;
+.header-box h2{
+  margin:8px 0 4px;
+  color:#795014;
+  font-size:clamp(16px,3vw,28px);
 }
 
-
-/* ============================================================
-   CONTENT ROW
-============================================================ */
-
-.contentRow {
-
-  min-height: 0;
-
-  display: grid;
-
-  grid-template-columns:
-    20%
-    1fr
-    20%;
-
-  gap: 10px;
+.date-line{
+  font-weight:800;
+  font-size:clamp(13px,2vw,20px);
+  margin-top:6px;
 }
 
-
-/* ============================================================
-   SIDE COLUMNS
-============================================================ */
-
-.sideColumn {
-
-  min-height: 0;
-
-  display: grid;
-
-  grid-template-rows:
-    74%
-    26%;
-
-  gap: 10px;
+.content-grid{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:21% 58% 21%;
+  gap:8px;
+  align-items:stretch;
 }
 
-
-.sidePanel {
-
-  min-height: 0;
-
-  padding:
-    10px
-    8px;
-
-  text-align: center;
-
-  overflow: hidden;
+.side-column{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
 }
 
+.side-box{
+  padding:10px 8px;
+  min-height:250px;
+}
 
-.sideHeading {
+.side-title{
+  display:inline-block;
+  background:#e6c35a;
+  border:4px solid #b8891c;
+  border-radius:18px;
+  padding:7px 13px;
+  font-size:clamp(17px,2.3vw,25px);
+  font-weight:900;
+  color:#6e4f13;
+  margin-bottom:10px;
+}
 
-  display: inline-block;
+.time-row{
+  padding:5px 2px;
+  border-bottom:2px dotted #af9961;
+  text-align:center;
+  font-size:clamp(13px,2vw,20px);
+  font-weight:800;
+  line-height:1.25;
+}
 
-  margin:
-    0
-    auto
-    12px;
+.time-row.red{
+  color:#b7271c;
+}
 
-  padding:
-    10px
-    14px;
+.center-panel{
+  position:relative;
+  min-height:740px;
+  overflow:hidden;
+}
 
-  min-width: 80%;
+.main-center,
+.lesson-screen,
+.candle-screen{
+  position:absolute;
+  inset:0;
+  padding:16px;
+  overflow:hidden;
+}
 
-  border-radius: 22px;
+.main-center{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
 
-  border: 4px solid #9e7114;
-
+.top-symbol{
+  width:120px;
+  height:120px;
+  border-radius:50%;
   background:
-    linear-gradient(
-      #f7d569,
-      #d9a733
-    );
-
-  color: #6e4a12;
-
-  font-size:
-    clamp(
-      20px,
-      3vw,
-      34px
-    );
-
-  font-weight: 950;
-
+    radial-gradient(circle,#cf60dd 0,#8f31a4 55%,#53216d 100%);
+  border:10px solid #d6a24c;
   box-shadow:
-    inset 0 0 0 2px #fff2a9;
+    0 0 0 8px #8d5430,
+    0 0 18px rgba(79,35,121,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:60px;
+  margin:2px auto 12px;
+  flex-shrink:0;
 }
 
-
-.timeList {
-
-  font-size:
-    clamp(
-      15px,
-      2vw,
-      25px
-    );
-
-  font-weight: 900;
+.welcome-title{
+  color:#148c88;
+  font-size:clamp(22px,3.5vw,38px);
+  font-weight:900;
+  line-height:1.3;
+  margin:10px 0 18px;
 }
 
-
-.timeRow {
-
-  padding:
-    6px
-    1px;
-
-  border-bottom:
-    3px dotted
-    #aa8f5e;
+.week-box{
+  width:92%;
+  border:4px solid #b88b20;
+  border-radius:28px;
+  background:#fffdf2;
+  padding:14px;
+  font-size:clamp(16px,2.5vw,24px);
+  font-weight:800;
+  line-height:1.45;
 }
 
-
-.red {
-
-  color: #b82727;
+.welcome-body{
+  margin-top:20px;
+  color:#28956b;
+  font-size:clamp(19px,3vw,32px);
+  font-weight:900;
+  line-height:1.5;
 }
 
-
-.bottomSideText {
-
-  font-size:
-    clamp(
-      17px,
-      2.4vw,
-      30px
-    );
-
-  font-weight: 900;
-
-  line-height: 1.35;
-
-  color: #342a1e;
+.values{
+  color:#92661c;
+  margin-top:18px;
+  font-size:clamp(18px,3vw,30px);
+  font-weight:900;
 }
 
-
-/* ============================================================
-   CENTER PANEL
-============================================================ */
-
-.centerPanel {
-
-  position: relative;
-
-  min-height: 0;
-
-  overflow: hidden;
-
-  border:
-    5px solid
-    #d7a62d;
-
-  border-radius: 38px;
-
-  background:
-    linear-gradient(
-      180deg,
-      #092d6f 0%,
-      #092d6f 14%,
-      #fff8dd 14%,
-      #fff8dd 100%
-    );
-
-  box-shadow:
-    inset 0 0 0 3px #fff0a1;
+.blessing{
+  color:#1f438b;
+  font-size:clamp(18px,2.8vw,30px);
+  font-weight:900;
+  line-height:1.45;
+  margin-top:22px;
 }
 
-
-/* ============================================================
-   CENTER DECORATION
-============================================================ */
-
-.starCircle {
-
-  position: absolute;
-
-  top: -15px;
-
-  left: 50%;
-
-  transform:
-    translateX(-50%);
-
-  z-index: 30;
-
-  width:
-    clamp(
-      120px,
-      20vw,
-      200px
-    );
-
-  height:
-    clamp(
-      120px,
-      20vw,
-      200px
-    );
-
-  border-radius: 50%;
-
-  border:
-    12px solid
-    #c79a37;
-
-  background:
-    radial-gradient(
-      circle,
-      #a337bb,
-      #7440c4 45%,
-      #193b82 72%
-    );
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  color: white;
-
-  font-size:
-    clamp(
-      65px,
-      12vw,
-      130px
-    );
-
-  text-shadow:
-    0 0 14px #fff;
-
-  box-shadow:
-    0 0 0 5px #78611e,
-    0 5px 15px #0008;
+.memorial{
+  width:92%;
+  margin-top:20px;
+  padding:13px;
+  border:4px solid #b88b20;
+  border-radius:25px;
+  background:#fff4d1;
+  font-size:clamp(16px,2.3vw,23px);
+  font-weight:900;
+  color:#79551b;
 }
 
+/* =====================================================
+   CENTER SPECIAL SCREENS
+   lesson/candles remain INSIDE center gold border
+===================================================== */
 
-.dove {
-
-  position: absolute;
-
-  top: 5%;
-
-  z-index: 20;
-
-  font-size:
-    clamp(
-      34px,
-      6vw,
-      70px
-    );
+.lesson-screen,
+.candle-screen{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:transparent;
 }
 
-
-.doveLeft {
-
-  left: 4%;
+.lesson-screen.active,
+.candle-screen.active{
+  display:flex;
 }
 
-
-.doveRight {
-
-  right: 4%;
-
-  transform:
-    scaleX(-1);
+.main-center.hidden{
+  display:none;
 }
 
-
-/* ============================================================
-   CENTER CONTENT PAGES
-============================================================ */
-
-.centerPage {
-
-  position: absolute;
-
-  inset: 0;
-
-  opacity: 0;
-
-  visibility: hidden;
-
-  transition:
-    opacity .5s ease;
-
-  pointer-events: none;
+.special-inner{
+  width:92%;
+  max-width:92%;
+  height:92%;
+  max-height:92%;
+  border:4px solid #b88b20;
+  border-radius:28px;
+  background:#fffaf0;
+  box-shadow:inset 0 0 20px rgba(180,137,26,.15);
+  padding:18px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-
-.centerPage.active {
-
-  opacity: 1;
-
-  visibility: visible;
-
-  pointer-events: auto;
+.special-title{
+  font-size:clamp(26px,4vw,42px);
+  font-weight:900;
+  color:#143b79;
+  margin-bottom:12px;
+  flex-shrink:0;
 }
 
-
-/* ============================================================
-   MAIN MESSAGES CENTER PAGE
-============================================================ */
-
-.centerWindow {
-
-  position: absolute;
-
-  top: 15%;
-
-  left: 5%;
-
-  width: 90%;
-
-  height: 83%;
-
-  overflow: hidden;
+.lesson-scroll{
+  width:100%;
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  text-align:center;
+  padding:5px 10px 18px;
+  font-size:clamp(18px,3vw,31px);
+  font-weight:800;
+  line-height:1.6;
+  color:#2e2412;
+  -webkit-overflow-scrolling:touch;
 }
 
-
-.centerScroll {
-
-  text-align: center;
-
-  animation:
-    centerMove
-    38s
-    linear
-    infinite;
-
-  padding-bottom: 70vh;
+.lesson-scroll h3{
+  color:#148c88;
+  font-size:1.12em;
+  margin:16px 0 8px;
 }
 
+.lesson-scroll p{
+  margin:8px 0;
+}
 
-@keyframes centerMove {
+.candle-frame{
+  width:100%;
+  flex:1;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:10px;
+}
 
-  from {
+.candles{
+  font-size:clamp(70px,13vw,145px);
+  line-height:1;
+  margin-bottom:20px;
+}
 
-    transform:
-      translateY(15%);
+.candle-text{
+  font-size:clamp(20px,3.4vw,36px);
+  line-height:1.55;
+  font-weight:900;
+  color:#6d4214;
+}
+
+.bottom-panels{
+  margin-top:8px;
+  display:grid;
+  grid-template-columns:21% 58% 21%;
+  gap:8px;
+}
+
+.small-bottom{
+  min-height:165px;
+  text-align:center;
+  padding:10px;
+}
+
+.bottom-center{
+  min-height:165px;
+  text-align:center;
+  padding:12px;
+}
+
+.admin-gear{
+  position:fixed;
+  right:10px;
+  bottom:10px;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:2px solid rgba(130,94,10,.7);
+  background:rgba(255,247,212,.88);
+  color:#7e5b12;
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  z-index:9999;
+  box-shadow:0 2px 8px rgba(0,0,0,.22);
+}
+
+.admin-gear:hover{
+  transform:scale(1.05);
+}
+
+.hidden{
+  display:none !important;
+}
+
+@media(max-width:760px){
+
+  .board{
+    padding:4px;
+    border-width:5px;
   }
 
-  to {
-
-    transform:
-      translateY(-85%);
+  .top-grid,
+  .content-grid,
+  .bottom-panels{
+    grid-template-columns:22% 56% 22%;
+    gap:4px;
   }
 
-}
-
-
-.centerBig {
-
-  margin:
-    18px
-    0;
-
-  font-size:
-    clamp(
-      25px,
-      4vw,
-      52px
-    );
-
-  line-height: 1.35;
-
-  font-weight: 950;
-}
-
-
-.centerMedium {
-
-  margin:
-    20px
-    auto;
-
-  font-size:
-    clamp(
-      20px,
-      3.3vw,
-      43px
-    );
-
-  line-height: 1.45;
-
-  font-weight: 900;
-}
-
-
-.blue {
-  color: #174899;
-}
-
-.green {
-  color: #178958;
-}
-
-.redText {
-  color: #bb3030;
-}
-
-.teal {
-  color: #17838a;
-}
-
-.goldText {
-  color: #9f7115;
-}
-
-.purple {
-  color: #7d4194;
-}
-
-
-.infoBox {
-
-  width: 90%;
-
-  margin:
-    25px
-    auto;
-
-  padding: 15px;
-
-  border:
-    4px solid
-    #af8621;
-
-  border-radius: 30px;
-
-  background: #fffdf2;
-
-  font-size:
-    clamp(
-      16px,
-      2.4vw,
-      30px
-    );
-
-  line-height: 1.35;
-
-  font-weight: 900;
-}
-
-
-.holidayText {
-
-  color: #178958;
-
-  font-size:
-    clamp(
-      30px,
-      4.8vw,
-      65px
-    );
-
-  line-height: 1.25;
-
-  font-weight: 950;
-
-  margin:
-    30px
-    auto;
-}
-
-
-.memorialBox {
-
-  width: 88%;
-
-  margin:
-    30px
-    auto;
-
-  padding: 18px;
-
-  border:
-    4px solid
-    #b78b2d;
-
-  border-radius: 28px;
-
-  background: #fff1c4;
-
-  color: #69471e;
-
-  font-size:
-    clamp(
-      20px,
-      3vw,
-      39px
-    );
-
-  font-weight: 900;
-}
-
-
-/* ============================================================
-   CANDLE PAGE — INSIDE CENTER BOX
-============================================================ */
-
-#candlePage {
-
-  padding:
-    16%
-    6%
-    4%;
-}
-
-
-.candleTitle {
-
-  text-align: center;
-
-  color: #9b6f13;
-
-  font-size:
-    clamp(
-      28px,
-      4vw,
-      54px
-    );
-
-  font-weight: 950;
-
-  margin:
-    0
-    0
-    12px;
-}
-
-
-.candleWindow {
-
-  width: 100%;
-
-  height: 85%;
-
-  overflow: hidden;
-
-  position: relative;
-}
-
-
-.candleScroll {
-
-  position: absolute;
-
-  width: 100%;
-
-  top: 100%;
-
-  animation:
-    candleMove
-    30s
-    linear
-    infinite;
-}
-
-
-@keyframes candleMove {
-
-  from {
-
-    transform:
-      translateY(0);
+  .clock-box,
+  .header-box,
+  .side-box,
+  .center-panel{
+    border-width:3px;
+    border-radius:20px;
   }
 
-  to {
-
-    transform:
-      translateY(
-        calc(-100% - 60vh)
-      );
+  .clock-box{
+    padding:12px 3px;
   }
 
-}
-
-
-.candleGrid {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      minmax(0,1fr)
-    );
-
-  gap:
-    18px;
-
-  padding:
-    10px
-    10px
-    80px;
-}
-
-
-.candle {
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  padding:
-    15px
-    5px;
-}
-
-
-.flame {
-
-  width: 38px;
-
-  height: 62px;
-
-  border-radius:
-    50%
-    50%
-    45%
-    45%;
-
-  background:
-    radial-gradient(
-      ellipse at 50% 68%,
-      #fff 0 12%,
-      #fff7a8 13% 27%,
-      #58d8ff 28% 39%,
-      #ffbd35 40% 62%,
-      #ff5a2f 63% 82%,
-      #b82cff 83% 100%
-    );
-
-  box-shadow:
-    0 0 15px #fff6b8,
-    0 0 30px #ffb21f,
-    0 0 50px #45cfff;
-
-  animation:
-    flicker
-    .85s
-    ease-in-out
-    infinite
-    alternate;
-}
-
-
-@keyframes flicker {
-
-  from {
-
-    transform:
-      rotate(-2deg)
-      scale(.96);
+  .header-box{
+    padding:10px 4px;
   }
 
-  to {
-
-    transform:
-      rotate(2deg)
-      scale(1.05);
+  .center-panel{
+    min-height:720px;
   }
 
-}
-
-
-.wax {
-
-  width: 64px;
-
-  height: 95px;
-
-  border-radius:
-    14px
-    14px
-    18px
-    18px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #d9f5ff,
-      #fff,
-      #fff3c9,
-      #e3d3ff
-    );
-
-  border:
-    2px solid
-    #fff8d6;
-
-  box-shadow:
-    inset 0 0 18px #fff,
-    0 8px 24px #0006;
-}
-
-
-.candleName {
-
-  margin-top: 12px;
-
-  text-align: center;
-
-  color: #174899;
-
-  font-size:
-    clamp(
-      19px,
-      2.8vw,
-      37px
-    );
-
-  font-weight: 950;
-
-  line-height: 1.2;
-}
-
-
-/* ============================================================
-   שיעור יומי — INSIDE CENTER BOX
-============================================================ */
-
-#shiurPage {
-
-  padding:
-    16%
-    6%
-    4%;
-}
-
-
-.shiurTitle {
-
-  text-align: center;
-
-  color: #174899;
-
-  font-size:
-    clamp(
-      29px,
-      4.2vw,
-      56px
-    );
-
-  font-weight: 950;
-
-  margin:
-    0
-    0
-    12px;
-}
-
-
-.lessonWindow {
-
-  position: relative;
-
-  width: 100%;
-
-  height: 85%;
-
-  overflow: hidden;
-
-  border:
-    3px solid
-    #d7a62d;
-
-  border-radius: 24px;
-
-  background:
-    #fffaf0;
-}
-
-
-.lessonWindow::before {
-
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-
-  left: 0;
-
-  right: 0;
-
-  height: 8%;
-
-  z-index: 20;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      #fffaf0,
-      transparent
-    );
-}
-
-
-.lessonWindow::after {
-
-  content: "";
-
-  position: absolute;
-
-  bottom: 0;
-
-  left: 0;
-
-  right: 0;
-
-  height: 10%;
-
-  z-index: 20;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      transparent,
-      #fffaf0
-    );
-}
-
-
-.lessonScroll {
-
-  position: absolute;
-
-  top: 100%;
-
-  left: 4%;
-
-  width: 92%;
-
-  padding:
-    15px
-    8px
-    100px;
-
-  text-align: center;
-
-  font-size:
-    clamp(
-      19px,
-      2.4vw,
-      39px
-    );
-
-  line-height: 1.5;
-
-  font-weight: 850;
-
-  animation:
-    scrollLesson
-    36s
-    linear
-    infinite;
-}
-
-
-.lessonBlock {
-
-  margin:
-    22px
-    auto;
-}
-
-
-.lessonBlock.blueLesson {
-
-  color: #174899;
-}
-
-
-.lessonBlock.greenLesson {
-
-  color: #178958;
-}
-
-
-.lessonHeading {
-
-  display: block;
-
-  margin-bottom: 7px;
-
-  color: #8d6411;
-
-  font-size: 1.08em;
-
-  font-weight: 950;
-}
-
-
-.lessonSeparator {
-
-  width: 50%;
-
-  height: 2px;
-
-  margin:
-    18px
-    auto;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #174899,
-      #178958,
-      transparent
-    );
-}
-
-
-@keyframes scrollLesson {
-
-  from {
-
-    transform:
-      translateY(0);
+  .side-box{
+    padding:7px 4px;
   }
 
-  to {
-
-    transform:
-      translateY(
-        calc(
-          -100%
-          -
-          65vh
-        )
-      );
+  .time-row{
+    font-size:12px;
   }
 
-}
-
-
-/* ============================================================
-   ADMIN GEAR
-============================================================ */
-
-.adminGear {
-
-  position: fixed;
-
-  right: 7px;
-  bottom: 7px;
-
-  width: 29px;
-  height: 29px;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 50%;
-
-  z-index: 99999;
-
-  text-decoration: none;
-
-  color: #fff;
-
-  background:
-    rgba(
-      5,
-      30,
-      73,
-      .78
-    );
-
-  border:
-    1px solid
-    #e2b339;
-
-  font-size: 15px;
-
-  opacity: .75;
-}
-
-
-.adminGear:hover {
-
-  opacity: 1;
-}
-
-
-/* ============================================================
-   MOBILE
-============================================================ */
-
-@media
-(max-width:700px) {
-
-  #board {
-
-    padding: 5px;
-
-    grid-template-rows:
-      16vh
-      1fr;
-
-    gap: 5px;
+  .top-symbol{
+    width:95px;
+    height:95px;
+    font-size:48px;
+    border-width:7px;
   }
 
-
-  .topRow {
-
-    grid-template-columns:
-      22%
-      1fr
-      22%;
-
-    gap: 5px;
+  .special-inner{
+    width:94%;
+    max-width:94%;
+    height:94%;
+    max-height:94%;
+    padding:12px;
   }
-
-
-  .contentRow {
-
-    grid-template-columns:
-      22%
-      1fr
-      22%;
-
-    gap: 5px;
-  }
-
-
-  .clockBox {
-
-    border-width: 3px;
-
-    border-radius: 22px;
-  }
-
-
-  .goldPanel {
-
-    border-width: 3px;
-
-    border-radius: 22px;
-  }
-
-
-  .sideHeading {
-
-    padding:
-      7px
-      4px;
-
-    font-size:
-      clamp(
-        15px,
-        4vw,
-        23px
-      );
-  }
-
-
-  .timeList {
-
-    font-size:
-      clamp(
-        11px,
-        3vw,
-        17px
-      );
-  }
-
-
-  .timeRow {
-
-    padding:
-      4px
-      0;
-  }
-
-
-  #candlePage,
-  #shiurPage {
-
-    padding:
-      18%
-      4%
-      3%;
-  }
-
-
-  .lessonScroll {
-
-    font-size:
-      clamp(
-        15px,
-        3.8vw,
-        24px
-      );
-
-    line-height: 1.45;
-  }
-
-
-  .candleName {
-
-    font-size:
-      clamp(
-        14px,
-        3.4vw,
-        22px
-      );
-  }
-
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-<div id="board">
+<div class="board">
 
+  <!-- ================= TOP ================= -->
 
-<!-- ============================================================
-     TOP ROW
-============================================================ -->
+  <div class="top-grid">
 
-<div class="topRow">
-
-
-<div class="clockBox">
-
-  <div class="clockCity">
-    NEW YORK
-  </div>
-
-  <div
-    class="clockTime"
-    id="nyClock"
-  >
-    --:--:--
-  </div>
-
-</div>
-
-
-
-<div class="titleBox goldPanel">
-
-  <h1 id="synagogueName">
-    בית הכנסת בית תורה
-  </h1>
-
-  <div id="rabbiName">
-    הרב ברוך
-  </div>
-
-  <div id="dateLine">
-    לוח מודעות דיגיטלי
-  </div>
-
-</div>
-
-
-
-<div class="clockBox">
-
-  <div class="clockCity">
-    JERUSALEM
-  </div>
-
-  <div
-    class="clockTime"
-    id="jerusalemClock"
-  >
-    --:--:--
-  </div>
-
-</div>
-
-
-</div>
-
-
-<!-- ============================================================
-     CONTENT ROW
-============================================================ -->
-
-<div class="contentRow">
-
-
-<!-- LEFT -->
-
-<div class="sideColumn">
-
-
-<div class="sidePanel goldPanel">
-
-  <div class="sideHeading">
-    זמני היום
-  </div>
-
-
-  <div class="timeList">
-
-    <div class="timeRow">
-      עלות השחר
-      <br>
-      05:02
+    <div class="clock-box">
+      <div class="clock-city">NEW YORK</div>
+      <div class="clock-time" id="nyTime">--:--:--</div>
     </div>
 
-    <div class="timeRow">
-      זריחה
-      <br>
-      06:38
+    <div class="header-box">
+      <h1>חזון עובדיה</h1>
+      <h1>Hazon-Ovadia</h1>
+      <h2>דניאל נבון Daniel Navon</h2>
+      <div class="date-line" id="todayDate"></div>
     </div>
 
-    <div class="timeRow">
-      סוף זמן ק״ש
-      <br>
-      09:27
-    </div>
-
-    <div class="timeRow">
-      חצות
-      <br>
-      12:10
-    </div>
-
-    <div class="timeRow">
-      מנחה גדולה
-      <br>
-      12:40
-    </div>
-
-    <div class="timeRow">
-      שקיעה
-      <br>
-      19:32
-    </div>
-
-    <div class="timeRow">
-      צאת הכוכבים
-      <br>
-      20:06
-    </div>
-
-    <div class="timeRow red">
-      הדלקת נרות
-      <br>
-      19:13
-    </div>
-
-    <div class="timeRow red">
-      צאת שבת
-      <br>
-      20:12
+    <div class="clock-box">
+      <div class="clock-city">JERUSALEM</div>
+      <div class="clock-time" id="jerusalemTime">--:--:--</div>
     </div>
 
   </div>
 
-</div>
+  <!-- ================= MAIN CONTENT ================= -->
 
+  <div class="content-grid">
 
+    <!-- LEFT COLUMN -->
 
-<div class="sidePanel goldPanel">
+    <div class="side-column">
 
-  <div class="sideHeading">
-    הודעות
+      <div class="side-box">
+        <div class="side-title">זמני היום</div>
+
+        <div class="time-row">
+          עלות השחר<br>05:02
+        </div>
+
+        <div class="time-row">
+          זריחה<br>06:38
+        </div>
+
+        <div class="time-row">
+          סוף זמן ק״ש<br>09:27
+        </div>
+
+        <div class="time-row">
+          חצות<br>12:10
+        </div>
+
+        <div class="time-row">
+          מנחה גדולה<br>12:40
+        </div>
+
+        <div class="time-row">
+          שקיעה<br>19:32
+        </div>
+
+        <div class="time-row">
+          צאת הכוכבים<br>20:06
+        </div>
+
+        <div class="time-row red">
+          הדלקת נרות<br>19:13
+        </div>
+
+        <div class="time-row red">
+          צאת שבת<br>20:12
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =================================================
+         CENTER PANEL
+         שיעור יומי and candles appear HERE ONLY
+    ================================================== -->
+
+    <div class="center-panel" id="centerPanel">
+
+      <!-- NORMAL MAIN CONTENT -->
+
+      <div class="main-center" id="mainCenter">
+
+        <div class="top-symbol">✡</div>
+
+        <div class="welcome-title">
+          נא לעקוב אחר ההודעות<br>
+          החשובות של הקהילה
+        </div>
+
+        <div class="week-box">
+          <strong>תחנון שחרית:</strong> אומרים<br>
+          <strong>פרשת השבוע:</strong> נצבים־וילך<br>
+          <strong>גבורות:</strong> מוריד הטל<br>
+          <strong>הלל:</strong> אין הלל
+        </div>
+
+        <div class="welcome-body">
+          ברוכים הבאים לבית<br>
+          הכנסת חזון עובדיה
+        </div>
+
+        <div class="values">
+          תפילה • תורה • חסד • אחדות
+        </div>
+
+        <div class="blessing">
+          שנזכה לשנה טובה<br>
+          ומתוקה ולבשורות טובות
+        </div>
+
+        <div class="memorial">
+          לעילוי נשמת זהבה חלא בת דינה זצ״ל
+        </div>
+
+      </div>
+
+      <!-- ================= שיעור יומי ================= -->
+
+      <div class="lesson-screen" id="lessonScreen">
+
+        <div class="special-inner">
+
+          <div class="special-title">
+            שיעור יומי
+          </div>
+
+          <div class="lesson-scroll">
+
+            <h3>פסוק יומי</h3>
+
+            <p>
+              ״עִבְדוּ אֶת ה׳ בְּשִׂמְחָה,
+              בֹּאוּ לְפָנָיו בִּרְנָנָה״
+            </p>
+
+            <h3>הלכה יומית</h3>
+
+            <p>
+              ראוי להתחיל את היום בהודאה לה׳,
+              להתפלל בכוונה ולדבר בנחת עם כל אדם.
+            </p>
+
+            <h3>מוסר יומי</h3>
+
+            <p>
+              אדם יכול לשנות את כל האווירה סביבו
+              על ידי מילה טובה, חיוך ועזרה לזולת.
+            </p>
+
+            <h3>חסידות ותניא</h3>
+
+            <p>
+              לכל יהודי יש נשמה אלוקית,
+              ותפקידנו לגלות את האור שבה
+              באמצעות תורה, מצוות ומעשים טובים.
+            </p>
+
+            <h3>מסר להיום</h3>
+
+            <p>
+              עשה היום מעשה טוב אחד נוסף,
+              אמור מילה טובה לאדם אחר
+              והוסף אור בעולם.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ================= CANDLES ================= -->
+
+      <div class="candle-screen" id="candleScreen">
+
+        <div class="special-inner">
+
+          <div class="special-title">
+            נרות שבת קודש
+          </div>
+
+          <div class="candle-frame">
+
+            <div class="candles">
+              🕯️ 🕯️
+            </div>
+
+            <div class="candle-text">
+              שבת שלום ומבורך
+              <br><br>
+              לעילוי נשמת
+              <br>
+              זהבה חלא בת דינה זצ״ל
+              <br><br>
+              יהי זכרה ברוך
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+
+    <div class="side-column">
+
+      <div class="side-box">
+
+        <div class="side-title">
+          זמני תפילה
+        </div>
+
+        <div class="time-row">
+          שחרית<br>08:30
+        </div>
+
+        <div class="time-row">
+          מנחה<br>18:30
+        </div>
+
+        <div class="time-row">
+          ערבית<br>19:30
+        </div>
+
+        <div class="time-row">
+          שיעור תורה<br>17:30
+        </div>
+
+        <div class="time-row">
+          שחרית שבת<br>08:30
+        </div>
+
+        <div class="time-row">
+          מנחה שבת<br>18:30
+        </div>
+
+        <div class="time-row">
+          ערבית ליל שבת<br>19:00
+        </div>
+
+        <div class="time-row">
+          הבדלה<br>20:00
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="bottomSideText">
+  <!-- ================= BOTTOM ================= -->
 
-    Welcome
-    <br>
-    to our
-    <br>
-    congregation!
+  <div class="bottom-panels">
 
-  </div>
+    <div class="side-box small-bottom">
+      <div class="side-title">
+        הודעות
+      </div>
 
-</div>
-
-
-</div>
-
-
-<!-- ============================================================
-     CENTER PANEL
-============================================================ -->
-
-<div class="centerPanel">
-
-
-<div class="dove doveLeft">
-🕊️
-</div>
-
-
-<div class="dove doveRight">
-🕊️
-</div>
-
-
-<div class="starCircle">
-✡
-</div>
-
-
-
-<!-- ============================================================
-     PAGE 1 — MAIN MESSAGES
-============================================================ -->
-
-<div
-  id="mainCenterPage"
-  class="centerPage active"
->
-
-<div class="centerWindow">
-
-<div class="centerScroll">
-
-
-<div class="centerBig redText">
-
-זמני התפילה והשיעורים
-<br>
-מתעדכנים בלוח
-
-</div>
-
-
-<div class="centerMedium teal">
-
-נא לעקוב אחר ההודעות
-<br>
-החשובות של הקהילה
-
-</div>
-
-
-<div class="infoBox">
-
-תחנון שחרית:
-אומרים
-
-<br>
-
-פרשת השבוע:
-נצבים־וילך
-
-<br>
-
-גבורות:
-מוריד הטל
-
-<br>
-
-הלל:
-אין הלל
-
-</div>
-
-
-<div class="centerMedium green">
-
-ברוכים הבאים לבית
-<br>
-הכנסת בית תורה
-
-</div>
-
-
-<div class="centerMedium goldText">
-
-תפילה • תורה • חסד • אחדות
-
-</div>
-
-
-<div class="holidayText">
-
-שנה טובה
-<br>
-ומתוקה ובשורות טובות
-
-</div>
-
-
-<div class="memorialBox">
-
-לעילוי נשמת
-<br>
-זהבה חלא בת דינה זצ״ל
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- ============================================================
-     PAGE 2 — CANDLES
-============================================================ -->
-
-<div
-  id="candlePage"
-  class="centerPage"
->
-
-
-<div class="candleTitle">
-
-🕯️ נרות נשמה 🕯️
-
-</div>
-
-
-<div class="candleWindow">
-
-<div
-  id="candleScroll"
-  class="candleScroll"
->
-
-<div class="candleGrid">
-
-
-<div class="candle">
-
-<div class="flame"></div>
-
-<div class="wax"></div>
-
-<div class="candleName">
-
-לעילוי נשמת
-<br>
-זהבה חלא בת דינה זצ״ל
-
-</div>
-
-</div>
-
-
-
-<div class="candle">
-
-<div class="flame"></div>
-
-<div class="wax"></div>
-
-<div class="candleName">
-
-לעילוי נשמת
-<br>
-דינה חלא בת ורד זצ״ל
-
-</div>
-
-</div>
-
-
-
-<div class="candle">
-
-<div class="flame"></div>
-
-<div class="wax"></div>
-
-<div class="candleName">
-
-לעילוי נשמת
-<br>
-חיים חלא בן יצחק זצ״ל
-
-</div>
-
-</div>
-
-
-
-<div class="candle">
-
-<div class="flame"></div>
-
-<div class="wax"></div>
-
-<div class="candleName">
-
-תנצב״ה
-
-</div>
-
-</div>
-
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- ============================================================
-     PAGE 3 — שיעור יומי
-============================================================ -->
-
-<div
-  id="shiurPage"
-  class="centerPage"
->
-
-
-<div
-  id="lessonTitle"
-  class="shiurTitle"
->
-
-📖 שיעור יומי
-
-</div>
-
-
-<div class="lessonWindow">
-
-<div
-  id="dailyLessonText"
-  class="lessonScroll"
->
-
-
-<div class="lessonBlock blueLesson">
-
-<span class="lessonHeading">
-📖 פסוק היום
-</span>
-
-״שויתי ה׳ לנגדי תמיד״
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock greenLesson">
-
-<span class="lessonHeading">
-🕯️ הלכה למעשה
-</span>
-
-צדקה הניתנת בסבר פנים יפות גדולה יותר,
-מפני שהיא מחזקת גם את לב המקבל.
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock blueLesson">
-
-<span class="lessonHeading">
-❤️ מוסר
-</span>
-
-מעט אור דוחה הרבה מן החושך.
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock greenLesson">
-
-<span class="lessonHeading">
-🔥 חסידות / תניא
-</span>
-
-כל מצווה, תפילה ומעשה חסד
-מוסיפים אור בעולם.
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock blueLesson">
-
-<span class="lessonHeading">
-📜 תהילים
-</span>
-
-תהילים של היום
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock greenLesson">
-
-<span class="lessonHeading">
-📚 דף יומי
-</span>
-
-הדף היומי של היום
-
-</div>
-
-
-<div class="lessonSeparator"></div>
-
-
-<div class="lessonBlock blueLesson">
-
-<span class="lessonHeading">
-🌟 המסר להיום
-</span>
-
-להוסיף היום מעשה טוב אחד,
-מילה טובה אחת ותפילה בכוונה.
-
-</div>
-
-
-</div>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<!-- RIGHT -->
-
-<div class="sideColumn">
-
-
-<div class="sidePanel goldPanel">
-
-  <div class="sideHeading">
-    זמני תפילה
-  </div>
-
-
-  <div class="timeList">
-
-    <div class="timeRow">
-      שחרית
-      <br>
-      07:00
+      <div class="time-row">
+        ברוכים הבאים לבית הכנסת
+      </div>
     </div>
 
-    <div class="timeRow">
-      מנחה
-      <br>
-      19:15
+    <div class="side-box bottom-center">
+
+      <div class="side-title">
+        הקדשה
+      </div>
+
+      <div style="
+        font-size:clamp(16px,2.4vw,24px);
+        font-weight:900;
+        line-height:1.5;
+      ">
+        לעילוי נשמות
+        <br>
+        זהבה חלא בת דינה זצ״ל
+      </div>
+
     </div>
 
-    <div class="timeRow">
-      ערבית
-      <br>
-      20:30
-    </div>
+    <div class="side-box small-bottom">
 
-    <div class="timeRow">
-      שיעור תורה
-      <br>
-      21:15
-    </div>
+      <div class="side-title">
+        מזל טוב
+      </div>
 
-    <div class="timeRow">
-      שחרית שבת
-      <br>
-      09:00
-    </div>
+      <div class="time-row">
+        ברכת מזל טוב לחברי הקהילה
+      </div>
 
-    <div class="timeRow">
-      מנחה שבת
-      <br>
-      19:30
-    </div>
-
-    <div class="timeRow">
-      ערבית ליל שבת
-      <br>
-      19:30
-    </div>
-
-    <div class="timeRow">
-      הבדלה
-      <br>
-      21:00
     </div>
 
   </div>
 
 </div>
 
-
-
-<div class="sidePanel goldPanel">
-
-  <div class="sideHeading">
-    מזל טוב
-  </div>
-
-  <div class="bottomSideText">
-
-    ברכת מזל טוב
-    <br>
-    לחברי הקהילה
-
-  </div>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-<!-- ADMIN -->
+<!-- Small admin gear bottom-right -->
 
 <a
+  class="admin-gear"
   href="admin.html"
-  class="adminGear"
   title="Admin"
-  aria-label="Admin"
->
-⚙
-</a>
-
-
-</div>
-
+>⚙️</a>
 
 
 <script>
 
-/* ============================================================
-   SUPABASE
-============================================================ */
-
-const SUPABASE_URL =
-  "https://oyeeeooymrzemxfrvcon.supabase.co";
-
-
-const SUPABASE_PUBLIC_KEY =
-  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
-
-
-const db =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLIC_KEY
-  );
-
-
-/* ============================================================
+/* ==================================================
    CLOCKS
-============================================================ */
+================================================== */
 
-function formatClock(zone) {
+function updateClocks(){
 
-  return new Intl.DateTimeFormat(
-    "en-GB",
+  const now = new Date();
+
+  const ny = new Intl.DateTimeFormat(
+    'en-US',
     {
-
-      timeZone: zone,
-
-      hour: "2-digit",
-
-      minute: "2-digit",
-
-      second: "2-digit",
-
-      hour12: false
-
+      timeZone:'America/New_York',
+      hour:'2-digit',
+      minute:'2-digit',
+      second:'2-digit',
+      hour12:false
     }
-  )
-  .format(
-    new Date()
-  );
+  ).format(now);
 
+  const jerusalem = new Intl.DateTimeFormat(
+    'en-US',
+    {
+      timeZone:'Asia/Jerusalem',
+      hour:'2-digit',
+      minute:'2-digit',
+      second:'2-digit',
+      hour12:false
+    }
+  ).format(now);
+
+  document.getElementById('nyTime').textContent = ny;
+  document.getElementById('jerusalemTime').textContent = jerusalem;
 }
 
-
-function updateClocks() {
-
-  document.getElementById(
-    "nyClock"
-  )
-  .textContent =
-    formatClock(
-      "America/New_York"
-    );
-
-
-  document.getElementById(
-    "jerusalemClock"
-  )
-  .textContent =
-    formatClock(
-      "Asia/Jerusalem"
-    );
-
-}
-
-
+setInterval(updateClocks,1000);
 updateClocks();
 
 
-setInterval(
-  updateClocks,
-  1000
-);
+/* ==================================================
+   DATE
+================================================== */
+
+function updateDate(){
+
+  const now = new Date();
+
+  const hebrewDate =
+    new Intl.DateTimeFormat(
+      'he-IL-u-ca-hebrew',
+      {
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+      }
+    ).format(now);
+
+  const regularDate =
+    new Intl.DateTimeFormat(
+      'he-IL',
+      {
+        weekday:'long',
+        day:'numeric',
+        month:'long',
+        year:'numeric'
+      }
+    ).format(now);
+
+  document.getElementById('todayDate').innerHTML =
+    regularDate + '<br>' + hebrewDate;
+}
+
+updateDate();
 
 
-/* ============================================================
+/* ==================================================
    CENTER ROTATION
-============================================================ */
+   Main -> שיעור יומי -> Main -> Candles -> Main
 
-const centerPages = [
+   IMPORTANT:
+   Nothing leaves the center panel.
+================================================== */
 
-  document.getElementById(
-    "mainCenterPage"
-  ),
+const mainCenter =
+  document.getElementById('mainCenter');
 
-  document.getElementById(
-    "candlePage"
-  ),
+const lessonScreen =
+  document.getElementById('lessonScreen');
 
-  document.getElementById(
-    "shiurPage"
-  )
-
-];
+const candleScreen =
+  document.getElementById('candleScreen');
 
 
-let centerIndex = 0;
+function showMain(){
 
-let centerTimer = null;
+  mainCenter.classList.remove('hidden');
+
+  lessonScreen.classList.remove('active');
+
+  candleScreen.classList.remove('active');
+}
+
+
+function showLesson(){
+
+  mainCenter.classList.add('hidden');
+
+  candleScreen.classList.remove('active');
+
+  lessonScreen.classList.add('active');
+
+  const scroll =
+    lessonScreen.querySelector('.lesson-scroll');
+
+  if(scroll){
+    scroll.scrollTop = 0;
+  }
+}
+
+
+function showCandles(){
+
+  mainCenter.classList.add('hidden');
+
+  lessonScreen.classList.remove('active');
+
+  candleScreen.classList.add('active');
+}
 
 
 /*
-   MAIN = 20 seconds
-   CANDLES = 10 seconds
-   SHIUR = 20 seconds
+  Timeline:
+
+  Main page       30 seconds
+  שיעור יומי      30 seconds
+  Main page       30 seconds
+  Candles         30 seconds
+
+  Then repeat.
 */
 
-const centerDurations = [
-
-  20000,
-
-  10000,
-
-  20000
-
-];
-
-
-function showCenterPage(index) {
-
-  centerPages.forEach(
-    (page,i) => {
-
-      page.classList.toggle(
-        "active",
-        i === index
-      );
-
-    }
-  );
-
-
-  centerIndex = index;
-
-
-  if(index === 1) {
-
-    restartCandles();
-
-  }
-
-
-  if(index === 2) {
-
-    restartLesson();
-
-  }
-
-}
-
-
-
-function rotateCenter() {
-
-  clearTimeout(
-    centerTimer
-  );
-
-
-  centerTimer =
-    setTimeout(
-      () => {
-
-        const next =
-          (
-            centerIndex
-            +
-            1
-          )
-          %
-          centerPages.length;
-
-
-        showCenterPage(
-          next
-        );
-
-
-        rotateCenter();
-
-      },
-
-      centerDurations[
-        centerIndex
-      ]
-
-    );
-
-}
-
-
-showCenterPage(0);
-
-rotateCenter();
-
-
-/* ============================================================
-   RESTART CANDLES
-============================================================ */
-
-function restartCandles() {
-
-  const element =
-    document.getElementById(
-      "candleScroll"
-    );
-
-
-  if(!element) {
-
-    return;
-
-  }
-
-
-  element.style.animation =
-    "none";
-
-
-  void element.offsetHeight;
-
-
-  element.style.animation =
-    "candleMove 30s linear infinite";
-
-}
-
-
-/* ============================================================
-   שיעור HELPERS
-============================================================ */
-
-const lessonText =
-  document.getElementById(
-    "dailyLessonText"
-  );
-
-
-const lessonTitle =
-  document.getElementById(
-    "lessonTitle"
-  );
-
-
-function escapeHtml(value) {
-
-  if(
-    value === null
-    ||
-    value === undefined
-  ) {
-
-    return "";
-
-  }
-
-
-  return String(value)
-
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-
-  .replaceAll(
-    "'",
-    "&#039;"
-  )
-
-  .replaceAll(
-    "\n",
-    "<br>"
-  );
-
-}
-
-
-
-/* ============================================================
-   CREATE LESSON BLOCK
-============================================================ */
-
-function createBlock(
-  heading,
-  text,
-  colorClass
-) {
-
-  if(!text) {
-
-    return "";
-
-  }
-
-
-  return `
-
-  <div class="lessonBlock ${colorClass}">
-
-    <span class="lessonHeading">
-
-      ${escapeHtml(
-        heading
-      )}
-
-    </span>
-
-    ${escapeHtml(
-      text
-    )}
-
-  </div>
-
-  <div class="lessonSeparator"></div>
-
-  `;
-
-}
-
-
-
-/* ============================================================
-   DISPLAY שיעור
-============================================================ */
-
-function displayLesson(data) {
-
-  lessonTitle.innerHTML =
-    escapeHtml(
-      data.title
-      ||
-      "📖 שיעור יומי"
-    );
-
-
-  let html = "";
-
-
-  html +=
-    createBlock(
-      "📖 פסוק היום",
-      data.pasuk,
-      "blueLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "🕯️ הלכה למעשה",
-      data.halacha,
-      "greenLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "❤️ מוסר",
-      data.mussar,
-      "blueLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "🔥 חסידות / תניא",
-      data.chassidut,
-      "greenLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "📜 תהילים",
-      data.tehillim,
-      "blueLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "📚 דף יומי",
-      data.daf_yomi,
-      "greenLesson"
-    );
-
-
-  html +=
-    createBlock(
-      "🌟 המסר להיום",
-      data.message,
-      "blueLesson"
-    );
-
-
-  if(
-    html.trim()
-  ) {
-
-    lessonText.innerHTML =
-      html;
-
-  }
-
-
-  restartLesson();
-
-}
-
-
-
-/* ============================================================
-   RESTART שיעור
-============================================================ */
-
-function restartLesson() {
-
-  lessonText.style.animation =
-    "none";
-
-
-  void lessonText.offsetHeight;
-
-
-  lessonText.style.animation =
-    "scrollLesson 36s linear infinite";
-
-}
-
-
-
-/* ============================================================
-   LOAD שיעור FROM SUPABASE
-============================================================ */
-
-async function loadDailyLesson() {
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await db
-
-      .from(
-        "daily_lessons"
-      )
-
-      .select(
-        "*"
-      )
-
-      .eq(
-        "active",
-        true
-      )
-
-      .order(
-        "lesson_date",
-        {
-          ascending: false
-        }
-      )
-
-      .limit(1)
-
-      .maybeSingle();
-
-
-    if(error) {
-
-      console.warn(
-        "Daily lesson:",
-        error.message
-      );
-
-      return;
-
-    }
-
-
-    if(data) {
-
-      displayLesson(
-        data
-      );
-
-    }
-
-  }
-  catch(error) {
-
-    console.error(
-      "Daily lesson error:",
-      error
-    );
-
-  }
-
-}
-
-
-
-/* ============================================================
-   AUTO UPDATE
-============================================================ */
-
-loadDailyLesson();
-
-
-setInterval(
-  loadDailyLesson,
-  60000
-);
-
-
-
-/* ============================================================
-   REALTIME
-============================================================ */
-
-db
-
-.channel(
-  "daily-lesson-live"
-)
-
-.on(
-
-  "postgres_changes",
-
+const screens = [
   {
-
-    event: "*",
-
-    schema: "public",
-
-    table: "daily_lessons"
-
+    screen:'main',
+    duration:30000
   },
 
-  () => {
+  {
+    screen:'lesson',
+    duration:30000
+  },
 
-    loadDailyLesson();
+  {
+    screen:'main',
+    duration:30000
+  },
 
+  {
+    screen:'candles',
+    duration:30000
+  }
+];
+
+let screenIndex = 0;
+
+
+function runRotation(){
+
+  const current =
+    screens[screenIndex];
+
+  if(current.screen === 'main'){
+    showMain();
   }
 
-)
+  if(current.screen === 'lesson'){
+    showLesson();
+  }
 
-.subscribe();
+  if(current.screen === 'candles'){
+    showCandles();
+  }
 
+  setTimeout(
+    function(){
+
+      screenIndex++;
+
+      if(screenIndex >= screens.length){
+        screenIndex = 0;
+      }
+
+      runRotation();
+
+    },
+    current.duration
+  );
+}
+
+runRotation();
 
 </script>
-
 
 </body>
 </html>
