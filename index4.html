@@ -20,24 +20,25 @@
    RESET
 ============================================================ */
 
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
 html,
-body{
-  width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
-  overflow:hidden;
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
 
   font-family:
     Arial,
     "Noto Sans Hebrew",
     sans-serif;
 
-  background:#061f57;
+  background: #061f57;
 }
 
 
@@ -45,22 +46,22 @@ body{
    MAIN BOARD
 ============================================================ */
 
-#board{
+#board {
 
-  position:relative;
+  position: relative;
 
-  width:100vw;
-  height:100vh;
+  width: 100vw;
+  height: 100vh;
 
-  padding:10px;
+  padding: 10px;
 
-  display:grid;
+  display: grid;
 
   grid-template-rows:
     16vh
     1fr;
 
-  gap:8px;
+  gap: 8px;
 
   background:
     linear-gradient(
@@ -75,9 +76,7 @@ body{
       #06255e 100%
     );
 
-  border:
-    4px solid
-    #e8b92e;
+  border: 4px solid #e8b92e;
 }
 
 
@@ -85,13 +84,11 @@ body{
    GOLD PANELS
 ============================================================ */
 
-.goldPanel{
+.goldPanel {
 
-  border:
-    4px solid
-    #d4a42b;
+  border: 4px solid #d4a42b;
 
-  border-radius:28px;
+  border-radius: 28px;
 
   background:
     linear-gradient(
@@ -101,47 +98,37 @@ body{
     );
 
   box-shadow:
-
-    inset
-    0
-    0
-    0
-    2px
-    #fff6c8,
-
-    0
-    3px
-    8px
-    rgba(0,0,0,.25);
+    inset 0 0 0 2px #fff6c8,
+    0 3px 8px rgba(0,0,0,.25);
 }
 
 
 /* ============================================================
-   TOP HEADER
+   TOP ROW
 ============================================================ */
 
-.topRow{
+.topRow {
 
-  display:grid;
+  display: grid;
 
   grid-template-columns:
     20%
     1fr
     20%;
 
-  gap:10px;
+  gap: 10px;
 }
 
 
-/* CLOCK BOXES */
+/* ============================================================
+   CLOCKS
+============================================================ */
 
-.clockBox{
+.clockBox {
 
-  border:
-    4px solid
-    #e1ae2b;
+  border: 4px solid #e1ae2b;
 
-  border-radius:30px;
+  border-radius: 30px;
 
   background:
     linear-gradient(
@@ -150,35 +137,24 @@ body{
       #0b3378
     );
 
-  color:white;
+  color: white;
 
-  display:flex;
+  display: flex;
 
-  flex-direction:column;
+  flex-direction: column;
 
-  align-items:center;
+  align-items: center;
+  justify-content: center;
 
-  justify-content:center;
-
-  text-align:center;
+  text-align: center;
 
   box-shadow:
-
-    inset
-    0
-    0
-    0
-    2px
-    #fff2a7,
-
-    0
-    4px
-    8px
-    #0005;
+    inset 0 0 0 2px #fff2a7,
+    0 4px 8px #0005;
 }
 
 
-.clockCity{
+.clockCity {
 
   font-size:
     clamp(
@@ -187,13 +163,13 @@ body{
       27px
     );
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.clockTime{
+.clockTime {
 
-  margin-top:5px;
+  margin-top: 5px;
 
   font-size:
     clamp(
@@ -202,35 +178,34 @@ body{
       44px
     );
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
 /* ============================================================
-   SYNAGOGUE TITLE
+   TITLE
 ============================================================ */
 
-.titleBox{
+.titleBox {
 
-  text-align:center;
+  text-align: center;
 
-  display:flex;
+  display: flex;
 
-  flex-direction:column;
+  flex-direction: column;
 
-  align-items:center;
+  align-items: center;
+  justify-content: center;
 
-  justify-content:center;
-
-  padding:6px;
+  padding: 6px;
 }
 
 
-#synagogueName{
+#synagogueName {
 
-  margin:0;
+  margin: 0;
 
-  color:#0b2d70;
+  color: #0b2d70;
 
   font-size:
     clamp(
@@ -239,17 +214,17 @@ body{
       72px
     );
 
-  line-height:1;
+  line-height: 1;
 
-  font-weight:950;
+  font-weight: 950;
 }
 
 
-#rabbiName{
+#rabbiName {
 
-  margin-top:6px;
+  margin-top: 6px;
 
-  color:#795018;
+  color: #795018;
 
   font-size:
     clamp(
@@ -258,15 +233,15 @@ body{
       34px
     );
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-#dateLine{
+#dateLine {
 
-  margin-top:6px;
+  margin-top: 6px;
 
-  color:#262018;
+  color: #262018;
 
   font-size:
     clamp(
@@ -275,64 +250,64 @@ body{
       25px
     );
 
-  font-weight:800;
+  font-weight: 800;
 }
 
 
 /* ============================================================
-   CONTENT
+   CONTENT ROW
 ============================================================ */
 
-.contentRow{
+.contentRow {
 
-  min-height:0;
+  min-height: 0;
 
-  display:grid;
+  display: grid;
 
   grid-template-columns:
     20%
     1fr
     20%;
 
-  gap:10px;
+  gap: 10px;
 }
 
 
 /* ============================================================
-   LEFT + RIGHT SIDES
+   SIDE COLUMNS
 ============================================================ */
 
-.sideColumn{
+.sideColumn {
 
-  min-height:0;
+  min-height: 0;
 
-  display:grid;
+  display: grid;
 
   grid-template-rows:
     74%
     26%;
 
-  gap:10px;
+  gap: 10px;
 }
 
 
-.sidePanel{
+.sidePanel {
 
-  min-height:0;
+  min-height: 0;
 
   padding:
     10px
     8px;
 
-  text-align:center;
+  text-align: center;
 
-  overflow:hidden;
+  overflow: hidden;
 }
 
 
-.sideHeading{
+.sideHeading {
 
-  display:inline-block;
+  display: inline-block;
 
   margin:
     0
@@ -343,13 +318,11 @@ body{
     10px
     14px;
 
-  min-width:80%;
+  min-width: 80%;
 
-  border-radius:22px;
+  border-radius: 22px;
 
-  border:
-    4px solid
-    #9e7114;
+  border: 4px solid #9e7114;
 
   background:
     linear-gradient(
@@ -357,7 +330,7 @@ body{
       #d9a733
     );
 
-  color:#6e4a12;
+  color: #6e4a12;
 
   font-size:
     clamp(
@@ -366,20 +339,14 @@ body{
       34px
     );
 
-  font-weight:950;
+  font-weight: 950;
 
   box-shadow:
-
-    inset
-    0
-    0
-    0
-    2px
-    #fff2a9;
+    inset 0 0 0 2px #fff2a9;
 }
 
 
-.timeList{
+.timeList {
 
   font-size:
     clamp(
@@ -388,11 +355,11 @@ body{
       25px
     );
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.timeRow{
+.timeRow {
 
   padding:
     6px
@@ -404,9 +371,26 @@ body{
 }
 
 
-.red{
+.red {
 
-  color:#b82727;
+  color: #b82727;
+}
+
+
+.bottomSideText {
+
+  font-size:
+    clamp(
+      17px,
+      2.4vw,
+      30px
+    );
+
+  font-weight: 900;
+
+  line-height: 1.35;
+
+  color: #342a1e;
 }
 
 
@@ -414,19 +398,19 @@ body{
    CENTER PANEL
 ============================================================ */
 
-.centerPanel{
+.centerPanel {
 
-  position:relative;
+  position: relative;
 
-  min-height:0;
+  min-height: 0;
 
-  overflow:hidden;
+  overflow: hidden;
 
   border:
     5px solid
     #d7a62d;
 
-  border-radius:38px;
+  border-radius: 38px;
 
   background:
     linear-gradient(
@@ -438,32 +422,26 @@ body{
     );
 
   box-shadow:
-
-    inset
-    0
-    0
-    0
-    3px
-    #fff0a1;
+    inset 0 0 0 3px #fff0a1;
 }
 
 
 /* ============================================================
-   STAR
+   CENTER DECORATION
 ============================================================ */
 
-.starCircle{
+.starCircle {
 
-  position:absolute;
+  position: absolute;
 
-  top:-15px;
+  top: -15px;
 
-  left:50%;
+  left: 50%;
 
   transform:
     translateX(-50%);
 
-  z-index:10;
+  z-index: 30;
 
   width:
     clamp(
@@ -479,7 +457,7 @@ body{
       200px
     );
 
-  border-radius:50%;
+  border-radius: 50%;
 
   border:
     12px solid
@@ -493,13 +471,12 @@ body{
       #193b82 72%
     );
 
-  display:flex;
+  display: flex;
 
-  align-items:center;
+  align-items: center;
+  justify-content: center;
 
-  justify-content:center;
-
-  color:white;
+  color: white;
 
   font-size:
     clamp(
@@ -509,37 +486,21 @@ body{
     );
 
   text-shadow:
-    0
-    0
-    14px
-    #fff;
+    0 0 14px #fff;
 
   box-shadow:
-
-    0
-    0
-    0
-    5px
-    #78611e,
-
-    0
-    5px
-    15px
-    #0008;
+    0 0 0 5px #78611e,
+    0 5px 15px #0008;
 }
 
 
-/* ============================================================
-   DOVES
-============================================================ */
+.dove {
 
-.dove{
+  position: absolute;
 
-  position:absolute;
+  top: 5%;
 
-  top:5%;
-
-  z-index:8;
+  z-index: 20;
 
   font-size:
     clamp(
@@ -550,15 +511,15 @@ body{
 }
 
 
-.doveLeft{
+.doveLeft {
 
-  left:4%;
+  left: 4%;
 }
 
 
-.doveRight{
+.doveRight {
 
-  right:4%;
+  right: 4%;
 
   transform:
     scaleX(-1);
@@ -566,28 +527,59 @@ body{
 
 
 /* ============================================================
-   CENTER SCROLL
+   CENTER CONTENT PAGES
 ============================================================ */
 
-.centerWindow{
+.centerPage {
 
-  position:absolute;
+  position: absolute;
 
-  top:15%;
+  inset: 0;
 
-  left:5%;
+  opacity: 0;
 
-  width:90%;
+  visibility: hidden;
 
-  height:83%;
+  transition:
+    opacity .5s ease;
 
-  overflow:hidden;
+  pointer-events: none;
 }
 
 
-.centerScroll{
+.centerPage.active {
 
-  text-align:center;
+  opacity: 1;
+
+  visibility: visible;
+
+  pointer-events: auto;
+}
+
+
+/* ============================================================
+   MAIN MESSAGES CENTER PAGE
+============================================================ */
+
+.centerWindow {
+
+  position: absolute;
+
+  top: 15%;
+
+  left: 5%;
+
+  width: 90%;
+
+  height: 83%;
+
+  overflow: hidden;
+}
+
+
+.centerScroll {
+
+  text-align: center;
 
   animation:
     centerMove
@@ -595,30 +587,28 @@ body{
     linear
     infinite;
 
-  padding-bottom:70vh;
+  padding-bottom: 70vh;
 }
 
 
-@keyframes centerMove{
+@keyframes centerMove {
 
-  from{
+  from {
 
     transform:
       translateY(15%);
-
   }
 
-  to{
+  to {
 
     transform:
       translateY(-85%);
-
   }
 
 }
 
 
-.centerBig{
+.centerBig {
 
   margin:
     18px
@@ -631,13 +621,13 @@ body{
       52px
     );
 
-  line-height:1.35;
+  line-height: 1.35;
 
-  font-weight:950;
+  font-weight: 950;
 }
 
 
-.centerMedium{
+.centerMedium {
 
   margin:
     20px
@@ -650,55 +640,54 @@ body{
       43px
     );
 
-  line-height:1.45;
+  line-height: 1.45;
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.blue{
-  color:#174899;
+.blue {
+  color: #174899;
 }
 
-.green{
-  color:#178958;
+.green {
+  color: #178958;
 }
 
-.redText{
-  color:#bb3030;
+.redText {
+  color: #bb3030;
 }
 
-.teal{
-  color:#17838a;
+.teal {
+  color: #17838a;
 }
 
-.goldText{
-  color:#9f7115;
+.goldText {
+  color: #9f7115;
 }
 
-.purple{
-  color:#7d4194;
+.purple {
+  color: #7d4194;
 }
 
 
-.infoBox{
+.infoBox {
 
-  width:90%;
+  width: 90%;
 
   margin:
     25px
     auto;
 
-  padding:
-    15px;
+  padding: 15px;
 
   border:
     4px solid
     #af8621;
 
-  border-radius:30px;
+  border-radius: 30px;
 
-  background:#fffdf2;
+  background: #fffdf2;
 
   font-size:
     clamp(
@@ -707,15 +696,15 @@ body{
       30px
     );
 
-  line-height:1.35;
+  line-height: 1.35;
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
-.holidayText{
+.holidayText {
 
-  color:#178958;
+  color: #178958;
 
   font-size:
     clamp(
@@ -724,9 +713,9 @@ body{
       65px
     );
 
-  line-height:1.25;
+  line-height: 1.25;
 
-  font-weight:950;
+  font-weight: 950;
 
   margin:
     30px
@@ -734,26 +723,25 @@ body{
 }
 
 
-.memorialBox{
+.memorialBox {
 
-  width:88%;
+  width: 88%;
 
   margin:
     30px
     auto;
 
-  padding:
-    18px;
+  padding: 18px;
 
   border:
     4px solid
     #b78b2d;
 
-  border-radius:28px;
+  border-radius: 28px;
 
-  background:#fff1c4;
+  background: #fff1c4;
 
-  color:#69471e;
+  color: #69471e;
 
   font-size:
     clamp(
@@ -762,58 +750,484 @@ body{
       39px
     );
 
-  font-weight:900;
+  font-weight: 900;
 }
 
 
 /* ============================================================
-   BOTTOM SIDE TEXT
+   CANDLE PAGE — INSIDE CENTER BOX
 ============================================================ */
 
-.bottomSideText{
+#candlePage {
+
+  padding:
+    16%
+    6%
+    4%;
+}
+
+
+.candleTitle {
+
+  text-align: center;
+
+  color: #9b6f13;
 
   font-size:
     clamp(
-      17px,
-      2.4vw,
-      30px
+      28px,
+      4vw,
+      54px
     );
 
-  font-weight:900;
+  font-weight: 950;
 
-  line-height:1.35;
+  margin:
+    0
+    0
+    12px;
+}
 
-  color:#342a1e;
+
+.candleWindow {
+
+  width: 100%;
+
+  height: 85%;
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+
+.candleScroll {
+
+  position: absolute;
+
+  width: 100%;
+
+  top: 100%;
+
+  animation:
+    candleMove
+    30s
+    linear
+    infinite;
+}
+
+
+@keyframes candleMove {
+
+  from {
+
+    transform:
+      translateY(0);
+  }
+
+  to {
+
+    transform:
+      translateY(
+        calc(-100% - 60vh)
+      );
+  }
+
+}
+
+
+.candleGrid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      2,
+      minmax(0,1fr)
+    );
+
+  gap:
+    18px;
+
+  padding:
+    10px
+    10px
+    80px;
+}
+
+
+.candle {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding:
+    15px
+    5px;
+}
+
+
+.flame {
+
+  width: 38px;
+
+  height: 62px;
+
+  border-radius:
+    50%
+    50%
+    45%
+    45%;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 68%,
+      #fff 0 12%,
+      #fff7a8 13% 27%,
+      #58d8ff 28% 39%,
+      #ffbd35 40% 62%,
+      #ff5a2f 63% 82%,
+      #b82cff 83% 100%
+    );
+
+  box-shadow:
+    0 0 15px #fff6b8,
+    0 0 30px #ffb21f,
+    0 0 50px #45cfff;
+
+  animation:
+    flicker
+    .85s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+@keyframes flicker {
+
+  from {
+
+    transform:
+      rotate(-2deg)
+      scale(.96);
+  }
+
+  to {
+
+    transform:
+      rotate(2deg)
+      scale(1.05);
+  }
+
+}
+
+
+.wax {
+
+  width: 64px;
+
+  height: 95px;
+
+  border-radius:
+    14px
+    14px
+    18px
+    18px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #d9f5ff,
+      #fff,
+      #fff3c9,
+      #e3d3ff
+    );
+
+  border:
+    2px solid
+    #fff8d6;
+
+  box-shadow:
+    inset 0 0 18px #fff,
+    0 8px 24px #0006;
+}
+
+
+.candleName {
+
+  margin-top: 12px;
+
+  text-align: center;
+
+  color: #174899;
+
+  font-size:
+    clamp(
+      19px,
+      2.8vw,
+      37px
+    );
+
+  font-weight: 950;
+
+  line-height: 1.2;
 }
 
 
 /* ============================================================
-   SMALL ADMIN GEAR BOTTOM RIGHT
+   שיעור יומי — INSIDE CENTER BOX
 ============================================================ */
 
-.adminGear{
+#shiurPage {
 
-  position:fixed;
+  padding:
+    16%
+    6%
+    4%;
+}
 
-  right:7px;
-  bottom:7px;
 
-  width:29px;
-  height:29px;
+.shiurTitle {
 
-  display:flex;
+  text-align: center;
 
-  align-items:center;
+  color: #174899;
 
-  justify-content:center;
+  font-size:
+    clamp(
+      29px,
+      4.2vw,
+      56px
+    );
 
-  border-radius:50%;
+  font-weight: 950;
 
-  z-index:99999;
+  margin:
+    0
+    0
+    12px;
+}
 
-  text-decoration:none;
 
-  color:#fff;
+.lessonWindow {
+
+  position: relative;
+
+  width: 100%;
+
+  height: 85%;
+
+  overflow: hidden;
+
+  border:
+    3px solid
+    #d7a62d;
+
+  border-radius: 24px;
+
+  background:
+    #fffaf0;
+}
+
+
+.lessonWindow::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 8%;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      #fffaf0,
+      transparent
+    );
+}
+
+
+.lessonWindow::after {
+
+  content: "";
+
+  position: absolute;
+
+  bottom: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 10%;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      transparent,
+      #fffaf0
+    );
+}
+
+
+.lessonScroll {
+
+  position: absolute;
+
+  top: 100%;
+
+  left: 4%;
+
+  width: 92%;
+
+  padding:
+    15px
+    8px
+    100px;
+
+  text-align: center;
+
+  font-size:
+    clamp(
+      19px,
+      2.4vw,
+      39px
+    );
+
+  line-height: 1.5;
+
+  font-weight: 850;
+
+  animation:
+    scrollLesson
+    36s
+    linear
+    infinite;
+}
+
+
+.lessonBlock {
+
+  margin:
+    22px
+    auto;
+}
+
+
+.lessonBlock.blueLesson {
+
+  color: #174899;
+}
+
+
+.lessonBlock.greenLesson {
+
+  color: #178958;
+}
+
+
+.lessonHeading {
+
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #8d6411;
+
+  font-size: 1.08em;
+
+  font-weight: 950;
+}
+
+
+.lessonSeparator {
+
+  width: 50%;
+
+  height: 2px;
+
+  margin:
+    18px
+    auto;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #174899,
+      #178958,
+      transparent
+    );
+}
+
+
+@keyframes scrollLesson {
+
+  from {
+
+    transform:
+      translateY(0);
+  }
+
+  to {
+
+    transform:
+      translateY(
+        calc(
+          -100%
+          -
+          65vh
+        )
+      );
+  }
+
+}
+
+
+/* ============================================================
+   ADMIN GEAR
+============================================================ */
+
+.adminGear {
+
+  position: fixed;
+
+  right: 7px;
+  bottom: 7px;
+
+  width: 29px;
+  height: 29px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  z-index: 99999;
+
+  text-decoration: none;
+
+  color: #fff;
 
   background:
     rgba(
@@ -827,425 +1241,15 @@ body{
     1px solid
     #e2b339;
 
-  font-size:15px;
+  font-size: 15px;
 
-  opacity:.75;
+  opacity: .75;
 }
 
 
-.adminGear:hover{
+.adminGear:hover {
 
-  opacity:1;
-}
-
-
-/* ============================================================
-   שיעור OVERLAY AREA
-
-   IMPORTANT:
-   ONLY THE CENTER BOX IS COVERED.
-   THE SIDE FRAMES REMAIN VISIBLE.
-============================================================ */
-
-#shiurOverlay{
-
-  position:absolute;
-
-  z-index:5000;
-
-  top:16vh;
-
-  left:20%;
-
-  width:60%;
-
-  height:
-    calc(
-      84vh
-      -
-      10px
-    );
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  pointer-events:none;
-
-  opacity:0;
-
-  visibility:hidden;
-
-  transition:
-    opacity
-    .5s ease;
-}
-
-
-#shiurOverlay.show{
-
-  opacity:1;
-
-  visibility:visible;
-
-  pointer-events:auto;
-}
-
-
-/* ============================================================
-   SMALLER MIDDLE שיעור BOX
-============================================================ */
-
-.lessonFrame{
-
-  position:relative;
-
-  width:62%;
-
-  height:62%;
-
-  min-width:320px;
-
-  min-height:360px;
-
-  border-radius:34px;
-
-  padding:14px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(4,31,59,.98),
-      rgba(0,15,31,.98)
-    );
-
-  border:
-    5px solid
-    #22aaff;
-
-  box-shadow:
-
-    0
-    0
-    14px
-    #22aaff,
-
-    0
-    0
-    30px
-    rgba(0,175,255,.55),
-
-    0
-    0
-    55px
-    rgba(0,255,145,.22),
-
-    inset
-    0
-    0
-    25px
-    rgba(0,150,255,.12);
-
-  overflow:hidden;
-}
-
-
-/* ============================================================
-   שיעור CORNER STARS
-============================================================ */
-
-.lessonFrame::before{
-
-  content:"✡";
-
-  position:absolute;
-
-  top:6px;
-
-  left:13px;
-
-  z-index:10;
-
-  color:#2fd58d;
-
-  font-size:
-    clamp(
-      24px,
-      3vw,
-      44px
-    );
-
-  text-shadow:
-    0
-    0
-    10px
-    currentColor;
-}
-
-
-.lessonFrame::after{
-
-  content:"✡";
-
-  position:absolute;
-
-  top:6px;
-
-  right:13px;
-
-  z-index:10;
-
-  color:#28baff;
-
-  font-size:
-    clamp(
-      24px,
-      3vw,
-      44px
-    );
-
-  text-shadow:
-    0
-    0
-    10px
-    currentColor;
-}
-
-
-/* ============================================================
-   שיעור TITLE
-============================================================ */
-
-.lessonTitle{
-
-  height:16%;
-
-  min-height:50px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  text-align:center;
-
-  color:white;
-
-  font-size:
-    clamp(
-      25px,
-      3.5vw,
-      52px
-    );
-
-  font-weight:950;
-
-  border-bottom:
-    2px solid
-    rgba(64,210,255,.5);
-
-  text-shadow:
-
-    0
-    0
-    8px
-    #0aa8ff,
-
-    0
-    0
-    18px
-    #0aa8ff;
-}
-
-
-/* ============================================================
-   שיעור SCROLL WINDOW
-============================================================ */
-
-.lessonWindow{
-
-  position:relative;
-
-  width:100%;
-
-  height:82%;
-
-  overflow:hidden;
-}
-
-
-.lessonWindow::before{
-
-  content:"";
-
-  position:absolute;
-
-  top:0;
-
-  left:0;
-
-  right:0;
-
-  height:8%;
-
-  z-index:20;
-
-  background:
-    linear-gradient(
-      #001020,
-      transparent
-    );
-
-  pointer-events:none;
-}
-
-
-.lessonWindow::after{
-
-  content:"";
-
-  position:absolute;
-
-  bottom:0;
-
-  left:0;
-
-  right:0;
-
-  height:10%;
-
-  z-index:20;
-
-  background:
-    linear-gradient(
-      transparent,
-      #001020
-    );
-
-  pointer-events:none;
-}
-
-
-/* ============================================================
-   שיעור TEXT
-============================================================ */
-
-.lessonScroll{
-
-  position:absolute;
-
-  top:100%;
-
-  left:3%;
-
-  width:94%;
-
-  padding:
-    20px
-    10px
-    100px;
-
-  text-align:center;
-
-  font-size:
-    clamp(
-      19px,
-      2.3vw,
-      38px
-    );
-
-  line-height:1.5;
-
-  font-weight:850;
-
-  animation:
-    scrollLesson
-    38s
-    linear
-    infinite;
-}
-
-
-.lessonBlock{
-
-  margin:
-    24px
-    auto;
-}
-
-
-.lessonBlock.blueLesson{
-
-  color:#35bfff;
-}
-
-
-.lessonBlock.greenLesson{
-
-  color:#56e39a;
-}
-
-
-.lessonHeading{
-
-  display:block;
-
-  margin-bottom:7px;
-
-  color:white;
-
-  font-size:1.08em;
-
-  font-weight:950;
-}
-
-
-.lessonSeparator{
-
-  width:50%;
-
-  height:2px;
-
-  margin:
-    18px
-    auto;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #22baff,
-      #55e69a,
-      transparent
-    );
-}
-
-
-@keyframes scrollLesson{
-
-  from{
-
-    transform:
-      translateY(0);
-
-  }
-
-  to{
-
-    transform:
-      translateY(
-        calc(
-          -100%
-          -
-          70vh
-        )
-      );
-
-  }
-
+  opacity: 1;
 }
 
 
@@ -1254,59 +1258,59 @@ body{
 ============================================================ */
 
 @media
-(max-width:700px){
+(max-width:700px) {
 
-  #board{
+  #board {
 
-    padding:5px;
+    padding: 5px;
 
     grid-template-rows:
       16vh
       1fr;
 
-    gap:5px;
+    gap: 5px;
   }
 
 
-  .topRow{
+  .topRow {
 
     grid-template-columns:
       22%
       1fr
       22%;
 
-    gap:5px;
+    gap: 5px;
   }
 
 
-  .contentRow{
+  .contentRow {
 
     grid-template-columns:
       22%
       1fr
       22%;
 
-    gap:5px;
+    gap: 5px;
   }
 
 
-  .clockBox{
+  .clockBox {
 
-    border-width:3px;
+    border-width: 3px;
 
-    border-radius:22px;
+    border-radius: 22px;
   }
 
 
-  .goldPanel{
+  .goldPanel {
 
-    border-width:3px;
+    border-width: 3px;
 
-    border-radius:22px;
+    border-radius: 22px;
   }
 
 
-  .sideHeading{
+  .sideHeading {
 
     padding:
       7px
@@ -1321,7 +1325,7 @@ body{
   }
 
 
-  .timeList{
+  .timeList {
 
     font-size:
       clamp(
@@ -1332,7 +1336,7 @@ body{
   }
 
 
-  .timeRow{
+  .timeRow {
 
     padding:
       4px
@@ -1340,59 +1344,37 @@ body{
   }
 
 
-  #shiurOverlay{
+  #candlePage,
+  #shiurPage {
 
-    top:16vh;
-
-    left:22%;
-
-    width:56%;
-
-    height:84vh;
+    padding:
+      18%
+      4%
+      3%;
   }
 
 
-  .lessonFrame{
-
-    width:86%;
-
-    height:58%;
-
-    min-width:0;
-
-    min-height:300px;
-
-    border-radius:24px;
-
-    border-width:4px;
-
-    padding:8px;
-  }
-
-
-  .lessonTitle{
-
-    min-height:42px;
+  .lessonScroll {
 
     font-size:
       clamp(
-        20px,
-        5vw,
-        32px
+        15px,
+        3.8vw,
+        24px
       );
+
+    line-height: 1.45;
   }
 
 
-  .lessonScroll{
+  .candleName {
 
     font-size:
       clamp(
-        16px,
-        4vw,
-        25px
+        14px,
+        3.4vw,
+        22px
       );
-
-    line-height:1.45;
   }
 
 }
@@ -1408,13 +1390,11 @@ body{
 
 
 <!-- ============================================================
-     TOP
+     TOP ROW
 ============================================================ -->
 
 <div class="topRow">
 
-
-<!-- NEW YORK -->
 
 <div class="clockBox">
 
@@ -1433,8 +1413,6 @@ body{
 
 
 
-<!-- SYNAGOGUE -->
-
 <div class="titleBox goldPanel">
 
   <h1 id="synagogueName">
@@ -1452,8 +1430,6 @@ body{
 </div>
 
 
-
-<!-- JERUSALEM -->
 
 <div class="clockBox">
 
@@ -1481,9 +1457,7 @@ body{
 <div class="contentRow">
 
 
-<!-- ============================================================
-     LEFT SIDE
-============================================================ -->
+<!-- LEFT -->
 
 <div class="sideColumn">
 
@@ -1579,9 +1553,8 @@ body{
 </div>
 
 
-
 <!-- ============================================================
-     CENTER
+     CENTER PANEL
 ============================================================ -->
 
 <div class="centerPanel">
@@ -1601,6 +1574,16 @@ body{
 ✡
 </div>
 
+
+
+<!-- ============================================================
+     PAGE 1 — MAIN MESSAGES
+============================================================ -->
+
+<div
+  id="mainCenterPage"
+  class="centerPage active"
+>
 
 <div class="centerWindow">
 
@@ -1686,135 +1669,133 @@ body{
 
 </div>
 
-
 </div>
 
 
 
 <!-- ============================================================
-     RIGHT SIDE
+     PAGE 2 — CANDLES
 ============================================================ -->
 
-<div class="sideColumn">
-
-
-<div class="sidePanel goldPanel">
-
-  <div class="sideHeading">
-    זמני תפילה
-  </div>
-
-
-  <div class="timeList">
-
-    <div class="timeRow">
-      שחרית
-      <br>
-      07:00
-    </div>
-
-    <div class="timeRow">
-      מנחה
-      <br>
-      19:15
-    </div>
-
-    <div class="timeRow">
-      ערבית
-      <br>
-      20:30
-    </div>
-
-    <div class="timeRow">
-      שיעור תורה
-      <br>
-      21:15
-    </div>
-
-    <div class="timeRow">
-      שחרית שבת
-      <br>
-      09:00
-    </div>
-
-    <div class="timeRow">
-      מנחה שבת
-      <br>
-      19:30
-    </div>
-
-    <div class="timeRow">
-      ערבית ליל שבת
-      <br>
-      19:30
-    </div>
-
-    <div class="timeRow">
-      הבדלה
-      <br>
-      21:00
-    </div>
-
-  </div>
-
-</div>
-
-
-
-<div class="sidePanel goldPanel">
-
-  <div class="sideHeading">
-    מזל טוב
-  </div>
-
-  <div class="bottomSideText">
-
-    ברכת מזל טוב
-    <br>
-    לחברי הקהילה
-
-  </div>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-<!-- ============================================================
-     ADMIN
-============================================================ -->
-
-<a
-  href="admin.html"
-  class="adminGear"
-  title="Admin"
-  aria-label="Admin"
+<div
+  id="candlePage"
+  class="centerPage"
 >
-⚙
-</a>
+
+
+<div class="candleTitle">
+
+🕯️ נרות נשמה 🕯️
+
+</div>
+
+
+<div class="candleWindow">
+
+<div
+  id="candleScroll"
+  class="candleScroll"
+>
+
+<div class="candleGrid">
+
+
+<div class="candle">
+
+<div class="flame"></div>
+
+<div class="wax"></div>
+
+<div class="candleName">
+
+לעילוי נשמת
+<br>
+זהבה חלא בת דינה זצ״ל
+
+</div>
+
+</div>
+
+
+
+<div class="candle">
+
+<div class="flame"></div>
+
+<div class="wax"></div>
+
+<div class="candleName">
+
+לעילוי נשמת
+<br>
+דינה חלא בת ורד זצ״ל
+
+</div>
+
+</div>
+
+
+
+<div class="candle">
+
+<div class="flame"></div>
+
+<div class="wax"></div>
+
+<div class="candleName">
+
+לעילוי נשמת
+<br>
+חיים חלא בן יצחק זצ״ל
+
+</div>
+
+</div>
+
+
+
+<div class="candle">
+
+<div class="flame"></div>
+
+<div class="wax"></div>
+
+<div class="candleName">
+
+תנצב״ה
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 
 
 <!-- ============================================================
-     SMALL שיעור יומי BOX
+     PAGE 3 — שיעור יומי
 ============================================================ -->
 
-<div id="shiurOverlay">
-
-
-<section class="lessonFrame">
+<div
+  id="shiurPage"
+  class="centerPage"
+>
 
 
 <div
   id="lessonTitle"
-  class="lessonTitle"
+  class="shiurTitle"
 >
-✡ שיעור יומי ✡
+
+📖 שיעור יומי
+
 </div>
 
 
@@ -1929,10 +1910,113 @@ body{
 </div>
 
 
-</section>
+</div>
 
 
 </div>
+
+
+<!-- RIGHT -->
+
+<div class="sideColumn">
+
+
+<div class="sidePanel goldPanel">
+
+  <div class="sideHeading">
+    זמני תפילה
+  </div>
+
+
+  <div class="timeList">
+
+    <div class="timeRow">
+      שחרית
+      <br>
+      07:00
+    </div>
+
+    <div class="timeRow">
+      מנחה
+      <br>
+      19:15
+    </div>
+
+    <div class="timeRow">
+      ערבית
+      <br>
+      20:30
+    </div>
+
+    <div class="timeRow">
+      שיעור תורה
+      <br>
+      21:15
+    </div>
+
+    <div class="timeRow">
+      שחרית שבת
+      <br>
+      09:00
+    </div>
+
+    <div class="timeRow">
+      מנחה שבת
+      <br>
+      19:30
+    </div>
+
+    <div class="timeRow">
+      ערבית ליל שבת
+      <br>
+      19:30
+    </div>
+
+    <div class="timeRow">
+      הבדלה
+      <br>
+      21:00
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="sidePanel goldPanel">
+
+  <div class="sideHeading">
+    מזל טוב
+  </div>
+
+  <div class="bottomSideText">
+
+    ברכת מזל טוב
+    <br>
+    לחברי הקהילה
+
+  </div>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- ADMIN -->
+
+<a
+  href="admin.html"
+  class="adminGear"
+  title="Admin"
+  aria-label="Admin"
+>
+⚙
+</a>
 
 
 </div>
@@ -1964,28 +2048,21 @@ const db =
    CLOCKS
 ============================================================ */
 
-function formatClock(
-  zone
-){
+function formatClock(zone) {
 
   return new Intl.DateTimeFormat(
     "en-GB",
     {
 
-      timeZone:
-        zone,
+      timeZone: zone,
 
-      hour:
-        "2-digit",
+      hour: "2-digit",
 
-      minute:
-        "2-digit",
+      minute: "2-digit",
 
-      second:
-        "2-digit",
+      second: "2-digit",
 
-      hour12:
-        false
+      hour12: false
 
     }
   )
@@ -1996,7 +2073,7 @@ function formatClock(
 }
 
 
-function updateClocks(){
+function updateClocks() {
 
   document.getElementById(
     "nyClock"
@@ -2028,6 +2105,159 @@ setInterval(
 
 
 /* ============================================================
+   CENTER ROTATION
+============================================================ */
+
+const centerPages = [
+
+  document.getElementById(
+    "mainCenterPage"
+  ),
+
+  document.getElementById(
+    "candlePage"
+  ),
+
+  document.getElementById(
+    "shiurPage"
+  )
+
+];
+
+
+let centerIndex = 0;
+
+let centerTimer = null;
+
+
+/*
+   MAIN = 20 seconds
+   CANDLES = 10 seconds
+   SHIUR = 20 seconds
+*/
+
+const centerDurations = [
+
+  20000,
+
+  10000,
+
+  20000
+
+];
+
+
+function showCenterPage(index) {
+
+  centerPages.forEach(
+    (page,i) => {
+
+      page.classList.toggle(
+        "active",
+        i === index
+      );
+
+    }
+  );
+
+
+  centerIndex = index;
+
+
+  if(index === 1) {
+
+    restartCandles();
+
+  }
+
+
+  if(index === 2) {
+
+    restartLesson();
+
+  }
+
+}
+
+
+
+function rotateCenter() {
+
+  clearTimeout(
+    centerTimer
+  );
+
+
+  centerTimer =
+    setTimeout(
+      () => {
+
+        const next =
+          (
+            centerIndex
+            +
+            1
+          )
+          %
+          centerPages.length;
+
+
+        showCenterPage(
+          next
+        );
+
+
+        rotateCenter();
+
+      },
+
+      centerDurations[
+        centerIndex
+      ]
+
+    );
+
+}
+
+
+showCenterPage(0);
+
+rotateCenter();
+
+
+/* ============================================================
+   RESTART CANDLES
+============================================================ */
+
+function restartCandles() {
+
+  const element =
+    document.getElementById(
+      "candleScroll"
+    );
+
+
+  if(!element) {
+
+    return;
+
+  }
+
+
+  element.style.animation =
+    "none";
+
+
+  void element.offsetHeight;
+
+
+  element.style.animation =
+    "candleMove 30s linear infinite";
+
+}
+
+
+/* ============================================================
    שיעור HELPERS
 ============================================================ */
 
@@ -2043,21 +2273,13 @@ const lessonTitle =
   );
 
 
-const shiurOverlay =
-  document.getElementById(
-    "shiurOverlay"
-  );
-
-
-function escapeHtml(
-  value
-){
+function escapeHtml(value) {
 
   if(
     value === null
     ||
     value === undefined
-  ){
+  ) {
 
     return "";
 
@@ -2108,9 +2330,9 @@ function createBlock(
   heading,
   text,
   colorClass
-){
+) {
 
-  if(!text){
+  if(!text) {
 
     return "";
 
@@ -2144,22 +2366,20 @@ function createBlock(
 
 
 /* ============================================================
-   DISPLAY LESSON
+   DISPLAY שיעור
 ============================================================ */
 
-function displayLesson(
-  data
-){
+function displayLesson(data) {
 
   lessonTitle.innerHTML =
     escapeHtml(
       data.title
       ||
-      "✡ שיעור יומי ✡"
+      "📖 שיעור יומי"
     );
 
 
-  let html="";
+  let html = "";
 
 
   html +=
@@ -2220,7 +2440,7 @@ function displayLesson(
 
   if(
     html.trim()
-  ){
+  ) {
 
     lessonText.innerHTML =
       html;
@@ -2235,10 +2455,10 @@ function displayLesson(
 
 
 /* ============================================================
-   RESTART LESSON SCROLL
+   RESTART שיעור
 ============================================================ */
 
-function restartLesson(){
+function restartLesson() {
 
   lessonText.style.animation =
     "none";
@@ -2248,19 +2468,19 @@ function restartLesson(){
 
 
   lessonText.style.animation =
-    "scrollLesson 38s linear infinite";
+    "scrollLesson 36s linear infinite";
 
 }
 
 
 
 /* ============================================================
-   LOAD LESSON
+   LOAD שיעור FROM SUPABASE
 ============================================================ */
 
-async function loadDailyLesson(){
+async function loadDailyLesson() {
 
-  try{
+  try {
 
     const {
       data,
@@ -2284,7 +2504,7 @@ async function loadDailyLesson(){
       .order(
         "lesson_date",
         {
-          ascending:false
+          ascending: false
         }
       )
 
@@ -2293,9 +2513,10 @@ async function loadDailyLesson(){
       .maybeSingle();
 
 
-    if(error){
+    if(error) {
 
       console.warn(
+        "Daily lesson:",
         error.message
       );
 
@@ -2304,7 +2525,7 @@ async function loadDailyLesson(){
     }
 
 
-    if(data){
+    if(data) {
 
       displayLesson(
         data
@@ -2313,9 +2534,10 @@ async function loadDailyLesson(){
     }
 
   }
-  catch(error){
+  catch(error) {
 
     console.error(
+      "Daily lesson error:",
       error
     );
 
@@ -2326,70 +2548,7 @@ async function loadDailyLesson(){
 
 
 /* ============================================================
-   SHOW שיעור FOR 20 SECONDS
-============================================================ */
-
-let shiurTimer=null;
-
-
-function showShiur(){
-
-  restartLesson();
-
-
-  shiurOverlay.classList.add(
-    "show"
-  );
-
-
-  clearTimeout(
-    shiurTimer
-  );
-
-
-  shiurTimer =
-    setTimeout(
-      ()=>{
-
-        shiurOverlay.classList.remove(
-          "show"
-        );
-
-      },
-
-      20000
-
-    );
-
-}
-
-
-
-/*
-  Main board remains visible.
-
-  Show the שיעור after 25 seconds.
-  It remains for 20 seconds.
-
-  After that it disappears.
-  The cycle repeats every 60 seconds.
-*/
-
-setTimeout(
-  showShiur,
-  25000
-);
-
-
-setInterval(
-  showShiur,
-  60000
-);
-
-
-
-/* ============================================================
-   AUTO REFRESH
+   AUTO UPDATE
 ============================================================ */
 
 loadDailyLesson();
@@ -2418,18 +2577,15 @@ db
 
   {
 
-    event:
-      "*",
+    event: "*",
 
-    schema:
-      "public",
+    schema: "public",
 
-    table:
-      "daily_lessons"
+    table: "daily_lessons"
 
   },
 
-  ()=>{
+  () => {
 
     loadDailyLesson();
 
