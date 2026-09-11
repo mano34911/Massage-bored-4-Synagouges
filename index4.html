@@ -40,22 +40,20 @@ body{
 
 
 /* ============================================================
-   MAIN BOARD
+   ORIGINAL MAIN BOARD
 ============================================================ */
 
 .board{
   position:relative;
-
   width:100vw;
   height:100vh;
-
   padding:8px;
 
   background:
     linear-gradient(
       135deg,
       #f7f0dc,
-      #ffffff,
+      #fff,
       #e4dcc8
     );
 
@@ -65,12 +63,7 @@ body{
     inset 0 0 0 3px #f4d264;
 
   display:grid;
-
-  grid-template-rows:
-    auto
-    1fr
-    auto;
-
+  grid-template-rows:auto 1fr auto;
   gap:8px;
 
   color:var(--ink);
@@ -100,14 +93,8 @@ body{
 
 .header{
   display:grid;
-
-  grid-template-columns:
-    18%
-    1fr
-    18%;
-
+  grid-template-columns:18% 1fr 18%;
   gap:8px;
-
   align-items:stretch;
 }
 
@@ -121,73 +108,44 @@ body{
     );
 
   color:#fff7d6;
-
   text-align:center;
 
   border-radius:25px;
+  border:3px solid var(--gold2);
 
-  border:
-    3px solid
-    var(--gold2);
-
-  padding:
-    10px
-    4px;
+  padding:10px 4px;
 
   display:flex;
-
   flex-direction:column;
-
   justify-content:center;
 }
 
 
 .clock .city{
-  font-size:
-    clamp(
-      12px,
-      2.1vw,
-      28px
-    );
-
+  font-size:clamp(12px,2.1vw,28px);
   font-weight:900;
 }
 
 
 .clock .time{
-  font-size:
-    clamp(
-      18px,
-      3.5vw,
-      42px
-    );
-
+  font-size:clamp(18px,3.5vw,42px);
   font-weight:900;
-
   letter-spacing:.5px;
 }
 
 
 .titlebox{
-  padding:
-    9px
-    18px;
-
+  padding:9px 18px;
   text-align:center;
 }
 
 
 .titlebox h1{
   margin:0;
-
   color:#0d2d6b;
 
   font-size:
-    clamp(
-      28px,
-      4.6vw,
-      60px
-    );
+    clamp(28px,4.6vw,60px);
 
   line-height:1.04;
 }
@@ -195,14 +153,9 @@ body{
 
 .titlebox .rabbi{
   font-size:
-    clamp(
-      16px,
-      2.4vw,
-      30px
-    );
+    clamp(16px,2.4vw,30px);
 
   font-weight:800;
-
   color:#7a4c10;
 
   margin-top:4px;
@@ -211,20 +164,15 @@ body{
 
 .titlebox .date{
   font-size:
-    clamp(
-      13px,
-      1.9vw,
-      24px
-    );
+    clamp(13px,1.9vw,24px);
 
   font-weight:700;
-
   margin-top:5px;
 }
 
 
 /* ============================================================
-   MAIN CONTENT
+   MAIN
 ============================================================ */
 
 .main{
@@ -233,9 +181,7 @@ body{
   display:grid;
 
   grid-template-columns:
-    19%
-    1fr
-    19%;
+    19% 1fr 19%;
 
   gap:8px;
 }
@@ -247,8 +193,7 @@ body{
   display:grid;
 
   grid-template-rows:
-    2fr
-    .75fr;
+    2fr .75fr;
 
   gap:8px;
 }
@@ -256,11 +201,7 @@ body{
 
 .sideBox{
   overflow:hidden;
-
-  padding:
-    10px
-    7px;
-
+  padding:10px 7px;
   text-align:center;
 }
 
@@ -268,14 +209,9 @@ body{
 .sideBox h2{
   display:inline-block;
 
-  margin:
-    0
-    0
-    10px;
+  margin:0 0 10px;
 
-  padding:
-    12px
-    14px;
+  padding:12px 14px;
 
   border-radius:22px;
 
@@ -285,18 +221,12 @@ body{
       #c7932b
     );
 
-  border:
-    3px solid
-    #9c6b12;
+  border:3px solid #9c6b12;
 
   color:#574016;
 
   font-size:
-    clamp(
-      17px,
-      2.5vw,
-      33px
-    );
+    clamp(17px,2.5vw,33px);
 
   box-shadow:
     inset 0 0 0 2px #ffeaa6;
@@ -307,11 +237,7 @@ body{
   font-weight:800;
 
   font-size:
-    clamp(
-      13px,
-      1.75vw,
-      22px
-    );
+    clamp(13px,1.75vw,22px);
 
   line-height:1.12;
 }
@@ -319,19 +245,14 @@ body{
 
 .row{
   display:flex;
-
-  justify-content:
-    space-between;
+  justify-content:space-between;
 
   gap:6px;
 
   border-bottom:
-    2px dotted
-    #b69b63;
+    2px dotted #b69b63;
 
-  padding:
-    6px
-    2px;
+  padding:6px 2px;
 }
 
 
@@ -342,14 +263,9 @@ body{
 
 .smallText{
   font-size:
-    clamp(
-      15px,
-      2.1vw,
-      27px
-    );
+    clamp(15px,2.1vw,27px);
 
   line-height:1.35;
-
   font-weight:800;
 }
 
@@ -370,9 +286,7 @@ body{
       #0a2b68 90%
     );
 
-  border:
-    4px solid
-    var(--gold);
+  border:4px solid var(--gold);
 
   box-shadow:
     inset 0 0 0 3px #fff0a4;
@@ -380,9 +294,7 @@ body{
   position:relative;
 
   padding:
-    11%
-    6%
-    12%;
+    11% 6% 12%;
 
   overflow:hidden;
 }
@@ -390,21 +302,16 @@ body{
 
 .medallion{
   position:absolute;
-
   z-index:5;
 
   top:-4px;
-
   left:50%;
 
   transform:
     translateX(-50%);
 
   width:
-    min(
-      20vw,
-      155px
-    );
+    min(20vw,155px);
 
   aspect-ratio:1;
 
@@ -418,12 +325,10 @@ body{
     );
 
   border:
-    12px solid
-    #e3b343;
+    12px solid #e3b343;
 
   box-shadow:
-    0 0 0 5px
-    #896714;
+    0 0 0 5px #896714;
 }
 
 
@@ -441,41 +346,32 @@ body{
 
 .scroller{
   position:absolute;
-
   top:0;
 
   width:100%;
 
   animation:
     scrollUp
-    var(
-      --main-scroll-speed,
-      34s
-    )
-    linear
-    infinite;
+    var(--main-scroll-speed,34s)
+    linear infinite;
 
   will-change:transform;
 }
 
 
-.scrollWindow:hover
-.scroller{
-  animation-play-state:
-    paused;
+.scrollWindow:hover .scroller{
+  animation-play-state:paused;
 }
 
 
 @keyframes scrollUp{
 
   from{
-    transform:
-      translateY(0);
+    transform:translateY(0);
   }
 
   to{
-    transform:
-      translateY(-115%);
+    transform:translateY(-115%);
   }
 
 }
@@ -483,103 +379,60 @@ body{
 
 .big{
   font-size:
-    clamp(
-      25px,
-      4.1vw,
-      58px
-    );
+    clamp(25px,4.1vw,58px);
 
   font-weight:900;
-
   line-height:1.2;
 
-  margin:
-    10px
-    0;
+  margin:10px 0;
 }
 
 
 .medium{
   font-size:
-    clamp(
-      19px,
-      3vw,
-      40px
-    );
+    clamp(19px,3vw,40px);
 
   font-weight:900;
-
   line-height:1.32;
 
-  margin:
-    12px
-    0;
+  margin:12px 0;
 }
 
 
-.blue{
-  color:#143b86;
-}
-
-.green{
-  color:#17824b;
-}
-
-.purple{
-  color:#693c8f;
-}
-
-.redText{
-  color:#b51f26;
-}
-
-.goldText{
-  color:#9f6d09;
-}
-
-.teal{
-  color:#0e7881;
-}
+.blue{color:#143b86}
+.green{color:#17824b}
+.purple{color:#693c8f}
+.redText{color:#b51f26}
+.goldText{color:#9f6d09}
+.teal{color:#0e7881}
 
 
 /* ============================================================
-   BIG GREEN HOLIDAY MESSAGE
+   BIG GREEN שנה טובה
 ============================================================ */
 
 .holidayMessage{
-  color:#13884d !important;
+  color:#17824b;
 
   font-size:
-    clamp(
-      34px,
-      5.2vw,
-      78px
-    ) !important;
+    clamp(34px,5vw,72px);
 
-  line-height:1.2;
+  font-weight:950;
 
-  font-weight:950 !important;
+  line-height:1.18;
 
   text-align:center;
 
-  margin:
-    22px
-    auto;
-
-  padding:
-    14px
-    8px;
+  margin:20px auto;
 
   text-shadow:
-    0 1px 1px #ffffff,
-    0 0 10px rgba(23,130,75,.28);
+    0 1px 1px #fff,
+    0 0 6px #6fd5a255;
 }
 
 
 .infoCard{
-  border:
-    3px solid
-    #b78b2b;
+  border:3px solid #b78b2b;
 
   border-radius:24px;
 
@@ -587,46 +440,30 @@ body{
 
   padding:10px;
 
-  margin:
-    18px
-    auto;
+  margin:18px auto;
 
   width:94%;
 
   font-size:
-    clamp(
-      14px,
-      2vw,
-      25px
-    );
+    clamp(14px,2vw,25px);
 
   font-weight:800;
 }
 
 
 .memorial{
-  border:
-    3px solid
-    #b98a29;
+  border:3px solid #b98a29;
 
   border-radius:18px;
 
   background:#fff3c8;
 
-  padding:
-    12px
-    8px;
+  padding:12px 8px;
 
-  margin:
-    14px
-    auto;
+  margin:14px auto;
 
   font-size:
-    clamp(
-      16px,
-      2.3vw,
-      30px
-    );
+    clamp(16px,2.3vw,30px);
 
   font-weight:900;
 
@@ -647,27 +484,19 @@ body{
 
   color:#fff7d4;
 
-  border:
-    3px solid
-    var(--gold);
+  border:3px solid var(--gold);
 
   box-shadow:
     inset 0 0 0 2px #f6db7d;
 
   border-radius:16px;
 
-  padding:
-    10px
-    18px;
+  padding:10px 18px;
 
   text-align:center;
 
   font-size:
-    clamp(
-      16px,
-      2.4vw,
-      31px
-    );
+    clamp(16px,2.4vw,31px);
 
   font-weight:900;
 
@@ -678,7 +507,7 @@ body{
 
 
 /* ============================================================
-   BOTTOM LEFT ADMIN
+   ORIGINAL LEFT ADMIN
 ============================================================ */
 
 .adminGear{
@@ -695,16 +524,12 @@ body{
   border-radius:50%;
 
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
   background:#071f50;
 
-  border:
-    3px solid
-    #d7a62d;
+  border:3px solid #d7a62d;
 
   color:#fff;
 
@@ -719,7 +544,7 @@ body{
 
 
 /* ============================================================
-   TINY BOTTOM RIGHT ADMIN GEAR
+   NEW TINY ADMIN BOTTOM RIGHT
 ============================================================ */
 
 .tinyAdminGear{
@@ -730,51 +555,31 @@ body{
 
   z-index:999999;
 
-  width:30px;
-  height:30px;
+  width:29px;
+  height:29px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
   border-radius:50%;
 
-  display:flex;
+  background:#071f50cc;
 
-  align-items:center;
+  border:1px solid #d7a62d;
 
-  justify-content:center;
+  color:#fff;
 
-  background:
-    rgba(
-      7,
-      31,
-      80,
-      .75
-    );
-
-  border:
-    1px solid
-    #d7a62d;
-
-  color:#ffffff;
-
-  font-size:16px;
+  font-size:15px;
 
   text-decoration:none;
 
-  opacity:.65;
-
-  box-shadow:
-    0 2px 8px #0007;
-
-  transition:
-    opacity .15s ease,
-    transform .15s ease;
+  opacity:.7;
 }
 
 
 .tinyAdminGear:hover{
   opacity:1;
-
-  transform:
-    scale(1.12);
 }
 
 
@@ -794,25 +599,19 @@ body{
 
   height:52px;
 
-  padding:
-    0
-    18px;
+  padding:0 18px;
 
   border-radius:28px;
 
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
   gap:7px;
 
   background:#d7a62d;
 
-  border:
-    3px solid
-    #071f50;
+  border:3px solid #071f50;
 
   color:#071f50;
 
@@ -821,9 +620,6 @@ body{
   font-weight:900;
 
   text-decoration:none;
-
-  box-shadow:
-    0 3px 14px #0007;
 }
 
 
@@ -843,25 +639,19 @@ body{
 
   height:52px;
 
-  padding:
-    0
-    18px;
+  padding:0 18px;
 
   border-radius:28px;
 
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
   gap:7px;
 
   background:#fff8df;
 
-  border:
-    3px solid
-    #d7a62d;
+  border:3px solid #d7a62d;
 
   color:#071f50;
 
@@ -870,65 +660,54 @@ body{
   font-weight:900;
 
   text-decoration:none;
-
-  box-shadow:
-    0 3px 14px #0007;
 }
 
 
 /* ============================================================
-   ROTATING PAGES
+   PAGE ROTATION
 ============================================================ */
 
 .rotatePage{
   position:absolute;
-
   inset:0;
 
   width:100%;
-
   height:100%;
 
   opacity:0;
-
   visibility:hidden;
 
   pointer-events:none;
 
   transition:
-    opacity .65s ease;
+    opacity .55s ease;
 }
 
 
 .rotatePage.active{
   opacity:1;
-
   visibility:visible;
-
   pointer-events:auto;
 }
 
 
 #mainPage{
   position:absolute;
-
   inset:0;
 }
 
 
+/* ============================================================
+   CANDLE PAGE
+============================================================ */
+
 .specialPage{
   display:flex;
-
   align-items:center;
-
   justify-content:center;
 
   padding:
-    clamp(
-      10px,
-      2vw,
-      28px
-    );
+    clamp(10px,2vw,28px);
 
   background:
     radial-gradient(
@@ -943,21 +722,11 @@ body{
 
 
 .specialFrame{
-  width:
-    min(
-      96vw,
-      1300px
-    );
+  width:min(96vw,1300px);
 
-  height:
-    min(
-      94vh,
-      900px
-    );
+  height:min(94vh,900px);
 
-  border:
-    4px solid
-    var(--gold);
+  border:4px solid var(--gold);
 
   box-shadow:
     inset 0 0 0 3px #fff0a4,
@@ -973,11 +742,7 @@ body{
     );
 
   padding:
-    clamp(
-      18px,
-      4vw,
-      48px
-    );
+    clamp(18px,4vw,48px);
 
   text-align:center;
 
@@ -989,33 +754,19 @@ body{
   color:#f7d66b;
 
   font-size:
-    clamp(
-      38px,
-      6vw,
-      82px
-    );
+    clamp(38px,6vw,82px);
 
   font-weight:900;
 
-  margin:
-    0
-    0
-    20px;
+  margin:0 0 20px;
 
   text-shadow:
     0 2px 8px #000;
 }
 
 
-/* ============================================================
-   CANDLE PAGE
-============================================================ */
-
 .candleViewport{
-  height:
-    calc(
-      100% - 82px
-    );
+  height:calc(100% - 82px);
 
   overflow:hidden;
 
@@ -1028,12 +779,8 @@ body{
 
   animation:
     candleUp
-    var(
-      --candle-scroll-speed,
-      45s
-    )
-    linear
-    infinite;
+    var(--candle-scroll-speed,45s)
+    linear infinite;
 }
 
 
@@ -1046,13 +793,7 @@ body{
 
   to{
     transform:
-      translateY(
-        calc(
-          -100%
-          +
-          12vh
-        )
-      );
+      translateY(calc(-100% + 12vh));
   }
 
 }
@@ -1066,35 +807,21 @@ body{
   display:grid;
 
   grid-template-columns:
-    repeat(
-      4,
-      minmax(
-        0,
-        1fr
-      )
-    );
+    repeat(4,minmax(0,1fr));
 
   gap:
-    clamp(
-      14px,
-      2vw,
-      28px
-    );
+    clamp(14px,2vw,28px);
 
   padding:
-    16px
-    8px
-    55vh;
+    16px 8px 55vh;
 }
 
 
 .candle{
   display:flex;
-
   flex-direction:column;
 
   align-items:center;
-
   justify-content:center;
 
   min-height:235px;
@@ -1103,14 +830,10 @@ body{
 
 .flame{
   width:44px;
-
   height:72px;
 
   border-radius:
-    50%
-    50%
-    45%
-    45%;
+    50% 50% 45% 45%;
 
   background:
     radial-gradient(
@@ -1156,27 +879,21 @@ body{
 
 .wax{
   width:72px;
-
   height:118px;
 
   border-radius:
-    14px
-    14px
-    18px
-    18px;
+    14px 14px 18px 18px;
 
   background:
     linear-gradient(
       90deg,
-      #d9f5ff 0%,
-      #ffffff 35%,
-      #fff3c9 62%,
-      #e3d3ff 100%
+      #d9f5ff,
+      #fff,
+      #fff3c9,
+      #e3d3ff
     );
 
-  border:
-    2px solid
-    #fff8d6;
+  border:2px solid #fff8d6;
 
   box-shadow:
     inset 0 0 18px #fff,
@@ -1190,11 +907,7 @@ body{
   color:#ffe36d;
 
   font-size:
-    clamp(
-      28px,
-      3.6vw,
-      46px
-    );
+    clamp(28px,3.6vw,46px);
 
   font-weight:950;
 
@@ -1209,176 +922,310 @@ body{
 
 
 /* ============================================================
-   LARGE DAILY SHIUR
+   שיעור יומי PAGE
+   THIS IS THE DESIGN YOU SENT
 ============================================================ */
 
 #shiurPage{
-  padding:
-    1vh
-    1vw;
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #073b66 0%,
+      #032b4c 28%,
+      #001b34 58%,
+      #000b18 100%
+    );
+
+  color:#fff;
 }
 
 
-#shiurPage
-.specialFrame{
-  width:98vw;
+.shiurApp{
+  width:100vw;
+  height:100vh;
 
-  height:97vh;
+  display:flex;
+  flex-direction:column;
 
-  max-width:none;
+  position:relative;
+}
 
-  padding:
-    12px
-    18px;
 
-  border-radius:32px;
+.shiurTopHeader{
+  height:14vh;
 
-  border:
-    5px solid
-    var(--gold);
+  min-height:100px;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  padding:8px 20px;
 
   background:
     linear-gradient(
       180deg,
-      #082d6a 0%,
-      #061f57 11%,
-      #fff8df 11%,
-      #fffdf3 91%,
-      #061f57 91%
+      rgba(0,48,86,.96),
+      rgba(0,20,42,.82)
     );
 
-  box-shadow:
-    inset 0 0 0 3px #fff0a4,
-    0 0 30px #d7a62daa;
+  border-bottom:
+    3px solid #1ab6ff;
 
-  position:relative;
+  box-shadow:
+    0 0 20px rgba(27,182,255,.65);
 }
 
 
-#shiurPage
-.specialTitle{
-  height:10%;
+.shiurBh{
+  position:absolute;
 
-  min-height:60px;
+  top:12px;
+  right:20px;
+
+  font-size:
+    clamp(20px,2.5vw,34px);
+
+  color:#5cffaa;
+
+  font-weight:900;
+}
+
+
+.shiurSynagogueName{
+  margin:0;
+
+  font-size:
+    clamp(32px,5vw,72px);
+
+  color:#fff;
+
+  text-shadow:
+    0 0 10px #0099ff,
+    0 0 22px #0099ff;
+
+  font-weight:900;
+}
+
+
+.shiurSubtitle{
+  margin-top:4px;
+
+  font-size:
+    clamp(18px,2.2vw,32px);
+
+  color:#62e6a0;
+
+  font-weight:bold;
+}
+
+
+.lessonArea{
+  height:80vh;
 
   display:flex;
 
   align-items:center;
-
   justify-content:center;
 
-  margin:0;
-
-  color:#f7d66b;
-
-  font-size:
-    clamp(
-      40px,
-      5.5vw,
-      82px
-    );
-
-  line-height:1;
+  padding:
+    10px 2vw 12px;
 }
 
 
-.shiurBody{
+.lessonFrame{
   position:relative;
 
-  width:100%;
+  width:97%;
+  height:100%;
 
-  height:80%;
+  border-radius:34px;
 
-  overflow:hidden;
-
-  border-radius:26px;
+  padding:16px;
 
   background:
     linear-gradient(
-      #fffdf3,
-      #fff8df
+      145deg,
+      rgba(4,31,59,.98),
+      rgba(0,15,31,.98)
     );
 
   border:
-    4px solid
-    #d7a62d;
+    6px solid #22aaff;
 
   box-shadow:
-    inset 0 0 0 3px #fff2b2;
+    0 0 16px #22aaff,
+    0 0 38px rgba(0,175,255,.6),
+    0 0 70px rgba(0,255,145,.25),
+    inset 0 0 28px rgba(0,150,255,.12);
+
+  overflow:hidden;
+}
+
+
+.lessonFrame::before{
+  content:"✡";
+
+  position:absolute;
+
+  top:7px;
+  left:18px;
+
+  font-size:
+    clamp(35px,4vw,65px);
+
+  color:#2fd58d;
+
+  text-shadow:
+    0 0 12px #2fd58d;
+
+  z-index:10;
+}
+
+
+.lessonFrame::after{
+  content:"✡";
+
+  position:absolute;
+
+  top:7px;
+  right:18px;
+
+  font-size:
+    clamp(35px,4vw,65px);
+
+  color:#28baff;
+
+  text-shadow:
+    0 0 12px #28baff;
+
+  z-index:10;
+}
+
+
+.lessonTitle{
+  height:13%;
+
+  min-height:80px;
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  font-size:
+    clamp(38px,6vw,88px);
+
+  line-height:1;
+
+  font-weight:900;
+
+  color:#fff;
+
+  text-shadow:
+    0 0 10px #0aa8ff,
+    0 0 24px #0aa8ff;
+
+  border-bottom:
+    2px solid rgba(64,210,255,.55);
+}
+
+
+.lessonWindow{
+  position:relative;
+
+  height:84%;
+
+  width:100%;
+
+  overflow:hidden;
 
   margin-top:1%;
 }
 
 
-.shiurBody::before{
+.lessonWindow::before{
   content:"";
 
   position:absolute;
 
   left:0;
-
   right:0;
-
   top:0;
 
-  height:8%;
+  height:9%;
 
-  z-index:20;
+  z-index:5;
 
   pointer-events:none;
 
   background:
     linear-gradient(
-      to bottom,
-      #fffdf3,
-      transparent
+      180deg,
+      rgba(0,15,31,1),
+      rgba(0,15,31,0)
     );
 }
 
 
-.shiurBody::after{
+.lessonWindow::after{
   content:"";
 
   position:absolute;
 
   left:0;
-
   right:0;
-
   bottom:0;
 
-  height:8%;
+  height:10%;
 
-  z-index:20;
+  z-index:5;
 
   pointer-events:none;
 
   background:
     linear-gradient(
-      to top,
-      #fff8df,
-      transparent
+      0deg,
+      rgba(0,15,31,1),
+      rgba(0,15,31,0)
     );
 }
 
 
-.shiurScroll{
+.lessonScroll{
   position:absolute;
-
-  top:100%;
-
-  left:3%;
 
   width:94%;
 
-  padding-bottom:50vh;
+  left:3%;
+
+  top:100%;
+
+  text-align:center;
+
+  padding:
+    30px 3vw 120px;
+
+  font-size:
+    clamp(30px,4.1vw,64px);
+
+  line-height:1.7;
+
+  font-weight:800;
 
   animation:
-    shiurUp
-    var(
-      --shiur-scroll-speed,
-      75s
-    )
+    scrollLesson
+    40s
     linear
     infinite;
 
@@ -1386,7 +1233,61 @@ body{
 }
 
 
-@keyframes shiurUp{
+.lessonBlock{
+  margin:34px auto;
+
+  max-width:1500px;
+}
+
+
+.lessonBlock.blueLesson{
+  color:#35bfff;
+
+  text-shadow:
+    0 0 7px rgba(53,191,255,.7);
+}
+
+
+.lessonBlock.greenLesson{
+  color:#56e39a;
+
+  text-shadow:
+    0 0 7px rgba(86,227,154,.65);
+}
+
+
+.lessonHeading{
+  display:block;
+
+  margin-bottom:10px;
+
+  color:#fff;
+
+  font-size:1.08em;
+
+  font-weight:900;
+}
+
+
+.lessonSeparator{
+  width:55%;
+
+  height:2px;
+
+  margin:30px auto;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #22baff,
+      #55e69a,
+      transparent
+    );
+}
+
+
+@keyframes scrollLesson{
 
   from{
     transform:
@@ -1396,155 +1297,62 @@ body{
   to{
     transform:
       translateY(
-        calc(
-          -100%
-          -
-          90vh
-        )
+        calc(-100% - 110vh)
       );
   }
 
 }
 
 
-.shiurSection{
-  margin:
-    clamp(
-      24px,
-      4vh,
-      58px
-    )
-    auto;
+.shiurBottomBar{
+  position:absolute;
 
-  padding:
-    10px
-    22px;
+  bottom:4px;
+  left:0;
 
-  width:96%;
+  width:100%;
 
-  text-align:center;
-}
+  height:5vh;
 
+  min-height:34px;
 
-/* alternating blue / green */
+  display:flex;
 
-.shiurSection:nth-of-type(4n+1){
-  color:#143b86;
-}
+  justify-content:center;
+  align-items:center;
 
-
-.shiurSection:nth-of-type(4n+3){
-  color:#17824b;
-}
-
-
-.shiurHeading{
-  color:#9f6d09;
+  gap:24px;
 
   font-size:
-    clamp(
-      30px,
-      4vw,
-      58px
-    );
+    clamp(13px,1.3vw,20px);
 
-  font-weight:950;
+  color:#aacbdd;
 
-  margin:
-    0
-    0
-    12px;
-}
+  z-index:20;
 
-
-.shiurText{
-  font-size:
-    clamp(
-      27px,
-      3.7vw,
-      54px
-    );
-
-  line-height:1.55;
-
-  font-weight:900;
-
-  white-space:pre-line;
-}
-
-
-.shiurBlue{
-  color:#143b86;
-}
-
-
-.shiurGreen{
-  color:#17824b;
-}
-
-
-.shiurSeparator{
-  width:55%;
-
-  height:3px;
-
-  margin:
-    22px
-    auto;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      #143b86,
-      #17824b,
-      transparent
-    );
-
-  border-radius:10px;
+  direction:ltr;
 }
 
 
 .shiurStatus{
-  position:absolute;
+  display:flex;
 
-  right:24px;
+  align-items:center;
 
-  bottom:12px;
-
-  z-index:30;
-
-  direction:ltr;
-
-  font-size:
-    clamp(
-      12px,
-      1.3vw,
-      18px
-    );
-
-  color:#d9f5ff;
-
-  font-weight:800;
+  gap:7px;
 }
 
 
 .shiurStatusDot{
-  display:inline-block;
-
   width:10px;
-
   height:10px;
-
-  margin-right:5px;
 
   border-radius:50%;
 
-  background:#4cf59b;
+  background:#44e69a;
 
   box-shadow:
-    0 0 8px
-    #4cf59b;
+    0 0 9px #44e69a;
 }
 
 
@@ -1554,24 +1362,17 @@ body{
 
 .prayerOverlay{
   position:fixed;
-
   inset:0;
 
   z-index:999998;
 
   background:
-    rgba(
-      2,
-      10,
-      30,
-      .97
-    );
+    rgba(2,10,30,.97);
 
   display:none;
 
   padding:
-    3vh
-    4vw;
+    3vh 4vw;
 
   color:#fff;
 }
@@ -1586,8 +1387,7 @@ body{
   height:94vh;
 
   border:
-    4px solid
-    #d7a62d;
+    4px solid #d7a62d;
 
   border-radius:28px;
 
@@ -1608,11 +1408,7 @@ body{
   color:#f7d66b;
 
   font-size:
-    clamp(
-      34px,
-      5vw,
-      70px
-    );
+    clamp(34px,5vw,70px);
 
   font-weight:900;
 
@@ -1622,11 +1418,7 @@ body{
 
 .prayerViewport{
   height:
-    calc(
-      100%
-      -
-      95px
-    );
+    calc(100% - 95px);
 
   overflow:hidden;
 
@@ -1646,11 +1438,7 @@ body{
   text-align:right;
 
   font-size:
-    clamp(
-      22px,
-      3vw,
-      42px
-    );
+    clamp(22px,3vw,42px);
 
   line-height:1.65;
 
@@ -1658,12 +1446,8 @@ body{
 
   animation:
     prayerUp
-    var(
-      --prayer-scroll-speed,
-      90s
-    )
-    linear
-    infinite;
+    var(--prayer-scroll-speed,90s)
+    linear infinite;
 }
 
 
@@ -1686,31 +1470,26 @@ body{
   position:absolute;
 
   left:18px;
-
   top:14px;
 
   background:#b51f26;
 
   color:#fff;
 
-  border:
-    2px solid
-    #fff;
+  border:2px solid #fff;
 
   border-radius:50%;
 
   width:46px;
-
   height:46px;
 
   font-size:24px;
-
   font-weight:900;
 }
 
 
 /* ============================================================
-   DOVES
+   DOVES + STAR
 ============================================================ */
 
 .center::before,
@@ -1724,18 +1503,11 @@ body{
   top:3.5%;
 
   font-size:
-    clamp(
-      34px,
-      6vw,
-      82px
-    );
+    clamp(34px,6vw,82px);
 
   filter:
     drop-shadow(
-      0
-      4px
-      4px
-      #0006
+      0 4px 4px #0006
     );
 
   animation:
@@ -1773,15 +1545,9 @@ body{
 }
 
 
-/* ============================================================
-   STAR
-============================================================ */
-
 .medallion{
   display:grid;
-
   place-items:center;
-
   overflow:visible;
 }
 
@@ -1790,11 +1556,7 @@ body{
   content:"✡";
 
   font-size:
-    clamp(
-      72px,
-      14vw,
-      145px
-    );
+    clamp(72px,14vw,145px);
 
   line-height:1;
 
@@ -1816,29 +1578,12 @@ body{
 
 @keyframes starColors{
 
-  0%{
-    color:#ff2be6;
-  }
-
-  20%{
-    color:#32e9ff;
-  }
-
-  40%{
-    color:#386dff;
-  }
-
-  60%{
-    color:#38ff96;
-  }
-
-  80%{
-    color:#ffd52e;
-  }
-
-  100%{
-    color:#ff2be6;
-  }
+  0%{color:#ff2be6}
+  20%{color:#32e9ff}
+  40%{color:#386dff}
+  60%{color:#38ff96}
+  80%{color:#ffd52e}
+  100%{color:#ff2be6}
 
 }
 
@@ -1857,69 +1602,48 @@ and
     gap:5px;
   }
 
-
   .header{
     grid-template-columns:
-      22%
-      1fr
-      22%;
+      22% 1fr 22%;
 
     gap:5px;
   }
-
 
   .main{
     grid-template-columns:
-      22%
-      1fr
-      22%;
+      22% 1fr 22%;
 
     gap:5px;
   }
 
-
   .clock{
-    padding:
-      6px
-      2px;
+    padding:6px 2px;
 
     border-radius:18px;
   }
-
 
   .titlebox{
     padding:6px;
   }
 
-
   .side{
     gap:5px;
   }
 
-
   .sideBox{
-    padding:
-      6px
-      3px;
+    padding:6px 3px;
   }
-
 
   .row{
     display:block;
 
-    padding:
-      4px
-      0;
+    padding:4px 0;
   }
-
 
   .center{
     padding:
-      15%
-      4%
-      13%;
+      15% 4% 13%;
   }
-
 
   .medallion{
     width:26vw;
@@ -1927,122 +1651,83 @@ and
     border-width:8px;
   }
 
-
   .adminGear{
     width:44px;
-
     height:44px;
 
     left:8px;
-
     bottom:8px;
 
     font-size:24px;
   }
 
-
   .tinyAdminGear{
     right:6px;
-
     bottom:6px;
 
-    width:26px;
-
-    height:26px;
+    width:25px;
+    height:25px;
 
     font-size:13px;
   }
 
-
   .donateButton{
     left:60px;
-
     bottom:8px;
 
     height:44px;
 
     min-width:104px;
 
-    padding:
-      0
-      13px;
+    padding:0 13px;
 
     font-size:15px;
   }
 
-
   .joinButton{
     left:172px;
-
     bottom:8px;
 
     height:44px;
 
     min-width:150px;
 
-    padding:
-      0
-      11px;
+    padding:0 11px;
 
     font-size:13px;
   }
 
-
-  #shiurPage
-  .specialFrame{
-    width:98vw;
-
-    height:98vh;
-
-    padding:8px;
-  }
-
-
-  #shiurPage
-  .specialTitle{
-    font-size:
-      clamp(
-        35px,
-        10vw,
-        56px
-      );
-  }
-
-
-  .shiurBody{
-    height:82%;
-  }
-
-
-  .shiurHeading{
-    font-size:
-      clamp(
-        27px,
-        8vw,
-        40px
-      );
-  }
-
-
-  .shiurText{
-    font-size:
-      clamp(
-        24px,
-        7vw,
-        36px
-      );
-
-    line-height:1.5;
-  }
-
-
   .holidayMessage{
     font-size:
-      clamp(
-        28px,
-        8vw,
-        48px
-      ) !important;
+      clamp(28px,8vw,48px);
+  }
+
+  .shiurTopHeader{
+    height:13vh;
+  }
+
+  .lessonArea{
+    height:82vh;
+    padding:7px;
+  }
+
+  .lessonFrame{
+    width:98%;
+
+    border-width:4px;
+
+    border-radius:22px;
+  }
+
+  .lessonScroll{
+    width:96%;
+
+    left:2%;
+
+    font-size:
+      clamp(25px,7vw,44px);
+
+    line-height:1.65;
   }
 
 }
@@ -2059,37 +1744,24 @@ and
     max-width:1600px;
   }
 
-
   .header{
     grid-template-columns:
-      16%
-      1fr
-      16%;
+      16% 1fr 16%;
   }
-
 
   .main{
     grid-template-columns:
-      18%
-      1fr
-      18%;
+      18% 1fr 18%;
   }
-
 
   .center{
     padding:
-      10%
-      5%
-      10%;
+      10% 5% 10%;
   }
-
 
   .medallion{
     width:
-      min(
-        13vw,
-        150px
-      );
+      min(13vw,150px);
   }
 
 }
@@ -2102,7 +1774,7 @@ and
 
 
 <!-- ============================================================
-     MAIN PAGE
+     ORIGINAL MAIN PAGE
 ============================================================ -->
 
 <div
@@ -2113,10 +1785,7 @@ and
 <div class="board">
 
 
-<!-- HEADER -->
-
 <header class="header">
-
 
 <div class="clock goldFrame">
 
@@ -2151,7 +1820,7 @@ JERUSALEM
   class="date"
   id="dateLine"
 >
-בית הכנסת בית תורה
+יום שישי
 </div>
 
 </div>
@@ -2176,15 +1845,12 @@ NEW YORK
 
 
 
-<!-- MAIN -->
-
 <main class="main">
 
 
 <!-- LEFT -->
 
 <section class="side">
-
 
 <div class="sideBox goldFrame">
 
@@ -2255,6 +1921,7 @@ NEW YORK
 </div>
 
 
+
 <div class="sideBox goldFrame">
 
 <h2>
@@ -2269,7 +1936,6 @@ NEW YORK
 </div>
 
 </div>
-
 
 </section>
 
@@ -2332,2536 +1998,4 @@ NEW YORK
 
 
 <div
-  class="medium teal"
-  id="center5"
->
-נא לעקוב אחר ההודעות החשובות של הקהילה
-</div>
-
-
-
-<div class="infoCard">
-
-<div>
-<b>תחנון שחרית:</b>
-<span id="tachanun">
-אומרים
-</span>
-</div>
-
-<div>
-<b>פרשת השבוע:</b>
-<span id="parashaInfo">
-נצבים־וילך
-</span>
-</div>
-
-<div>
-<b>גבורות:</b>
-<span id="gevurot">
-מוריד הטל
-</span>
-</div>
-
-<div>
-<b>הלל:</b>
-<span id="hallel">
-אין הלל
-</span>
-</div>
-
-</div>
-
-
-
-<div
-  class="medium green"
-  id="centerWelcome"
->
-ברוכים הבאים לבית הכנסת בית תורה
-</div>
-
-
-<div
-  class="medium goldText"
-  id="centerMotto"
->
-תפילה • תורה • חסד • אחדות
-</div>
-
-
-
-<!-- BIG GREEN HOLIDAY MESSAGE -->
-
-<div
-  class="holidayMessage"
-  id="centerBlessing"
->
-🍎🍯 שנה טובה ומתוקה 🍯🍎
-<br>
-כתיבה וחתימה טובה
-</div>
-
-
-
-<div
-  class="memorial"
-  id="centerMemorial"
->
-לעילוי נשמת זהבה חלא בת דינה זצ״ל
-</div>
-
-
-</div>
-</div>
-
-</section>
-
-
-
-<!-- RIGHT -->
-
-<section class="side">
-
-
-<div class="sideBox goldFrame">
-
-<h2>
-זמני היום
-</h2>
-
-
-<div class="rows">
-
-
-<div class="row">
-<span>עלות השחר</span>
-<span id="zAlot">
-5:02 AM
-</span>
-</div>
-
-
-<div class="row">
-<span>זריחה</span>
-<span id="zSunrise">
-6:38 AM
-</span>
-</div>
-
-
-<div class="row">
-<span>סוף זמן ק״ש</span>
-<span id="zShema">
-9:27 AM
-</span>
-</div>
-
-
-<div class="row">
-<span>חצות</span>
-<span id="zChatzot">
-12:10 PM
-</span>
-</div>
-
-
-<div class="row">
-<span>מנחה גדולה</span>
-<span id="zMinchaGedola">
-12:40 PM
-</span>
-</div>
-
-
-<div class="row">
-<span>שקיעה</span>
-<span id="zSunset">
-7:32 PM
-</span>
-</div>
-
-
-<div class="row">
-<span>צאת הכוכבים</span>
-<span id="zTzeit">
-8:06 PM
-</span>
-</div>
-
-
-<div class="row">
-
-<span class="red">
-הדלקת נרות
-</span>
-
-<span
-  class="red"
-  id="zCandles"
->
-7:13 PM
-</span>
-
-</div>
-
-
-<div class="row">
-
-<span class="red">
-צאת שבת
-</span>
-
-<span
-  class="red"
-  id="zShabbatOut"
->
-8:12 PM
-</span>
-
-</div>
-
-
-</div>
-</div>
-
-
-
-<div class="sideBox goldFrame">
-
-<h2>
-הודעות
-</h2>
-
-<div
-  class="smallText"
-  id="announcementText"
->
-ברוכים הבאים לבית הכנסת
-<br>
-נא להתעדכן בהודעות הקהילה
-</div>
-
-</div>
-
-
-</section>
-
-
-</main>
-
-
-
-<footer
-  class="footer"
-  id="footerMemorial"
->
-לעילוי נשמת זהבה חלא בת דינה זצ״ל
-</footer>
-
-
-
-<!-- LEFT ADMIN -->
-
-<a
-  class="adminGear"
-  href="admin.html"
-  target="mbAdmin"
-  title="Admin"
->
-⚙️
-</a>
-
-
-
-<!-- TINY RIGHT ADMIN -->
-
-<a
-  class="tinyAdminGear"
-  href="admin.html"
-  target="mbAdmin"
-  title="Admin"
-  aria-label="Admin"
->
-⚙
-</a>
-
-
-
-<!-- DONATE -->
-
-<a
-  id="donateButton"
-  class="donateButton"
-  href="donate.html"
->
-💛 Donate
-</a>
-
-
-
-<!-- JOIN -->
-
-<a
-  id="joinButton"
-  class="joinButton"
-  href="member-register.html"
->
-👥 New Member — Join
-</a>
-
-
-</div>
-</div>
-
-
-
-<!-- ============================================================
-     CANDLE PAGE
-============================================================ -->
-
-<div
-  id="candlePage"
-  class="rotatePage specialPage"
->
-
-<div class="specialFrame">
-
-
-<h1
-  class="specialTitle"
-  id="candleTitle"
->
-🕯️ נרות נשמה 🕯️
-</h1>
-
-
-<div class="candleViewport">
-
-<div class="candleScroll">
-
-<div
-  class="candleGrid"
-  id="candleGrid"
->
-
-<div class="candle">
-
-<div class="flame"></div>
-
-<div class="wax"></div>
-
-<div class="candleName">
-לעילוי נשמת זהבה חלא בת דינה זצ״ל
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-</div>
-
-
-
-<!-- ============================================================
-     SHIUR PAGE
-============================================================ -->
-
-<div
-  id="shiurPage"
-  class="rotatePage specialPage"
->
-
-<div class="specialFrame">
-
-
-<h1
-  class="specialTitle"
-  id="shiurTitle"
->
-📖 שיעור יומי
-</h1>
-
-
-
-<div class="shiurBody">
-
-<div
-  class="shiurScroll"
-  id="shiurScroll"
->
-
-
-<!-- PASUK -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-📖 פסוק היום
-</div>
-
-<div
-  class="shiurText shiurBlue"
-  id="shiurPasuk"
->
-״שויתי ה׳ לנגדי תמיד״
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- HALACHA -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-🕯️ הלכה למעשה
-</div>
-
-<div
-  class="shiurText shiurGreen"
-  id="shiurHalacha"
->
-צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- MUSSAR -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-❤️ מוסר
-</div>
-
-<div
-  class="shiurText shiurBlue"
-  id="shiurMussar"
->
-מעט אור דוחה הרבה מן החושך.
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- CHASSIDUS -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-🔥 חסידות / תניא
-</div>
-
-<div
-  class="shiurText shiurGreen"
-  id="shiurChassidut"
->
-כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- TEHILLIM -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-📜 תהילים
-</div>
-
-<div
-  class="shiurText shiurBlue"
-  id="shiurTehillim"
->
-תהילים של היום
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- DAF -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-📚 דף יומי
-</div>
-
-<div
-  class="shiurText shiurGreen"
-  id="shiurDaf"
->
-הדף היומי של היום
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- TAKEAWAY -->
-
-<div class="shiurSection">
-
-<div class="shiurHeading">
-🌟 המסר להיום
-</div>
-
-<div
-  class="shiurText shiurBlue"
-  id="shiurTakeaway"
->
-להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.
-</div>
-
-</div>
-
-
-<div class="shiurSeparator"></div>
-
-
-
-<!-- MEMORIAL -->
-
-<div class="shiurSection">
-
-<div
-  class="shiurText shiurGreen"
-  id="shiurMemorial"
->
-לעילוי נשמת זהבה חלא בת דינה זצ״ל
-</div>
-
-</div>
-
-
-</div>
-</div>
-
-
-
-<div class="shiurStatus">
-
-<span class="shiurStatusDot">
-</span>
-
-<span id="shiurStatusText">
-AUTO UPDATE
-</span>
-
-</div>
-
-
-</div>
-</div>
-
-
-
-<!-- ============================================================
-     PRAYER
-============================================================ -->
-
-<div
-  id="prayerOverlay"
-  class="prayerOverlay"
->
-
-<button
-  id="prayerClose"
-  class="prayerClose"
->
-×
-</button>
-
-
-<div class="prayerPanel">
-
-
-<div
-  id="prayerTitle"
-  class="prayerTitle"
->
-תפילה
-</div>
-
-
-<div class="prayerViewport">
-
-<div
-  id="prayerScroll"
-  class="prayerScroll"
-></div>
-
-</div>
-
-
-</div>
-</div>
-
-
-
-<!-- ============================================================
-     MAIN JAVASCRIPT
-============================================================ -->
-
-<script>
-
-window.name =
-  "messageBoard";
-
-
-function fmtClock(tz){
-
-  return new Intl.DateTimeFormat(
-    "en-GB",
-    {
-      timeZone:tz,
-      hour:"2-digit",
-      minute:"2-digit",
-      second:"2-digit",
-      hour12:false
-    }
-  )
-  .format(
-    new Date()
-  );
-
-}
-
-
-
-function tick(){
-
-  const ny =
-    document.getElementById(
-      "nyTime"
-    );
-
-  const il =
-    document.getElementById(
-      "ilTime"
-    );
-
-
-  if(ny){
-
-    ny.textContent =
-      fmtClock(
-        "America/New_York"
-      );
-
-  }
-
-
-  if(il){
-
-    il.textContent =
-      fmtClock(
-        "Asia/Jerusalem"
-      );
-
-  }
-
-}
-
-
-
-tick();
-
-
-setInterval(
-  tick,
-  1000
-);
-
-
-
-function getSettings(){
-
-  const defaults={
-
-    synagogue:
-      "בית הכנסת בית תורה",
-
-    rabbi:
-      "הרב ברוך",
-
-    shacharit:
-      "7:00 AM",
-
-    mincha:
-      "4:00 PM",
-
-    maariv:
-      "8:30 PM",
-
-    shiurTime:
-      "9:15 PM",
-
-    shabbatShacharit:
-      "9:00 AM",
-
-    shabbatMincha:
-      "6:30 PM",
-
-    shabbatMaariv:
-      "7:30 PM",
-
-    havdalah:
-      "9:00 PM",
-
-    mazal:
-      "ברכת מזל טוב לחברי הקהילה",
-
-    announcement:
-      "ברוכים הבאים לבית הכנסת\nנא להתעדכן בהודעות הקהילה",
-
-    parasha:
-      "פרשת נצבים־וילך",
-
-    center1:
-      "ברכת מזל טוב לכל המתפללים ובני הקהילה",
-
-    center2:
-      "יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים",
-
-    center3:
-      "שבוע טוב ומבורך לכל משפחות בית הכנסת",
-
-    center4:
-      "זמני התפילה והשיעורים מתעדכנים בלוח",
-
-    center5:
-      "נא לעקוב אחר ההודעות החשובות של הקהילה",
-
-    tachanun:
-      "אומרים",
-
-    parashaInfo:
-      "נצבים־וילך",
-
-    gevurot:
-      "מוריד הטל",
-
-    hallel:
-      "אין הלל",
-
-    centerWelcome:
-      "ברוכים הבאים לבית הכנסת בית תורה",
-
-    centerMotto:
-      "תפילה • תורה • חסד • אחדות",
-
-    centerBlessing:
-      "🍎🍯 שנה טובה ומתוקה 🍯🍎\nכתיבה וחתימה טובה",
-
-    memorial:
-      "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
-
-    zmanim:{
-
-      alot:
-        "5:02 AM",
-
-      sunrise:
-        "6:38 AM",
-
-      shema:
-        "9:27 AM",
-
-      chatzot:
-        "12:10 PM",
-
-      minchaGedola:
-        "12:40 PM",
-
-      sunset:
-        "7:32 PM",
-
-      tzeit:
-        "8:06 PM",
-
-      candles:
-        "7:13 PM",
-
-      shabbatOut:
-        "8:12 PM"
-
-    },
-
-    candleTitle:
-      "🕯️ נרות נשמה 🕯️",
-
-    candleNames:[
-
-      "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
-
-      "נר נשמה",
-
-      "נר נשמה",
-
-      "נר נשמה",
-
-      "נר נשמה",
-
-      "נר נשמה",
-
-      "נר נשמה",
-
-      "נר נשמה"
-
-    ],
-
-    shiurTitle:
-      "📖 שיעור יומי",
-
-    shiurPasuk:
-      "״שויתי ה׳ לנגדי תמיד״",
-
-    shiurHalacha:
-      "צדקה הניתנת בסבר פנים יפות גדולה יותר, מפני שהיא מחזקת גם את לב המקבל.",
-
-    shiurMussar:
-      "מעט אור דוחה הרבה מן החושך.",
-
-    shiurChassidut:
-      "כל מצווה, תפילה ומעשה חסד מוסיפים אור בעולם.",
-
-    shiurTehillim:
-      "תהילים של היום",
-
-    shiurDaf:
-      "הדף היומי של היום",
-
-    shiurTakeaway:
-      "להוסיף היום מעשה טוב אחד, מילה טובה אחת ותפילה בכוונה.",
-
-    shiurMemorial:
-      "לעילוי נשמת זהבה חלא בת דינה זצ״ל",
-
-    mainScroll:
-      34,
-
-    candleScroll:
-      26,
-
-    shiurScroll:
-      75,
-
-    prayerScroll:
-      90,
-
-    mainDuration:
-      30,
-
-    candleDuration:
-      30,
-
-    shiurDuration:
-      30,
-
-    prayerTexts:{
-
-      shacharit:"",
-
-      mincha:"",
-
-      maariv:"",
-
-      shabbatShacharit:"",
-
-      shabbatMincha:"",
-
-      shabbatMaariv:"",
-
-      havdalah:""
-
-    }
-
-  };
-
-
-  try{
-
-    const local =
-      JSON.parse(
-        localStorage.getItem(
-          "mb_full_settings"
-        )
-        ||
-        "{}"
-      );
-
-
-    const remote =
-      window.__tenantRemoteSettings
-      ||
-      {};
-
-
-    const merged =
-      Object.assign(
-        {},
-        defaults,
-        local,
-        remote
-      );
-
-
-    merged.zmanim =
-      Object.assign(
-        {},
-        defaults.zmanim,
-        local.zmanim || {},
-        remote.zmanim || {}
-      );
-
-
-    merged.prayerTexts =
-      Object.assign(
-        {},
-        defaults.prayerTexts,
-        local.prayerTexts || {},
-        remote.prayerTexts || {}
-      );
-
-
-    return merged;
-
-  }
-  catch(e){
-
-    return defaults;
-
-  }
-
-}
-
-
-
-let settings =
-  getSettings();
-
-
-
-const setText =
-  (id,value)=>{
-
-    const element =
-      document.getElementById(id);
-
-
-    if(element){
-
-      element.textContent =
-        value ?? "";
-
-    }
-
-  };
-
-
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-  .replace(
-    /[&<>"']/g,
-    character=>({
-
-      "&":"&amp;",
-
-      "<":"&lt;",
-
-      ">":"&gt;",
-
-      '"':"&quot;",
-
-      "'":"&#39;"
-
-    }[character])
-  );
-
-}
-
-
-
-function restartShiurScroll(){
-
-  const element =
-    document.getElementById(
-      "shiurScroll"
-    );
-
-
-  if(!element){
-
-    return;
-
-  }
-
-
-  element.style.animation =
-    "none";
-
-
-  void element.offsetHeight;
-
-
-  element.style.animation =
-    "";
-
-}
-
-
-
-function applyAdminSettings(){
-
-  settings =
-    getSettings();
-
-
-  const root =
-    document.documentElement;
-
-
-  root.style.setProperty(
-    "--main-scroll-speed",
-    (settings.mainScroll || 34)
-    +
-    "s"
-  );
-
-
-  root.style.setProperty(
-    "--candle-scroll-speed",
-    (settings.candleScroll || 26)
-    +
-    "s"
-  );
-
-
-  root.style.setProperty(
-    "--shiur-scroll-speed",
-    (settings.shiurScroll || 75)
-    +
-    "s"
-  );
-
-
-  root.style.setProperty(
-    "--prayer-scroll-speed",
-    (settings.prayerScroll || 90)
-    +
-    "s"
-  );
-
-
-
-  setText(
-    "synagogueName",
-    settings.synagogue
-  );
-
-
-  setText(
-    "rabbiName",
-    settings.rabbi
-  );
-
-
-  setText(
-    "pShacharit",
-    settings.shacharit
-  );
-
-
-  setText(
-    "pMincha",
-    settings.mincha
-  );
-
-
-  setText(
-    "pMaariv",
-    settings.maariv
-  );
-
-
-  setText(
-    "pShiur",
-    settings.shiurTime
-  );
-
-
-  setText(
-    "pShabbatShacharit",
-    settings.shabbatShacharit
-  );
-
-
-  setText(
-    "pShabbatMincha",
-    settings.shabbatMincha
-  );
-
-
-  setText(
-    "pShabbatMaariv",
-    settings.shabbatMaariv
-  );
-
-
-  setText(
-    "pHavdalah",
-    settings.havdalah
-  );
-
-
-  setText(
-    "mazalText",
-    settings.mazal
-  );
-
-
-
-  const announcement =
-    document.getElementById(
-      "announcementText"
-    );
-
-
-  if(announcement){
-
-    announcement.innerHTML =
-      escapeHtml(
-        settings.announcement || ""
-      )
-      .replace(
-        /\n/g,
-        "<br>"
-      );
-
-  }
-
-
-
-  setText(
-    "parashaText",
-    settings.parasha
-  );
-
-
-  setText(
-    "center1",
-    settings.center1
-  );
-
-
-  setText(
-    "center2",
-    settings.center2
-  );
-
-
-  setText(
-    "center3",
-    settings.center3
-  );
-
-
-  setText(
-    "center4",
-    settings.center4
-  );
-
-
-  setText(
-    "center5",
-    settings.center5
-  );
-
-
-  setText(
-    "tachanun",
-    settings.tachanun
-  );
-
-
-  setText(
-    "parashaInfo",
-    settings.parashaInfo
-  );
-
-
-  setText(
-    "gevurot",
-    settings.gevurot
-  );
-
-
-  setText(
-    "hallel",
-    settings.hallel
-  );
-
-
-  setText(
-    "centerWelcome",
-    settings.centerWelcome
-  );
-
-
-  setText(
-    "centerMotto",
-    settings.centerMotto
-  );
-
-
-
-  const holiday =
-    document.getElementById(
-      "centerBlessing"
-    );
-
-
-  if(holiday){
-
-    holiday.innerHTML =
-      escapeHtml(
-        settings.centerBlessing
-        ||
-        "🍎🍯 שנה טובה ומתוקה 🍯🍎\nכתיבה וחתימה טובה"
-      )
-      .replace(
-        /\n/g,
-        "<br>"
-      );
-
-  }
-
-
-
-  setText(
-    "centerMemorial",
-    settings.memorial
-  );
-
-
-  setText(
-    "footerMemorial",
-    settings.memorial
-  );
-
-
-
-  const zmanim =
-    settings.zmanim || {};
-
-
-  const zmanimIds={
-
-    alot:
-      "zAlot",
-
-    sunrise:
-      "zSunrise",
-
-    shema:
-      "zShema",
-
-    chatzot:
-      "zChatzot",
-
-    minchaGedola:
-      "zMinchaGedola",
-
-    sunset:
-      "zSunset",
-
-    tzeit:
-      "zTzeit",
-
-    candles:
-      "zCandles",
-
-    shabbatOut:
-      "zShabbatOut"
-
-  };
-
-
-  Object.keys(
-    zmanimIds
-  )
-  .forEach(
-    key=>{
-
-      setText(
-        zmanimIds[key],
-        zmanim[key] || ""
-      );
-
-    }
-  );
-
-
-
-  setText(
-    "candleTitle",
-    settings.candleTitle
-  );
-
-
-
-  const candleGrid =
-    document.getElementById(
-      "candleGrid"
-    );
-
-
-  if(candleGrid){
-
-    const names =
-      Array.isArray(
-        settings.candleNames
-      )
-      ?
-      settings.candleNames
-      :
-      [];
-
-
-    candleGrid.innerHTML =
-      names
-      .map(
-        name=>`
-
-        <div class="candle">
-
-          <div class="flame"></div>
-
-          <div class="wax"></div>
-
-          <div class="candleName">
-
-            ${escapeHtml(
-              name || "נר נשמה"
-            )}
-
-          </div>
-
-        </div>
-
-        `
-      )
-      .join("");
-
-  }
-
-
-
-  setText(
-    "shiurTitle",
-    settings.shiurTitle
-  );
-
-
-  setText(
-    "shiurPasuk",
-    settings.shiurPasuk
-  );
-
-
-  setText(
-    "shiurHalacha",
-    settings.shiurHalacha
-  );
-
-
-  setText(
-    "shiurMussar",
-    settings.shiurMussar
-  );
-
-
-  setText(
-    "shiurChassidut",
-    settings.shiurChassidut
-  );
-
-
-  setText(
-    "shiurTehillim",
-    settings.shiurTehillim
-  );
-
-
-  setText(
-    "shiurDaf",
-    settings.shiurDaf
-  );
-
-
-  setText(
-    "shiurTakeaway",
-    settings.shiurTakeaway
-  );
-
-
-  setText(
-    "shiurMemorial",
-    settings.shiurMemorial
-  );
-
-}
-
-
-
-applyAdminSettings();
-
-
-
-window.addEventListener(
-  "storage",
-  ()=>{
-
-    applyAdminSettings();
-
-    checkCommand();
-
-  }
-);
-
-
-
-/* ============================================================
-   ROTATION
-============================================================ */
-
-const rotationPages=[
-
-  document.getElementById(
-    "mainPage"
-  ),
-
-  document.getElementById(
-    "candlePage"
-  ),
-
-  document.getElementById(
-    "shiurPage"
-  )
-
-];
-
-
-let rotationIndex =
-  0;
-
-
-let rotationPaused =
-  false;
-
-
-let rotationTimer =
-  null;
-
-
-
-function durations(){
-
-  return [
-
-    (settings.mainDuration || 30)
-    *
-    1000,
-
-    (settings.candleDuration || 30)
-    *
-    1000,
-
-    (settings.shiurDuration || 30)
-    *
-    1000
-
-  ];
-
-}
-
-
-
-function showPage(index){
-
-  rotationPages
-  .forEach(
-    (page,pageIndex)=>{
-
-      page.classList.toggle(
-        "active",
-        pageIndex===index
-      );
-
-    }
-  );
-
-
-  rotationIndex =
-    index;
-
-
-  if(index===2){
-
-    restartShiurScroll();
-
-  }
-
-}
-
-
-
-function scheduleRotation(){
-
-  clearTimeout(
-    rotationTimer
-  );
-
-
-  if(rotationPaused){
-
-    return;
-
-  }
-
-
-  rotationTimer =
-    setTimeout(
-      ()=>{
-
-        showPage(
-          (
-            rotationIndex
-            +
-            1
-          )
-          %
-          3
-        );
-
-
-        scheduleRotation();
-
-      },
-
-      durations()[
-        rotationIndex
-      ]
-
-    );
-
-}
-
-
-
-scheduleRotation();
-
-
-
-/* ============================================================
-   PRAYER
-============================================================ */
-
-function showPrayer(
-  key,
-  title
-){
-
-  const text =
-    (
-      settings.prayerTexts
-      ||
-      {}
-    )[key]
-    ||
-    localStorage.getItem(
-      "prayer_"
-      +
-      key
-    )
-    ||
-    "";
-
-
-  const titleElement =
-    document.getElementById(
-      "prayerTitle"
-    );
-
-
-  const scrollElement =
-    document.getElementById(
-      "prayerScroll"
-    );
-
-
-  const overlay =
-    document.getElementById(
-      "prayerOverlay"
-    );
-
-
-  titleElement.textContent =
-    title;
-
-
-  scrollElement.textContent =
-    text
-    ||
-    "לא הוזן נוסח תפילה במנהל.";
-
-
-  scrollElement.style.animation =
-    "none";
-
-
-  void scrollElement.offsetHeight;
-
-
-  scrollElement.style.animation =
-    "";
-
-
-  overlay.classList.add(
-    "show"
-  );
-
-}
-
-
-
-function hidePrayer(){
-
-  document
-  .getElementById(
-    "prayerOverlay"
-  )
-  .classList
-  .remove(
-    "show"
-  );
-
-}
-
-
-
-document
-.getElementById(
-  "prayerClose"
-)
-.onclick =
-  hidePrayer;
-
-
-
-/* ============================================================
-   ADMIN COMMANDS
-============================================================ */
-
-let lastCommandId =
-  "";
-
-
-function executeCommand(command){
-
-  if(
-    !command
-    ||
-    !command.action
-  ){
-
-    return;
-
-  }
-
-
-  const commandId =
-    String(
-      command.id
-      ||
-      command.at
-      ||
-      command.action
-    );
-
-
-  if(
-    commandId
-    ===
-    lastCommandId
-  ){
-
-    return;
-
-  }
-
-
-  lastCommandId =
-    commandId;
-
-
-  applyAdminSettings();
-
-
-
-  if(
-    command.action
-    ===
-    "showMain"
-  ){
-
-    rotationPaused =
-      true;
-
-
-    clearTimeout(
-      rotationTimer
-    );
-
-
-    hidePrayer();
-
-
-    showPage(0);
-
-  }
-
-
-  else if(
-    command.action
-    ===
-    "showCandle"
-  ){
-
-    rotationPaused =
-      true;
-
-
-    clearTimeout(
-      rotationTimer
-    );
-
-
-    hidePrayer();
-
-
-    showPage(1);
-
-  }
-
-
-  else if(
-    command.action
-    ===
-    "showShiur"
-  ){
-
-    rotationPaused =
-      true;
-
-
-    clearTimeout(
-      rotationTimer
-    );
-
-
-    hidePrayer();
-
-
-    showPage(2);
-
-  }
-
-
-  else if(
-    command.action
-    ===
-    "startAll"
-  ){
-
-    rotationPaused =
-      false;
-
-
-    hidePrayer();
-
-
-    showPage(0);
-
-
-    scheduleRotation();
-
-  }
-
-
-  else if(
-    command.action
-    ===
-    "stopAll"
-  ){
-
-    rotationPaused =
-      true;
-
-
-    clearTimeout(
-      rotationTimer
-    );
-
-  }
-
-
-  else if(
-    command.action
-    ===
-    "hidePrayer"
-  ){
-
-    hidePrayer();
-
-  }
-
-
-
-  const prayerMap={
-
-    showShacharit:[
-      "shacharit",
-      "שחרית"
-    ],
-
-    showMincha:[
-      "mincha",
-      "מנחה"
-    ],
-
-    showMaariv:[
-      "maariv",
-      "ערבית"
-    ],
-
-    showShabbatShacharit:[
-      "shabbatShacharit",
-      "שחרית שבת"
-    ],
-
-    showShabbatMincha:[
-      "shabbatMincha",
-      "מנחה שבת"
-    ],
-
-    showShabbatMaariv:[
-      "shabbatMaariv",
-      "ערבית ליל שבת"
-    ],
-
-    showHavdalah:[
-      "havdalah",
-      "הבדלה"
-    ]
-
-  };
-
-
-  if(
-    prayerMap[
-      command.action
-    ]
-  ){
-
-    rotationPaused =
-      true;
-
-
-    clearTimeout(
-      rotationTimer
-    );
-
-
-    showPrayer(
-      ...prayerMap[
-        command.action
-      ]
-    );
-
-  }
-
-}
-
-
-
-function checkCommand(){
-
-  const raw =
-    localStorage.getItem(
-      "mb_command"
-    )
-    ||
-    "";
-
-
-  if(!raw){
-
-    return;
-
-  }
-
-
-  try{
-
-    executeCommand(
-      JSON.parse(raw)
-    );
-
-  }
-  catch(e){}
-
-}
-
-
-
-const boardChannel =
-  (
-    "BroadcastChannel"
-    in
-    window
-  )
-  ?
-  new BroadcastChannel(
-    "mb_admin_channel"
-  )
-  :
-  null;
-
-
-if(boardChannel){
-
-  boardChannel.onmessage =
-    event=>{
-
-      executeCommand(
-        event.data
-      );
-
-    };
-
-}
-
-
-
-setInterval(
-  checkCommand,
-  500
-);
-
-
-checkCommand();
-
-</script>
-
-
-
-<!-- ============================================================
-     SUPABASE
-============================================================ -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-
-<script src="supabase-config.js"></script>
-
-<script src="saas-common.js"></script>
-
-
-
-<script>
-
-let currentSynagogueSlug =
-  "";
-
-
-async function initTenantBoard(){
-
-  if(
-    typeof appConfigured
-    !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  if(
-    !appConfigured()
-  ){
-
-    return;
-
-  }
-
-
-  const sb =
-    getSupabase();
-
-
-  const params =
-    new URLSearchParams(
-      location.search
-    );
-
-
-  let slug =
-    params.get("s")
-    ||
-    params.get(
-      "synagogue"
-    )
-    ||
-    "";
-
-
-  if(!slug){
-
-    const {
-      data:{
-        session
-      }
-    } =
-      await sb.auth.getSession();
-
-
-    if(session){
-
-      const {
-        data:synagogue
-      } =
-        await sb
-        .from(
-          "synagogues"
-        )
-        .select(
-          "slug"
-        )
-        .eq(
-          "owner_user_id",
-          session.user.id
-        )
-        .maybeSingle();
-
-
-      if(synagogue){
-
-        slug =
-          synagogue.slug;
-
-      }
-
-    }
-
-  }
-
-
-  if(!slug){
-
-    return;
-
-  }
-
-
-  currentSynagogueSlug =
-    slug;
-
-
-
-  const donateButton =
-    document.getElementById(
-      "donateButton"
-    );
-
-
-  if(donateButton){
-
-    donateButton.href =
-      "donate.html?synagogue="
-      +
-      encodeURIComponent(
-        slug
-      );
-
-  }
-
-
-
-  const joinButton =
-    document.getElementById(
-      "joinButton"
-    );
-
-
-  if(joinButton){
-
-    joinButton.href =
-      "member-register.html?synagogue="
-      +
-      encodeURIComponent(
-        slug
-      );
-
-  }
-
-
-
-  const {
-    data,
-    error
-  } =
-    await sb.rpc(
-      "get_public_board",
-      {
-        p_slug:slug
-      }
-    );
-
-
-  if(error){
-
-    console.error(
-      "Board error:",
-      error
-    );
-
-    return;
-
-  }
-
-
-  if(!data){
-
-    return;
-
-  }
-
-
-  const row =
-    Array.isArray(data)
-    ?
-    data[0]
-    :
-    data;
-
-
-  const remote =
-    Object.assign(
-      {},
-      row.settings
-      ||
-      {}
-    );
-
-
-  remote.synagogue =
-    remote.synagogue
-    ||
-    row.synagogue_name
-    ||
-    "";
-
-
-  remote.rabbi =
-    remote.rabbi
-    ||
-    row.rabbi_name
-    ||
-    "";
-
-
-  window.__tenantRemoteSettings =
-    remote;
-
-
-  settings =
-    getSettings();
-
-
-  applyAdminSettings();
-
-
-  await loadDailyLesson();
-
-
-  startLessonRealtime();
-
-}
-
-
-
-window.addEventListener(
-  "DOMContentLoaded",
-  initTenantBoard
-);
-
-
-
-/* ============================================================
-   AUTOMATIC DAILY LESSON
-============================================================ */
-
-async function loadDailyLesson(){
-
-  if(
-    typeof getSupabase
-    !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  const sb =
-    getSupabase();
-
-
-  const status =
-    document.getElementById(
-      "shiurStatusText"
-    );
-
-
-  try{
-
-    const {
-      data,
-      error
-    } =
-      await sb
-      .from(
-        "daily_lessons"
-      )
-      .select(
-        "*"
-      )
-      .eq(
-        "active",
-        true
-      )
-      .order(
-        "lesson_date",
-        {
-          ascending:false
-        }
-      )
-      .limit(1)
-      .maybeSingle();
-
-
-    if(error){
-
-      console.warn(
-        "Daily lesson:",
-        error.message
-      );
-
-
-      if(status){
-
-        status.textContent =
-          "ADMIN LESSON";
-
-      }
-
-
-      return;
-
-    }
-
-
-    if(!data){
-
-      if(status){
-
-        status.textContent =
-          "ADMIN LESSON";
-
-      }
-
-
-      return;
-
-    }
-
-
-
-    if(data.title){
-
-      setText(
-        "shiurTitle",
-        data.title
-      );
-
-    }
-
-
-    if(data.pasuk){
-
-      setText(
-        "shiurPasuk",
-        data.pasuk
-      );
-
-    }
-
-
-    if(data.halacha){
-
-      setText(
-        "shiurHalacha",
-        data.halacha
-      );
-
-    }
-
-
-    if(data.mussar){
-
-      setText(
-        "shiurMussar",
-        data.mussar
-      );
-
-    }
-
-
-    if(data.chassidut){
-
-      setText(
-        "shiurChassidut",
-        data.chassidut
-      );
-
-    }
-
-
-    if(data.tehillim){
-
-      setText(
-        "shiurTehillim",
-        data.tehillim
-      );
-
-    }
-
-
-    if(data.daf_yomi){
-
-      setText(
-        "shiurDaf",
-        data.daf_yomi
-      );
-
-    }
-
-
-    if(data.message){
-
-      setText(
-        "shiurTakeaway",
-        data.message
-      );
-
-    }
-
-
-    if(data.memorial){
-
-      setText(
-        "shiurMemorial",
-        data.memorial
-      );
-
-    }
-
-
-    restartShiurScroll();
-
-
-    if(status){
-
-      status.textContent =
-        "LIVE • AUTO UPDATED";
-
-    }
-
-  }
-  catch(error){
-
-    console.error(
-      "Lesson load error:",
-      error
-    );
-
-
-    if(status){
-
-      status.textContent =
-        "ADMIN LESSON";
-
-    }
-
-  }
-
-}
-
-
-
-/* check every minute */
-
-setInterval(
-  loadDailyLesson,
-  60000
-);
-
-
-
-/* ============================================================
-   REALTIME SUPABASE
-============================================================ */
-
-let lessonRealtimeStarted =
-  false;
-
-
-function startLessonRealtime(){
-
-  if(
-    lessonRealtimeStarted
-  ){
-
-    return;
-
-  }
-
-
-  if(
-    typeof getSupabase
-    !==
-    "function"
-  ){
-
-    return;
-
-  }
-
-
-  lessonRealtimeStarted =
-    true;
-
-
-  const sb =
-    getSupabase();
-
-
-  sb
-  .channel(
-    "daily-lessons-board-live"
-  )
-  .on(
-    "postgres_changes",
-
-    {
-
-      event:"*",
-
-      schema:"public",
-
-      table:
-        "daily_lessons"
-
-    },
-
-    ()=>{
-
-      loadDailyLesson();
-
-    }
-
-  )
-  .subscribe();
-
-}
-
-</script>
-
-
-
-<!-- ============================================================
-     PUBLIC PREVIEW REDIRECT
-     change/remove this if this is your permanent display page
-============================================================ -->
-
-<script>
-
-/*
-Uncomment this only if you WANT the public preview
-to go back to login after 60 seconds.
-
-setTimeout(
-  function(){
-
-    window.location.href =
-      "login.html";
-
-  },
-  60000
-);
-*/
-
-</script>
-
-
-</body>
-</html>
+  class
