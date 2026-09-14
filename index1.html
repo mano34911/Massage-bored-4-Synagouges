@@ -36,7 +36,7 @@ button,input,select,textarea{font:inherit}
 .center-stage{position:relative;min-width:0;min-height:0;overflow:hidden;border-radius:170px 170px 18px 18px;background:linear-gradient(180deg,var(--navy) 0 24%,#f8e8b6 24% 82%,var(--navy) 82%);padding:6.5vh 2.2vw 4vh}
 .center-stage:before{content:"";position:absolute;top:1.2vh;left:50%;transform:translateX(-50%);width:clamp(72px,6vw,120px);aspect-ratio:1;border-radius:50%;border:5px ridge var(--gold);background:radial-gradient(circle,#263c7a,#111c45);box-shadow:0 0 0 8px #e6c875;color:#f1d47f}
 .center-heading{position:absolute;top:10.4vh;left:4%;right:4%;text-align:center;color:var(--gold2);font-family:Georgia,"Times New Roman",serif;font-size:clamp(24px,2.4vw,48px);font-weight:1000;text-shadow:0 2px #000}
-.parchment{height:100%;border:6px double #9c762f;border-radius:10% 10% 14% 14%;background:radial-gradient(circle at 50% 25%,#fffdf6,#f6e8bd 72%,#d5b871);box-shadow:inset 0 0 34px #8d67273d;display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2vh 1.2vw 1vh;overflow:hidden}
+.parchment{position:relative;height:100%;border:6px double #9c762f;border-radius:10% 10% 14% 14%;background:radial-gradient(circle at 50% 25%,#fffdf6,#f6e8bd 72%,#d5b871);box-shadow:inset 0 0 34px #8d67273d;display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.2vh 1.2vw 1vh;overflow:hidden}
 .parchment h1{margin:0 0 1vh;font-family:Georgia,"Times New Roman",serif;font-size:clamp(27px,2.5vw,50px);color:#5c4115}
 .parchment h2{margin:.25vh 0 .7vh;font-size:clamp(24px,2.15vw,42px);color:var(--navy);font-weight:1000}
 .main-message{position:relative;width:96%;flex:1;min-height:0;overflow:hidden;font-size:clamp(20px,1.75vw,34px);line-height:1.55;font-weight:1000}
@@ -212,6 +212,22 @@ textarea{resize:vertical;min-height:85px}
   to{transform:translateX(-50%) rotate(2deg) scale(1.05,1.02)}
 }
 
+
+/* Daily shiur: temporary view INSIDE the main center box */
+.timed-shiur{
+  position:absolute;inset:1.2vh 1.2vw 1vh;z-index:20;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:3vh 3vw;border:5px double #b7892f;border-radius:22px;
+  background:radial-gradient(circle at 50% 20%,#fffdf2,#e8f5ea 45%,#dcebf8 100%);
+  box-shadow:inset 0 0 28px #8a6a2844,0 6px 20px #0002;
+  overflow:hidden;
+}
+.timed-shiur.active{display:flex}
+.timed-shiur h2{margin:0 0 1.2vh;color:#0d4d86;font-size:clamp(30px,3vw,58px);font-family:Georgia,"Times New Roman",serif;text-shadow:0 1px #fff}
+.timed-shiur .shiur-inner{width:94%;max-height:72%;overflow:hidden;white-space:pre-line;font-size:clamp(22px,2vw,40px);line-height:1.55;font-weight:1000;color:#146b44}
+.timed-shiur .shiur-countdown{position:absolute;bottom:1vh;left:50%;transform:translateX(-50%);font-size:clamp(11px,.85vw,16px);color:#6f531d;font-weight:900}
+.timed-shiur .shiur-return{position:absolute;top:1vh;left:1vw;border:1px solid #8c6428;border-radius:999px;background:#fff7d5;color:#4a3210;padding:.45vh .7vw;font-weight:900;cursor:pointer}
+
 </style>
 </head>
 <body>
@@ -230,7 +246,7 @@ textarea{resize:vertical;min-height:85px}
     </aside>
     <section class="center-stage">
       <div class="center-heading">דרכי תורה</div>
-      <div class="parchment"><h1 id="dailyTitle">פרנס היום</h1><h2 id="parasha">פרשת השבוע</h2><div class="main-message" id="mainMessage"><div class="main-message-scroll" id="mainMessageScroll"></div></div><div class="liturgy-box" id="liturgyBox"><div class="calendar-note">טוען שינויים בתפילה לפי התאריך…</div></div><div class="dedication" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div>
+      <div class="parchment"><h1 id="dailyTitle">פרנס היום</h1><h2 id="parasha">פרשת השבוע</h2><div class="main-message" id="mainMessage"><div class="main-message-scroll" id="mainMessageScroll"></div></div><div class="liturgy-box" id="liturgyBox"><div class="calendar-note">טוען שינויים בתפילה לפי התאריך…</div></div><div class="dedication" id="dedication">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div><div class="timed-shiur" id="timedShiur" aria-hidden="true"><button class="shiur-return" id="closeTimedShiur" type="button">↩ חזרה ללוח</button><h2>📖 שיעור יומי</h2><div class="shiur-inner" id="timedShiurText">דבר תורה יומי</div><div class="shiur-countdown" id="shiurCountdown"></div></div></div>
     </section>
     <aside class="side">
       <section class="panel"><div class="panel-title">זמני התפילות</div><div class="rows" id="prayerRows"></div></section>
@@ -248,7 +264,7 @@ textarea{resize:vertical;min-height:85px}
   <div class="rotate-progress">לוח בית הכנסת • דף נרות נשמה</div>
 </section>
 
-<section class="rotating-page" id="shiurPage" aria-hidden="true">
+<section class="rotating-page" id="shiurPage" aria-hidden="true" style="display:none!important">
   <div class="shiur-frame">
     <h1 class="rotate-title" style="color:#f0d48a">שיעור יומי</h1>
     <div class="shiur-text" id="shiurPageText">דבר תורה יומי</div>
@@ -323,6 +339,7 @@ function renderSeparatePages(){
       </div>`).join('');
   }
   if($('shiurPageText')) $('shiurPageText').textContent=state.dailyShiurText||'דבר תורה יומי';
+  if($('timedShiurText')) $('timedShiurText').textContent=state.dailyShiurText||'דבר תורה יומי';
 }
 function render(){ $('synagogueName').textContent=state.synagogue;$('rabbiName').textContent=state.rabbi;$('dailyTitle').textContent=state.dailyTitle;$('parasha').textContent=state.parasha;{
 const mm=$('mainMessageScroll');
@@ -342,7 +359,7 @@ requestAnimationFrame(()=>{
 });
 }$('dedication').textContent=state.ticker;$('ticker').textContent=state.ticker;$('leftNotice').textContent=state.leftNotice;$('rightNotice').textContent=state.rightNotice;$('ticker').style.animationDuration=`${state.tickerSpeed||18}s`;renderRows();renderSeparatePages()}
 function fillAdmin(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')}
-function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)}
+function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();startShiurScheduler();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)}
 function updateClocks(){const now=new Date();const time=(tz)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('nyClock').textContent=time(state.timezone||'America/New_York');$('jerusalemClock').textContent=time('Asia/Jerusalem');$('gregDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:state.timezone||'America/New_York',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{timeZone:state.timezone||'America/New_York',year:'numeric',month:'long',day:'numeric'}).format(now)}catch(e){$('hebrewDate').textContent=''}}
 
 
@@ -539,6 +556,60 @@ function showPrayer(key){
     void content.offsetHeight;
     content.style.animation='prayerScroll var(--prayer-duration,120s) linear infinite';
 }
+// שיעור יומי scheduler: 30 seconds at every :00 and :30, inside the main box only.
+let shiurHideTimer=null;
+let shiurCountdownTimer=null;
+let shiurBoundaryTimer=null;
+let shiurLastBoundary='';
+
+function hideTimedShiur(){
+    if(shiurHideTimer){clearTimeout(shiurHideTimer);shiurHideTimer=null}
+    if(shiurCountdownTimer){clearInterval(shiurCountdownTimer);shiurCountdownTimer=null}
+    const card=$('timedShiur');
+    if(card){card.classList.remove('active');card.setAttribute('aria-hidden','true')}
+    if($('shiurCountdown')) $('shiurCountdown').textContent='';
+}
+function showTimedShiur(durationMs=30000){
+    // Prayer text has priority; never cover an active prayer overlay.
+    if($('prayerOverlay')?.classList.contains('active')) return;
+    hideTimedShiur();
+    if($('timedShiurText')) $('timedShiurText').textContent=state.dailyShiurText||'דבר תורה יומי';
+    const card=$('timedShiur');
+    if(!card) return;
+    card.classList.add('active');card.setAttribute('aria-hidden','false');
+    const ends=Date.now()+durationMs;
+    const tick=()=>{
+        const left=Math.max(0,Math.ceil((ends-Date.now())/1000));
+        if($('shiurCountdown')) $('shiurCountdown').textContent=`חזרה ללוח בעוד ${left} שניות`;
+    };
+    tick();
+    shiurCountdownTimer=setInterval(tick,1000);
+    shiurHideTimer=setTimeout(hideTimedShiur,durationMs);
+}
+function localClockParts(tz=state.timezone||'America/New_York'){
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false,year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+    const get=t=>parts.find(p=>p.type===t)?.value||'';
+    return {y:get('year'),mo:get('month'),d:get('day'),h:Number(get('hour'))%24,m:Number(get('minute')),s:Number(get('second'))};
+}
+function checkShiurBoundary(){
+    const p=localClockParts();
+    // Exact half-hour windows. If the page loads during the first 30 sec of the window,
+    // show only for the remaining seconds so it still returns on time.
+    if((p.m===0||p.m===30) && p.s<30){
+        const key=`${p.y}-${p.mo}-${p.d}-${p.h}-${p.m}`;
+        if(shiurLastBoundary!==key){
+            shiurLastBoundary=key;
+            showTimedShiur((30-p.s)*1000);
+        }
+    }
+}
+function startShiurScheduler(){
+    hideTimedShiur();
+    checkShiurBoundary();
+    if(shiurBoundaryTimer) clearInterval(shiurBoundaryTimer);
+    shiurBoundaryTimer=setInterval(checkShiurBoundary,1000);
+}
+
 function hidePrayer(){const overlay=$('prayerOverlay');overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true')}
 $('adminGear').addEventListener('click',()=>{
     fillAdmin();
@@ -550,13 +621,13 @@ $('closeAdmin').addEventListener('click',()=>{
     const d=$('adminDialog');
     if(typeof d.close==='function') d.close();
     else { d.removeAttribute('open'); d.style.display='none'; }
-});$('saveAll').addEventListener('click',save);$('sTickerSpeed').addEventListener('input',e=>{$('tickerSpeedValue').textContent=e.target.value;$('ticker').style.animationDuration=`${e.target.value}s`});$('sPrayerSpeed').addEventListener('input',e=>{$('prayerSpeedValue').textContent=e.target.value;state.prayerSpeed=e.target.value});$('closeOverlay').addEventListener('click',hidePrayer);$('stopPreview').addEventListener('click',hidePrayer);document.querySelectorAll('.prayer-preview').forEach(b=>b.addEventListener('click',()=>{save();if($('adminDialog').open){
+});$('saveAll').addEventListener('click',save);$('sTickerSpeed').addEventListener('input',e=>{$('tickerSpeedValue').textContent=e.target.value;$('ticker').style.animationDuration=`${e.target.value}s`});$('sPrayerSpeed').addEventListener('input',e=>{$('prayerSpeedValue').textContent=e.target.value;state.prayerSpeed=e.target.value});$('closeOverlay').addEventListener('click',hidePrayer);if($('closeTimedShiur'))$('closeTimedShiur').addEventListener('click',hideTimedShiur);$('stopPreview').addEventListener('click',hidePrayer);document.querySelectorAll('.prayer-preview').forEach(b=>b.addEventListener('click',()=>{save();if($('adminDialog').open){
         const d=$('adminDialog');
         if(typeof d.close==='function') d.close();
         else { d.removeAttribute('open'); d.style.display='none'; }
     }
     showPrayer(b.dataset.prayer)}));
-render();updateClocks();updateJewishCalendar();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
+render();updateClocks();updateJewishCalendar();startShiurScheduler();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
 </script>
 </body>
 </html>
