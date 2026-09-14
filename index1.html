@@ -228,6 +228,15 @@ textarea{resize:vertical;min-height:85px}
 .timed-shiur .shiur-countdown{position:absolute;bottom:1vh;left:50%;transform:translateX(-50%);font-size:clamp(11px,.85vw,16px);color:#6f531d;font-weight:900}
 .timed-shiur .shiur-return{position:absolute;top:1vh;left:1vw;border:1px solid #8c6428;border-radius:999px;background:#fff7d5;color:#4a3210;padding:.45vh .7vw;font-weight:900;cursor:pointer}
 
+
+.subject-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.subject-control{border:1px solid #8d753d;border-radius:12px;background:#0e1838;padding:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.subject-control strong{color:#ffe298}
+.subject-control .subject-buttons{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.subject-control button{border:0;border-radius:9px;padding:8px 12px;font-weight:900;cursor:pointer}
+.subject-start{background:#1f8a4c;color:#fff}
+.subject-stop{background:#a72f3a;color:#fff}
+.subject-status{font-size:12px;color:#d8e4ff;min-width:42px;text-align:center}
 </style>
 </head>
 <body>
@@ -281,6 +290,18 @@ textarea{resize:vertical;min-height:85px}
     <section class="admin-section"><h3>זמני היום והשבת</h3><div class="fields"><label>מצב עדכון<select id="sZmanimMode"><option value="auto">אוטומטי לפי מיקוד</option><option value="manual">ידני</option></select></label><label>עלות השחר<input id="sManualAlot" type="time"></label><label>זריחה<input id="sManualSunrise" type="time"></label><label>סוף זמן קריאת שמע<input id="sManualShema" type="time"></label><label>חצות<input id="sManualChatzot" type="time"></label><label>מנחה גדולה<input id="sManualMinchaGedola" type="time"></label><label>שקיעה<input id="sManualSunset" type="time"></label><label>צאת הכוכבים<input id="sManualTzeit" type="time"></label><label>הדלקת נרות<input id="sManualCandles" type="time"></label><label>צאת שבת<input id="sManualHavdalah" type="time"></label></div></section>
     <section class="admin-section"><h3>זמני צום</h3><div class="fields"><label>מצב זמני צום<select id="sFastMode"><option value="auto">אוטומטי לפי הלוח העברי</option><option value="manual">ידני</option><option value="off">כבוי</option></select></label><label>הצגה בלוח<select id="sFastDisplay"><option value="auto">אוטומטי ביום הצום וביום שלפניו</option><option value="always">תמיד</option><option value="today">רק ביום הצום</option></select></label><label>שם הצום<input id="sFastName" placeholder="לדוגמה: צום גדליה"></label><label>תאריך הצום<input id="sFastDate" type="date"></label><label>תחילת הצום<input id="sFastStart" type="time"></label><label>סיום הצום<input id="sFastEnd" type="time"></label><label>הערה<textarea id="sFastNote" placeholder="למשל: הצום מתחיל מעלות השחר"></textarea></label></div></section>
     <section class="admin-section"><h3>תוכן הלוח</h3><div class="fields two"><label>כותרת מרכזית<input id="sDailyTitle"></label><label>פרשת השבוע<input id="sParasha"></label><label>הודעה מרכזית<textarea id="sMainMessage"></textarea></label><label>הקדשה<textarea id="sTicker"></textarea></label><label>מהירות הקדשת ״לעילוי נשמת״<input id="sTickerSpeed" type="range" min="8" max="60" step="1"><span>מהיר 8 — <strong id="tickerSpeedValue">18</strong> — איטי 60</span></label><label>הודעה שמאלית<textarea id="sLeftNotice"></textarea></label><label>הודעת מזל טוב<textarea id="sRightNotice"></textarea></label><label>הודעה עליונה / תורם השבוע<textarea id="sAnnouncement"></textarea></label><label>סרטון YouTube לדף היומי<input id="sDafVideoUrl" type="url" dir="ltr" placeholder="https://www.youtube.com/watch?v=..."></label><label>תוכן שיעור יומי<textarea id="sDailyShiurText" placeholder="הכנס כאן את השיעור היומי"></textarea></label><label>זמן כל דף בסבב (שניות)<input id="sRotationSeconds" type="number" min="10" max="300" step="5" value="10"></label><label>הפעל סבב דפים<select id="sRotationEnabled"><option value="yes">כן</option><option value="no">לא</option></select></label></div></section>
+    <section class="admin-section"><h3>הפעלה / עצירה לכל נושא</h3><div class="subject-controls" id="subjectControls">
+      <div class="subject-control" data-subject-row="shiur"><strong>📖 שיעור יומי</strong><div class="subject-buttons"><span class="subject-status" id="status-shiur"></span><button class="subject-start" data-subject="shiur" type="button">▶ START</button><button class="subject-stop" data-subject="shiur" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="memorial"><strong>🕯 נרות נשמה</strong><div class="subject-buttons"><span class="subject-status" id="status-memorial"></span><button class="subject-start" data-subject="memorial" type="button">▶ START</button><button class="subject-stop" data-subject="memorial" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="fast"><strong>⏱ זמני צום</strong><div class="subject-buttons"><span class="subject-status" id="status-fast"></span><button class="subject-start" data-subject="fast" type="button">▶ START</button><button class="subject-stop" data-subject="fast" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="shacharit"><strong>☀️ שחרית</strong><div class="subject-buttons"><span class="subject-status" id="status-shacharit"></span><button class="subject-start" data-subject="shacharit" type="button">▶ START</button><button class="subject-stop" data-subject="shacharit" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="mincha"><strong>🌤 מנחה</strong><div class="subject-buttons"><span class="subject-status" id="status-mincha"></span><button class="subject-start" data-subject="mincha" type="button">▶ START</button><button class="subject-stop" data-subject="mincha" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="maariv"><strong>🌙 ערבית</strong><div class="subject-buttons"><span class="subject-status" id="status-maariv"></span><button class="subject-start" data-subject="maariv" type="button">▶ START</button><button class="subject-stop" data-subject="maariv" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="shabbatShacharit"><strong>🕍 שחרית שבת</strong><div class="subject-buttons"><span class="subject-status" id="status-shabbatShacharit"></span><button class="subject-start" data-subject="shabbatShacharit" type="button">▶ START</button><button class="subject-stop" data-subject="shabbatShacharit" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="shabbatMincha"><strong>🕍 מנחה שבת</strong><div class="subject-buttons"><span class="subject-status" id="status-shabbatMincha"></span><button class="subject-start" data-subject="shabbatMincha" type="button">▶ START</button><button class="subject-stop" data-subject="shabbatMincha" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="shabbatMaariv"><strong>🕍 ערבית שבת</strong><div class="subject-buttons"><span class="subject-status" id="status-shabbatMaariv"></span><button class="subject-start" data-subject="shabbatMaariv" type="button">▶ START</button><button class="subject-stop" data-subject="shabbatMaariv" type="button">■ STOP</button></div></div>
+      <div class="subject-control" data-subject-row="shabbatHavdalah"><strong>✨ הבדלה</strong><div class="subject-buttons"><span class="subject-status" id="status-shabbatHavdalah"></span><button class="subject-start" data-subject="shabbatHavdalah" type="button">▶ START</button><button class="subject-stop" data-subject="shabbatHavdalah" type="button">■ STOP</button></div></div>
+    </div></section>
     <section class="admin-section"><h3>נוסחי תפילות מלאים</h3><div class="fields two"><label>שחרית<textarea id="sShacharitText"></textarea></label><label>מנחה<textarea id="sMinchaText"></textarea></label><label>ערבית<textarea id="sMaarivText"></textarea></label><label>שחרית לשבת<textarea id="sShabbatShacharitText"></textarea></label><label>מנחה לשבת<textarea id="sShabbatMinchaText"></textarea></label><label>ערבית לשבת<textarea id="sShabbatMaarivText"></textarea></label><label>טקס ההבדלה<textarea id="sShabbatHavdalahText"></textarea></label><label>מהירות גלילת תפילה<input id="sPrayerSpeed" type="range" min="10" max="120" step="5" dir="ltr"><span class="speed-scale" dir="ltr"><b>🐢 איטי — 10</b><strong id="prayerSpeedValue">40</strong><b>120 — מהיר 🚀</b></span></label></div><div class="actions"><button class="action prayer-preview" data-prayer="shacharit" type="button">▶ שחרית</button><button class="action prayer-preview" data-prayer="mincha" type="button">▶ מנחה</button><button class="action prayer-preview" data-prayer="maariv" type="button">▶ ערבית</button><button class="action prayer-preview" data-prayer="shabbatShacharit" type="button">▶ שחרית שבת</button><button class="action prayer-preview" data-prayer="shabbatMincha" type="button">▶ מנחה שבת</button><button class="action prayer-preview" data-prayer="shabbatMaariv" type="button">▶ ערבית שבת</button><button class="action prayer-preview" data-prayer="shabbatHavdalah" type="button">▶ הבדלה</button><button class="action" id="stopPreview" type="button">■ הפסק תצוגה</button></div></section>
     <section class="admin-section"><h3>שמות ליד הנרות</h3><div class="fields" id="memorialFields"></div></section>
     <div class="status" id="saveStatus"></div>
@@ -291,7 +312,7 @@ textarea{resize:vertical;min-height:85px}
 
 <script>
 const $=id=>document.getElementById(id);
-const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספרד',calendarRegion:'diaspora',speed:'18',tickerSpeed:'18',shacharit:'07:00',mincha:'16:00',maariv:'20:30',shiur:'21:15',shacharitDuration:'60',minchaDuration:'30',maarivDuration:'45',shabbatShacharit:'09:00',shabbatMincha:'18:30',shabbatMaariv:'19:30',shabbatHavdalah:'21:00',shabbatShacharitDuration:'120',shabbatMinchaDuration:'45',shabbatMaarivDuration:'60',shabbatHavdalahDuration:'20',zmanimMode:'manual',manualAlot:'05:02',manualSunrise:'06:38',manualShema:'09:27',manualChatzot:'12:10',manualMinchaGedola:'12:40',manualSunset:'19:32',manualTzeit:'20:06',manualCandles:'19:13',manualHavdalah:'20:12',dailyTitle:'פרנס היום',parasha:'פרשת השבוע',mainMessage:'ברכת מזל טוב לכל המתפללים ובני הקהילה.\nיהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.',ticker:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',leftNotice:'ברוכים הבאים לבית הכנסת',rightNotice:'ברכת מזל טוב לחברי הקהילה',announcement:'תורם השבוע',dafVideoUrl:'',dailyShiurText:'דבר תורה יומי',rotationSeconds:'10',rotationEnabled:'yes',prayerSpeed:'40',shacharitText:'',minchaText:'',maarivText:'',shabbatShacharitText:'',shabbatMinchaText:'',shabbatMaarivText:'',shabbatHavdalahText:'',fastMode:'auto',fastDisplay:'auto',fastName:'',fastDate:'',fastStart:'',fastEnd:'',fastNote:'',memorialNames:Array.from({length:20},(_,i)=>`שם נר ${i+1}`)};
+const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספרד',calendarRegion:'diaspora',speed:'18',tickerSpeed:'18',shacharit:'07:00',mincha:'16:00',maariv:'20:30',shiur:'21:15',shacharitDuration:'60',minchaDuration:'30',maarivDuration:'45',shabbatShacharit:'09:00',shabbatMincha:'18:30',shabbatMaariv:'19:30',shabbatHavdalah:'21:00',shabbatShacharitDuration:'120',shabbatMinchaDuration:'45',shabbatMaarivDuration:'60',shabbatHavdalahDuration:'20',zmanimMode:'manual',manualAlot:'05:02',manualSunrise:'06:38',manualShema:'09:27',manualChatzot:'12:10',manualMinchaGedola:'12:40',manualSunset:'19:32',manualTzeit:'20:06',manualCandles:'19:13',manualHavdalah:'20:12',dailyTitle:'פרנס היום',parasha:'פרשת השבוע',mainMessage:'ברכת מזל טוב לכל המתפללים ובני הקהילה.\nיהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.',ticker:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',leftNotice:'ברוכים הבאים לבית הכנסת',rightNotice:'ברכת מזל טוב לחברי הקהילה',announcement:'תורם השבוע',dafVideoUrl:'',dailyShiurText:'דבר תורה יומי',rotationSeconds:'10',rotationEnabled:'yes',prayerSpeed:'40',shacharitText:'',minchaText:'',maarivText:'',shabbatShacharitText:'',shabbatMinchaText:'',shabbatMaarivText:'',shabbatHavdalahText:'',fastMode:'auto',fastDisplay:'auto',fastName:'',fastDate:'',fastStart:'',fastEnd:'',fastNote:'',subjectEnabled:{shiur:true,memorial:true,fast:true,shacharit:true,mincha:true,maariv:true,shabbatShacharit:true,shabbatMincha:true,shabbatMaariv:true,shabbatHavdalah:true},memorialNames:Array.from({length:20},(_,i)=>`שם נר ${i+1}`)};
 let state;
 try{state={...defaults,...JSON.parse(localStorage.getItem('newSynagogueBoard')||'{}')}}catch(e){state={...defaults}}
 const fieldMap={sSynagogue:'synagogue',sRabbi:'rabbi',sZip:'zip',sTimezone:'timezone',sMinhag:'minhag',sCalendarRegion:'calendarRegion',sSpeed:'speed',sTickerSpeed:'tickerSpeed',sShacharit:'shacharit',sMincha:'mincha',sMaariv:'maariv',sShiur:'shiur',sShacharitDuration:'shacharitDuration',sMinchaDuration:'minchaDuration',sMaarivDuration:'maarivDuration',sShabbatShacharit:'shabbatShacharit',sShabbatMincha:'shabbatMincha',sShabbatMaariv:'shabbatMaariv',sShabbatHavdalah:'shabbatHavdalah',sShabbatShacharitDuration:'shabbatShacharitDuration',sShabbatMinchaDuration:'shabbatMinchaDuration',sShabbatMaarivDuration:'shabbatMaarivDuration',sShabbatHavdalahDuration:'shabbatHavdalahDuration',sZmanimMode:'zmanimMode',sManualAlot:'manualAlot',sManualSunrise:'manualSunrise',sManualShema:'manualShema',sManualChatzot:'manualChatzot',sManualMinchaGedola:'manualMinchaGedola',sManualSunset:'manualSunset',sManualTzeit:'manualTzeit',sManualCandles:'manualCandles',sManualHavdalah:'manualHavdalah',sDailyTitle:'dailyTitle',sParasha:'parasha',sMainMessage:'mainMessage',sTicker:'ticker',sLeftNotice:'leftNotice',sRightNotice:'rightNotice',sAnnouncement:'announcement',sDafVideoUrl:'dafVideoUrl',sDailyShiurText:'dailyShiurText',sRotationSeconds:'rotationSeconds',sRotationEnabled:'rotationEnabled',sPrayerSpeed:'prayerSpeed',sShacharitText:'shacharitText',sMinchaText:'minchaText',sMaarivText:'maarivText',sShabbatShacharitText:'shabbatShacharitText',sShabbatMinchaText:'shabbatMinchaText',sShabbatMaarivText:'shabbatMaarivText',sShabbatHavdalahText:'shabbatHavdalahText',sFastMode:'fastMode',sFastDisplay:'fastDisplay',sFastName:'fastName',sFastDate:'fastDate',sFastStart:'fastStart',sFastEnd:'fastEnd',sFastNote:'fastNote'};
@@ -310,7 +331,7 @@ function fastHebrewName(title=''){
 function isMajorFastName(name=''){return /תשעה באב|יום כיפור|tish|kippur/i.test(name)}
 function renderFastCard(info){
  const panel=$('fastPanel'), box=$('fastInfo'); if(!panel||!box)return;
- if(!info||state.fastMode==='off'){panel.hidden=true;box.innerHTML='';return}
+ if(!info||state.fastMode==='off'||state.subjectEnabled?.fast===false){panel.hidden=true;box.innerHTML='';return}
  panel.hidden=false;
  box.innerHTML=`<div class="fast-name">${esc(info.name||'צום')}</div><div class="fast-time-row"><span>תחילת הצום</span><strong>${fmt(info.start)}</strong></div><div class="fast-time-row"><span>סיום הצום</span><strong>${fmt(info.end)}</strong></div>${info.note?`<div class="fast-note">${esc(info.note)}</div>`:''}`;
 }
@@ -358,7 +379,7 @@ requestAnimationFrame(()=>{
   mm.style.setProperty('--center-scroll-duration',`${duration}s`);
 });
 }$('dedication').textContent=state.ticker;$('ticker').textContent=state.ticker;$('leftNotice').textContent=state.leftNotice;$('rightNotice').textContent=state.rightNotice;$('ticker').style.animationDuration=`${state.tickerSpeed||18}s`;renderRows();renderSeparatePages()}
-function fillAdmin(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')}
+function fillAdmin(){refreshSubjectStatuses();Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')}
 function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();startShiurScheduler();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)}
 function updateClocks(){const now=new Date();const time=(tz)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('nyClock').textContent=time(state.timezone||'America/New_York');$('jerusalemClock').textContent=time('Asia/Jerusalem');$('gregDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:state.timezone||'America/New_York',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{timeZone:state.timezone||'America/New_York',year:'numeric',month:'long',day:'numeric'}).format(now)}catch(e){$('hebrewDate').textContent=''}}
 
@@ -526,6 +547,7 @@ async function updateJewishCalendar(){
 }
 
 function showPrayer(key){
+    if(state.subjectEnabled?.[key]===false) return;
     const text=state[`${key}Text`]||'לא הוזן עדיין נוסח תפילה.';
     const overlay=$('prayerOverlay');
     const content=$('overlayContent');
@@ -570,6 +592,7 @@ function hideTimedShiur(){
     if($('shiurCountdown')) $('shiurCountdown').textContent='';
 }
 function showTimedShiur(durationMs=30000){
+    if(state.subjectEnabled?.shiur===false) return;
     // Prayer text has priority; never cover an active prayer overlay.
     if($('prayerOverlay')?.classList.contains('active')) return;
     hideTimedShiur();
@@ -592,6 +615,7 @@ function localClockParts(tz=state.timezone||'America/New_York'){
     return {y:get('year'),mo:get('month'),d:get('day'),h:Number(get('hour'))%24,m:Number(get('minute')),s:Number(get('second'))};
 }
 function checkShiurBoundary(){
+    if(state.subjectEnabled?.shiur===false){hideTimedShiur();return;}
     const p=localClockParts();
     // Exact half-hour windows. If the page loads during the first 30 sec of the window,
     // show only for the remaining seconds so it still returns on time.
@@ -610,7 +634,47 @@ function startShiurScheduler(){
     shiurBoundaryTimer=setInterval(checkShiurBoundary,1000);
 }
 
+function closeAdminDialog(){
+    const d=$('adminDialog');
+    if(!d) return;
+    if(typeof d.close==='function' && d.open) d.close();
+    else { d.removeAttribute('open'); d.style.display='none'; }
+}
+function hideMemorial(){
+    const page=$('memorialPage');
+    if(page){page.classList.remove('active');page.setAttribute('aria-hidden','true')}
+}
+function showMemorial(){
+    if(state.subjectEnabled?.memorial===false) return;
+    hidePrayer();hideTimedShiur();
+    const page=$('memorialPage');
+    if(page){page.classList.add('active');page.setAttribute('aria-hidden','false')}
+}
+function refreshSubjectStatuses(){
+    const keys=['shiur','memorial','fast','shacharit','mincha','maariv','shabbatShacharit','shabbatMincha','shabbatMaariv','shabbatHavdalah'];
+    keys.forEach(k=>{const el=$(`status-${k}`);if(el)el.textContent=state.subjectEnabled?.[k]===false?'STOPPED':'ON'})
+}
+function persistSubjectEnabled(){
+    localStorage.setItem('newSynagogueBoard',JSON.stringify(state));
+    refreshSubjectStatuses();
+}
+function startSubject(key){
+    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=true;persistSubjectEnabled();render();
+    closeAdminDialog();
+    if(key==='shiur'){startShiurScheduler();showTimedShiur(30000);return}
+    if(key==='memorial'){showMemorial();return}
+    if(key==='fast'){updateJewishCalendar();return}
+    showPrayer(key);
+}
+function stopSubject(key){
+    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=false;persistSubjectEnabled();
+    if(key==='shiur'){hideTimedShiur();return}
+    if(key==='memorial'){hideMemorial();return}
+    if(key==='fast'){renderFastCard(null);return}
+    hidePrayer();
+}
 function hidePrayer(){const overlay=$('prayerOverlay');overlay.classList.remove('active');overlay.setAttribute('aria-hidden','true')}
+
 $('adminGear').addEventListener('click',()=>{
     fillAdmin();
     const d=$('adminDialog');
@@ -627,6 +691,9 @@ $('closeAdmin').addEventListener('click',()=>{
         else { d.removeAttribute('open'); d.style.display='none'; }
     }
     showPrayer(b.dataset.prayer)}));
+document.querySelectorAll('.subject-start').forEach(b=>b.addEventListener('click',()=>startSubject(b.dataset.subject)));
+document.querySelectorAll('.subject-stop').forEach(b=>b.addEventListener('click',()=>stopSubject(b.dataset.subject)));
+refreshSubjectStatuses();
 render();updateClocks();updateJewishCalendar();startShiurScheduler();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
 </script>
 </body>
