@@ -1,8 +1,85 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="google" content="notranslate"><title>כניסת חברי הקהילה</title><style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top,#16458a,#061a42 55%,#020712);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:#fff}.card{width:min(610px,96vw);background:#071d47;border:3px solid #d7a62d;border-radius:24px;padding:28px;box-shadow:0 20px 70px #0009}h1{text-align:center;color:#f8d66b;margin:0 0 6px}.muted{text-align:center;color:#d8e2f4}.grid{display:grid;gap:14px;margin-top:20px}label{font-weight:900}input{width:100%;margin-top:6px;padding:13px;border:1px solid #d7a62d;border-radius:10px;font-size:16px}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.btn,button{border:0;border-radius:11px;padding:12px 18px;background:#ffc439;color:#111;text-decoration:none;font-weight:900;font-size:16px;cursor:pointer}.secondary{background:#fff;color:#09204c}.msg{text-align:center;min-height:25px;margin-top:14px;font-weight:800;color:#ffd873}</style></head>
-<body class="notranslate" translate="no"><main class="card"><h1>כניסת חברי בית הכנסת</h1><p class="muted">כניסה אישית לחבר הקהילה</p><div class="grid"><label>דוא״ל<input id="email" type="email" autocomplete="email"></label><label>סיסמה<input id="password" type="password" autocomplete="current-password"></label></div><div class="actions"><button onclick="loginMember()">כניסה</button><a id="registerLink" class="btn secondary" href="member-register.html">רישום חבר חדש</a><a id="boardLink" class="btn secondary" href="index.html">חזרה ללוח</a></div><div id="msg" class="msg"></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script><script src="supabase-config.js"></script><script src="saas-common.js"></script><script>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google" content="notranslate">
+<title>כניסת חברי בית הכנסת</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at top,#16458a,#061a42 55%,#020712);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:#fff}.card{width:min(650px,96vw);background:#071d47;border:3px solid #d7a62d;border-radius:24px;padding:28px;box-shadow:0 20px 70px #0009}h1{text-align:center;color:#f8d66b;margin:0 0 6px}.muted{text-align:center;color:#d8e2f4;line-height:1.55}.grid{display:grid;gap:14px;margin-top:20px}label{font-weight:900}input,select{width:100%;margin-top:6px;padding:13px;border:1px solid #d7a62d;border-radius:10px;font-size:16px;background:#fff;color:#111}.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.btn,button{border:0;border-radius:11px;padding:12px 18px;background:#ffc439;color:#111;text-decoration:none;font-weight:900;font-size:16px;cursor:pointer}.secondary{background:#fff;color:#09204c}.msg{text-align:center;min-height:25px;margin-top:14px;font-weight:800;color:#ffd873}.hint{font-size:13px;color:#c9d9ef;margin-top:6px}
+</style>
+</head>
+<body class="notranslate" translate="no">
+<main class="card">
+<h1>כניסת חברי בית הכנסת</h1>
+<p class="muted">בחר את בית הכנסת שלך ולאחר מכן היכנס עם הדוא״ל והסיסמה האישיים.</p>
+<div class="grid">
+<label>בחר בית כנסת<select id="synagogueSelect"><option value="">טוען בתי כנסת…</option></select><div class="hint" id="synagogueHint"></div></label>
+<label>דוא״ל<input id="email" type="email" autocomplete="email"></label>
+<label>סיסמה<input id="password" type="password" autocomplete="current-password"></label>
+</div>
+<div class="actions">
+<button id="loginButton" type="button" onclick="loginMember()">כניסה</button>
+<a id="registerLink" class="btn secondary" href="member-register.html">רישום חבר חדש</a>
+<a id="boardLink" class="btn secondary" href="index.html">חזרה ללוח</a>
+</div>
+<div id="msg" class="msg"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="supabase-config.js"></script>
+<script src="saas-common.js"></script>
+<script>
 const requestedSlug=(new URLSearchParams(location.search).get('s')||'').trim().toLowerCase();
-if(requestedSlug){const q='?s='+encodeURIComponent(requestedSlug);registerLink.href='member-register.html'+q;boardLink.href='index.html'+q}
-async function loginMember(){msg.textContent='מתחבר…';try{const sb=getSupabase();const {data,error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:password.value});if(error)throw error;const {data:m,error:me}=await sb.from('organization_members').select('organization_slug,status').eq('user_id',data.user.id).maybeSingle();if(me)throw me;if(!m)throw new Error('חשבון זה אינו חשבון של חבר קהילה.');if(m.status!=='active')throw new Error('חשבון החבר מושעה. יש לפנות לבית הכנסת.');location.href='donate.html?s='+encodeURIComponent(m.organization_slug)}catch(e){msg.textContent=e.message||String(e)}}
-</script></body></html>
+let synagogueRows=[];
+function setLinks(slug){
+  const q=slug?'?s='+encodeURIComponent(slug):'';
+  registerLink.href='member-register.html'+q;
+  boardLink.href='index.html'+q;
+}
+async function loadSynagogues(){
+  msg.textContent='טוען רשימת בתי כנסת…';
+  try{
+    const sb=getSupabase();
+    const {data,error}=await sb.rpc('list_member_synagogues');
+    if(error) throw error;
+    synagogueRows=Array.isArray(data)?data:[];
+    synagogueSelect.innerHTML='<option value="">בחר בית כנסת</option>';
+    synagogueRows.forEach(row=>{
+      const opt=document.createElement('option');
+      opt.value=String(row.slug||'').toLowerCase();
+      opt.textContent=row.rabbi_name?`${row.synagogue_name} — ${row.rabbi_name}`:row.synagogue_name;
+      synagogueSelect.appendChild(opt);
+    });
+    if(requestedSlug && synagogueRows.some(r=>String(r.slug).toLowerCase()===requestedSlug)) synagogueSelect.value=requestedSlug;
+    setLinks(synagogueSelect.value||requestedSlug);
+    synagogueHint.textContent=synagogueSelect.value?'בית הכנסת נבחר לפי הלוח שממנו הגעת.':'';
+    msg.textContent='';
+  }catch(e){
+    synagogueSelect.innerHTML='<option value="">לא ניתן לטעון בתי כנסת</option>';
+    msg.textContent='יש להריץ את קובץ SQL של רשימת בתי הכנסת ב-Supabase. '+(e.message||String(e));
+  }
+}
+synagogueSelect.addEventListener('change',()=>setLinks(synagogueSelect.value));
+async function loginMember(){
+  const selectedSlug=synagogueSelect.value.trim().toLowerCase();
+  if(!selectedSlug){msg.textContent='נא לבחור את בית הכנסת שלך.';return}
+  if(!email.value.trim()||!password.value){msg.textContent='נא להזין דוא״ל וסיסמה.';return}
+  loginButton.disabled=true; msg.textContent='מתחבר…';
+  try{
+    const sb=getSupabase();
+    const {data,error}=await sb.auth.signInWithPassword({email:email.value.trim(),password:password.value});
+    if(error) throw error;
+    const {data:m,error:me}=await sb.from('organization_members').select('organization_slug,status').eq('user_id',data.user.id).maybeSingle();
+    if(me) throw me;
+    if(!m){await sb.auth.signOut();throw new Error('חשבון זה אינו חשבון של חבר בית כנסת.')}
+    const memberSlug=String(m.organization_slug||'').toLowerCase();
+    if(memberSlug!==selectedSlug){await sb.auth.signOut();throw new Error('החשבון הזה שייך לבית כנסת אחר. נא לבחור את בית הכנסת שאליו החשבון מחובר.')}
+    if(m.status!=='active'){await sb.auth.signOut();throw new Error('חשבון החבר אינו פעיל. יש לפנות לבית הכנסת.')}
+    location.href='index.html?s='+encodeURIComponent(memberSlug);
+  }catch(e){msg.textContent=e.message||String(e)}
+  finally{loginButton.disabled=false}
+}
+loadSynagogues();
+</script>
+</body>
+</html>
