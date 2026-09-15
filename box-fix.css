@@ -1,0 +1,75 @@
+/* FINAL FIX — keep all wording/times inside boxes */
+.board,.topbar,.main-grid,.side,.panel,.rows,.data-row,.center-stage,.parchment,
+.liturgy-box,.notice{min-width:0;max-width:100%;box-sizing:border-box}
+.panel,.small-panel{overflow:hidden!important}
+.panel *{box-sizing:border-box;max-width:100%}
+
+.data-row{
+  width:100%;min-width:0;display:grid!important;
+  grid-template-columns:minmax(0,1fr) max-content!important;
+  align-items:center;column-gap:clamp(3px,.4vw,9px);
+  padding:clamp(3px,.38vh,7px) clamp(2px,.25vw,6px)!important;
+  overflow:hidden
+}
+.data-row>span{
+  display:block;min-width:0;width:100%;white-space:normal!important;
+  overflow:visible!important;text-overflow:clip!important;
+  overflow-wrap:anywhere;word-break:normal;text-align:right;line-height:1.08;
+  font-size:clamp(12px,1vw,20px)
+}
+.data-row>strong{
+  display:block;min-width:max-content;max-width:none!important;
+  white-space:nowrap!important;overflow:visible!important;direction:ltr;
+  unicode-bidi:isolate;text-align:left;font-size:clamp(11px,.95vw,19px);
+  letter-spacing:-.25px;font-variant-numeric:tabular-nums
+}
+.panel-title{
+  min-width:0;max-width:76%;left:12%;right:12%;white-space:normal!important;
+  overflow:hidden;line-height:1.05;display:flex;align-items:center;
+  justify-content:center;padding-left:4px;padding-right:4px
+}
+.panel{padding-left:clamp(5px,.7vw,14px)!important;padding-right:clamp(5px,.7vw,14px)!important}
+.rows{width:100%;min-width:0}
+.notice{
+  width:100%;padding-left:clamp(5px,.5vw,12px);padding-right:clamp(5px,.5vw,12px);
+  white-space:pre-line!important;overflow-wrap:anywhere;word-break:normal;line-height:1.25
+}
+.fast-info,.fast-name,.fast-time-row,.fast-note{min-width:0;max-width:100%}
+.fast-name,.fast-note{white-space:normal;overflow-wrap:anywhere}
+.fast-time-row{display:grid;grid-template-columns:minmax(0,1fr) max-content;align-items:center;gap:5px}
+.fast-time-row strong{direction:ltr;white-space:nowrap}
+.parchment,.main-message,.main-message-scroll,.liturgy-box,.dedication,.timed-shiur,.shiur-inner{min-width:0;max-width:100%}
+.parchment h1,.parchment h2,.main-message,.dedication,.liturgy-item,.calendar-note,.timed-shiur h2,.shiur-inner{
+  overflow-wrap:anywhere;word-break:normal
+}
+.liturgy-item{min-width:0;overflow:hidden}
+
+@media(max-width:1000px){
+  .main-grid{grid-template-columns:minmax(0,23%) minmax(0,54%) minmax(0,23%)!important;gap:.45vw}
+  .topbar{grid-template-columns:minmax(0,23%) minmax(0,54%) minmax(0,23%)!important;gap:.45vw}
+  .panel{padding-left:5px!important;padding-right:5px!important}
+  .data-row{grid-template-columns:minmax(0,1fr) max-content!important;column-gap:3px;padding-left:2px!important;padding-right:2px!important}
+  .data-row>span{font-size:clamp(11px,2.25vw,17px);line-height:1.03}
+  .data-row>strong{font-size:clamp(10px,2.05vw,16px);letter-spacing:-.5px}
+  .panel-title{left:7%;right:7%;max-width:86%;font-size:clamp(14px,2.4vw,20px)}
+  .notice{font-size:clamp(12px,2.25vw,18px)}
+  .center-stage{padding-left:1.2vw!important;padding-right:1.2vw!important}
+  .parchment{padding-left:1vw;padding-right:1vw}
+}
+@media(max-width:600px){
+  .board{padding-left:2px;padding-right:2px}
+  .main-grid{grid-template-columns:minmax(0,24%) minmax(0,52%) minmax(0,24%)!important;gap:2px}
+  .topbar{grid-template-columns:minmax(0,24%) minmax(0,52%) minmax(0,24%)!important;gap:2px}
+  .panel{padding-left:3px!important;padding-right:3px!important}
+  .data-row{column-gap:2px}
+  .data-row>span{font-size:clamp(10px,2.8vw,14px)}
+  .data-row>strong{font-size:clamp(9px,2.55vw,13px)}
+  .panel-title{font-size:clamp(12px,3vw,17px)}
+  .clock-city{font-size:clamp(9px,2.6vw,13px)}
+  .clock-time{font-size:clamp(16px,4.5vw,27px)!important;letter-spacing:-1px}
+  .synagogue{font-size:clamp(18px,5vw,30px)}
+  .rabbi{font-size:clamp(11px,3vw,17px)}
+  .date-line{font-size:clamp(9px,2.4vw,13px)}
+}
+.side span,.side strong,.side div{box-sizing:border-box}
+.side{overflow:hidden}
