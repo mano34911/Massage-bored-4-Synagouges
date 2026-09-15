@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="mb-build" content="synagogue-board-safe-v3-prayer-times">
+<meta name="mb-build" content="synagogue-board-safe-v4-prayer-texts">
 <title>לוח בית הכנסת</title>
 
 <style>
@@ -31,12 +31,11 @@ html,body{
   position:fixed;
   inset:0;
   padding:1.1vh 1vw;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.94),
-      rgba(232,225,208,.96)
-    );
+  background:linear-gradient(
+    135deg,
+    rgba(255,255,255,.94),
+    rgba(232,225,208,.96)
+  );
   border:clamp(4px,.55vw,10px) ridge var(--gold);
   display:grid;
   grid-template-rows:10vh minmax(0,1fr) 5.5vh;
@@ -355,7 +354,6 @@ html,body{
     line-height:1.5
   }
 }
-
 </style>
 </head>
 
@@ -397,7 +395,6 @@ html,body{
 
 </header>
 
-
 <section class="grid">
 
 <!-- LEFT -->
@@ -417,7 +414,6 @@ html,body{
 </section>
 
 </aside>
-
 
 <!-- CENTER -->
 
@@ -448,7 +444,6 @@ html,body{
 
 </section>
 
-
 <!-- RIGHT -->
 
 <aside class="side">
@@ -475,7 +470,6 @@ html,body{
 
 </section>
 
-
 <footer class="ticker">
 
 <div class="tick" id="ticker">
@@ -485,7 +479,6 @@ html,body{
 </footer>
 
 </main>
-
 
 <script>
 "use strict";
@@ -535,9 +528,13 @@ try{
   };
 
 }catch(e){
-  console.warn("Could not read local settings.",e);
-}
 
+  console.warn(
+    "Could not read local settings.",
+    e
+  );
+
+}
 
 /* =========================
    TIME FORMAT
@@ -547,11 +544,15 @@ function fmt(t){
 
   if(!t)return "--:--";
 
-  let parts=String(t).split(":");
-  let h=Number(parts[0]);
-  let m=Number(parts[1]);
+  const parts=String(t).split(":");
 
-  if(!Number.isFinite(h) || !Number.isFinite(m)){
+  let h=Number(parts[0]);
+  const m=Number(parts[1]);
+
+  if(
+    !Number.isFinite(h) ||
+    !Number.isFinite(m)
+  ){
     return String(t);
   }
 
@@ -566,7 +567,6 @@ function fmt(t){
     ap
   );
 }
-
 
 /* =========================
    SIDE ROWS
@@ -594,7 +594,6 @@ function rows(){
 
   ];
 
-
   const d=[
 
     ["עלות השחר",state.manualAlot],
@@ -617,7 +616,6 @@ function rows(){
 
   ];
 
-
   $("prayers").innerHTML=
     p.map(x=>
       '<div class="row">'+
@@ -625,7 +623,6 @@ function rows(){
       '<strong>'+fmt(x[1])+'</strong>'+
       '</div>'
     ).join("");
-
 
   $("day").innerHTML=
     d.map(x=>
@@ -635,7 +632,6 @@ function rows(){
       '</div>'
     ).join("");
 }
-
 
 /* =========================
    CLOCKS
@@ -657,19 +653,23 @@ function clocks(){
       }
     ).format(now);
 
-
   $("ny").textContent=
-    f(state.timezone || "America/New_York");
+    f(
+      state.timezone ||
+      "America/New_York"
+    );
 
   $("jer").textContent=
     f("Asia/Jerusalem");
-
 
   $("date").textContent=
     new Intl.DateTimeFormat(
       "he-IL",
       {
-        timeZone:state.timezone || "America/New_York",
+        timeZone:
+          state.timezone ||
+          "America/New_York",
+
         weekday:"long",
         year:"numeric",
         month:"long",
@@ -677,23 +677,31 @@ function clocks(){
       }
     ).format(now);
 
-
   try{
 
     $("hdate").textContent=
       new Intl.DateTimeFormat(
         "he-IL-u-ca-hebrew",
         {
-          timeZone:state.timezone || "America/New_York",
+          timeZone:
+            state.timezone ||
+            "America/New_York",
+
           year:"numeric",
           month:"long",
           day:"numeric"
         }
       ).format(now);
 
-  }catch(e){}
-}
+  }catch(e){
 
+    console.warn(
+      "Hebrew date unavailable.",
+      e
+    );
+
+  }
+}
 
 /* =========================
    SCROLL SYSTEM
@@ -711,8 +719,11 @@ function startMessageScroll(){
 
   void msg.offsetHeight;
 
-  const windowHeight=win.clientHeight;
-  const contentHeight=msg.scrollHeight;
+  const windowHeight=
+    win.clientHeight;
+
+  const contentHeight=
+    msg.scrollHeight;
 
   msg.style.setProperty(
     "--scroll-start",
@@ -724,7 +735,10 @@ function startMessageScroll(){
     (-contentHeight)+"px"
   );
 
-  let seconds=parseFloat(state.scrollSpeed);
+  let seconds=
+    parseFloat(
+      state.scrollSpeed
+    );
 
   if(
     !Number.isFinite(seconds) ||
@@ -744,7 +758,6 @@ function startMessageScroll(){
 
   });
 }
-
 
 /* =========================
    STORED CONTENT
@@ -774,7 +787,6 @@ function applyStored(){
 
   };
 
-
   for(
     const [id,key]
     of Object.entries(map)
@@ -789,7 +801,6 @@ function applyStored(){
         state[key];
 
     }
-
   }
 
   setTimeout(
@@ -797,7 +808,6 @@ function applyStored(){
     100
   );
 }
-
 
 /* =========================
    START BOARD
@@ -850,7 +860,6 @@ function start(){
   }
 }
 
-
 if(
   document.readyState==="loading"
 ){
@@ -866,7 +875,6 @@ if(
 
 }
 
-
 /* =========================
    ADMIN BUTTON
 ========================= */
@@ -875,11 +883,11 @@ $("gear").addEventListener(
   "click",
   ()=>{
 
-    window.location.href="admin.html";
+    window.location.href=
+      "admin.html";
 
   }
 );
-
 
 /* =========================
    SUPABASE
@@ -891,13 +899,8 @@ const SUPABASE_URL=
 const SUPABASE_KEY=
 "sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D";
 
-/*
-  This is the synagogue ID confirmed
-  in the prayer_times results.
-*/
-const DEFAULT_SYnAGOGUE_ID=
+const DEFAULT_SYNAGOGUE_ID=
 "7f4d0f89-8ee6-42a0-beac-6cd00035e1fd";
-
 
 async function sb(path){
 
@@ -908,7 +911,6 @@ async function sb(path){
     path,
 
     {
-
       headers:{
 
         apikey:
@@ -919,24 +921,118 @@ async function sb(path){
           SUPABASE_KEY
 
       }
-
     }
 
   );
 
-
   if(!r.ok){
 
+    const errorText=
+      await r.text();
+
     throw new Error(
-      await r.text()
+      errorText
     );
 
   }
 
-
   return r.json();
 }
 
+/* =========================
+   PRAYER TEXT
+========================= */
+
+function applyPrayerText(prayerTexts){
+
+  if(
+    !Array.isArray(prayerTexts) ||
+    prayerTexts.length===0
+  ){
+    return;
+  }
+
+  /*
+    We queried only enabled prayers,
+    ordered by sort_order.
+
+    The first enabled prayer is displayed
+    in the center prayer window.
+  */
+
+  const prayer=
+    prayerTexts[0];
+
+  if(!prayer){
+    return;
+  }
+
+  const text=
+    prayer.full_text;
+
+  if(
+    typeof text==="string" &&
+    text.trim()
+  ){
+
+    /*
+      Supabase prayer text replaces
+      the ordinary main message.
+    */
+
+    state.mainMessage=
+      text.trim();
+
+    $("message").textContent=
+      state.mainMessage;
+
+  }
+
+  /*
+    Use title when one exists.
+
+    Otherwise use prayer_name.
+  */
+
+  const prayerTitle=
+    prayer.title ||
+    prayer.prayer_name;
+
+  if(
+    prayerTitle &&
+    String(prayerTitle).trim()
+  ){
+
+    $("parasha").textContent=
+      String(prayerTitle).trim();
+
+  }
+
+  /*
+    Scroll speed comes directly
+    from prayer_texts.
+  */
+
+  const speed=
+    parseFloat(
+      prayer.scroll_speed
+    );
+
+  if(
+    Number.isFinite(speed) &&
+    speed>=10
+  ){
+
+    state.scrollSpeed=
+      speed;
+
+  }
+
+  setTimeout(
+    startMessageScroll,
+    100
+  );
+}
 
 /* =========================
    LIVE SUPABASE UPDATE
@@ -946,44 +1042,58 @@ async function live(){
 
   try{
 
-    /*
-      Use the saved synagogue ID.
-
-      If this browser has never saved one,
-      use the confirmed Beth Torah ID.
-    */
-
     let id=
       localStorage.getItem(
         "synagogue_id"
       ) ||
-      DEFAULT_SYnAGOGUE_ID;
+      DEFAULT_SYNAGOGUE_ID;
 
+    /*
+      Protect against an old/broken
+      saved ID.
+    */
+
+    const uuidPattern=
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
+    if(
+      !uuidPattern.test(id)
+    ){
+
+      console.warn(
+        "Invalid saved synagogue ID. Using default."
+      );
+
+      id=
+        DEFAULT_SYNAGOGUE_ID;
+
+    }
 
     localStorage.setItem(
       "synagogue_id",
       id
     );
 
-
     const q=
       "?synagogue_id=eq."+
       encodeURIComponent(id);
 
-
-/* =========================
-   LOAD DATA
-========================= */
+    /* =========================
+       LOAD EVERYTHING
+    ========================= */
 
     const [
       syn,
       content,
-      prayerTimes
+      prayerTimes,
+      prayerTexts
     ]=
       await Promise.all([
 
         sb(
-          "synagogues?select=*&id=eq."+
+          "synagogues"+
+          "?select=*"+
+          "&id=eq."+
           encodeURIComponent(id)+
           "&limit=1"
         ),
@@ -994,30 +1104,41 @@ async function live(){
           "&limit=1"
         ),
 
-        /*
-          IMPORTANT:
-          The correct table is prayer_times.
-
-          The correct field is prayer_key.
-
-          This replaces the old:
-          prayer_schedule / schedule_key
-        */
-
         sb(
           "prayer_times"+
           q+
           "&active=eq.true"+
           "&select=prayer_key,prayer_name,prayer_time,day_type,active,display_order"+
           "&order=display_order.asc"
+        ),
+
+        /*
+          VERIFIED PRAYER TEXT TABLE
+
+          Fields:
+          prayer_key
+          prayer_name
+          title
+          enabled
+          scroll_speed
+          sort_order
+          full_text
+        */
+
+        sb(
+          "prayer_texts"+
+          q+
+          "&enabled=eq.true"+
+          "&select=prayer_key,prayer_name,title,enabled,scroll_speed,sort_order,full_text"+
+          "&order=sort_order.asc"+
+          "&order=prayer_name.asc"
         )
 
       ]);
 
-
-/* =========================
-   SYNAGOGUE INFO
-========================= */
+    /* =========================
+       SYNAGOGUE INFO
+    ========================= */
 
     if(syn[0]){
 
@@ -1026,11 +1147,9 @@ async function live(){
         syn[0].name ||
         state.synagogue;
 
-
       state.rabbi=
         syn[0].rabbi_name ||
         state.rabbi;
-
 
       state.timezone=
         syn[0].timezone ||
@@ -1038,46 +1157,39 @@ async function live(){
 
     }
 
-
-/* =========================
-   BOARD CONTENT
-========================= */
+    /* =========================
+       BOARD CONTENT
+    ========================= */
 
     if(content[0]){
 
-      const x=content[0];
-
+      const x=
+        content[0];
 
       state.dailyTitle=
         x.main_title ||
         state.dailyTitle;
 
-
       state.mainMessage=
         x.main_message ||
         state.mainMessage;
-
 
       state.leftNotice=
         x.left_notice ||
         state.leftNotice;
 
-
       state.rightNotice=
         x.right_notice ||
         state.rightNotice;
-
 
       state.ticker=
         x.ticker_text ||
         x.dedication ||
         state.ticker;
 
-
       state.parasha=
         x.parasha ||
         state.parasha;
-
 
       if(
         x.scroll_speed !== undefined &&
@@ -1089,7 +1201,6 @@ async function live(){
             x.scroll_speed
           );
 
-
         if(
           Number.isFinite(speed) &&
           speed>=10
@@ -1099,22 +1210,21 @@ async function live(){
             speed;
 
         }
-
       }
-
     }
 
-
-/* =========================
-   PRAYER TIMES
-========================= */
+    /* =========================
+       PRAYER TIMES
+    ========================= */
 
     prayerTimes.forEach(x=>{
 
-      if(!x.prayer_key || !x.prayer_time){
+      if(
+        !x.prayer_key ||
+        !x.prayer_time
+      ){
         return;
       }
-
 
       const key=
         String(
@@ -1123,29 +1233,22 @@ async function live(){
         .trim()
         .toLowerCase();
 
-
       const time=
         String(
           x.prayer_time
         ).slice(0,5);
 
-
-      /*
-        Database prayer_key:
-          shacharit
-          mincha
-          maariv
-      */
-
       if(key==="shacharit"){
 
-        state.shacharit=time;
+        state.shacharit=
+          time;
 
       }
 
       else if(key==="mincha"){
 
-        state.mincha=time;
+        state.mincha=
+          time;
 
       }
 
@@ -1154,7 +1257,8 @@ async function live(){
         key==="arvit"
       ){
 
-        state.maariv=time;
+        state.maariv=
+          time;
 
       }
 
@@ -1163,7 +1267,8 @@ async function live(){
         key==="torah"
       ){
 
-        state.shiur=time;
+        state.shiur=
+          time;
 
       }
 
@@ -1172,7 +1277,8 @@ async function live(){
         key==="shacharit_shabbat"
       ){
 
-        state.shabbatShacharit=time;
+        state.shabbatShacharit=
+          time;
 
       }
 
@@ -1181,7 +1287,8 @@ async function live(){
         key==="mincha_shabbat"
       ){
 
-        state.shabbatMincha=time;
+        state.shabbatMincha=
+          time;
 
       }
 
@@ -1190,34 +1297,23 @@ async function live(){
         key==="maariv_shabbat"
       ){
 
-        state.shabbatMaariv=time;
+        state.shabbatMaariv=
+          time;
 
       }
 
-      else if(
-        key==="havdalah"
-      ){
+      else if(key==="havdalah"){
 
-        state.shabbatHavdalah=time;
+        state.shabbatHavdalah=
+          time;
 
       }
 
     });
 
-
-/* =========================
-   SAVE LOCAL CACHE
-========================= */
-
-    localStorage.setItem(
-      "newSynagogueBoard",
-      JSON.stringify(state)
-    );
-
-
-/* =========================
-   UPDATE SCREEN
-========================= */
+    /* =========================
+       APPLY NORMAL CONTENT
+    ========================= */
 
     applyStored();
 
@@ -1225,17 +1321,52 @@ async function live(){
 
     clocks();
 
+    /* =========================
+       APPLY PRAYER TEXT LAST
+
+       This is intentional.
+
+       prayer_texts wins over the
+       ordinary center message.
+    ========================= */
+
+    applyPrayerText(
+      prayerTexts
+    );
+
+    /* =========================
+       SAVE LOCAL CACHE
+    ========================= */
+
+    localStorage.setItem(
+      "newSynagogueBoard",
+      JSON.stringify(state)
+    );
+
     setTimeout(
       startMessageScroll,
       150
     );
 
+    console.log(
+      "Supabase synagogue:",
+      syn
+    );
 
     console.log(
-      "Supabase prayer times loaded:",
+      "Supabase board content:",
+      content
+    );
+
+    console.log(
+      "Supabase prayer times:",
       prayerTimes
     );
 
+    console.log(
+      "Supabase prayer texts:",
+      prayerTexts
+    );
 
   }catch(e){
 
@@ -1245,19 +1376,23 @@ async function live(){
     );
 
   }
-
 }
 
-
-/* First Supabase update */
+/* =========================
+   FIRST DATABASE LOAD
+========================= */
 
 setTimeout(
   live,
   300
 );
 
+/* =========================
+   AUTO REFRESH
 
-/* Refresh automatically every minute */
+   Every 60 seconds the board
+   checks Supabase again.
+========================= */
 
 setInterval(
   live,
