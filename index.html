@@ -237,6 +237,11 @@ textarea{resize:vertical;min-height:85px}
 .subject-start{background:#1f8a4c;color:#fff}
 .subject-stop{background:#a72f3a;color:#fff}
 .subject-status{font-size:12px;color:#d8e4ff;min-width:42px;text-align:center}
+
+/* Creator / order ticker */
+.creator-ticker{position:fixed;bottom:0;left:0;right:0;z-index:9999;height:30px;overflow:hidden;display:flex;align-items:center;background:#07132d;border-top:2px solid #c79b43;direction:ltr}
+.creator-ticker-text{display:inline-block;min-width:100%;white-space:nowrap;text-align:center;color:#39ff64;font-size:clamp(14px,1vw,19px);font-weight:1000;text-shadow:0 0 5px #39ff64;animation:creatorScroll 18s linear infinite}
+@keyframes creatorScroll{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
 </style>
 </head>
 <body>
@@ -723,5 +728,7 @@ document.querySelectorAll('.subject-stop').forEach(b=>b.addEventListener('click'
 refreshSubjectStatuses();
 render();updateClocks();updateJewishCalendar();startShiurScheduler();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
 </script>
+
+<div class="creator-ticker" aria-label="Created by and board orders"><div class="creator-ticker-text">Created By עמנואל חלא &nbsp; • &nbsp; להזמנות לוח +1-516-376-4118</div></div>
 </body>
 </html>
