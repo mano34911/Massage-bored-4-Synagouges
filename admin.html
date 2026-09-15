@@ -99,7 +99,9 @@ label{
   margin:7px 0
 }
 
-input,textarea,select{
+input,
+textarea,
+select{
   width:100%;
   padding:12px;
   border:1px solid #aaa;
@@ -135,11 +137,12 @@ textarea{
 .controls{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:8px;
+  gap:9px;
   margin-top:18px
 }
 
-button,.button{
+button,
+.button{
   display:block;
   border:0;
   border-radius:12px;
@@ -148,7 +151,18 @@ button,.button{
   font-size:16px;
   cursor:pointer;
   text-decoration:none;
-  text-align:center
+  text-align:center;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent
+}
+
+button:active{
+  transform:scale(.97)
+}
+
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed
 }
 
 .startBtn{
@@ -180,7 +194,7 @@ button,.button{
 }
 
 .master h2{
-  color:#fff;
+  color:white;
   text-align:center;
   margin-top:0
 }
@@ -215,11 +229,33 @@ button,.button{
   font-size:14px
 }
 
+.speedHelp{
+  font-size:13px;
+  color:#66552c;
+  margin-top:5px
+}
+
 @media(max-width:650px){
-  .row,.row3{grid-template-columns:1fr}
-  .controls{grid-template-columns:1fr 1fr}
-  .wrap{padding:12px}
-  .card{padding:15px}
+  .row,
+  .row3{
+    grid-template-columns:1fr
+  }
+
+  .controls{
+    grid-template-columns:1fr 1fr
+  }
+
+  .wrap{
+    padding:12px
+  }
+
+  .card{
+    padding:15px
+  }
+
+  button{
+    min-height:52px
+  }
 }
 </style>
 </head>
@@ -234,31 +270,69 @@ button,.button{
 מתחבר ל-Supabase...
 </div>
 
-<!-- MASTER -->
+
+<!-- =========================
+     MASTER CONTROL
+========================= -->
+
 <div class="master">
+
 <h2>🎛️ שליטה ראשית</h2>
 
 <div class="controls">
-<button class="startBtn" onclick="startAll()">▶️ הפעל הכל</button>
-<button class="stopBtn" onclick="stopAll()">⏹ עצור הכל</button>
-<button class="saveBtn" onclick="saveAll()">💾 שמור הכל</button>
-<button class="resetBtn" onclick="resetAll()">🔄 איפוס הכל</button>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="startAll()">
+▶️ הפעל הכל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="stopAll()">
+⏹ עצור הכל
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="saveAll()">
+💾 שמור הכל
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="resetAll()">
+🔄 איפוס הכל
+</button>
+
 </div>
+
 </div>
 
 
-<!-- SYNAGOGUE -->
-<div class="card" id="synagogueCard">
+<!-- =========================
+     SYNAGOGUE
+========================= -->
+
+<div class="card">
 
 <h2>🏛️ בית הכנסת</h2>
 
-<div id="synagogueStatus" class="sectionStatus activeStatus">
+<div id="synagogueStatus"
+     class="sectionStatus activeStatus">
 🟢 פעיל
 </div>
 
-<div id="synagogueName">טוען...</div>
+<div id="synagogueName">
+טוען...
+</div>
 
 <div class="row">
+
 <div>
 <label>שם בית הכנסת בעברית</label>
 <input id="hebrew_name">
@@ -268,9 +342,11 @@ button,.button{
 <label>שם בית הכנסת באנגלית</label>
 <input id="english_name">
 </div>
+
 </div>
 
 <div class="row">
+
 <div>
 <label>שם הרב</label>
 <input id="rabbi_name">
@@ -280,24 +356,54 @@ button,.button{
 <label>אזור זמן</label>
 <input id="timezone" value="America/New_York">
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="setLocalSection('synagogue',true)">▶️ הפעל</button>
-<button class="stopBtn" onclick="setLocalSection('synagogue',false)">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveSynagogue,'בית הכנסת')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="setLocalSection('synagogue',true)">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="setLocalSection('synagogue',false)">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveSynagogue,'בית הכנסת')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- BOARD CONTENT -->
+
+<!-- =========================
+     BOARD CONTENT
+========================= -->
+
 <div class="card">
 
 <h2>📺 תוכן הלוח</h2>
 
-<div id="contentStatus" class="sectionStatus activeStatus">
+<div id="contentStatus"
+     class="sectionStatus activeStatus">
 🟢 פעיל
 </div>
 
@@ -320,28 +426,68 @@ button,.button{
 <textarea id="ticker_text"></textarea>
 
 <label>מהירות גלילת ההודעה</label>
-<input id="content_scroll_speed" type="number" min="10" value="45">
+
+<select id="content_scroll_speed">
+<option value="90">🐢 Super Slow — איטי מאוד</option>
+<option value="65">🐌 Slow — איטי</option>
+<option value="45" selected>▶️ Medium — בינוני</option>
+<option value="25">⚡ Fast — מהיר</option>
+</select>
+
+<div class="speedHelp">
+בחר את מהירות הגלילה של ההודעות בלוח.
+</div>
 
 <div class="controls">
-<button class="startBtn" onclick="setLocalSection('content',true)">▶️ הפעל</button>
-<button class="stopBtn" onclick="setLocalSection('content',false)">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveContent,'תוכן הלוח')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="setLocalSection('content',true)">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="setLocalSection('content',false)">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveContent,'תוכן הלוח')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- PRAYER TIMES -->
+
+<!-- =========================
+     PRAYER TIMES
+========================= -->
+
 <div class="card">
 
 <h2>🕍 זמני תפילות</h2>
 
-<div id="prayerTimesStatus" class="sectionStatus activeStatus">
+<div id="prayerTimesStatus"
+     class="sectionStatus activeStatus">
 🟢 פעיל
 </div>
 
 <div class="row">
+
 <div>
 <label>שחרית</label>
 <input id="shacharit" type="time">
@@ -351,9 +497,11 @@ button,.button{
 <label>מנחה</label>
 <input id="mincha" type="time">
 </div>
+
 </div>
 
 <div class="row">
+
 <div>
 <label>ערבית</label>
 <input id="maariv" type="time">
@@ -363,11 +511,13 @@ button,.button{
 <label>שיעור תורה</label>
 <input id="shiur" type="time">
 </div>
+
 </div>
 
 <h2>שבת</h2>
 
 <div class="row">
+
 <div>
 <label>שחרית שבת</label>
 <input id="shabbat_shacharit" type="time">
@@ -377,9 +527,11 @@ button,.button{
 <label>מנחה שבת</label>
 <input id="shabbat_mincha" type="time">
 </div>
+
 </div>
 
 <div class="row">
+
 <div>
 <label>ערבית ליל שבת</label>
 <input id="shabbat_maariv" type="time">
@@ -389,28 +541,59 @@ button,.button{
 <label>הבדלה</label>
 <input id="havdalah" type="time">
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="setPrayerTimesActive(true)">▶️ הפעל</button>
-<button class="stopBtn" onclick="setPrayerTimesActive(false)">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(savePrayerTimes,'זמני תפילות')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="setPrayerTimesActive(true)">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="setPrayerTimesActive(false)">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(savePrayerTimes,'זמני תפילות')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- ZMANIM -->
+
+<!-- =========================
+     ZMANIM
+========================= -->
+
 <div class="card">
 
 <h2>☀️ זמני היום</h2>
 
-<div id="zmanimStatus" class="sectionStatus activeStatus">
+<div id="zmanimStatus"
+     class="sectionStatus activeStatus">
 🟢 פעיל
 </div>
 
 <div class="row3">
+
 <div>
 <label>עלות השחר</label>
 <input id="alot" type="time">
@@ -425,9 +608,11 @@ button,.button{
 <label>סוף זמן קריאת שמע</label>
 <input id="shema" type="time">
 </div>
+
 </div>
 
 <div class="row3">
+
 <div>
 <label>חצות</label>
 <input id="chatzot" type="time">
@@ -442,9 +627,11 @@ button,.button{
 <label>שקיעה</label>
 <input id="sunset" type="time">
 </div>
+
 </div>
 
 <div class="row3">
+
 <div>
 <label>צאת הכוכבים</label>
 <input id="tzeit" type="time">
@@ -459,223 +646,556 @@ button,.button{
 <label>צאת שבת</label>
 <input id="manual_havdalah" type="time">
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="setLocalSection('zmanim',true)">▶️ הפעל</button>
-<button class="stopBtn" onclick="setLocalSection('zmanim',false)">⏹ עצור</button>
-<button class="saveBtn" onclick="saveZmanimSection()">💾 שמור</button>
-<button class="resetBtn" onclick="resetZmanim()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="setLocalSection('zmanim',true)">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="setLocalSection('zmanim',false)">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="saveZmanimSection()">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="resetZmanim()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- DAILY LESSON -->
+
+<!-- =========================
+     DAILY LESSON
+========================= -->
+
 <div class="card">
 
 <h2>📖 שיעור יומי</h2>
 
-<div id="dailyLessonStatus" class="sectionStatus stoppedStatus">
+<div id="dailyLessonStatus"
+     class="sectionStatus stoppedStatus">
 🔴 עצור
 </div>
 
 <div class="switchrow">
+
 <label>הפעל שיעור יומי</label>
-<input id="daily_lesson_enabled" type="checkbox">
+
+<input
+  id="daily_lesson_enabled"
+  type="checkbox">
+
 </div>
 
 <div class="row">
+
 <div>
+
 <label>הצג כל כמה דקות</label>
-<input id="daily_lesson_interval_minutes" type="number" min="1" value="30">
+
+<input
+  id="daily_lesson_interval_minutes"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
 
 <div>
+
 <label>משך הצגה בשניות</label>
-<input id="daily_lesson_duration_seconds" type="number" min="1" value="30">
-</div>
+
+<input
+  id="daily_lesson_duration_seconds"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
 
-<label>מהירות גלילה</label>
-<input id="daily_lesson_scroll_speed" type="number" min="1" value="40">
+</div>
+
+<label>מהירות גלילת השיעור</label>
+
+<select id="daily_lesson_scroll_speed">
+<option value="90">🐢 Super Slow — איטי מאוד</option>
+<option value="65">🐌 Slow — איטי</option>
+<option value="45" selected>▶️ Medium — בינוני</option>
+<option value="25">⚡ Fast — מהיר</option>
+</select>
 
 <div class="controls">
-<button class="startBtn" onclick="toggleSetting('daily_lesson_enabled',true,'dailyLessonStatus')">▶️ הפעל</button>
-<button class="stopBtn" onclick="toggleSetting('daily_lesson_enabled',false,'dailyLessonStatus')">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveSettings,'שיעור יומי')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="toggleSetting(
+    'daily_lesson_enabled',
+    true,
+    'dailyLessonStatus'
+  )">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="toggleSetting(
+    'daily_lesson_enabled',
+    false,
+    'dailyLessonStatus'
+  )">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveSettings,'שיעור יומי')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- CANDLE -->
+
+<!-- =========================
+     CANDLE / SHABBAT
+========================= -->
+
 <div class="card">
 
 <h2>🕯️ כניסת שבת / הדלקת נרות</h2>
 
-<div id="candleStatus" class="sectionStatus stoppedStatus">
+<div id="candleStatus"
+     class="sectionStatus stoppedStatus">
 🔴 עצור
 </div>
 
 <div class="switchrow">
+
 <label>הפעל תצוגת שבת</label>
-<input id="candle_enabled" type="checkbox">
+
+<input
+  id="candle_enabled"
+  type="checkbox">
+
 </div>
 
 <div class="row">
+
 <div>
+
 <label>הצג כל כמה דקות</label>
-<input id="candle_interval_minutes" type="number" min="1" value="30">
+
+<input
+  id="candle_interval_minutes"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
 
 <div>
+
 <label>משך הצגה בשניות</label>
-<input id="candle_duration_seconds" type="number" min="1" value="30">
+
+<input
+  id="candle_duration_seconds"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="toggleSetting('candle_enabled',true,'candleStatus')">▶️ הפעל</button>
-<button class="stopBtn" onclick="toggleSetting('candle_enabled',false,'candleStatus')">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveSettings,'שבת')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="toggleSetting(
+    'candle_enabled',
+    true,
+    'candleStatus'
+  )">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="toggleSetting(
+    'candle_enabled',
+    false,
+    'candleStatus'
+  )">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveSettings,'כניסת שבת')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- FASTING -->
+
+<!-- =========================
+     FASTING
+========================= -->
+
 <div class="card">
 
 <h2>🌙 זמני צום</h2>
 
-<div id="fastingStatus" class="sectionStatus stoppedStatus">
+<div id="fastingStatus"
+     class="sectionStatus stoppedStatus">
 🔴 עצור
 </div>
 
 <div class="switchrow">
+
 <label>הפעל זמני צום</label>
-<input id="fasting_enabled" type="checkbox">
+
+<input
+  id="fasting_enabled"
+  type="checkbox">
+
 </div>
 
 <div class="row">
+
 <div>
+
 <label>הצג כל כמה דקות</label>
-<input id="fasting_interval_minutes" type="number" min="1" value="30">
+
+<input
+  id="fasting_interval_minutes"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
 
 <div>
+
 <label>משך הצגה בשניות</label>
-<input id="fasting_duration_seconds" type="number" min="1" value="30">
+
+<input
+  id="fasting_duration_seconds"
+  type="number"
+  min="1"
+  value="30">
+
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="toggleSetting('fasting_enabled',true,'fastingStatus')">▶️ הפעל</button>
-<button class="stopBtn" onclick="toggleSetting('fasting_enabled',false,'fastingStatus')">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveSettings,'צום')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="toggleSetting(
+    'fasting_enabled',
+    true,
+    'fastingStatus'
+  )">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="toggleSetting(
+    'fasting_enabled',
+    false,
+    'fastingStatus'
+  )">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveSettings,'זמני צום')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- PRAYERS -->
+
+<!-- =========================
+     PRAYER DISPLAY
+========================= -->
+
 <div class="card">
 
 <h2>🙏 תפילות</h2>
 
-<div id="prayerStatus" class="sectionStatus stoppedStatus">
+<div id="prayerStatus"
+     class="sectionStatus stoppedStatus">
 🔴 עצור
 </div>
 
 <div class="switchrow">
+
 <label>הפעל תצוגת תפילות</label>
-<input id="prayer_enabled" type="checkbox">
+
+<input
+  id="prayer_enabled"
+  type="checkbox">
+
 </div>
 
 <label>מהירות גלילת התפילה</label>
-<input id="prayer_scroll_speed" type="number" min="10" value="40">
+
+<select id="prayer_scroll_speed">
+<option value="90">🐢 Super Slow — איטי מאוד</option>
+<option value="65">🐌 Slow — איטי</option>
+<option value="45" selected>▶️ Medium — בינוני</option>
+<option value="25">⚡ Fast — מהיר</option>
+</select>
 
 <div class="controls">
-<button class="startBtn" onclick="toggleSetting('prayer_enabled',true,'prayerStatus')">▶️ הפעל</button>
-<button class="stopBtn" onclick="toggleSetting('prayer_enabled',false,'prayerStatus')">⏹ עצור</button>
-<button class="saveBtn" onclick="runSave(saveSettings,'תפילות')">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="toggleSetting(
+    'prayer_enabled',
+    true,
+    'prayerStatus'
+  )">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="toggleSetting(
+    'prayer_enabled',
+    false,
+    'prayerStatus'
+  )">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="runSave(saveSettings,'תפילות')">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<!-- PRAYER TEXT -->
+
+<!-- =========================
+     FULL PRAYER TEXT
+========================= -->
+
 <div class="card">
 
-<h2>📜 טקסט תפילה</h2>
+<h2>📜 טקסט תפילה מלא</h2>
 
-<div id="prayerTextStatus" class="sectionStatus stoppedStatus">
+<div id="prayerTextStatus"
+     class="sectionStatus stoppedStatus">
 🔴 עצור
 </div>
 
 <div class="note">
-הטקסט נשמר בטבלת prayer_texts ומופיע בחלון המרכזי של הלוח.
+טקסט התפילה המלא נשמר בטבלת prayer_texts ומוצג בחלון המרכזי של לוח בית הכנסת.
 </div>
 
 <div class="switchrow">
+
 <label>הפעל תפילה זו</label>
-<input id="prayer_text_enabled" type="checkbox">
+
+<input
+  id="prayer_text_enabled"
+  type="checkbox">
+
 </div>
 
 <div class="row">
+
 <div>
+
 <label>מפתח תפילה</label>
-<input id="prayer_key" placeholder="shacharit">
+
+<input
+  id="prayer_key"
+  placeholder="shacharit">
+
 </div>
 
 <div>
+
 <label>שם תפילה</label>
-<input id="prayer_name" placeholder="שחרית">
+
+<input
+  id="prayer_name"
+  placeholder="שחרית">
+
 </div>
+
 </div>
 
 <label>כותרת</label>
+
 <input id="prayer_title">
 
-<label>טקסט מלא</label>
-<textarea id="prayer_full_text" class="bigtext"></textarea>
+<label>טקסט תפילה מלא</label>
+
+<textarea
+  id="prayer_full_text"
+  class="bigtext"></textarea>
 
 <div class="row">
+
 <div>
-<label>מהירות גלילה</label>
-<input id="prayer_text_scroll_speed" type="number" min="10" value="40">
+
+<label>מהירות גלילת טקסט התפילה</label>
+
+<select id="prayer_text_scroll_speed">
+<option value="90">🐢 Super Slow — איטי מאוד</option>
+<option value="65">🐌 Slow — איטי</option>
+<option value="45" selected>▶️ Medium — בינוני</option>
+<option value="25">⚡ Fast — מהיר</option>
+</select>
+
 </div>
 
 <div>
+
 <label>סדר הצגה</label>
-<input id="prayer_sort_order" type="number" min="1" value="1">
+
+<input
+  id="prayer_sort_order"
+  type="number"
+  min="1"
+  value="1">
+
 </div>
+
 </div>
 
 <div class="controls">
-<button class="startBtn" onclick="togglePrayerText(true)">▶️ הפעל</button>
-<button class="stopBtn" onclick="togglePrayerText(false)">⏹ עצור</button>
-<button class="saveBtn" onclick="savePrayerText()">💾 שמור</button>
-<button class="resetBtn" onclick="loadBoard()">🔄 איפוס</button>
-</div>
+
+<button
+  type="button"
+  class="startBtn"
+  onclick="togglePrayerText(true)">
+▶️ הפעל
+</button>
+
+<button
+  type="button"
+  class="stopBtn"
+  onclick="togglePrayerText(false)">
+⏹ עצור
+</button>
+
+<button
+  type="button"
+  class="saveBtn"
+  onclick="savePrayerText()">
+💾 שמור
+</button>
+
+<button
+  type="button"
+  class="resetBtn"
+  onclick="loadBoard()">
+🔄 איפוס
+</button>
 
 </div>
 
+</div>
 
-<button class="save" type="button" onclick="saveAll()">
+
+<!-- =========================
+     BOTTOM CONTROLS
+========================= -->
+
+<button
+  type="button"
+  class="save"
+  onclick="saveAll()">
 💾 שמור את כל ההגדרות
 </button>
 
-<button class="reload" type="button" onclick="loadBoard()">
+<button
+  type="button"
+  class="reload"
+  onclick="loadBoard()">
 🔄 טען מחדש מ-Supabase
 </button>
 
-<a class="button openboard" href="index.html">
+<a
+  class="button openboard"
+  href="index.html">
 📺 פתח את לוח בית הכנסת
 </a>
 
@@ -685,7 +1205,10 @@ button,.button{
 <script>
 "use strict";
 
-/* SUPABASE */
+
+/* =========================
+   SUPABASE
+========================= */
 
 const SUPABASE_URL =
 "https://chcfhxkggbrlxaopnfum.supabase.co";
@@ -696,65 +1219,133 @@ const SUPABASE_KEY =
 const SYNAGOGUE_ID =
 "7f4d0f89-8ee6-42a0-beac-6cd00035e1fd";
 
-const db = window.supabase.createClient(
+const db =
+window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-let synagogueId = SYNAGOGUE_ID;
+let synagogueId =
+SYNAGOGUE_ID;
+
 let settingsId = null;
 let contentId = null;
 let prayerTextId = null;
 
 
-/* HELPERS */
+/* =========================
+   HELPERS
+========================= */
 
-const el = id => document.getElementById(id);
+const el =
+id => document.getElementById(id);
+
 
 function value(id){
-  return el(id) ? el(id).value.trim() : "";
+
+  return el(id)
+    ? el(id).value.trim()
+    : "";
 }
 
+
 function checked(id){
+
   return !!el(id)?.checked;
 }
 
+
 function setValue(id,v,fallback=""){
-  if(el(id)) el(id).value = v ?? fallback;
+
+  if(!el(id))
+    return;
+
+  el(id).value =
+    v ?? fallback;
 }
+
 
 function setCheck(id,v){
-  if(el(id)) el(id).checked = v === true;
+
+  if(!el(id))
+    return;
+
+  el(id).checked =
+    v === true;
 }
+
 
 function numberValue(id,fallback){
-  const n = parseInt(el(id)?.value,10);
-  return Number.isFinite(n) ? n : fallback;
+
+  const n =
+    parseInt(
+      el(id)?.value,
+      10
+    );
+
+  return Number.isFinite(n)
+    ? n
+    : fallback;
 }
+
 
 function timeOnly(v){
-  return v ? String(v).slice(0,5) : "";
+
+  if(!v)
+    return "";
+
+  return String(v).slice(0,5);
 }
+
 
 function setStatus(message,type=""){
-  el("connectionStatus").textContent = message;
-  el("connectionStatus").className = "status " + type;
+
+  const box =
+    el("connectionStatus");
+
+  box.textContent =
+    message;
+
+  box.className =
+    "status " + type;
 }
 
+
 function sectionStatus(id,active){
+
   const box = el(id);
-  if(!box) return;
+
+  if(!box)
+    return;
 
   if(active){
-    box.textContent = "🟢 פעיל";
-    box.className = "sectionStatus activeStatus";
+
+    box.textContent =
+      "🟢 פעיל";
+
+    box.className =
+      "sectionStatus activeStatus";
+
   }else{
-    box.textContent = "🔴 עצור";
-    box.className = "sectionStatus stoppedStatus";
+
+    box.textContent =
+      "🔴 עצור";
+
+    box.className =
+      "sectionStatus stoppedStatus";
   }
 }
 
-function setLocalSection(name,active){
+
+/* =========================
+   LOCAL SECTION CONTROL
+========================= */
+
+function setLocalSection(
+  name,
+  active
+){
+
   localStorage.setItem(
     "admin_section_" + name,
     active ? "1" : "0"
@@ -766,32 +1357,53 @@ function setLocalSection(name,active){
     zmanim:"zmanimStatus"
   };
 
-  sectionStatus(map[name],active);
+  sectionStatus(
+    map[name],
+    active
+  );
+
+  setStatus(
+    active
+      ? "▶️ הנושא הופעל"
+      : "⏹ הנושא נעצר",
+    "connected"
+  );
 }
 
-function loadLocalSectionStates(){
-  ["synagogue","content","zmanim"].forEach(name=>{
-    const stored = localStorage.getItem("admin_section_" + name);
 
-    const map = {
-      synagogue:"synagogueStatus",
-      content:"contentStatus",
-      zmanim:"zmanimStatus"
-    };
+function loadLocalSectionStates(){
+
+  const map = {
+    synagogue:"synagogueStatus",
+    content:"contentStatus",
+    zmanim:"zmanimStatus"
+  };
+
+  Object.keys(map).forEach(name=>{
+
+    const stored =
+      localStorage.getItem(
+        "admin_section_" + name
+      );
 
     sectionStatus(
       map[name],
       stored !== "0"
     );
+
   });
 }
 
 
-/* LOAD */
+/* =========================
+   LOAD EVERYTHING
+========================= */
 
 async function loadBoard(){
 
-  setStatus("מתחבר ל-Supabase...");
+  setStatus(
+    "מתחבר ל-Supabase..."
+  );
 
   try{
 
@@ -803,342 +1415,833 @@ async function loadBoard(){
       textsResult
     ] = await Promise.all([
 
-      db.from("synagogues")
-        .select("*")
-        .eq("id",synagogueId)
-        .limit(1),
+      db
+      .from("synagogues")
+      .select("*")
+      .eq("id",synagogueId)
+      .limit(1),
 
-      db.from("board_settings")
-        .select("*")
-        .eq("synagogue_id",synagogueId)
-        .limit(1),
+      db
+      .from("board_settings")
+      .select("*")
+      .eq("synagogue_id",synagogueId)
+      .limit(1),
 
-      db.from("board_content")
-        .select("*")
-        .eq("synagogue_id",synagogueId)
-        .limit(1),
+      db
+      .from("board_content")
+      .select("*")
+      .eq("synagogue_id",synagogueId)
+      .limit(1),
 
-      db.from("prayer_times")
-        .select("*")
-        .eq("synagogue_id",synagogueId)
-        .order("display_order"),
+      db
+      .from("prayer_times")
+      .select("*")
+      .eq("synagogue_id",synagogueId)
+      .order("display_order"),
 
-      db.from("prayer_texts")
-        .select("*")
-        .eq("synagogue_id",synagogueId)
-        .order("sort_order")
-        .limit(1)
+      db
+      .from("prayer_texts")
+      .select("*")
+      .eq("synagogue_id",synagogueId)
+      .order("sort_order")
+      .limit(1)
 
     ]);
 
-    if(synResult.error) throw synResult.error;
-    if(settingsResult.error) throw settingsResult.error;
-    if(contentResult.error) throw contentResult.error;
-    if(timesResult.error) throw timesResult.error;
-    if(textsResult.error) throw textsResult.error;
 
-    const synagogue = synResult.data?.[0];
+    if(synResult.error)
+      throw synResult.error;
 
-    if(!synagogue)
-      throw new Error("Beth Torah synagogue was not found.");
+    if(settingsResult.error)
+      throw settingsResult.error;
+
+    if(contentResult.error)
+      throw contentResult.error;
+
+    if(timesResult.error)
+      throw timesResult.error;
+
+    if(textsResult.error)
+      throw textsResult.error;
+
+
+    /* SYNAGOGUE */
+
+    const synagogue =
+      synResult.data?.[0];
+
+    if(!synagogue){
+
+      throw new Error(
+        "Beth Torah synagogue was not found."
+      );
+    }
 
     el("synagogueName").innerHTML =
       "<strong>" +
-      (synagogue.hebrew_name || synagogue.name || "Beth Torah") +
+      (
+        synagogue.hebrew_name ||
+        synagogue.name ||
+        "Beth Torah"
+      ) +
       "</strong><br>" +
-      (synagogue.name || "Beth Torah");
+      (
+        synagogue.name ||
+        "Beth Torah"
+      );
 
-    setValue("hebrew_name",synagogue.hebrew_name);
-    setValue("english_name",synagogue.name);
-    setValue("rabbi_name",synagogue.rabbi_name);
-    setValue("timezone",synagogue.timezone,"America/New_York");
+    setValue(
+      "hebrew_name",
+      synagogue.hebrew_name
+    );
 
-    const settings = settingsResult.data?.[0];
+    setValue(
+      "english_name",
+      synagogue.name
+    );
+
+    setValue(
+      "rabbi_name",
+      synagogue.rabbi_name
+    );
+
+    setValue(
+      "timezone",
+      synagogue.timezone,
+      "America/New_York"
+    );
+
+
+    /* SETTINGS */
+
+    const settings =
+      settingsResult.data?.[0];
 
     if(settings){
-      settingsId = settings.id;
+
+      settingsId =
+        settings.id;
+
       fillSettings(settings);
+
     }else{
-      settingsId = null;
+
+      settingsId =
+        null;
+
       fillSettings({});
     }
 
-    const content = contentResult.data?.[0];
+
+    /* CONTENT */
+
+    const content =
+      contentResult.data?.[0];
 
     if(content){
 
-      contentId = content.id;
+      contentId =
+        content.id;
 
-      setValue("main_title",content.main_title);
-      setValue("parasha",content.parasha);
-      setValue("main_message",content.main_message);
-      setValue("left_notice",content.left_notice);
-      setValue("right_notice",content.right_notice);
-      setValue("ticker_text",content.ticker_text || content.dedication);
-      setValue("content_scroll_speed",content.scroll_speed,45);
+      setValue(
+        "main_title",
+        content.main_title
+      );
+
+      setValue(
+        "parasha",
+        content.parasha
+      );
+
+      setValue(
+        "main_message",
+        content.main_message
+      );
+
+      setValue(
+        "left_notice",
+        content.left_notice
+      );
+
+      setValue(
+        "right_notice",
+        content.right_notice
+      );
+
+      setValue(
+        "ticker_text",
+        content.ticker_text ||
+        content.dedication
+      );
+
+      setValue(
+        "content_scroll_speed",
+        content.scroll_speed,
+        45
+      );
 
     }else{
+
       contentId = null;
     }
 
-    fillPrayerTimes(timesResult.data || []);
 
-    const prayerText = textsResult.data?.[0];
+    /* PRAYER TIMES */
+
+    fillPrayerTimes(
+      timesResult.data || []
+    );
+
+
+    /* PRAYER TEXT */
+
+    const prayerText =
+      textsResult.data?.[0];
 
     if(prayerText){
-      prayerTextId = prayerText.id;
-      fillPrayerText(prayerText);
+
+      prayerTextId =
+        prayerText.id;
+
+      fillPrayerText(
+        prayerText
+      );
+
     }else{
+
       prayerTextId = null;
-      setCheck("prayer_text_enabled",false);
-      setValue("prayer_text_scroll_speed",40);
-      setValue("prayer_sort_order",1);
+
+      setCheck(
+        "prayer_text_enabled",
+        false
+      );
+
+      setValue(
+        "prayer_text_scroll_speed",
+        45
+      );
+
+      setValue(
+        "prayer_sort_order",
+        1
+      );
     }
 
-    localStorage.setItem("synagogue_id",synagogueId);
+
+    localStorage.setItem(
+      "synagogue_id",
+      synagogueId
+    );
+
 
     loadLocalZmanim();
+
     loadLocalSectionStates();
 
-    sectionStatus("dailyLessonStatus",checked("daily_lesson_enabled"));
-    sectionStatus("candleStatus",checked("candle_enabled"));
-    sectionStatus("fastingStatus",checked("fasting_enabled"));
-    sectionStatus("prayerStatus",checked("prayer_enabled"));
-    sectionStatus("prayerTextStatus",checked("prayer_text_enabled"));
+
+    sectionStatus(
+      "dailyLessonStatus",
+      checked(
+        "daily_lesson_enabled"
+      )
+    );
+
+    sectionStatus(
+      "candleStatus",
+      checked(
+        "candle_enabled"
+      )
+    );
+
+    sectionStatus(
+      "fastingStatus",
+      checked(
+        "fasting_enabled"
+      )
+    );
+
+    sectionStatus(
+      "prayerStatus",
+      checked(
+        "prayer_enabled"
+      )
+    );
+
+    sectionStatus(
+      "prayerTextStatus",
+      checked(
+        "prayer_text_enabled"
+      )
+    );
+
 
     const prayerTimesActive =
-      (timesResult.data || []).some(x=>x.active !== false);
+      (timesResult.data || [])
+      .some(
+        p => p.active !== false
+      );
 
-    sectionStatus("prayerTimesStatus",prayerTimesActive);
+    sectionStatus(
+      "prayerTimesStatus",
+      prayerTimesActive
+    );
 
-    setStatus("✅ מחובר — Beth Torah","connected");
+
+    setStatus(
+      "✅ מחובר — Beth Torah",
+      "connected"
+    );
 
   }catch(error){
 
     console.error(error);
 
     setStatus(
-      "❌ " + (error.message || String(error)),
+      "❌ " +
+      (
+        error.message ||
+        String(error)
+      ),
       "error"
     );
   }
 }
 
 
-/* SETTINGS */
+/* =========================
+   FILL SETTINGS
+========================= */
 
 function fillSettings(s){
 
-  setCheck("daily_lesson_enabled",s.daily_lesson_enabled);
-  setValue("daily_lesson_interval_minutes",s.daily_lesson_interval_minutes,30);
-  setValue("daily_lesson_duration_seconds",s.daily_lesson_duration_seconds,30);
-  setValue("daily_lesson_scroll_speed",s.daily_lesson_scroll_speed,40);
+  setCheck(
+    "daily_lesson_enabled",
+    s.daily_lesson_enabled
+  );
 
-  setCheck("candle_enabled",s.candle_enabled);
-  setValue("candle_interval_minutes",s.candle_interval_minutes,30);
-  setValue("candle_duration_seconds",s.candle_duration_seconds,30);
+  setValue(
+    "daily_lesson_interval_minutes",
+    s.daily_lesson_interval_minutes,
+    30
+  );
 
-  setCheck("fasting_enabled",s.fasting_enabled);
-  setValue("fasting_interval_minutes",s.fasting_interval_minutes,30);
-  setValue("fasting_duration_seconds",s.fasting_duration_seconds,30);
+  setValue(
+    "daily_lesson_duration_seconds",
+    s.daily_lesson_duration_seconds,
+    30
+  );
 
-  setCheck("prayer_enabled",s.prayer_enabled);
-  setValue("prayer_scroll_speed",s.prayer_scroll_speed,40);
+  setValue(
+    "daily_lesson_scroll_speed",
+    s.daily_lesson_scroll_speed,
+    45
+  );
+
+
+  setCheck(
+    "candle_enabled",
+    s.candle_enabled
+  );
+
+  setValue(
+    "candle_interval_minutes",
+    s.candle_interval_minutes,
+    30
+  );
+
+  setValue(
+    "candle_duration_seconds",
+    s.candle_duration_seconds,
+    30
+  );
+
+
+  setCheck(
+    "fasting_enabled",
+    s.fasting_enabled
+  );
+
+  setValue(
+    "fasting_interval_minutes",
+    s.fasting_interval_minutes,
+    30
+  );
+
+  setValue(
+    "fasting_duration_seconds",
+    s.fasting_duration_seconds,
+    30
+  );
+
+
+  setCheck(
+    "prayer_enabled",
+    s.prayer_enabled
+  );
+
+  setValue(
+    "prayer_scroll_speed",
+    s.prayer_scroll_speed,
+    45
+  );
 }
 
 
-/* PRAYER TIMES */
+/* =========================
+   FILL PRAYER TIMES
+========================= */
 
 function fillPrayerTimes(list){
 
   for(const p of list){
 
-    const key = String(p.prayer_key || "").toLowerCase();
-    const t = timeOnly(p.prayer_time);
+    const key =
+      String(
+        p.prayer_key || ""
+      )
+      .trim()
+      .toLowerCase();
 
-    if(key==="shacharit") setValue("shacharit",t);
-    else if(key==="mincha") setValue("mincha",t);
-    else if(key==="maariv" || key==="arvit") setValue("maariv",t);
-    else if(key==="shiur" || key==="torah") setValue("shiur",t);
-    else if(key==="shabbat_shacharit") setValue("shabbat_shacharit",t);
-    else if(key==="shabbat_mincha") setValue("shabbat_mincha",t);
-    else if(key==="shabbat_maariv") setValue("shabbat_maariv",t);
-    else if(key==="havdalah") setValue("havdalah",t);
+    const t =
+      timeOnly(
+        p.prayer_time
+      );
+
+    if(key === "shacharit")
+      setValue("shacharit",t);
+
+    else if(key === "mincha")
+      setValue("mincha",t);
+
+    else if(
+      key === "maariv" ||
+      key === "arvit"
+    )
+      setValue("maariv",t);
+
+    else if(
+      key === "shiur" ||
+      key === "torah"
+    )
+      setValue("shiur",t);
+
+    else if(
+      key === "shabbat_shacharit" ||
+      key === "shacharit_shabbat"
+    )
+      setValue(
+        "shabbat_shacharit",
+        t
+      );
+
+    else if(
+      key === "shabbat_mincha" ||
+      key === "mincha_shabbat"
+    )
+      setValue(
+        "shabbat_mincha",
+        t
+      );
+
+    else if(
+      key === "shabbat_maariv" ||
+      key === "maariv_shabbat"
+    )
+      setValue(
+        "shabbat_maariv",
+        t
+      );
+
+    else if(key === "havdalah")
+      setValue(
+        "havdalah",
+        t
+      );
   }
 }
 
 
-/* PRAYER TEXT */
+/* =========================
+   FILL PRAYER TEXT
+========================= */
 
 function fillPrayerText(p){
 
-  setCheck("prayer_text_enabled",p.enabled);
-  setValue("prayer_key",p.prayer_key);
-  setValue("prayer_name",p.prayer_name);
-  setValue("prayer_title",p.title);
-  setValue("prayer_full_text",p.full_text);
-  setValue("prayer_text_scroll_speed",p.scroll_speed,40);
-  setValue("prayer_sort_order",p.sort_order,1);
+  setCheck(
+    "prayer_text_enabled",
+    p.enabled
+  );
+
+  setValue(
+    "prayer_key",
+    p.prayer_key
+  );
+
+  setValue(
+    "prayer_name",
+    p.prayer_name
+  );
+
+  setValue(
+    "prayer_title",
+    p.title
+  );
+
+  setValue(
+    "prayer_full_text",
+    p.full_text
+  );
+
+  setValue(
+    "prayer_text_scroll_speed",
+    p.scroll_speed,
+    45
+  );
+
+  setValue(
+    "prayer_sort_order",
+    p.sort_order,
+    1
+  );
 }
 
 
-/* SAVE SYNAGOGUE */
+/* =========================
+   SAVE SYNAGOGUE
+========================= */
 
 async function saveSynagogue(){
 
-  const {error} = await db
+  const updates = {
+
+    name:
+      value("english_name"),
+
+    hebrew_name:
+      value("hebrew_name"),
+
+    rabbi_name:
+      value("rabbi_name"),
+
+    timezone:
+      value("timezone") ||
+      "America/New_York"
+  };
+
+  const {error} =
+    await db
     .from("synagogues")
-    .update({
-      name:value("english_name"),
-      hebrew_name:value("hebrew_name"),
-      rabbi_name:value("rabbi_name"),
-      timezone:value("timezone") || "America/New_York"
-    })
+    .update(updates)
     .eq("id",synagogueId);
 
-  if(error) throw error;
+  if(error)
+    throw error;
 }
 
 
-/* SAVE SETTINGS */
+/* =========================
+   SAVE SETTINGS
+========================= */
 
 async function saveSettings(){
 
   const payload = {
-    synagogue_id:synagogueId,
 
-    daily_lesson_enabled:checked("daily_lesson_enabled"),
-    daily_lesson_interval_minutes:numberValue("daily_lesson_interval_minutes",30),
-    daily_lesson_duration_seconds:numberValue("daily_lesson_duration_seconds",30),
-    daily_lesson_scroll_speed:numberValue("daily_lesson_scroll_speed",40),
+    synagogue_id:
+      synagogueId,
 
-    candle_enabled:checked("candle_enabled"),
-    candle_interval_minutes:numberValue("candle_interval_minutes",30),
-    candle_duration_seconds:numberValue("candle_duration_seconds",30),
+    daily_lesson_enabled:
+      checked(
+        "daily_lesson_enabled"
+      ),
 
-    fasting_enabled:checked("fasting_enabled"),
-    fasting_interval_minutes:numberValue("fasting_interval_minutes",30),
-    fasting_duration_seconds:numberValue("fasting_duration_seconds",30),
+    daily_lesson_interval_minutes:
+      numberValue(
+        "daily_lesson_interval_minutes",
+        30
+      ),
 
-    prayer_enabled:checked("prayer_enabled"),
-    prayer_scroll_speed:numberValue("prayer_scroll_speed",40),
+    daily_lesson_duration_seconds:
+      numberValue(
+        "daily_lesson_duration_seconds",
+        30
+      ),
 
-    updated_at:new Date().toISOString()
+    daily_lesson_scroll_speed:
+      numberValue(
+        "daily_lesson_scroll_speed",
+        45
+      ),
+
+    candle_enabled:
+      checked(
+        "candle_enabled"
+      ),
+
+    candle_interval_minutes:
+      numberValue(
+        "candle_interval_minutes",
+        30
+      ),
+
+    candle_duration_seconds:
+      numberValue(
+        "candle_duration_seconds",
+        30
+      ),
+
+    fasting_enabled:
+      checked(
+        "fasting_enabled"
+      ),
+
+    fasting_interval_minutes:
+      numberValue(
+        "fasting_interval_minutes",
+        30
+      ),
+
+    fasting_duration_seconds:
+      numberValue(
+        "fasting_duration_seconds",
+        30
+      ),
+
+    prayer_enabled:
+      checked(
+        "prayer_enabled"
+      ),
+
+    prayer_scroll_speed:
+      numberValue(
+        "prayer_scroll_speed",
+        45
+      ),
+
+    updated_at:
+      new Date().toISOString()
   };
+
 
   if(settingsId){
 
-    const {error} = await db
+    const {error} =
+      await db
       .from("board_settings")
       .update(payload)
       .eq("id",settingsId);
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
   }else{
 
-    const {data,error} = await db
+    const {data,error} =
+      await db
       .from("board_settings")
       .insert(payload)
       .select()
       .single();
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
-    settingsId = data.id;
+    settingsId =
+      data.id;
   }
 }
 
 
-/* SAVE CONTENT */
+/* =========================
+   SAVE CONTENT
+========================= */
 
 async function saveContent(){
 
   const payload = {
-    synagogue_id:synagogueId,
-    main_title:value("main_title"),
-    parasha:value("parasha"),
-    main_message:value("main_message"),
-    left_notice:value("left_notice"),
-    right_notice:value("right_notice"),
-    ticker_text:value("ticker_text"),
-    scroll_speed:numberValue("content_scroll_speed",45)
+
+    synagogue_id:
+      synagogueId,
+
+    main_title:
+      value("main_title"),
+
+    parasha:
+      value("parasha"),
+
+    main_message:
+      value("main_message"),
+
+    left_notice:
+      value("left_notice"),
+
+    right_notice:
+      value("right_notice"),
+
+    ticker_text:
+      value("ticker_text"),
+
+    scroll_speed:
+      numberValue(
+        "content_scroll_speed",
+        45
+      )
   };
+
 
   if(contentId){
 
-    const {error} = await db
+    const {error} =
+      await db
       .from("board_content")
       .update(payload)
       .eq("id",contentId);
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
   }else{
 
-    const {data,error} = await db
+    const {data,error} =
+      await db
       .from("board_content")
       .insert(payload)
       .select()
       .single();
 
-    if(error) throw error;
+    if(error)
+      throw error;
 
-    contentId = data.id;
+    contentId =
+      data.id;
   }
 }
 
 
-/* PRAYER TIME UPSERT */
+/* =========================
+   UPSERT PRAYER TIME
+========================= */
 
-async function upsertPrayerTime(key,name,time,dayType,order){
+async function upsertPrayerTime(
+  prayerKey,
+  prayerName,
+  prayerTime,
+  dayType,
+  order
+){
 
-  if(!time) return;
+  if(!prayerTime)
+    return;
 
-  const {data,error} = await db
+
+  const {data,error} =
+    await db
     .from("prayer_times")
     .select("id")
-    .eq("synagogue_id",synagogueId)
-    .eq("prayer_key",key)
+    .eq(
+      "synagogue_id",
+      synagogueId
+    )
+    .eq(
+      "prayer_key",
+      prayerKey
+    )
     .limit(1);
 
-  if(error) throw error;
+
+  if(error)
+    throw error;
+
 
   const payload = {
-    synagogue_id:synagogueId,
-    prayer_key:key,
-    prayer_name:name,
-    prayer_time:time,
-    day_type:dayType,
-    active:true,
-    display_order:order
+
+    synagogue_id:
+      synagogueId,
+
+    prayer_key:
+      prayerKey,
+
+    prayer_name:
+      prayerName,
+
+    prayer_time:
+      prayerTime,
+
+    day_type:
+      dayType,
+
+    active:
+      true,
+
+    display_order:
+      order
   };
 
-  if(data?.length){
 
-    const r = await db
+  if(data && data.length){
+
+    const result =
+      await db
       .from("prayer_times")
       .update(payload)
-      .eq("id",data[0].id);
+      .eq(
+        "id",
+        data[0].id
+      );
 
-    if(r.error) throw r.error;
+    if(result.error)
+      throw result.error;
 
   }else{
 
-    const r = await db
+    const result =
+      await db
       .from("prayer_times")
       .insert(payload);
 
-    if(r.error) throw r.error;
+    if(result.error)
+      throw result.error;
   }
 }
 
+
+/* =========================
+   SAVE PRAYER TIMES
+========================= */
+
 async function savePrayerTimes(){
 
-  await upsertPrayerTime("shacharit","שחרית",value("shacharit"),"weekday",1);
-  await upsertPrayerTime("mincha","מנחה",value("mincha"),"weekday",2);
-  await upsertPrayerTime("maariv","ערבית",value("maariv"),"weekday",3);
-  await upsertPrayerTime("shiur","שיעור תורה",value("shiur"),"weekday",4);
+  await upsertPrayerTime(
+    "shacharit",
+    "שחרית",
+    value("shacharit"),
+    "weekday",
+    1
+  );
+
+  await upsertPrayerTime(
+    "mincha",
+    "מנחה",
+    value("mincha"),
+    "weekday",
+    2
+  );
+
+  await upsertPrayerTime(
+    "maariv",
+    "ערבית",
+    value("maariv"),
+    "weekday",
+    3
+  );
+
+  await upsertPrayerTime(
+    "shiur",
+    "שיעור תורה",
+    value("shiur"),
+    "weekday",
+    4
+  );
 
   await upsertPrayerTime(
     "shabbat_shacharit",
@@ -1174,20 +2277,42 @@ async function savePrayerTimes(){
 }
 
 
-/* START/STOP PRAYER TIMES */
+/* =========================
+   START / STOP PRAYER TIMES
+========================= */
 
 async function setPrayerTimesActive(active){
 
   try{
 
-    const {error} = await db
+    setStatus(
+      active
+        ? "▶️ מפעיל זמני תפילות..."
+        : "⏹ עוצר זמני תפילות..."
+    );
+
+
+    const {error} =
+      await db
       .from("prayer_times")
-      .update({active})
-      .eq("synagogue_id",synagogueId);
+      .update({
+        active:active
+      })
+      .eq(
+        "synagogue_id",
+        synagogueId
+      );
 
-    if(error) throw error;
 
-    sectionStatus("prayerTimesStatus",active);
+    if(error)
+      throw error;
+
+
+    sectionStatus(
+      "prayerTimesStatus",
+      active
+    );
+
 
     setStatus(
       active
@@ -1198,126 +2323,261 @@ async function setPrayerTimesActive(active){
 
   }catch(error){
 
-    setStatus("❌ " + error.message,"error");
+    console.error(error);
+
+    setStatus(
+      "❌ " +
+      error.message,
+      "error"
+    );
   }
 }
 
 
-/* PRAYER TEXT */
+/* =========================
+   SAVE PRAYER TEXT
+========================= */
 
-async function savePrayerText(showMessage=true){
+async function savePrayerText(
+  showMessage=true
+){
 
   try{
 
     const payload = {
-      synagogue_id:synagogueId,
-      prayer_key:value("prayer_key") || "shacharit",
-      prayer_name:value("prayer_name") || "שחרית",
-      title:value("prayer_title"),
-      full_text:value("prayer_full_text"),
-      enabled:checked("prayer_text_enabled"),
-      scroll_speed:numberValue("prayer_text_scroll_speed",40),
-      sort_order:numberValue("prayer_sort_order",1)
+
+      synagogue_id:
+        synagogueId,
+
+      prayer_key:
+        value("prayer_key") ||
+        "shacharit",
+
+      prayer_name:
+        value("prayer_name") ||
+        "שחרית",
+
+      title:
+        value("prayer_title"),
+
+      full_text:
+        value("prayer_full_text"),
+
+      enabled:
+        checked(
+          "prayer_text_enabled"
+        ),
+
+      scroll_speed:
+        numberValue(
+          "prayer_text_scroll_speed",
+          45
+        ),
+
+      sort_order:
+        numberValue(
+          "prayer_sort_order",
+          1
+        )
     };
+
 
     if(prayerTextId){
 
-      const {error} = await db
+      const {error} =
+        await db
         .from("prayer_texts")
         .update(payload)
-        .eq("id",prayerTextId);
+        .eq(
+          "id",
+          prayerTextId
+        );
 
-      if(error) throw error;
+      if(error)
+        throw error;
 
     }else{
 
-      const {data,error} = await db
+      const {data,error} =
+        await db
         .from("prayer_texts")
         .insert(payload)
         .select()
         .single();
 
-      if(error) throw error;
+      if(error)
+        throw error;
 
-      prayerTextId = data.id;
+      prayerTextId =
+        data.id;
     }
+
 
     sectionStatus(
       "prayerTextStatus",
-      checked("prayer_text_enabled")
+      checked(
+        "prayer_text_enabled"
+      )
     );
 
-    if(showMessage)
-      setStatus("✅ טקסט התפילה נשמר","connected");
+
+    if(showMessage){
+
+      setStatus(
+        "✅ טקסט התפילה נשמר",
+        "connected"
+      );
+    }
 
   }catch(error){
 
     console.error(error);
-    setStatus("❌ " + error.message,"error");
+
+    setStatus(
+      "❌ לא ניתן לשמור תפילה: " +
+      error.message,
+      "error"
+    );
+
     throw error;
   }
 }
 
+
+/* =========================
+   TOGGLE PRAYER TEXT
+========================= */
+
 async function togglePrayerText(active){
-
-  setCheck("prayer_text_enabled",active);
-  sectionStatus("prayerTextStatus",active);
-
-  await savePrayerText(false);
-
-  setStatus(
-    active
-      ? "✅ טקסט התפילה הופעל"
-      : "⏹ טקסט התפילה נעצר",
-    "connected"
-  );
-}
-
-
-/* TOGGLE BOARD SETTING */
-
-async function toggleSetting(inputId,active,statusId){
-
-  setCheck(inputId,active);
-  sectionStatus(statusId,active);
 
   try{
 
-    await saveSettings();
+    setCheck(
+      "prayer_text_enabled",
+      active
+    );
+
+    sectionStatus(
+      "prayerTextStatus",
+      active
+    );
+
+    await savePrayerText(false);
 
     setStatus(
-      active ? "✅ הופעל בהצלחה" : "⏹ נעצר בהצלחה",
+      active
+        ? "✅ טקסט התפילה הופעל"
+        : "⏹ טקסט התפילה נעצר",
       "connected"
     );
 
   }catch(error){
 
-    setStatus("❌ " + error.message,"error");
+    console.error(error);
+
+    setStatus(
+      "❌ " +
+      error.message,
+      "error"
+    );
   }
 }
 
 
-/* ZMANIM */
+/* =========================
+   TOGGLE SETTING
+========================= */
+
+async function toggleSetting(
+  inputId,
+  active,
+  statusId
+){
+
+  try{
+
+    setCheck(
+      inputId,
+      active
+    );
+
+    sectionStatus(
+      statusId,
+      active
+    );
+
+    await saveSettings();
+
+    setStatus(
+      active
+        ? "✅ הופעל בהצלחה"
+        : "⏹ נעצר בהצלחה",
+      "connected"
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    setStatus(
+      "❌ " +
+      error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================
+   ZMANIM
+========================= */
 
 function saveZmanimCache(){
 
   let state = {};
 
   try{
-    state = JSON.parse(
-      localStorage.getItem("newSynagogueBoard") || "{}"
-    );
-  }catch(e){}
 
-  state.manualAlot=value("alot");
-  state.manualSunrise=value("sunrise");
-  state.manualShema=value("shema");
-  state.manualChatzot=value("chatzot");
-  state.manualMinchaGedola=value("mincha_gedola");
-  state.manualSunset=value("sunset");
-  state.manualTzeit=value("tzeit");
-  state.manualCandles=value("candles");
-  state.manualHavdalah=value("manual_havdalah");
+    state =
+      JSON.parse(
+        localStorage.getItem(
+          "newSynagogueBoard"
+        ) || "{}"
+      );
+
+  }catch(e){
+
+    state = {};
+  }
+
+
+  state.manualAlot =
+    value("alot");
+
+  state.manualSunrise =
+    value("sunrise");
+
+  state.manualShema =
+    value("shema");
+
+  state.manualChatzot =
+    value("chatzot");
+
+  state.manualMinchaGedola =
+    value("mincha_gedola");
+
+  state.manualSunset =
+    value("sunset");
+
+  state.manualTzeit =
+    value("tzeit");
+
+  state.manualCandles =
+    value("candles");
+
+  state.manualHavdalah =
+    value("manual_havdalah");
+
 
   localStorage.setItem(
     "newSynagogueBoard",
@@ -1325,31 +2585,82 @@ function saveZmanimCache(){
   );
 }
 
+
 function loadLocalZmanim(){
 
   try{
 
-    const state = JSON.parse(
-      localStorage.getItem("newSynagogueBoard") || "{}"
+    const state =
+      JSON.parse(
+        localStorage.getItem(
+          "newSynagogueBoard"
+        ) || "{}"
+      );
+
+
+    setValue(
+      "alot",
+      state.manualAlot
     );
 
-    setValue("alot",state.manualAlot);
-    setValue("sunrise",state.manualSunrise);
-    setValue("shema",state.manualShema);
-    setValue("chatzot",state.manualChatzot);
-    setValue("mincha_gedola",state.manualMinchaGedola);
-    setValue("sunset",state.manualSunset);
-    setValue("tzeit",state.manualTzeit);
-    setValue("candles",state.manualCandles);
-    setValue("manual_havdalah",state.manualHavdalah);
+    setValue(
+      "sunrise",
+      state.manualSunrise
+    );
 
-  }catch(e){}
+    setValue(
+      "shema",
+      state.manualShema
+    );
+
+    setValue(
+      "chatzot",
+      state.manualChatzot
+    );
+
+    setValue(
+      "mincha_gedola",
+      state.manualMinchaGedola
+    );
+
+    setValue(
+      "sunset",
+      state.manualSunset
+    );
+
+    setValue(
+      "tzeit",
+      state.manualTzeit
+    );
+
+    setValue(
+      "candles",
+      state.manualCandles
+    );
+
+    setValue(
+      "manual_havdalah",
+      state.manualHavdalah
+    );
+
+  }catch(error){
+
+    console.warn(
+      "Could not load local zmanim.",
+      error
+    );
+  }
 }
+
 
 function saveZmanimSection(){
 
   saveZmanimCache();
-  setLocalSection("zmanim",true);
+
+  setLocalSection(
+    "zmanim",
+    true
+  );
 
   setStatus(
     "✅ זמני היום נשמרו",
@@ -1357,9 +2668,12 @@ function saveZmanimSection(){
   );
 }
 
+
 function resetZmanim(){
 
-  localStorage.removeItem("newSynagogueBoard");
+  localStorage.removeItem(
+    "newSynagogueBoard"
+  );
 
   [
     "alot",
@@ -1371,7 +2685,9 @@ function resetZmanim(){
     "tzeit",
     "candles",
     "manual_havdalah"
-  ].forEach(id=>setValue(id,""));
+  ].forEach(
+    id => setValue(id,"")
+  );
 
   setStatus(
     "🔄 זמני היום אופסו",
@@ -1380,18 +2696,29 @@ function resetZmanim(){
 }
 
 
-/* SECTION SAVE */
+/* =========================
+   SAVE INDIVIDUAL SECTION
+========================= */
 
-async function runSave(fn,name){
+async function runSave(
+  fn,
+  name
+){
 
-  setStatus("💾 שומר " + name + "...");
+  setStatus(
+    "💾 שומר " +
+    name +
+    "..."
+  );
 
   try{
 
     await fn();
 
     setStatus(
-      "✅ " + name + " נשמר בהצלחה",
+      "✅ " +
+      name +
+      " נשמר בהצלחה",
       "connected"
     );
 
@@ -1400,79 +2727,220 @@ async function runSave(fn,name){
     console.error(error);
 
     setStatus(
-      "❌ שגיאה: " + error.message,
+      "❌ שגיאה: " +
+      (
+        error.message ||
+        String(error)
+      ),
       "error"
     );
   }
 }
 
 
-/* START ALL */
+/* =========================
+   START ALL
+========================= */
 
 async function startAll(){
 
-  setCheck("daily_lesson_enabled",true);
-  setCheck("candle_enabled",true);
-  setCheck("fasting_enabled",true);
-  setCheck("prayer_enabled",true);
-  setCheck("prayer_text_enabled",true);
+  setStatus(
+    "▶️ מפעיל את כל הנושאים..."
+  );
 
-  sectionStatus("dailyLessonStatus",true);
-  sectionStatus("candleStatus",true);
-  sectionStatus("fastingStatus",true);
-  sectionStatus("prayerStatus",true);
-  sectionStatus("prayerTextStatus",true);
+  setCheck(
+    "daily_lesson_enabled",
+    true
+  );
 
-  setLocalSection("synagogue",true);
-  setLocalSection("content",true);
-  setLocalSection("zmanim",true);
+  setCheck(
+    "candle_enabled",
+    true
+  );
+
+  setCheck(
+    "fasting_enabled",
+    true
+  );
+
+  setCheck(
+    "prayer_enabled",
+    true
+  );
+
+  setCheck(
+    "prayer_text_enabled",
+    true
+  );
+
+
+  sectionStatus(
+    "dailyLessonStatus",
+    true
+  );
+
+  sectionStatus(
+    "candleStatus",
+    true
+  );
+
+  sectionStatus(
+    "fastingStatus",
+    true
+  );
+
+  sectionStatus(
+    "prayerStatus",
+    true
+  );
+
+  sectionStatus(
+    "prayerTextStatus",
+    true
+  );
+
+
+  setLocalSection(
+    "synagogue",
+    true
+  );
+
+  setLocalSection(
+    "content",
+    true
+  );
+
+  setLocalSection(
+    "zmanim",
+    true
+  );
+
 
   try{
 
     await saveSettings();
-    await setPrayerTimesActive(true);
-    await savePrayerText(false);
+
+    await setPrayerTimesActive(
+      true
+    );
+
+    await savePrayerText(
+      false
+    );
+
 
     setStatus(
-      "▶️ כל הנושאים הופעלו",
+      "▶️ כל הנושאים הופעלו בהצלחה",
       "connected"
     );
 
   }catch(error){
 
+    console.error(error);
+
     setStatus(
-      "❌ " + error.message,
+      "❌ " +
+      (
+        error.message ||
+        String(error)
+      ),
       "error"
     );
   }
 }
 
 
-/* STOP ALL */
+/* =========================
+   STOP ALL
+========================= */
 
 async function stopAll(){
 
-  setCheck("daily_lesson_enabled",false);
-  setCheck("candle_enabled",false);
-  setCheck("fasting_enabled",false);
-  setCheck("prayer_enabled",false);
-  setCheck("prayer_text_enabled",false);
+  setStatus(
+    "⏹ עוצר את כל הנושאים..."
+  );
 
-  sectionStatus("dailyLessonStatus",false);
-  sectionStatus("candleStatus",false);
-  sectionStatus("fastingStatus",false);
-  sectionStatus("prayerStatus",false);
-  sectionStatus("prayerTextStatus",false);
 
-  setLocalSection("synagogue",false);
-  setLocalSection("content",false);
-  setLocalSection("zmanim",false);
+  setCheck(
+    "daily_lesson_enabled",
+    false
+  );
+
+  setCheck(
+    "candle_enabled",
+    false
+  );
+
+  setCheck(
+    "fasting_enabled",
+    false
+  );
+
+  setCheck(
+    "prayer_enabled",
+    false
+  );
+
+  setCheck(
+    "prayer_text_enabled",
+    false
+  );
+
+
+  sectionStatus(
+    "dailyLessonStatus",
+    false
+  );
+
+  sectionStatus(
+    "candleStatus",
+    false
+  );
+
+  sectionStatus(
+    "fastingStatus",
+    false
+  );
+
+  sectionStatus(
+    "prayerStatus",
+    false
+  );
+
+  sectionStatus(
+    "prayerTextStatus",
+    false
+  );
+
+
+  setLocalSection(
+    "synagogue",
+    false
+  );
+
+  setLocalSection(
+    "content",
+    false
+  );
+
+  setLocalSection(
+    "zmanim",
+    false
+  );
+
 
   try{
 
     await saveSettings();
-    await setPrayerTimesActive(false);
-    await savePrayerText(false);
+
+    await setPrayerTimesActive(
+      false
+    );
+
+    await savePrayerText(
+      false
+    );
+
 
     setStatus(
       "⏹ כל הנושאים נעצרו",
@@ -1481,36 +2949,68 @@ async function stopAll(){
 
   }catch(error){
 
+    console.error(error);
+
     setStatus(
-      "❌ " + error.message,
+      "❌ " +
+      (
+        error.message ||
+        String(error)
+      ),
       "error"
     );
   }
 }
 
 
-/* SAVE ALL */
+/* =========================
+   SAVE EVERYTHING
+========================= */
 
 async function saveAll(){
 
-  setStatus("💾 שומר את כל ההגדרות...");
+  if(!synagogueId){
+
+    alert(
+      "Settings are not loaded yet."
+    );
+
+    return;
+  }
+
+
+  setStatus(
+    "💾 שומר את כל ההגדרות..."
+  );
+
 
   try{
 
     await saveSynagogue();
+
     await saveSettings();
+
     await saveContent();
+
     await savePrayerTimes();
-    await savePrayerText(false);
+
+    await savePrayerText(
+      false
+    );
 
     saveZmanimCache();
+
 
     setStatus(
       "✅ כל ההגדרות נשמרו בהצלחה",
       "connected"
     );
 
-    setTimeout(loadBoard,700);
+
+    setTimeout(
+      loadBoard,
+      700
+    );
 
   }catch(error){
 
@@ -1518,22 +3018,38 @@ async function saveAll(){
 
     setStatus(
       "❌ שגיאה בשמירה: " +
-      (error.message || String(error)),
+      (
+        error.message ||
+        String(error)
+      ),
       "error"
     );
   }
 }
 
 
-/* RESET ALL */
+/* =========================
+   RESET EVERYTHING
+========================= */
 
 async function resetAll(){
 
-  if(!confirm(
-    "האם לאפס את כל השינויים שלא נשמרו ולטעון מחדש מ-Supabase?"
-  )) return;
+  const ok =
+    confirm(
+      "האם לטעון מחדש את כל הערכים השמורים ולבטל שינויים שלא נשמרו?"
+    );
+
+  if(!ok)
+    return;
+
+
+  setStatus(
+    "🔄 טוען מחדש..."
+  );
+
 
   await loadBoard();
+
 
   setStatus(
     "🔄 כל הנתונים נטענו מחדש",
@@ -1542,27 +3058,69 @@ async function resetAll(){
 }
 
 
-/* CHECKBOX STATUS */
+/* =========================
+   CHECKBOX STATUS
+========================= */
 
 [
-  ["daily_lesson_enabled","dailyLessonStatus"],
-  ["candle_enabled","candleStatus"],
-  ["fasting_enabled","fastingStatus"],
-  ["prayer_enabled","prayerStatus"],
-  ["prayer_text_enabled","prayerTextStatus"]
-].forEach(([input,status])=>{
+  [
+    "daily_lesson_enabled",
+    "dailyLessonStatus"
+  ],
 
-  el(input)?.addEventListener("change",()=>{
-    sectionStatus(status,checked(input));
-  });
+  [
+    "candle_enabled",
+    "candleStatus"
+  ],
 
-});
+  [
+    "fasting_enabled",
+    "fastingStatus"
+  ],
+
+  [
+    "prayer_enabled",
+    "prayerStatus"
+  ],
+
+  [
+    "prayer_text_enabled",
+    "prayerTextStatus"
+  ]
+
+].forEach(
+  ([inputId,statusId]) => {
+
+    const input =
+      el(inputId);
+
+    if(!input)
+      return;
+
+    input.addEventListener(
+      "change",
+      function(){
+
+        sectionStatus(
+          statusId,
+          input.checked
+        );
+
+      }
+    );
+
+  }
+);
 
 
-/* START */
+/* =========================
+   START ADMIN
+========================= */
 
 loadLocalZmanim();
+
 loadLocalSectionStates();
+
 loadBoard();
 
 </script>
