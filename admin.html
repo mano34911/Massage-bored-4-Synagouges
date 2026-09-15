@@ -312,6 +312,31 @@ textarea{resize:vertical;min-height:85px}
 
 <script>
 const $=id=>document.getElementById(id);
+// Supabase connection
+const SUPABASE_URL='https://chcfhxkggbrlxaopnfum.supabase.co';
+const SUPABASE_KEY='sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D';
+const SB_HEADERS={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+let SYNAGOGUE_ID=localStorage.getItem('synagogue_id')||'';
+async function sb(path,options={}){const r=await fetch(SUPABASE_URL+'/rest/v1/'+path,{...options,headers:{...SB_HEADERS,...(options.headers||{})}});if(!r.ok)throw new Error(await r.text());const t=await r.text();return t?JSON.parse(t):null}
+async function ensureSynagogue(){
+ if(SYNAGOGUE_ID)return SYNAGOGUE_ID;
+ let rows=await sb('synagogues?select=id,name&order=created_at.asc&limit=1');
+ if(rows?.length){SYNAGOGUE_ID=rows[0].id;localStorage.setItem('synagogue_id',SYNAGOGUE_ID);return SYNAGOGUE_ID}
+ rows=await sb('synagogues',{method:'POST',body:JSON.stringify({name:state.synagogue||'בית הכנסת בית תורה',hebrew_name:state.synagogue||'בית הכנסת בית תורה',rabbi_name:state.rabbi||'',zip_code:state.zip||'',timezone:state.timezone||'America/New_York',minhag:state.minhag||'Sephardi',approved:true})});
+ SYNAGOGUE_ID=rows[0].id;localStorage.setItem('synagogue_id',SYNAGOGUE_ID);return SYNAGOGUE_ID;
+}
+async function upsert(table,row,conflict){return sb(table+'?on_conflict='+encodeURIComponent(conflict),{method:'POST',headers:{'Prefer':'resolution=merge-duplicates,return=representation'},body:JSON.stringify(row)})}
+async function saveToSupabase(){
+ const id=await ensureSynagogue(), e=state.subjectEnabled||{};
+ await upsert('board_settings',{synagogue_id:id,daily_lesson_enabled:e.shiur!==false,memorial_enabled:e.memorial!==false,fasting_enabled:e.fast!==false,shacharit_enabled:e.shacharit!==false,mincha_enabled:e.mincha!==false,maariv_enabled:e.maariv!==false,shabbat_shacharit_enabled:e.shabbatShacharit!==false,shabbat_mincha_enabled:e.shabbatMincha!==false,shabbat_maariv_enabled:e.shabbatMaariv!==false,havdalah_enabled:e.shabbatHavdalah!==false,daily_lesson_interval_minutes:30,daily_lesson_duration_seconds:30,daily_lesson_scroll_speed:Number(state.prayerSpeed)||40,rotation_enabled:state.rotationEnabled!=='no',rotation_seconds:Number(state.rotationSeconds)||10,prayer_scroll_speed:Number(state.prayerSpeed)||40},'synagogue_id');
+ await upsert('board_content',{synagogue_id:id,main_title:state.dailyTitle||'',main_message:state.mainMessage||'',right_notice:state.rightNotice||'',left_notice:state.leftNotice||'',weekly_message:state.announcement||'',daily_lesson_title:'שיעור יומי',daily_lesson_text:state.dailyShiurText||'',daily_lesson_youtube_url:state.dafVideoUrl||'',dedication:state.ticker||'',ticker_text:state.ticker||'',parasha:state.parasha||''},'synagogue_id');
+ const prayers=[['shacharit','שחרית',state.shacharit,state.shacharitDuration,state.shacharitText,e.shacharit],['mincha','מנחה',state.mincha,state.minchaDuration,state.minchaText,e.mincha],['maariv','ערבית',state.maariv,state.maarivDuration,state.maarivText,e.maariv],['shabbatShacharit','שחרית שבת',state.shabbatShacharit,state.shabbatShacharitDuration,state.shabbatShacharitText,e.shabbatShacharit],['shabbatMincha','מנחה שבת',state.shabbatMincha,state.shabbatMinchaDuration,state.shabbatMinchaText,e.shabbatMincha],['shabbatMaariv','ערבית שבת',state.shabbatMaariv,state.shabbatMaarivDuration,state.shabbatMaarivText,e.shabbatMaariv],['shabbatHavdalah','הבדלה',state.shabbatHavdalah,state.shabbatHavdalahDuration,state.shabbatHavdalahText,e.shabbatHavdalah]];
+ for(const [k,n,t,d,txt,en] of prayers){await upsert('prayer_schedule',{synagogue_id:id,schedule_key:k,prayer_name:n,prayer_time:t||null,duration_minutes:Number(d)||30,enabled:en!==false},'synagogue_id,schedule_key');await upsert('prayer_texts',{synagogue_id:id,prayer_key:k,prayer_name:n,full_text:txt||'',enabled:en!==false,scroll_speed:Number(state.prayerSpeed)||40},'synagogue_id,prayer_key')}
+ await upsert('fasting_settings',{synagogue_id:id,mode:state.fastMode||'automatic',fast_name:state.fastName||null,fast_date:state.fastDate||null,fast_start:state.fastDate&&state.fastStart?state.fastDate+'T'+state.fastStart+':00':null,fast_end:state.fastDate&&state.fastEnd?state.fastDate+'T'+state.fastEnd+':00':null,note:state.fastNote||'',show_on_board:e.fast!==false,automatic_only_on_fast_day:state.fastDisplay!=='always'},'synagogue_id');
+ await sb('memorial_candles?synagogue_id=eq.'+id,{method:'DELETE'});
+ const candles=(state.memorialNames||[]).map((name,i)=>({synagogue_id:id,position:i+1,name:name||('שם נר '+(i+1)),active:true}));if(candles.length)await sb('memorial_candles',{method:'POST',body:JSON.stringify(candles)});
+}
+
 const defaults={synagogue:'בית הכנסת בית תורה',rabbi:'הרב',zip:'11795',timezone:'America/New_York',minhag:'אשכנז / ספרד',calendarRegion:'diaspora',speed:'18',tickerSpeed:'18',shacharit:'07:00',mincha:'16:00',maariv:'20:30',shiur:'21:15',shacharitDuration:'60',minchaDuration:'30',maarivDuration:'45',shabbatShacharit:'09:00',shabbatMincha:'18:30',shabbatMaariv:'19:30',shabbatHavdalah:'21:00',shabbatShacharitDuration:'120',shabbatMinchaDuration:'45',shabbatMaarivDuration:'60',shabbatHavdalahDuration:'20',zmanimMode:'manual',manualAlot:'05:02',manualSunrise:'06:38',manualShema:'09:27',manualChatzot:'12:10',manualMinchaGedola:'12:40',manualSunset:'19:32',manualTzeit:'20:06',manualCandles:'19:13',manualHavdalah:'20:12',dailyTitle:'פרנס היום',parasha:'פרשת השבוע',mainMessage:'ברכת מזל טוב לכל המתפללים ובני הקהילה.\nיהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.',ticker:'לעילוי נשמת זהבה חלא בת דינה זצ״ל',leftNotice:'ברוכים הבאים לבית הכנסת',rightNotice:'ברכת מזל טוב לחברי הקהילה',announcement:'תורם השבוע',dafVideoUrl:'',dailyShiurText:'דבר תורה יומי',rotationSeconds:'10',rotationEnabled:'yes',prayerSpeed:'40',shacharitText:'',minchaText:'',maarivText:'',shabbatShacharitText:'',shabbatMinchaText:'',shabbatMaarivText:'',shabbatHavdalahText:'',fastMode:'auto',fastDisplay:'auto',fastName:'',fastDate:'',fastStart:'',fastEnd:'',fastNote:'',subjectEnabled:{shiur:true,memorial:true,fast:true,shacharit:true,mincha:true,maariv:true,shabbatShacharit:true,shabbatMincha:true,shabbatMaariv:true,shabbatHavdalah:true},memorialNames:Array.from({length:20},(_,i)=>`שם נר ${i+1}`)};
 let state;
 try{state={...defaults,...JSON.parse(localStorage.getItem('newSynagogueBoard')||'{}')}}catch(e){state={...defaults}}
@@ -380,7 +405,7 @@ requestAnimationFrame(()=>{
 });
 }$('dedication').textContent=state.ticker;$('ticker').textContent=state.ticker;$('leftNotice').textContent=state.leftNotice;$('rightNotice').textContent=state.rightNotice;$('ticker').style.animationDuration=`${state.tickerSpeed||18}s`;renderRows();renderSeparatePages()}
 function fillAdmin(){refreshSubjectStatuses();Object.entries(fieldMap).forEach(([id,key])=>{if($(id))$(id).value=state[key]??''});$('tickerSpeedValue').textContent=state.tickerSpeed||18;$('prayerSpeedValue').textContent=state.prayerSpeed||40;if($('sRotationSeconds'))$('sRotationSeconds').value='10';$('memorialFields').innerHTML=Array.from({length:20},(_,i)=>`<label>נר ${i+1}<input class="memorial-input" data-index="${i}" value="${esc((state.memorialNames||[])[i]||'')}"></label>`).join('')}
-function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();startShiurScheduler();$('saveStatus').textContent='✓ כל ההגדרות נשמרו';setTimeout(()=>{$('saveStatus').textContent=''},2500)}
+async function save(){Object.entries(fieldMap).forEach(([id,key])=>{if($(id))state[key]=$(id).value});state.memorialNames=[...document.querySelectorAll('.memorial-input')].map(x=>x.value);localStorage.setItem('newSynagogueBoard',JSON.stringify(state));render();updateJewishCalendar();startShiurScheduler();$('saveStatus').textContent='⏳ שומר ב-Supabase...';try{await saveToSupabase();$('saveStatus').textContent='✓ נשמר ב-Supabase'}catch(err){console.error(err);$('saveStatus').textContent='⚠ נשמר במכשיר; שגיאת Supabase: '+err.message}setTimeout(()=>{$('saveStatus').textContent=''},5000)}
 function updateClocks(){const now=new Date();const time=(tz)=>new Intl.DateTimeFormat('en-US',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);$('nyClock').textContent=time(state.timezone||'America/New_York');$('jerusalemClock').textContent=time('Asia/Jerusalem');$('gregDate').textContent=new Intl.DateTimeFormat('he-IL',{timeZone:state.timezone||'America/New_York',weekday:'long',year:'numeric',month:'long',day:'numeric'}).format(now);try{$('hebrewDate').textContent=new Intl.DateTimeFormat('he-IL-u-ca-hebrew',{timeZone:state.timezone||'America/New_York',year:'numeric',month:'long',day:'numeric'}).format(now)}catch(e){$('hebrewDate').textContent=''}}
 
 
@@ -659,7 +684,7 @@ function persistSubjectEnabled(){
     refreshSubjectStatuses();
 }
 function startSubject(key){
-    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=true;persistSubjectEnabled();render();
+    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=true;persistSubjectEnabled();render();saveToSupabase().catch(console.error);
     closeAdminDialog();
     if(key==='shiur'){startShiurScheduler();showTimedShiur(30000);return}
     if(key==='memorial'){showMemorial();return}
@@ -667,7 +692,7 @@ function startSubject(key){
     showPrayer(key);
 }
 function stopSubject(key){
-    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=false;persistSubjectEnabled();
+    state.subjectEnabled=state.subjectEnabled||{};state.subjectEnabled[key]=false;persistSubjectEnabled();saveToSupabase().catch(console.error);
     if(key==='shiur'){hideTimedShiur();return}
     if(key==='memorial'){hideMemorial();return}
     if(key==='fast'){renderFastCard(null);return}
