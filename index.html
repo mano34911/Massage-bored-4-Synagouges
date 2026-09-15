@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="mb-build" content="synagogue-board-safe-v2-scroll">
+<meta name="mb-build" content="synagogue-board-safe-v3-prayer-times">
 <title>לוח בית הכנסת</title>
 
 <style>
@@ -240,11 +240,6 @@ html,body{
   width:100%;
   white-space:pre-line;
   padding:2vh 1vw;
-
-  /*
-    JavaScript calculates the exact distance.
-    This works with short messages AND very long prayers.
-  */
   transform:translateY(0);
   will-change:transform
 }
@@ -260,7 +255,6 @@ html,body{
   from{
     transform:translateY(var(--scroll-start,100%))
   }
-
   to{
     transform:translateY(var(--scroll-end,-100%))
   }
@@ -507,8 +501,8 @@ const defaults = {
   timezone:"America/New_York",
 
   shacharit:"07:00",
-  mincha:"16:00",
-  maariv:"20:30",
+  mincha:"18:30",
+  maariv:"19:15",
   shiur:"21:15",
 
   shabbatShacharit:"09:00",
@@ -526,10 +520,6 @@ const defaults = {
   manualCandles:"19:13",
   manualHavdalah:"20:12",
 
-  /*
-    Seconds for one complete upward cycle.
-    Admin can save scrollSpeed later.
-  */
   scrollSpeed:45
 };
 
@@ -557,7 +547,13 @@ function fmt(t){
 
   if(!t)return "--:--";
 
-  let [h,m]=t.split(":").map(Number);
+  let parts=String(t).split(":");
+  let h=Number(parts[0]);
+  let m=Number(parts[1]);
+
+  if(!Number.isFinite(h) || !Number.isFinite(m)){
+    return String(t);
+  }
 
   const ap=h>=12 ? "PM" : "AM";
 
@@ -710,50 +706,23 @@ function startMessageScroll(){
 
   if(!win || !msg)return;
 
-  /*
-    Stop old animation first.
-  */
-
   msg.classList.remove("running");
-
   msg.style.animation="none";
-
-  /*
-    Force browser to calculate sizes.
-  */
 
   void msg.offsetHeight;
 
   const windowHeight=win.clientHeight;
   const contentHeight=msg.scrollHeight;
 
-  /*
-    Begin completely below the visible window.
-  */
-
   msg.style.setProperty(
     "--scroll-start",
     windowHeight+"px"
   );
 
-  /*
-    Finish completely above the visible window.
-  */
-
   msg.style.setProperty(
     "--scroll-end",
     (-contentHeight)+"px"
   );
-
-
-  /*
-    Scroll speed.
-
-    If Admin saves:
-       scrollSpeed = 60
-
-    then one cycle takes 60 seconds.
-  */
 
   let seconds=parseFloat(state.scrollSpeed);
 
@@ -764,14 +733,8 @@ function startMessageScroll(){
     seconds=45;
   }
 
-
   msg.style.animationDuration=
     seconds+"s";
-
-
-  /*
-    Restart animation.
-  */
 
   requestAnimationFrame(()=>{
 
@@ -829,12 +792,6 @@ function applyStored(){
 
   }
 
-
-  /*
-    Restart scrolling whenever
-    message content changes.
-  */
-
   setTimeout(
     startMessageScroll,
     100
@@ -861,22 +818,10 @@ function start(){
       1000
     );
 
-
-    /*
-      Recalculate after browser
-      finishes laying out page.
-    */
-
     setTimeout(
       startMessageScroll,
       500
     );
-
-
-    /*
-      Recalculate after orientation
-      or screen size changes.
-    */
 
     window.addEventListener(
       "resize",
@@ -894,7 +839,6 @@ function start(){
 
       }
     );
-
 
   }catch(e){
 
@@ -931,11 +875,6 @@ $("gear").addEventListener(
   "click",
   ()=>{
 
-    /*
-      Change admin.html here only
-      if your admin filename differs.
-    */
-
     window.location.href="admin.html";
 
   }
@@ -946,19 +885,18 @@ $("gear").addEventListener(
    SUPABASE
 ========================= */
 
-/*
-  Supabase loads AFTER the visible
-  board.
-
-  Therefore a Supabase problem
-  cannot blank the board.
-*/
-
 const SUPABASE_URL=
 "https://chcfhxkggbrlxaopnfum.supabase.co";
 
 const SUPABASE_KEY=
 "sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D";
+
+/*
+  This is the synagogue ID confirmed
+  in the prayer_times results.
+*/
+const DEFAULT_SYnAGOGUE_ID=
+"7f4d0f89-8ee6-42a0-beac-6cd00035e1fd";
 
 
 async function sb(path){
@@ -1008,37 +946,24 @@ async function live(){
 
   try{
 
+    /*
+      Use the saved synagogue ID.
+
+      If this browser has never saved one,
+      use the confirmed Beth Torah ID.
+    */
+
     let id=
       localStorage.getItem(
         "synagogue_id"
-      ) || "";
+      ) ||
+      DEFAULT_SYnAGOGUE_ID;
 
 
-    /*
-      If no synagogue was saved,
-      use first synagogue.
-    */
-
-    if(!id){
-
-      const a=
-        await sb(
-          "synagogues?select=*&order=created_at.asc&limit=1"
-        );
-
-
-      if(!a.length)return;
-
-
-      id=a[0].id;
-
-
-      localStorage.setItem(
-        "synagogue_id",
-        id
-      );
-
-    }
+    localStorage.setItem(
+      "synagogue_id",
+      id
+    );
 
 
     const q=
@@ -1046,26 +971,45 @@ async function live(){
       encodeURIComponent(id);
 
 
+/* =========================
+   LOAD DATA
+========================= */
+
     const [
       syn,
       content,
-      schedule
+      prayerTimes
     ]=
       await Promise.all([
 
         sb(
           "synagogues?select=*&id=eq."+
-          encodeURIComponent(id)
+          encodeURIComponent(id)+
+          "&limit=1"
         ),
 
         sb(
           "board_content"+
-          q
+          q+
+          "&limit=1"
         ),
 
+        /*
+          IMPORTANT:
+          The correct table is prayer_times.
+
+          The correct field is prayer_key.
+
+          This replaces the old:
+          prayer_schedule / schedule_key
+        */
+
         sb(
-          "prayer_schedule"+
-          q
+          "prayer_times"+
+          q+
+          "&active=eq.true"+
+          "&select=prayer_key,prayer_name,prayer_time,day_type,active,display_order"+
+          "&order=display_order.asc"
         )
 
       ]);
@@ -1135,16 +1079,6 @@ async function live(){
         state.parasha;
 
 
-      /*
-        Optional Supabase column.
-
-        If you later add:
-          scroll_speed
-
-        Admin can control the
-        number of seconds.
-      */
-
       if(
         x.scroll_speed !== undefined &&
         x.scroll_speed !== null
@@ -1175,17 +1109,96 @@ async function live(){
    PRAYER TIMES
 ========================= */
 
-    schedule.forEach(x=>{
+    prayerTimes.forEach(x=>{
 
-      if(
-        x.schedule_key in state &&
-        x.prayer_time
+      if(!x.prayer_key || !x.prayer_time){
+        return;
+      }
+
+
+      const key=
+        String(
+          x.prayer_key
+        )
+        .trim()
+        .toLowerCase();
+
+
+      const time=
+        String(
+          x.prayer_time
+        ).slice(0,5);
+
+
+      /*
+        Database prayer_key:
+          shacharit
+          mincha
+          maariv
+      */
+
+      if(key==="shacharit"){
+
+        state.shacharit=time;
+
+      }
+
+      else if(key==="mincha"){
+
+        state.mincha=time;
+
+      }
+
+      else if(
+        key==="maariv" ||
+        key==="arvit"
       ){
 
-        state[x.schedule_key]=
-          String(
-            x.prayer_time
-          ).slice(0,5);
+        state.maariv=time;
+
+      }
+
+      else if(
+        key==="shiur" ||
+        key==="torah"
+      ){
+
+        state.shiur=time;
+
+      }
+
+      else if(
+        key==="shabbat_shacharit" ||
+        key==="shacharit_shabbat"
+      ){
+
+        state.shabbatShacharit=time;
+
+      }
+
+      else if(
+        key==="shabbat_mincha" ||
+        key==="mincha_shabbat"
+      ){
+
+        state.shabbatMincha=time;
+
+      }
+
+      else if(
+        key==="shabbat_maariv" ||
+        key==="maariv_shabbat"
+      ){
+
+        state.shabbatMaariv=time;
+
+      }
+
+      else if(
+        key==="havdalah"
+      ){
+
+        state.shabbatHavdalah=time;
 
       }
 
@@ -1212,17 +1225,15 @@ async function live(){
 
     clocks();
 
-
-    /*
-      Important:
-      Supabase may have replaced
-      the message, so calculate
-      scrolling again.
-    */
-
     setTimeout(
       startMessageScroll,
       150
+    );
+
+
+    console.log(
+      "Supabase prayer times loaded:",
+      prayerTimes
     );
 
 
@@ -1246,7 +1257,7 @@ setTimeout(
 );
 
 
-/* Refresh every minute */
+/* Refresh automatically every minute */
 
 setInterval(
   live,
