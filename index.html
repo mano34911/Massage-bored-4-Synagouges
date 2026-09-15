@@ -3,96 +3,1257 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="mb-build" content="synagogue-board-safe-v1">
+<meta name="mb-build" content="synagogue-board-safe-v2-scroll">
 <title>לוח בית הכנסת</title>
+
 <style>
-:root{--navy:#101b43;--navy2:#17285e;--gold:#c79b43;--gold2:#f0d48a;--ink:#33240f}
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#090b10;font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink)}
-.board{position:fixed;inset:0;padding:1.1vh 1vw;background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(232,225,208,.96));border:clamp(4px,.55vw,10px) ridge var(--gold);display:grid;grid-template-rows:10vh minmax(0,1fr) 5.5vh;gap:.8vh}
-.topbar{direction:ltr;display:grid;grid-template-columns:20% 60% 20%;gap:.8vw}
-.clockbox,.titlebox,.panel,.center{border:clamp(2px,.25vw,5px) ridge var(--gold);box-shadow:inset 0 0 0 2px #fff8d5,0 2px 9px #66512c66}
-.clockbox{background:linear-gradient(180deg,var(--navy2),#0b1431);color:white;border-radius:18px;display:grid;place-items:center;text-align:center}
-.city{color:var(--gold2);font-weight:900}.time{font-size:clamp(24px,2.5vw,50px);font-weight:1000}
-.titlebox{direction:rtl;border-radius:20px;background:linear-gradient(#fffdf7,#e8dec8);display:grid;place-items:center;text-align:center}
-.title{font-family:Georgia,serif;font-size:clamp(25px,2.5vw,50px);font-weight:1000;color:var(--navy)}
-.date{font-weight:900}.grid{direction:ltr;display:grid;grid-template-columns:20% 60% 20%;gap:.8vw;min-height:0}
-.side{direction:rtl;display:grid;grid-template-rows:1fr .38fr;gap:.8vh;min-height:0}
-.panel{position:relative;overflow:hidden;background:linear-gradient(#fffdf4,#f1e5c4);border-radius:100px 100px 12px 12px;padding:7vh 1vw 1vh}
-.pt{position:absolute;top:3vh;left:10%;right:10%;text-align:center;background:linear-gradient(#ffe9a8,#bd8a37);border:2px solid #8c6428;border-radius:999px;padding:.5vh;font-size:clamp(16px,1.3vw,26px);font-weight:1000}
-.rows{height:100%;display:flex;flex-direction:column;justify-content:center}.row{display:flex;justify-content:space-between;border-bottom:1px dotted #9c7e4a;padding:.45vh .2vw;font-weight:1000;font-size:clamp(13px,1vw,20px)}
-.center{position:relative;overflow:hidden;border-radius:150px 150px 18px 18px;background:linear-gradient(180deg,var(--navy) 0 24%,#f8e8b6 24% 82%,var(--navy) 82%);padding:7vh 2vw 4vh}
-.parchment{height:100%;border:6px double #9c762f;border-radius:10% 10% 14% 14%;background:radial-gradient(circle at 50% 25%,#fffdf6,#f6e8bd 72%,#d5b871);display:flex;flex-direction:column;align-items:center;text-align:center;padding:2vh;overflow:hidden}
-.parchment h1{margin:0;font-family:Georgia,serif;font-size:clamp(27px,2.5vw,50px);color:#5c4115}.parchment h2{color:var(--navy);font-size:clamp(22px,2vw,40px)}
-.message{flex:1;display:grid;place-items:center;font-size:clamp(18px,1.7vw,33px);font-weight:1000;white-space:pre-line}
-.ded{border:2px solid var(--gold);border-radius:10px;padding:.6vh 1vw;font-weight:1000;background:#fff7d5cc}
-.ticker{direction:ltr;border:3px ridge var(--gold);border-radius:10px;background:linear-gradient(var(--navy2),#0a1230);color:#fff6ba;display:flex;align-items:center;overflow:hidden;font-weight:1000;font-size:clamp(17px,1.5vw,29px);white-space:nowrap}
-.tick{min-width:100%;text-align:center;animation:ticker 18s linear infinite}@keyframes ticker{from{transform:translateX(-105%)}to{transform:translateX(105%)}}
-.gear{position:fixed;z-index:20;right:1vw;bottom:1vh;width:50px;height:50px;border-radius:50%;border:3px solid var(--gold2);background:var(--navy);color:white;font-size:25px}
-.notice{height:100%;display:grid;place-items:center;text-align:center;font-weight:1000}
+:root{
+  --navy:#101b43;
+  --navy2:#17285e;
+  --gold:#c79b43;
+  --gold2:#f0d48a;
+  --ink:#33240f;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#090b10;
+  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+  color:var(--ink)
+}
+
+.board{
+  position:fixed;
+  inset:0;
+  padding:1.1vh 1vw;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,.94),
+      rgba(232,225,208,.96)
+    );
+  border:clamp(4px,.55vw,10px) ridge var(--gold);
+  display:grid;
+  grid-template-rows:10vh minmax(0,1fr) 5.5vh;
+  gap:.8vh
+}
+
+/* =========================
+   TOP
+========================= */
+
+.topbar{
+  direction:ltr;
+  display:grid;
+  grid-template-columns:20% 60% 20%;
+  gap:.8vw
+}
+
+.clockbox,
+.titlebox,
+.panel,
+.center{
+  border:clamp(2px,.25vw,5px) ridge var(--gold);
+  box-shadow:
+    inset 0 0 0 2px #fff8d5,
+    0 2px 9px #66512c66
+}
+
+.clockbox{
+  background:linear-gradient(180deg,var(--navy2),#0b1431);
+  color:white;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  overflow:hidden
+}
+
+.city{
+  color:var(--gold2);
+  font-weight:900
+}
+
+.time{
+  font-size:clamp(24px,2.5vw,50px);
+  font-weight:1000
+}
+
+.titlebox{
+  direction:rtl;
+  border-radius:20px;
+  background:linear-gradient(#fffdf7,#e8dec8);
+  display:grid;
+  place-items:center;
+  text-align:center;
+  overflow:hidden
+}
+
+.title{
+  font-family:Georgia,serif;
+  font-size:clamp(25px,2.5vw,50px);
+  font-weight:1000;
+  color:var(--navy)
+}
+
+.date{
+  font-weight:900
+}
+
+/* =========================
+   MAIN GRID
+========================= */
+
+.grid{
+  direction:ltr;
+  display:grid;
+  grid-template-columns:20% 60% 20%;
+  gap:.8vw;
+  min-height:0
+}
+
+.side{
+  direction:rtl;
+  display:grid;
+  grid-template-rows:1fr .38fr;
+  gap:.8vh;
+  min-height:0
+}
+
+.panel{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(#fffdf4,#f1e5c4);
+  border-radius:100px 100px 12px 12px;
+  padding:7vh 1vw 1vh
+}
+
+.pt{
+  position:absolute;
+  top:3vh;
+  left:10%;
+  right:10%;
+  text-align:center;
+  background:linear-gradient(#ffe9a8,#bd8a37);
+  border:2px solid #8c6428;
+  border-radius:999px;
+  padding:.5vh;
+  font-size:clamp(16px,1.3vw,26px);
+  font-weight:1000
+}
+
+.rows{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px dotted #9c7e4a;
+  padding:.45vh .2vw;
+  font-weight:1000;
+  font-size:clamp(13px,1vw,20px)
+}
+
+/* =========================
+   CENTER
+========================= */
+
+.center{
+  position:relative;
+  overflow:hidden;
+  border-radius:150px 150px 18px 18px;
+  background:
+    linear-gradient(
+      180deg,
+      var(--navy) 0 24%,
+      #f8e8b6 24% 82%,
+      var(--navy) 82%
+    );
+  padding:7vh 2vw 4vh
+}
+
+.parchment{
+  height:100%;
+  min-height:0;
+  border:6px double #9c762f;
+  border-radius:10% 10% 14% 14%;
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      #fffdf6,
+      #f6e8bd 72%,
+      #d5b871
+    );
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:2vh;
+  overflow:hidden
+}
+
+.parchment h1{
+  margin:0;
+  flex:0 0 auto;
+  font-family:Georgia,serif;
+  font-size:clamp(27px,2.5vw,50px);
+  color:#5c4115
+}
+
+.parchment h2{
+  margin:2vh 0 1vh;
+  flex:0 0 auto;
+  color:var(--navy);
+  font-size:clamp(22px,2vw,40px)
+}
+
+/* =========================
+   SCROLLING CENTER WINDOW
+========================= */
+
+.message{
+  position:relative;
+  flex:1 1 auto;
+  width:100%;
+  min-height:0;
+  overflow:hidden;
+  font-size:clamp(18px,1.7vw,33px);
+  font-weight:1000;
+  line-height:1.55;
+  direction:rtl;
+  text-align:center
+}
+
+.message-scroll{
+  position:absolute;
+  left:0;
+  right:0;
+  width:100%;
+  white-space:pre-line;
+  padding:2vh 1vw;
+
+  /*
+    JavaScript calculates the exact distance.
+    This works with short messages AND very long prayers.
+  */
+  transform:translateY(0);
+  will-change:transform
+}
+
+.message-scroll.running{
+  animation-name:scrollPrayerUp;
+  animation-duration:45s;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite
+}
+
+@keyframes scrollPrayerUp{
+  from{
+    transform:translateY(var(--scroll-start,100%))
+  }
+
+  to{
+    transform:translateY(var(--scroll-end,-100%))
+  }
+}
+
+.ded{
+  position:relative;
+  z-index:5;
+  flex:0 0 auto;
+  border:2px solid var(--gold);
+  border-radius:10px;
+  padding:.6vh 1vw;
+  margin-top:1vh;
+  font-weight:1000;
+  background:#fff7d5ee
+}
+
+/* =========================
+   TICKER
+========================= */
+
+.ticker{
+  direction:ltr;
+  border:3px ridge var(--gold);
+  border-radius:10px;
+  background:linear-gradient(var(--navy2),#0a1230);
+  color:#fff6ba;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  font-weight:1000;
+  font-size:clamp(17px,1.5vw,29px);
+  white-space:nowrap
+}
+
+.tick{
+  min-width:100%;
+  text-align:center;
+  animation:ticker 18s linear infinite
+}
+
+@keyframes ticker{
+  from{transform:translateX(-105%)}
+  to{transform:translateX(105%)}
+}
+
+/* =========================
+   ADMIN
+========================= */
+
+.gear{
+  position:fixed;
+  z-index:20;
+  right:1vw;
+  bottom:1vh;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:3px solid var(--gold2);
+  background:var(--navy);
+  color:white;
+  font-size:25px;
+  cursor:pointer
+}
+
+.notice{
+  height:100%;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-weight:1000
+}
+
+/* =========================
+   PHONE
+========================= */
+
+@media(max-width:700px){
+
+  .board{
+    grid-template-rows:10vh minmax(0,1fr) 5.5vh
+  }
+
+  .time{
+    font-size:clamp(21px,5vw,34px)
+  }
+
+  .city{
+    font-size:clamp(12px,3.5vw,20px)
+  }
+
+  .title{
+    font-size:clamp(22px,5vw,34px)
+  }
+
+  .message{
+    font-size:clamp(18px,4.1vw,28px);
+    line-height:1.5
+  }
+}
+
 </style>
 </head>
+
 <body>
-<button class="gear" title="ניהול">⚙️</button>
+
+<button class="gear" id="gear" title="ניהול">⚙️</button>
+
 <main class="board">
+
 <header class="topbar">
-<section class="clockbox"><div><div class="city">NEW YORK</div><div class="time" id="ny">--:--:--</div></div></section>
-<section class="titlebox"><div><div class="title" id="syn">בית הכנסת בית תורה</div><div id="rabbi">הרב</div><div class="date"><span id="date">--</span> • <span id="hdate">--</span></div></div></section>
-<section class="clockbox"><div><div class="city">JERUSALEM</div><div class="time" id="jer">--:--:--</div></div></section>
-</header>
-<section class="grid">
-<aside class="side"><section class="panel"><div class="pt">זמני היום</div><div class="rows" id="day"></div></section><section class="panel"><div class="pt">הודעות</div><div class="notice" id="left">ברוכים הבאים לבית הכנסת</div></section></aside>
-<section class="center"><div class="parchment"><h1 id="daily">פרנס היום</h1><h2 id="parasha">פרשת השבוע</h2><div class="message" id="message">ברכת מזל טוב לכל המתפללים ובני הקהילה.
-יהי רצון שנזכה לתורה, לתפילה ולמעשים טובים.</div><div class="ded" id="ded">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></div></section>
-<aside class="side"><section class="panel"><div class="pt">זמני התפילות</div><div class="rows" id="prayers"></div></section><section class="panel"><div class="pt">מזל טוב</div><div class="notice" id="right">ברכת מזל טוב לחברי הקהילה</div></section></aside>
+
+<section class="clockbox">
+<div>
+<div class="city">NEW YORK</div>
+<div class="time" id="ny">--:--:--</div>
+</div>
 </section>
-<footer class="ticker"><div class="tick" id="ticker">לעילוי נשמת זהבה חלא בת דינה זצ״ל</div></footer>
+
+<section class="titlebox">
+<div>
+<div class="title" id="syn">בית הכנסת בית תורה</div>
+<div id="rabbi">הרב</div>
+
+<div class="date">
+<span id="date">--</span>
+•
+<span id="hdate">--</span>
+</div>
+
+</div>
+</section>
+
+<section class="clockbox">
+<div>
+<div class="city">JERUSALEM</div>
+<div class="time" id="jer">--:--:--</div>
+</div>
+</section>
+
+</header>
+
+
+<section class="grid">
+
+<!-- LEFT -->
+
+<aside class="side">
+
+<section class="panel">
+<div class="pt">זמני היום</div>
+<div class="rows" id="day"></div>
+</section>
+
+<section class="panel">
+<div class="pt">הודעות</div>
+<div class="notice" id="left">
+ברוכים הבאים לבית הכנסת
+</div>
+</section>
+
+</aside>
+
+
+<!-- CENTER -->
+
+<section class="center">
+
+<div class="parchment">
+
+<h1 id="daily">פרנס היום</h1>
+
+<h2 id="parasha">פרשת השבוע</h2>
+
+<div class="message" id="messageWindow">
+
+<div class="message-scroll" id="message">
+ברכת מזל טוב לכל המתפללים ובני הקהילה.
+
+יהי רצון שנזכה לתורה,
+לתפילה ולמעשים טובים.
+</div>
+
+</div>
+
+<div class="ded" id="ded">
+לעילוי נשמת זהבה חלא בת דינה זצ״ל
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RIGHT -->
+
+<aside class="side">
+
+<section class="panel">
+
+<div class="pt">זמני התפילות</div>
+
+<div class="rows" id="prayers"></div>
+
+</section>
+
+<section class="panel">
+
+<div class="pt">מזל טוב</div>
+
+<div class="notice" id="right">
+ברכת מזל טוב לחברי הקהילה
+</div>
+
+</section>
+
+</aside>
+
+</section>
+
+
+<footer class="ticker">
+
+<div class="tick" id="ticker">
+לעילוי נשמת זהבה חלא בת דינה זצ״ל
+</div>
+
+</footer>
+
 </main>
+
+
 <script>
 "use strict";
-const $=id=>document.getElementById(id);
-const defaults={timezone:"America/New_York",shacharit:"07:00",mincha:"16:00",maariv:"20:30",shiur:"21:15",shabbatShacharit:"09:00",shabbatMincha:"18:30",shabbatMaariv:"19:30",shabbatHavdalah:"21:00",manualAlot:"05:02",manualSunrise:"06:38",manualShema:"09:27",manualChatzot:"12:10",manualMinchaGedola:"12:40",manualSunset:"19:32",manualTzeit:"20:06",manualCandles:"19:13",manualHavdalah:"20:12"};
-let state={...defaults};
-try{state={...state,...JSON.parse(localStorage.getItem("newSynagogueBoard")||"{}")}}catch(e){}
-function fmt(t){if(!t)return"--:--";let[h,m]=t.split(":").map(Number),ap=h>=12?"PM":"AM";h=h%12||12;return h+":"+String(m).padStart(2,"0")+" "+ap}
-function rows(){
- const p=[["שחרית",state.shacharit],["מנחה",state.mincha],["ערבית",state.maariv],["שיעור תורה",state.shiur],["שחרית שבת",state.shabbatShacharit],["מנחה שבת",state.shabbatMincha],["ערבית ליל שבת",state.shabbatMaariv],["הבדלה",state.shabbatHavdalah]];
- const d=[["עלות השחר",state.manualAlot],["זריחה",state.manualSunrise],["סוף זמן קריאת שמע",state.manualShema],["חצות",state.manualChatzot],["מנחה גדולה",state.manualMinchaGedola],["שקיעה",state.manualSunset],["צאת הכוכבים",state.manualTzeit],["הדלקת נרות",state.manualCandles],["צאת שבת",state.manualHavdalah]];
- $("prayers").innerHTML=p.map(x=>'<div class="row"><span>'+x[0]+'</span><strong>'+fmt(x[1])+'</strong></div>').join("");
- $("day").innerHTML=d.map(x=>'<div class="row"><span>'+x[0]+'</span><strong>'+fmt(x[1])+'</strong></div>').join("");
-}
-function clocks(){
- const now=new Date(), f=tz=>new Intl.DateTimeFormat("en-US",{timeZone:tz,hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false}).format(now);
- $("ny").textContent=f(state.timezone||"America/New_York"); $("jer").textContent=f("Asia/Jerusalem");
- $("date").textContent=new Intl.DateTimeFormat("he-IL",{timeZone:state.timezone||"America/New_York",weekday:"long",year:"numeric",month:"long",day:"numeric"}).format(now);
- try{$("hdate").textContent=new Intl.DateTimeFormat("he-IL-u-ca-hebrew",{timeZone:state.timezone||"America/New_York",year:"numeric",month:"long",day:"numeric"}).format(now)}catch(e){}
-}
-function applyStored(){
- const map={syn:"synagogue",rabbi:"rabbi",daily:"dailyTitle",parasha:"parasha",message:"mainMessage",ded:"ticker",ticker:"ticker",left:"leftNotice",right:"rightNotice"};
- for(const [id,key] of Object.entries(map)) if($(id)&&state[key]) $(id).textContent=state[key];
-}
-function start(){try{applyStored();rows();clocks();setInterval(clocks,1000)}catch(e){console.error("Board startup error",e)}}
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 
-/* Supabase loads AFTER visible board. It can never prevent rendering. */
-const SUPABASE_URL="https://chcfhxkggbrlxaopnfum.supabase.co";
-const SUPABASE_KEY="sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D";
+const $ = id => document.getElementById(id);
+
+/* =========================
+   DEFAULT SETTINGS
+========================= */
+
+const defaults = {
+
+  timezone:"America/New_York",
+
+  shacharit:"07:00",
+  mincha:"16:00",
+  maariv:"20:30",
+  shiur:"21:15",
+
+  shabbatShacharit:"09:00",
+  shabbatMincha:"18:30",
+  shabbatMaariv:"19:30",
+  shabbatHavdalah:"21:00",
+
+  manualAlot:"05:02",
+  manualSunrise:"06:38",
+  manualShema:"09:27",
+  manualChatzot:"12:10",
+  manualMinchaGedola:"12:40",
+  manualSunset:"19:32",
+  manualTzeit:"20:06",
+  manualCandles:"19:13",
+  manualHavdalah:"20:12",
+
+  /*
+    Seconds for one complete upward cycle.
+    Admin can save scrollSpeed later.
+  */
+  scrollSpeed:45
+};
+
+let state={...defaults};
+
+try{
+
+  state={
+    ...state,
+    ...JSON.parse(
+      localStorage.getItem("newSynagogueBoard") || "{}"
+    )
+  };
+
+}catch(e){
+  console.warn("Could not read local settings.",e);
+}
+
+
+/* =========================
+   TIME FORMAT
+========================= */
+
+function fmt(t){
+
+  if(!t)return "--:--";
+
+  let [h,m]=t.split(":").map(Number);
+
+  const ap=h>=12 ? "PM" : "AM";
+
+  h=h%12 || 12;
+
+  return (
+    h+":"+
+    String(m).padStart(2,"0")+
+    " "+
+    ap
+  );
+}
+
+
+/* =========================
+   SIDE ROWS
+========================= */
+
+function rows(){
+
+  const p=[
+
+    ["שחרית",state.shacharit],
+
+    ["מנחה",state.mincha],
+
+    ["ערבית",state.maariv],
+
+    ["שיעור תורה",state.shiur],
+
+    ["שחרית שבת",state.shabbatShacharit],
+
+    ["מנחה שבת",state.shabbatMincha],
+
+    ["ערבית ליל שבת",state.shabbatMaariv],
+
+    ["הבדלה",state.shabbatHavdalah]
+
+  ];
+
+
+  const d=[
+
+    ["עלות השחר",state.manualAlot],
+
+    ["זריחה",state.manualSunrise],
+
+    ["סוף זמן קריאת שמע",state.manualShema],
+
+    ["חצות",state.manualChatzot],
+
+    ["מנחה גדולה",state.manualMinchaGedola],
+
+    ["שקיעה",state.manualSunset],
+
+    ["צאת הכוכבים",state.manualTzeit],
+
+    ["הדלקת נרות",state.manualCandles],
+
+    ["צאת שבת",state.manualHavdalah]
+
+  ];
+
+
+  $("prayers").innerHTML=
+    p.map(x=>
+      '<div class="row">'+
+      '<span>'+x[0]+'</span>'+
+      '<strong>'+fmt(x[1])+'</strong>'+
+      '</div>'
+    ).join("");
+
+
+  $("day").innerHTML=
+    d.map(x=>
+      '<div class="row">'+
+      '<span>'+x[0]+'</span>'+
+      '<strong>'+fmt(x[1])+'</strong>'+
+      '</div>'
+    ).join("");
+}
+
+
+/* =========================
+   CLOCKS
+========================= */
+
+function clocks(){
+
+  const now=new Date();
+
+  const f=tz=>
+    new Intl.DateTimeFormat(
+      "en-US",
+      {
+        timeZone:tz,
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit",
+        hour12:false
+      }
+    ).format(now);
+
+
+  $("ny").textContent=
+    f(state.timezone || "America/New_York");
+
+  $("jer").textContent=
+    f("Asia/Jerusalem");
+
+
+  $("date").textContent=
+    new Intl.DateTimeFormat(
+      "he-IL",
+      {
+        timeZone:state.timezone || "America/New_York",
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
+      }
+    ).format(now);
+
+
+  try{
+
+    $("hdate").textContent=
+      new Intl.DateTimeFormat(
+        "he-IL-u-ca-hebrew",
+        {
+          timeZone:state.timezone || "America/New_York",
+          year:"numeric",
+          month:"long",
+          day:"numeric"
+        }
+      ).format(now);
+
+  }catch(e){}
+}
+
+
+/* =========================
+   SCROLL SYSTEM
+========================= */
+
+function startMessageScroll(){
+
+  const win=$("messageWindow");
+  const msg=$("message");
+
+  if(!win || !msg)return;
+
+  /*
+    Stop old animation first.
+  */
+
+  msg.classList.remove("running");
+
+  msg.style.animation="none";
+
+  /*
+    Force browser to calculate sizes.
+  */
+
+  void msg.offsetHeight;
+
+  const windowHeight=win.clientHeight;
+  const contentHeight=msg.scrollHeight;
+
+  /*
+    Begin completely below the visible window.
+  */
+
+  msg.style.setProperty(
+    "--scroll-start",
+    windowHeight+"px"
+  );
+
+  /*
+    Finish completely above the visible window.
+  */
+
+  msg.style.setProperty(
+    "--scroll-end",
+    (-contentHeight)+"px"
+  );
+
+
+  /*
+    Scroll speed.
+
+    If Admin saves:
+       scrollSpeed = 60
+
+    then one cycle takes 60 seconds.
+  */
+
+  let seconds=parseFloat(state.scrollSpeed);
+
+  if(
+    !Number.isFinite(seconds) ||
+    seconds<10
+  ){
+    seconds=45;
+  }
+
+
+  msg.style.animationDuration=
+    seconds+"s";
+
+
+  /*
+    Restart animation.
+  */
+
+  requestAnimationFrame(()=>{
+
+    msg.style.animation="";
+
+    msg.classList.add("running");
+
+  });
+}
+
+
+/* =========================
+   STORED CONTENT
+========================= */
+
+function applyStored(){
+
+  const map={
+
+    syn:"synagogue",
+
+    rabbi:"rabbi",
+
+    daily:"dailyTitle",
+
+    parasha:"parasha",
+
+    message:"mainMessage",
+
+    ded:"ticker",
+
+    ticker:"ticker",
+
+    left:"leftNotice",
+
+    right:"rightNotice"
+
+  };
+
+
+  for(
+    const [id,key]
+    of Object.entries(map)
+  ){
+
+    if(
+      $(id) &&
+      state[key]
+    ){
+
+      $(id).textContent=
+        state[key];
+
+    }
+
+  }
+
+
+  /*
+    Restart scrolling whenever
+    message content changes.
+  */
+
+  setTimeout(
+    startMessageScroll,
+    100
+  );
+}
+
+
+/* =========================
+   START BOARD
+========================= */
+
+function start(){
+
+  try{
+
+    applyStored();
+
+    rows();
+
+    clocks();
+
+    setInterval(
+      clocks,
+      1000
+    );
+
+
+    /*
+      Recalculate after browser
+      finishes laying out page.
+    */
+
+    setTimeout(
+      startMessageScroll,
+      500
+    );
+
+
+    /*
+      Recalculate after orientation
+      or screen size changes.
+    */
+
+    window.addEventListener(
+      "resize",
+      ()=>{
+
+        clearTimeout(
+          window.__scrollResize
+        );
+
+        window.__scrollResize=
+          setTimeout(
+            startMessageScroll,
+            300
+          );
+
+      }
+    );
+
+
+  }catch(e){
+
+    console.error(
+      "Board startup error",
+      e
+    );
+
+  }
+}
+
+
+if(
+  document.readyState==="loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    start
+  );
+
+}else{
+
+  start();
+
+}
+
+
+/* =========================
+   ADMIN BUTTON
+========================= */
+
+$("gear").addEventListener(
+  "click",
+  ()=>{
+
+    /*
+      Change admin.html here only
+      if your admin filename differs.
+    */
+
+    window.location.href="admin.html";
+
+  }
+);
+
+
+/* =========================
+   SUPABASE
+========================= */
+
+/*
+  Supabase loads AFTER the visible
+  board.
+
+  Therefore a Supabase problem
+  cannot blank the board.
+*/
+
+const SUPABASE_URL=
+"https://chcfhxkggbrlxaopnfum.supabase.co";
+
+const SUPABASE_KEY=
+"sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D";
+
+
 async function sb(path){
- const r=await fetch(SUPABASE_URL+"/rest/v1/"+path,{headers:{apikey:SUPABASE_KEY,Authorization:"Bearer "+SUPABASE_KEY}});
- if(!r.ok)throw new Error(await r.text()); return r.json();
+
+  const r=await fetch(
+
+    SUPABASE_URL+
+    "/rest/v1/"+
+    path,
+
+    {
+
+      headers:{
+
+        apikey:
+          SUPABASE_KEY,
+
+        Authorization:
+          "Bearer "+
+          SUPABASE_KEY
+
+      }
+
+    }
+
+  );
+
+
+  if(!r.ok){
+
+    throw new Error(
+      await r.text()
+    );
+
+  }
+
+
+  return r.json();
 }
+
+
+/* =========================
+   LIVE SUPABASE UPDATE
+========================= */
+
 async function live(){
- try{
-  let id=localStorage.getItem("synagogue_id")||"";
-  if(!id){const a=await sb("synagogues?select=*&order=created_at.asc&limit=1");if(!a.length)return;id=a[0].id;localStorage.setItem("synagogue_id",id)}
-  const q="?synagogue_id=eq."+encodeURIComponent(id);
-  const [syn,content,schedule]=await Promise.all([sb("synagogues?select=*&id=eq."+encodeURIComponent(id)),sb("board_content"+q),sb("prayer_schedule"+q)]);
-  if(syn[0]){state.synagogue=syn[0].hebrew_name||syn[0].name||state.synagogue;state.rabbi=syn[0].rabbi_name||state.rabbi;state.timezone=syn[0].timezone||state.timezone}
-  if(content[0]){const x=content[0];state.dailyTitle=x.main_title||state.dailyTitle;state.mainMessage=x.main_message||state.mainMessage;state.leftNotice=x.left_notice||state.leftNotice;state.rightNotice=x.right_notice||state.rightNotice;state.ticker=x.ticker_text||x.dedication||state.ticker;state.parasha=x.parasha||state.parasha}
-  schedule.forEach(x=>{if(x.schedule_key in state&&x.prayer_time)state[x.schedule_key]=String(x.prayer_time).slice(0,5)});
-  localStorage.setItem("newSynagogueBoard",JSON.stringify(state));applyStored();rows();
- }catch(e){console.error("Supabase unavailable; local board remains visible.",e)}
+
+  try{
+
+    let id=
+      localStorage.getItem(
+        "synagogue_id"
+      ) || "";
+
+
+    /*
+      If no synagogue was saved,
+      use first synagogue.
+    */
+
+    if(!id){
+
+      const a=
+        await sb(
+          "synagogues?select=*&order=created_at.asc&limit=1"
+        );
+
+
+      if(!a.length)return;
+
+
+      id=a[0].id;
+
+
+      localStorage.setItem(
+        "synagogue_id",
+        id
+      );
+
+    }
+
+
+    const q=
+      "?synagogue_id=eq."+
+      encodeURIComponent(id);
+
+
+    const [
+      syn,
+      content,
+      schedule
+    ]=
+      await Promise.all([
+
+        sb(
+          "synagogues?select=*&id=eq."+
+          encodeURIComponent(id)
+        ),
+
+        sb(
+          "board_content"+
+          q
+        ),
+
+        sb(
+          "prayer_schedule"+
+          q
+        )
+
+      ]);
+
+
+/* =========================
+   SYNAGOGUE INFO
+========================= */
+
+    if(syn[0]){
+
+      state.synagogue=
+        syn[0].hebrew_name ||
+        syn[0].name ||
+        state.synagogue;
+
+
+      state.rabbi=
+        syn[0].rabbi_name ||
+        state.rabbi;
+
+
+      state.timezone=
+        syn[0].timezone ||
+        state.timezone;
+
+    }
+
+
+/* =========================
+   BOARD CONTENT
+========================= */
+
+    if(content[0]){
+
+      const x=content[0];
+
+
+      state.dailyTitle=
+        x.main_title ||
+        state.dailyTitle;
+
+
+      state.mainMessage=
+        x.main_message ||
+        state.mainMessage;
+
+
+      state.leftNotice=
+        x.left_notice ||
+        state.leftNotice;
+
+
+      state.rightNotice=
+        x.right_notice ||
+        state.rightNotice;
+
+
+      state.ticker=
+        x.ticker_text ||
+        x.dedication ||
+        state.ticker;
+
+
+      state.parasha=
+        x.parasha ||
+        state.parasha;
+
+
+      /*
+        Optional Supabase column.
+
+        If you later add:
+          scroll_speed
+
+        Admin can control the
+        number of seconds.
+      */
+
+      if(
+        x.scroll_speed !== undefined &&
+        x.scroll_speed !== null
+      ){
+
+        const speed=
+          parseFloat(
+            x.scroll_speed
+          );
+
+
+        if(
+          Number.isFinite(speed) &&
+          speed>=10
+        ){
+
+          state.scrollSpeed=
+            speed;
+
+        }
+
+      }
+
+    }
+
+
+/* =========================
+   PRAYER TIMES
+========================= */
+
+    schedule.forEach(x=>{
+
+      if(
+        x.schedule_key in state &&
+        x.prayer_time
+      ){
+
+        state[x.schedule_key]=
+          String(
+            x.prayer_time
+          ).slice(0,5);
+
+      }
+
+    });
+
+
+/* =========================
+   SAVE LOCAL CACHE
+========================= */
+
+    localStorage.setItem(
+      "newSynagogueBoard",
+      JSON.stringify(state)
+    );
+
+
+/* =========================
+   UPDATE SCREEN
+========================= */
+
+    applyStored();
+
+    rows();
+
+    clocks();
+
+
+    /*
+      Important:
+      Supabase may have replaced
+      the message, so calculate
+      scrolling again.
+    */
+
+    setTimeout(
+      startMessageScroll,
+      150
+    );
+
+
+  }catch(e){
+
+    console.error(
+      "Supabase unavailable; local board remains visible.",
+      e
+    );
+
+  }
+
 }
-setTimeout(live,300);setInterval(live,60000);
+
+
+/* First Supabase update */
+
+setTimeout(
+  live,
+  300
+);
+
+
+/* Refresh every minute */
+
+setInterval(
+  live,
+  60000
+);
+
 </script>
+
 </body>
 </html>
