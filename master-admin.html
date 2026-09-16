@@ -1,7 +1,867 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Master Admin</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>window.sb=supabase.createClient("https://chcfhxkggbrlxaopnfum.supabase.co","sb_publishable_rwCYiLLLcYCOm7X9JXxAtQ_9ailfQ6D");</script><style>*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Arial,"Noto Sans Hebrew",sans-serif}body{background:#07163c;color:#241d11;padding:18px}.wrap{max-width:1100px;margin:auto;background:#fff8df;border:4px solid #d7a62d;border-radius:24px;padding:20px;box-shadow:0 18px 55px #0007}h1,h2{color:#0b1c4b}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#fff;border:2px solid #d9bd6a;border-radius:15px;padding:14px;margin:12px 0}label{display:block;font-weight:800;margin:10px 0}input,select,textarea{width:100%;padding:11px;border:2px solid #cfad55;border-radius:10px;font:inherit}.btn,button{border:0;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:#0b1c4b;color:#fff}.good{background:#16843f;color:#fff}.warn{background:#c47d00;color:#fff}.bad{background:#a92323;color:#fff}.actions{display:flex;gap:8px;flex-wrap:wrap}.status{font-weight:900;min-height:25px}.top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}</style></head><body><main class="wrap"><div class="top"><h1>👑 Master Admin — ניהול כל בתי הכנסת</h1><button id="logout" class="btn bad">יציאה</button></div><div id="st" class="status"></div><div id="list"></div></main><script>
-const X=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-async function guard(){const{data:{session}}=await sb.auth.getSession();if(!session)return location.replace('login.html');const{data:p}=await sb.from('app_profiles').select('role,status').eq('user_id',session.user.id).single();if(p?.role!=='master_admin'||p.status!=='approved')location.replace('login.html')}
-async function load(){const{data,error}=await sb.from('synagogues').select('*').order('created_at',{ascending:false});if(error)return st.textContent='⚠ '+error.message;list.innerHTML=(data||[]).map(s=>`<div class="card"><b>${X(s.hebrew_name||s.name||'Synagogue')}</b><br>Rabbi: ${X(s.rabbi_name)} • Status: <b>${X(s.status||'pending')}</b><div class="actions"><button class="btn good" onclick="setS('${s.id}','approved')">✓ Approve</button><button class="btn warn" onclick="setS('${s.id}','suspended')">⏸ Suspend</button><button class="btn bad" onclick="delS('${s.id}')">🗑 Delete</button></div></div>`).join('')||'<div class="card">No synagogues yet.</div>'}
-async function setS(id,status){const{error}=await sb.from('synagogues').update({status}).eq('id',id);if(error)alert(error.message);else load()}async function delS(id){if(!confirm('Delete synagogue?'))return;const{error}=await sb.from('synagogues').delete().eq('id',id);if(error)alert(error.message);else load()}logout.onclick=async()=>{await sb.auth.signOut();location.replace('login.html')};(async()=>{await guard();await load()})();
-</script></body></html>
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Master Admin</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+}
+
+body{
+  background:#07163c;
+  color:#241d11;
+  padding:18px;
+}
+
+.wrap{
+  max-width:1100px;
+  margin:auto;
+  background:#fff8df;
+  border:4px solid #d7a62d;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 18px 55px #0007;
+}
+
+h1,h2{
+  color:#0b1c4b;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:12px;
+}
+
+.card{
+  background:#fff;
+  border:2px solid #d9bd6a;
+  border-radius:15px;
+  padding:14px;
+  margin:12px 0;
+}
+
+label{
+  display:block;
+  font-weight:800;
+  margin:10px 0;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  padding:11px;
+  border:2px solid #cfad55;
+  border-radius:10px;
+  font:inherit;
+}
+
+.btn,
+button{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:900;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+
+.primary{
+  background:#0b1c4b;
+  color:#fff;
+}
+
+.good{
+  background:#16843f;
+  color:#fff;
+}
+
+.warn{
+  background:#c47d00;
+  color:#fff;
+}
+
+.bad{
+  background:#a92323;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.status{
+  font-weight:900;
+  min-height:25px;
+  padding:8px 0;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.info{
+  color:#555;
+  line-height:1.7;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  font-weight:bold;
+  font-size:20px;
+}
+
+.empty{
+  text-align:center;
+  padding:25px;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.badge-approved{
+  background:#d8f5df;
+  color:#12602d;
+}
+
+.badge-pending{
+  background:#fff0bd;
+  color:#815700;
+}
+
+.badge-suspended{
+  background:#ffd7d7;
+  color:#8f1818;
+}
+
+@media(max-width:600px){
+  body{
+    padding:8px;
+  }
+
+  .wrap{
+    padding:12px;
+  }
+
+  h1{
+    font-size:23px;
+  }
+
+  .actions button{
+    flex:1;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="wrap">
+
+<div class="top">
+  <h1>👑 Master Admin — ניהול כל בתי הכנסת</h1>
+  <button id="logout" class="btn bad">יציאה</button>
+</div>
+
+<div id="st" class="status">מתחבר ל-Firebase...</div>
+
+<div id="list">
+  <div class="loading">טוען...</div>
+</div>
+
+</main>
+
+
+<script type="module">
+
+/* =========================================================
+   FIREBASE
+========================================================= */
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================================================
+   YOUR SYNAGOGUEBOARD FIREBASE PROJECT
+========================================================= */
+
+const firebaseConfig = {
+
+  apiKey:
+  "AIzaSyAHaMmBGryCf1zRHDpViOmskv0ldFqq6jU",
+
+  authDomain:
+  "synagogueboard.firebaseapp.com",
+
+  projectId:
+  "synagogueboard",
+
+  storageBucket:
+  "synagogueboard.firebasestorage.app",
+
+  messagingSenderId:
+  "99748365924",
+
+  appId:
+  "1:99748365924:android:a2b3faeeee42a46a130171"
+};
+
+
+/* =========================================================
+   START FIREBASE
+========================================================= */
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const st = document.getElementById("st");
+
+const list = document.getElementById("list");
+
+const logoutButton = document.getElementById("logout");
+
+
+/* =========================================================
+   SAFE HTML
+========================================================= */
+
+function X(value){
+
+  return String(value ?? "")
+  .replace(
+    /[&<>"']/g,
+    character => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    })[character]
+  );
+
+}
+
+
+/* =========================================================
+   STATUS BADGE
+========================================================= */
+
+function statusBadge(status){
+
+  const value = status || "pending";
+
+  if(value === "approved"){
+
+    return `
+      <span class="badge badge-approved">
+        Approved
+      </span>
+    `;
+
+  }
+
+  if(value === "suspended"){
+
+    return `
+      <span class="badge badge-suspended">
+        Suspended
+      </span>
+    `;
+
+  }
+
+  return `
+    <span class="badge badge-pending">
+      Pending
+    </span>
+  `;
+
+}
+
+
+/* =========================================================
+   MASTER ADMIN CHECK
+========================================================= */
+
+async function checkMasterAdmin(user){
+
+  /*
+     First try:
+
+     users/{UID}
+
+     Expected document example:
+
+     role: "master_admin"
+     status: "approved"
+     email: "your@email.com"
+  */
+
+  try{
+
+    const userRef =
+      doc(db,"users",user.uid);
+
+    const userSnap =
+      await getDoc(userRef);
+
+    if(userSnap.exists()){
+
+      const profile = userSnap.data();
+
+      if(
+        profile.role === "master_admin" &&
+        profile.status === "approved"
+      ){
+
+        return true;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "users profile check:",
+      error
+    );
+
+  }
+
+
+  /*
+     Fallback collection in case the
+     profile was created in app_profiles.
+  */
+
+  try{
+
+    const profileRef =
+      doc(db,"app_profiles",user.uid);
+
+    const profileSnap =
+      await getDoc(profileRef);
+
+    if(profileSnap.exists()){
+
+      const profile =
+        profileSnap.data();
+
+      if(
+        profile.role === "master_admin" &&
+        profile.status === "approved"
+      ){
+
+        return true;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "app_profiles check:",
+      error
+    );
+
+  }
+
+
+  return false;
+
+}
+
+
+/* =========================================================
+   LOAD SYNAGOGUES
+========================================================= */
+
+async function loadSynagogues(){
+
+  st.textContent =
+    "טוען בתי כנסת...";
+
+  list.innerHTML =
+    `<div class="loading">טוען...</div>`;
+
+
+  try{
+
+    let snapshot;
+
+    /*
+       Try newest first.
+    */
+
+    try{
+
+      const synagogueQuery =
+        query(
+          collection(db,"synagogues"),
+          orderBy("created_at","desc")
+        );
+
+      snapshot =
+        await getDocs(synagogueQuery);
+
+    }catch(orderError){
+
+      /*
+         If old documents don't have
+         created_at we still load them.
+      */
+
+      console.warn(
+        "created_at ordering unavailable:",
+        orderError
+      );
+
+      snapshot =
+        await getDocs(
+          collection(db,"synagogues")
+        );
+
+    }
+
+
+    if(snapshot.empty){
+
+      list.innerHTML = `
+        <div class="card empty">
+          עדיין אין בתי כנסת רשומים.
+        </div>
+      `;
+
+      st.textContent =
+        "✓ Firebase connected";
+
+      return;
+
+    }
+
+
+    let html = "";
+
+
+    snapshot.forEach(documentSnapshot => {
+
+      const synagogue =
+        documentSnapshot.data();
+
+      const id =
+        documentSnapshot.id;
+
+
+      const synagogueName =
+        synagogue.hebrew_name ||
+        synagogue.name ||
+        synagogue.synagogue_name ||
+        "Synagogue";
+
+
+      const rabbi =
+        synagogue.rabbi_name ||
+        synagogue.rabbi ||
+        "";
+
+
+      const email =
+        synagogue.email ||
+        synagogue.owner_email ||
+        "";
+
+
+      const phone =
+        synagogue.phone ||
+        "";
+
+
+      const status =
+        synagogue.status ||
+        "pending";
+
+
+      html += `
+
+        <div class="card">
+
+          <h2>
+            🕍 ${X(synagogueName)}
+          </h2>
+
+          <div class="info">
+
+            <div>
+              <strong>Rabbi:</strong>
+              ${X(rabbi || "—")}
+            </div>
+
+            <div>
+              <strong>Email:</strong>
+              ${X(email || "—")}
+            </div>
+
+            <div>
+              <strong>Phone:</strong>
+              ${X(phone || "—")}
+            </div>
+
+            <div>
+              <strong>Status:</strong>
+              ${statusBadge(status)}
+            </div>
+
+            <div>
+              <strong>ID:</strong>
+              ${X(id)}
+            </div>
+
+          </div>
+
+
+          <div class="actions">
+
+            <button
+              class="btn good"
+              data-action="approve"
+              data-id="${X(id)}">
+              ✓ Approve
+            </button>
+
+
+            <button
+              class="btn warn"
+              data-action="suspend"
+              data-id="${X(id)}">
+              ⏸ Suspend
+            </button>
+
+
+            <button
+              class="btn bad"
+              data-action="delete"
+              data-id="${X(id)}">
+              🗑 Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+    });
+
+
+    list.innerHTML =
+      html;
+
+
+    st.textContent =
+      "✓ Firebase connected";
+
+
+  }catch(error){
+
+    console.error(error);
+
+    st.textContent =
+      "⚠ " + error.message;
+
+    list.innerHTML = `
+      <div class="card">
+        Firebase error:<br><br>
+        ${X(error.message)}
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   UPDATE STATUS
+========================================================= */
+
+async function setSynagogueStatus(
+  id,
+  status
+){
+
+  try{
+
+    st.textContent =
+      "Updating...";
+
+
+    await updateDoc(
+      doc(db,"synagogues",id),
+      {
+        status:status,
+        updated_at:new Date()
+      }
+    );
+
+
+    await loadSynagogues();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Firebase error:\n" +
+      error.message
+    );
+
+    st.textContent =
+      "⚠ " + error.message;
+
+  }
+
+}
+
+
+/* =========================================================
+   DELETE SYNAGOGUE
+========================================================= */
+
+async function deleteSynagogue(id){
+
+  const confirmed =
+    confirm(
+      "Delete this synagogue?"
+    );
+
+
+  if(!confirmed){
+    return;
+  }
+
+
+  try{
+
+    st.textContent =
+      "Deleting...";
+
+
+    await deleteDoc(
+      doc(db,"synagogues",id)
+    );
+
+
+    await loadSynagogues();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Firebase error:\n" +
+      error.message
+    );
+
+    st.textContent =
+      "⚠ " + error.message;
+
+  }
+
+}
+
+
+/* =========================================================
+   BUTTON CLICKS
+========================================================= */
+
+list.addEventListener(
+  "click",
+  async event => {
+
+    const button =
+      event.target.closest("button");
+
+    if(!button){
+      return;
+    }
+
+
+    const id =
+      button.dataset.id;
+
+    const action =
+      button.dataset.action;
+
+
+    if(!id){
+      return;
+    }
+
+
+    if(action === "approve"){
+
+      await setSynagogueStatus(
+        id,
+        "approved"
+      );
+
+    }
+
+
+    if(action === "suspend"){
+
+      await setSynagogueStatus(
+        id,
+        "suspended"
+      );
+
+    }
+
+
+    if(action === "delete"){
+
+      await deleteSynagogue(id);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutButton.addEventListener(
+  "click",
+  async () => {
+
+    await signOut(auth);
+
+    location.replace(
+      "login.html"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   AUTHENTICATION GUARD
+========================================================= */
+
+onAuthStateChanged(
+  auth,
+  async user => {
+
+    if(!user){
+
+      location.replace(
+        "login.html"
+      );
+
+      return;
+
+    }
+
+
+    st.textContent =
+      "Checking Master Admin access...";
+
+
+    const allowed =
+      await checkMasterAdmin(user);
+
+
+    if(!allowed){
+
+      st.innerHTML =
+        "⛔ אין הרשאת Master Admin";
+
+
+      setTimeout(
+        async () => {
+
+          await signOut(auth);
+
+          location.replace(
+            "login.html"
+          );
+
+        },
+        1800
+      );
+
+
+      return;
+
+    }
+
+
+    await loadSynagogues();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
