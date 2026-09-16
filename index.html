@@ -744,5 +744,7 @@ refreshSubjectStatuses();
 render();updateClocks();updateJewishCalendar();startShiurScheduler();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
 </script>
 
-</body>
+<script id="three-role-login-redirect">
+if(new URLSearchParams(location.search).get('stay')!=='1'){setTimeout(()=>location.href='login.html',30000);}
+</script></body>
 </html>
