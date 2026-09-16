@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
+<meta name="member-register-build" content="member-register-v4-all-valid-synagogues">
+
 <title>הרשמת חבר לבית הכנסת</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -16,7 +18,9 @@ window.sb = supabase.createClient(
 </script>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box
+}
 
 html,body{
   margin:0;
@@ -58,7 +62,8 @@ label{
   margin:10px 0
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:13px;
   margin-top:6px;
@@ -72,7 +77,8 @@ select{
   min-height:50px;
 }
 
-.btn,button{
+.btn,
+button{
   border:0;
   border-radius:10px;
   padding:12px 18px;
@@ -116,6 +122,24 @@ button:disabled{
 .info{
   color:#0b1c4b
 }
+
+.actions{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center
+}
+
+.note{
+  background:#fff3c9;
+  border:1px solid #d7a62d;
+  border-radius:10px;
+  padding:12px;
+  color:#0b1c4b;
+  font-weight:700;
+  line-height:1.5;
+  margin-bottom:15px
+}
 </style>
 </head>
 
@@ -125,23 +149,35 @@ button:disabled{
 
 <h1>📝 הרשמת חבר לבית הכנסת</h1>
 
+<div class="note">
+בחר את בית הכנסת שלך, מלא את הפרטים ולחץ Register.
+לאחר ההרשמה מנהל בית הכנסת יוכל לאשר את החברות שלך.
+</div>
+
 <form id="f">
 
 <div class="grid">
 
 <label>
 בית הכנסת
+
 <select id="syn" required>
-<option value="">טוען בתי כנסת...</option>
+<option value="">
+טוען בתי כנסת...
+</option>
 </select>
+
 </label>
+
 
 <div id="synStatus" class="status info">
 טוען רשימת בתי כנסת...
 </div>
 
+
 <label>
 שם מלא
+
 <input
   id="name"
   type="text"
@@ -150,8 +186,10 @@ button:disabled{
 >
 </label>
 
+
 <label>
 אימייל
+
 <input
   id="email"
   type="email"
@@ -160,8 +198,10 @@ button:disabled{
 >
 </label>
 
+
 <label>
 טלפון
+
 <input
   id="phone"
   type="tel"
@@ -169,8 +209,10 @@ button:disabled{
 >
 </label>
 
+
 <label>
 סיסמה
+
 <input
   id="password"
   type="password"
@@ -182,6 +224,9 @@ button:disabled{
 
 </div>
 
+
+<div class="actions">
+
 <button
   id="registerBtn"
   type="submit"
@@ -191,28 +236,73 @@ button:disabled{
 Register
 </button>
 
-</form>
 
-<div id="st" class="status"></div>
-
-<a class="btn primary" href="login.html">
+<a
+  class="btn primary"
+  href="login.html"
+>
 Login
 </a>
 
+</div>
+
+</form>
+
+
+<div id="st" class="status"></div>
+
 </main>
+
 
 <script>
 
-const form = document.getElementById("f");
-const syn = document.getElementById("syn");
-const synStatus = document.getElementById("synStatus");
-const statusBox = document.getElementById("st");
-const registerBtn = document.getElementById("registerBtn");
+console.log(
+  "MEMBER REGISTER BUILD:",
+  "member-register-v4-all-valid-synagogues"
+);
 
-const nameInput = document.getElementById("name");
-const emailInput = document.getElementById("email");
-const phoneInput = document.getElementById("phone");
-const passwordInput = document.getElementById("password");
+
+const form =
+  document.getElementById("f");
+
+const syn =
+  document.getElementById("syn");
+
+const synStatus =
+  document.getElementById("synStatus");
+
+const statusBox =
+  document.getElementById("st");
+
+const registerBtn =
+  document.getElementById("registerBtn");
+
+const nameInput =
+  document.getElementById("name");
+
+const emailInput =
+  document.getElementById("email");
+
+const phoneInput =
+  document.getElementById("phone");
+
+const passwordInput =
+  document.getElementById("password");
+
+
+/* =====================================
+   HELPER
+===================================== */
+
+function cleanStatus(value){
+
+  return String(
+    value || ""
+  )
+  .trim()
+  .toLowerCase();
+
+}
 
 
 /* =====================================
@@ -224,140 +314,255 @@ async function loadSynagogues(){
   syn.innerHTML =
     '<option value="">טוען בתי כנסת...</option>';
 
-  registerBtn.disabled = true;
+  registerBtn.disabled =
+    true;
 
-  synStatus.className = "status info";
+  synStatus.className =
+    "status info";
+
   synStatus.textContent =
     "טוען רשימת בתי כנסת...";
+
 
   try{
 
     /*
-      Load the synagogue records first.
+      IMPORTANT FIX
 
-      We intentionally do NOT filter status in
-      the Supabase query.
+      We load the synagogue list WITHOUT
+      requiring status = approved.
 
-      This allows us to see whether the table
-      is readable and prevents an approved
-      synagogue from disappearing because of
-      a status spelling/value problem.
+      A member must be able to choose a
+      synagogue and register first.
+
+      Clearly disabled synagogues are removed
+      below.
     */
 
-    const { data, error } = await sb
-      .from("synagogues")
-      .select("id,name,hebrew_name,status")
-      .order("name", { ascending:true });
+    const {
+      data,
+      error
+    } =
+      await sb
+        .from("synagogues")
+        .select("*")
+        .order(
+          "name",
+          {
+            ascending:true
+          }
+        );
 
 
     if(error){
 
-      console.error("Synagogue load error:",error);
+      console.error(
+        "Synagogue load error:",
+        error
+      );
 
       syn.innerHTML =
         '<option value="">לא ניתן לטעון בתי כנסת</option>';
 
-      synStatus.className = "status error";
+      synStatus.className =
+        "status error";
 
       synStatus.textContent =
         "⚠ שגיאה בטעינת בתי הכנסת: " +
         error.message;
 
       return;
+
     }
 
 
-    console.log("Synagogues returned:",data);
+    console.log(
+      "All synagogue records:",
+      data
+    );
 
 
-    if(!data || data.length === 0){
+    if(
+      !data ||
+      data.length === 0
+    ){
 
       syn.innerHTML =
-        '<option value="">אין בתי כנסת זמינים</option>';
+        '<option value="">אין בתי כנסת במערכת</option>';
 
-      synStatus.className = "status error";
+      synStatus.className =
+        "status error";
 
       synStatus.textContent =
         "⚠ לא נמצאו בתי כנסת במערכת.";
 
       return;
+
     }
 
 
     /*
-      Accept approved status regardless of
-      capitalization or extra spaces.
+      DO NOT REQUIRE "approved".
+
+      Only remove synagogue records that are
+      explicitly unavailable.
+
+      Allowed examples:
+
+      approved
+      pending
+      active
+      trial
+      blank/null status
+
+      Blocked examples:
+
+      suspended
+      rejected
+      deleted
+      disabled
+      inactive
     */
 
-    const approved = data.filter(s => {
-
-      const status =
-        String(s.status || "")
-        .trim()
-        .toLowerCase();
-
-      return status === "approved";
-
-    });
+    const blockedStatuses = [
+      "suspended",
+      "rejected",
+      "deleted",
+      "disabled",
+      "inactive"
+    ];
 
 
-    if(approved.length === 0){
+    const availableSynagogues =
+      data.filter(function(s){
+
+        const status =
+          cleanStatus(
+            s.status
+          );
+
+
+        return !blockedStatuses.includes(
+          status
+        );
+
+      });
+
+
+    console.log(
+      "Selectable synagogues:",
+      availableSynagogues
+    );
+
+
+    if(
+      availableSynagogues.length === 0
+    ){
 
       syn.innerHTML =
-        '<option value="">אין בתי כנסת מאושרים</option>';
+        '<option value="">אין בתי כנסת זמינים</option>';
 
-      synStatus.className = "status error";
+      synStatus.className =
+        "status error";
 
       synStatus.textContent =
-        "⚠ נמצאו בתי כנסת, אבל אף אחד מהם אינו מסומן approved.";
-
-      console.log(
-        "Synagogues found but not approved:",
-        data
-      );
+        "⚠ בתי הכנסת במערכת כרגע אינם זמינים להרשמה.";
 
       return;
+
     }
 
+
+    /*
+      BUILD DROPDOWN
+    */
 
     syn.innerHTML =
       '<option value="">בחר בית כנסת</option>';
 
 
-    approved.forEach(s => {
+    availableSynagogues.forEach(
+      function(s){
 
-      const option =
-        document.createElement("option");
-
-      option.value = s.id;
-
-      option.textContent =
-        s.hebrew_name ||
-        s.name ||
-        "בית כנסת";
-
-      syn.appendChild(option);
-
-    });
+        const option =
+          document.createElement(
+            "option"
+          );
 
 
-    synStatus.className = "status success";
+        option.value =
+          s.id;
+
+
+        /*
+          Try all likely name columns.
+
+          This prevents a blank dropdown item
+          if one installation uses name and
+          another uses synagogue_name.
+        */
+
+        const displayName =
+          s.hebrew_name ||
+          s.name ||
+          s.synagogue_name ||
+          s.business_name ||
+          "בית כנסת";
+
+
+        option.textContent =
+          displayName;
+
+
+        /*
+          Keep status available for debugging
+          without displaying it to normal users.
+        */
+
+        option.dataset.status =
+          cleanStatus(
+            s.status
+          );
+
+
+        syn.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    synStatus.className =
+      "status success";
 
     synStatus.textContent =
       "✓ בחר בית כנסת מהרשימה.";
 
-    registerBtn.disabled = false;
+
+    /*
+      Enable register only when a synagogue
+      has actually been selected.
+    */
+
+    registerBtn.disabled =
+      true;
 
   }
 
   catch(err){
 
-    console.error(err);
+    console.error(
+      "Unexpected synagogue error:",
+      err
+    );
+
 
     syn.innerHTML =
       '<option value="">שגיאה</option>';
 
-    synStatus.className = "status error";
+    synStatus.className =
+      "status error";
 
     synStatus.textContent =
       "⚠ לא ניתן להתחבר למסד הנתונים.";
@@ -368,151 +573,345 @@ async function loadSynagogues(){
 
 
 /* =====================================
+   ENABLE REGISTER AFTER SYNAGOGUE CHOICE
+===================================== */
+
+syn.addEventListener(
+  "change",
+  function(){
+
+    if(syn.value){
+
+      registerBtn.disabled =
+        false;
+
+      synStatus.className =
+        "status success";
+
+      synStatus.textContent =
+        "✓ בית הכנסת נבחר. ניתן להמשיך בהרשמה.";
+
+    }
+    else{
+
+      registerBtn.disabled =
+        true;
+
+      synStatus.className =
+        "status info";
+
+      synStatus.textContent =
+        "בחר בית כנסת מהרשימה.";
+
+    }
+
+  }
+);
+
+
+/* =====================================
    MEMBER REGISTRATION
 ===================================== */
 
-form.addEventListener("submit",async function(e){
+form.addEventListener(
+  "submit",
+  async function(e){
 
-  e.preventDefault();
+    e.preventDefault();
 
-  statusBox.className = "status";
-
-
-  if(!syn.value){
 
     statusBox.className =
-      "status error";
+      "status";
 
     statusBox.textContent =
-      "⚠ נא לבחור בית כנסת.";
-
-    return;
-  }
+      "";
 
 
-  const fullName =
-    nameInput.value.trim();
+    /*
+      SYNAGOGUE REQUIRED
+    */
 
-  const email =
-    emailInput.value.trim();
-
-  const phone =
-    phoneInput.value.trim();
-
-  const password =
-    passwordInput.value;
-
-
-  if(!fullName || !email || !password){
-
-    statusBox.className =
-      "status error";
-
-    statusBox.textContent =
-      "⚠ נא למלא את כל שדות החובה.";
-
-    return;
-  }
-
-
-  registerBtn.disabled = true;
-
-  registerBtn.textContent =
-    "Registering...";
-
-
-  const metadata = {
-
-    role:"member",
-
-    synagogue_id:
-      syn.value,
-
-    full_name:
-      fullName,
-
-    phone:
-      phone
-
-  };
-
-
-  try{
-
-    const {
-      data,
-      error
-    } = await sb.auth.signUp({
-
-      email:email,
-
-      password:password,
-
-      options:{
-        data:metadata
-      }
-
-    });
-
-
-    if(error){
-
-      console.error(
-        "Registration error:",
-        error
-      );
+    if(!syn.value){
 
       statusBox.className =
         "status error";
 
       statusBox.textContent =
-        "⚠ " + error.message;
+        "⚠ נא לבחור בית כנסת.";
 
-      registerBtn.disabled = false;
+      return;
+
+    }
+
+
+    const fullName =
+      nameInput
+        .value
+        .trim();
+
+
+    const email =
+      emailInput
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const phone =
+      phoneInput
+        .value
+        .trim();
+
+
+    const password =
+      passwordInput
+        .value;
+
+
+    /*
+      REQUIRED FIELDS
+    */
+
+    if(
+      !fullName ||
+      !email ||
+      !password
+    ){
+
+      statusBox.className =
+        "status error";
+
+      statusBox.textContent =
+        "⚠ נא למלא את כל שדות החובה.";
+
+      return;
+
+    }
+
+
+    /*
+      PASSWORD
+    */
+
+    if(
+      password.length < 6
+    ){
+
+      statusBox.className =
+        "status error";
+
+      statusBox.textContent =
+        "⚠ הסיסמה חייבת להכיל לפחות 6 תווים.";
+
+      return;
+
+    }
+
+
+    /*
+      BASIC EMAIL CHECK
+    */
+
+    if(
+      !email.includes("@") ||
+      !email.includes(".")
+    ){
+
+      statusBox.className =
+        "status error";
+
+      statusBox.textContent =
+        "⚠ נא להזין כתובת אימייל תקינה.";
+
+      return;
+
+    }
+
+
+    registerBtn.disabled =
+      true;
+
+    registerBtn.textContent =
+      "Registering...";
+
+
+    /*
+      MEMBER METADATA
+
+      This is sent into auth.users metadata
+      and can be used by your Supabase trigger.
+    */
+
+    const metadata = {
+
+      role:
+        "member",
+
+      synagogue_id:
+        syn.value,
+
+      full_name:
+        fullName,
+
+      phone:
+        phone,
+
+      member_status:
+        "pending"
+
+    };
+
+
+    try{
+
+      const {
+        data,
+        error
+      } =
+        await sb.auth.signUp({
+
+          email:
+            email,
+
+          password:
+            password,
+
+          options:{
+
+            data:
+              metadata
+
+          }
+
+        });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      console.log(
+        "Member signup result:",
+        data
+      );
+
+
+      if(
+        !data ||
+        !data.user
+      ){
+
+        throw new Error(
+          "Registration did not return a user account."
+        );
+
+      }
+
+
+      /*
+        Registration succeeded.
+
+        The account can now be handled by
+        your existing Supabase trigger and
+        synagogue owner approval system.
+      */
+
+      statusBox.className =
+        "status success";
+
+      statusBox.textContent =
+        "✓ Registration received. Your synagogue owner must approve you.";
+
+
+      /*
+        Clear personal fields but leave the
+        synagogue list available.
+      */
+
+      nameInput.value =
+        "";
+
+      emailInput.value =
+        "";
+
+      phoneInput.value =
+        "";
+
+      passwordInput.value =
+        "";
+
+      syn.value =
+        "";
+
+
+      registerBtn.disabled =
+        true;
 
       registerBtn.textContent =
         "Register";
 
-      return;
+
+      synStatus.className =
+        "status info";
+
+      synStatus.textContent =
+        "בחר בית כנסת מהרשימה.";
+
     }
 
+    catch(err){
 
-    console.log(
-      "Registration successful:",
-      data
-    );
-
-
-    statusBox.className =
-      "status success";
-
-    statusBox.textContent =
-      "✓ Registration received. Your synagogue owner must approve you.";
+      console.error(
+        "Registration error:",
+        err
+      );
 
 
-    form.reset();
+      let errorMessage =
+        err &&
+        err.message
+          ? err.message
+          : "Registration failed. Please try again.";
 
+
+      /*
+        Friendlier message when the email
+        already belongs to a user.
+      */
+
+      if(
+        errorMessage
+          .toLowerCase()
+          .includes("already")
+      ){
+
+        errorMessage =
+          "This email already has an account. Please use Login.";
+
+      }
+
+
+      statusBox.className =
+        "status error";
+
+      statusBox.textContent =
+        "⚠ " +
+        errorMessage;
+
+
+      registerBtn.disabled =
+        !syn.value;
+
+      registerBtn.textContent =
+        "Register";
+
+    }
 
   }
-
-  catch(err){
-
-    console.error(err);
-
-    statusBox.className =
-      "status error";
-
-    statusBox.textContent =
-      "⚠ Registration failed. Please try again.";
-
-    registerBtn.disabled = false;
-
-    registerBtn.textContent =
-      "Register";
-
-  }
-
-});
+);
 
 
 /* =====================================
