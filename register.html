@@ -1,8 +1,11 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <meta name="register-build" content="register-new-synagogue-v3">
+
   <title>Register Synagogue</title>
 
   <style>
@@ -79,6 +82,12 @@
       font-size:16px;
     }
 
+    input:focus,
+    select:focus{
+      outline:3px solid #f6d46955;
+      border-color:#f6d469;
+    }
+
     .auto-id{
       width:100%;
       padding:13px;
@@ -128,6 +137,15 @@
       text-align:center;
       margin-top:12px;
       font-weight:800;
+      line-height:1.45;
+    }
+
+    .msg.error{
+      color:#ff8c8c;
+    }
+
+    .msg.success{
+      color:#9df5b3;
     }
 
     .muted{
@@ -146,7 +164,25 @@
       padding-bottom:6px;
     }
 
+    .notice{
+      background:#ffffff12;
+      border:1px solid #d7a62d88;
+      border-radius:12px;
+      padding:12px;
+      margin:14px 0 20px;
+      text-align:center;
+      line-height:1.5;
+    }
+
     @media(max-width:650px){
+      body{
+        padding:12px;
+      }
+
+      .card{
+        padding:20px;
+      }
+
       .grid{
         grid-template-columns:1fr;
       }
@@ -157,6 +193,12 @@
 
       .sectionTitle{
         grid-column:auto;
+      }
+
+      button,
+      .btn{
+        width:100%;
+        text-align:center;
       }
     }
   </style>
@@ -169,9 +211,15 @@
     <h1>Register Your Synagogue</h1>
 
     <p class="muted">
-      After approval, your 7-day free trial begins.
-      Your Member ID is assigned automatically.
+      Create a new synagogue account.
+      You do NOT need to choose an existing synagogue.
     </p>
+
+    <div class="notice">
+      Your synagogue will be submitted for approval.
+      After approval, the 7-day free trial begins.
+      Your Member ID is assigned automatically.
+    </div>
 
     <div class="grid">
 
@@ -186,6 +234,7 @@
         <input
           id="fullName"
           autocomplete="name"
+          placeholder="Full name"
         >
       </label>
 
@@ -195,6 +244,7 @@
           id="phone"
           type="tel"
           autocomplete="tel"
+          placeholder="+1..."
         >
       </label>
 
@@ -202,6 +252,7 @@
         Synagogue name
         <input
           id="synagogueName"
+          placeholder="Synagogue name"
         >
       </label>
 
@@ -209,6 +260,7 @@
         Rabbi name
         <input
           id="rabbiName"
+          placeholder="Rabbi name"
         >
       </label>
 
@@ -233,6 +285,7 @@
         <input
           id="addressLine1"
           autocomplete="street-address"
+          placeholder="Street address"
         >
       </label>
 
@@ -242,6 +295,7 @@
         <input
           id="city"
           autocomplete="address-level2"
+          placeholder="City"
         >
       </label>
 
@@ -251,6 +305,7 @@
         <input
           id="stateRegion"
           autocomplete="address-level1"
+          placeholder="State / Province / Region"
         >
       </label>
 
@@ -260,6 +315,7 @@
         <input
           id="postalCode"
           autocomplete="postal-code"
+          placeholder="ZIP / Postal code"
         >
       </label>
 
@@ -338,7 +394,7 @@
       <!-- LOGIN -->
 
       <div class="sectionTitle">
-        Login
+        Login Information
       </div>
 
       <label>
@@ -348,6 +404,7 @@
           id="email"
           type="email"
           autocomplete="email"
+          placeholder="Email address"
         >
       </label>
 
@@ -359,6 +416,7 @@
           type="password"
           minlength="8"
           autocomplete="new-password"
+          placeholder="Minimum 8 characters"
         >
       </label>
 
@@ -370,9 +428,8 @@
       <button
         id="registerBtn"
         type="button"
-        onclick="register()"
       >
-        Register
+        Register Synagogue
       </button>
 
       <a
@@ -403,20 +460,46 @@
 
   <script>
 
+    console.log(
+      "REGISTER BUILD:",
+      "register-new-synagogue-v3"
+    );
+
+
+    const registerBtn =
+      document.getElementById("registerBtn");
+
+    const msg =
+      document.getElementById("msg");
+
+
+    registerBtn.addEventListener(
+      "click",
+      register
+    );
+
+
+    function showMessage(
+      text,
+      type = ""
+    ){
+
+      msg.textContent =
+        text;
+
+      msg.className =
+        "msg";
+
+      if(type){
+        msg.classList.add(type);
+      }
+
+    }
+
+
     async function register(){
 
-      const msg =
-        document.getElementById("msg");
-
-      const registerBtn =
-        document.getElementById("registerBtn");
-
-
-      /*
-        IMPORTANT:
-        These names now match the columns expected
-        by your corrected handle_new_user() trigger.
-      */
+      showMessage("");
 
       const values = {
 
@@ -500,11 +583,26 @@
 
 
         /*
-          Board / Member ID is assigned
-          automatically by Supabase.
+          IMPORTANT
+
+          This registration creates a NEW synagogue.
+
+          There is intentionally NO existing
+          synagogue selector here.
+
+          The trigger / database assigns the
+          member ID and synagogue account.
         */
 
-        board_slug:"auto"
+        board_slug:
+          "auto",
+
+        registration_type:
+          "new_synagogue",
+
+        account_status:
+          "pending"
+
       };
 
 
@@ -512,7 +610,8 @@
         document
           .getElementById("email")
           .value
-          .trim();
+          .trim()
+          .toLowerCase();
 
       const passwordValue =
         document
@@ -520,12 +619,16 @@
           .value;
 
 
-      /* VALIDATION */
+      /*
+        VALIDATION
+      */
 
       if(!values.full_name){
 
-        msg.textContent =
-          "Please enter the contact name.";
+        showMessage(
+          "Please enter the contact name.",
+          "error"
+        );
 
         return;
       }
@@ -533,8 +636,10 @@
 
       if(!values.phone){
 
-        msg.textContent =
-          "Please enter a phone number.";
+        showMessage(
+          "Please enter a phone number.",
+          "error"
+        );
 
         return;
       }
@@ -542,8 +647,10 @@
 
       if(!values.synagogue_name){
 
-        msg.textContent =
-          "Please enter the synagogue name.";
+        showMessage(
+          "Please enter the synagogue name.",
+          "error"
+        );
 
         return;
       }
@@ -551,8 +658,24 @@
 
       if(!emailValue){
 
-        msg.textContent =
-          "Please enter an email address.";
+        showMessage(
+          "Please enter an email address.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if(
+        !emailValue.includes("@") ||
+        !emailValue.includes(".")
+      ){
+
+        showMessage(
+          "Please enter a valid email address.",
+          "error"
+        );
 
         return;
       }
@@ -560,20 +683,36 @@
 
       if(passwordValue.length < 8){
 
-        msg.textContent =
-          "Password must be at least 8 characters.";
+        showMessage(
+          "Password must be at least 8 characters.",
+          "error"
+        );
 
         return;
       }
 
 
-      msg.textContent =
-        "Creating account…";
+      showMessage(
+        "Creating synagogue account..."
+      );
 
-      registerBtn.disabled = true;
+      registerBtn.disabled =
+        true;
 
 
       try{
+
+        if(
+          typeof getSupabase !==
+          "function"
+        ){
+
+          throw new Error(
+            "Supabase configuration did not load. Check supabase-config.js and saas-common.js."
+          );
+
+        }
+
 
         const sb =
           getSupabase();
@@ -582,12 +721,13 @@
         /*
           CREATE AUTH USER
 
-          The values object becomes:
-          auth.users.raw_user_meta_data
+          No approved synagogue is required.
 
-          Your Supabase trigger then copies
-          these values into profiles and
-          creates the synagogue account.
+          The form information is stored in
+          auth.users.raw_user_meta_data.
+
+          Your handle_new_user() trigger can
+          create the profile and synagogue.
         */
 
         const {
@@ -603,8 +743,10 @@
               passwordValue,
 
             options:{
+
               data:
                 values
+
             }
 
           });
@@ -615,20 +757,25 @@
         }
 
 
-        /*
-          If email confirmation is OFF,
-          Supabase may immediately give us
-          a live session.
+        if(
+          !data ||
+          !data.user
+        ){
 
-          In that case we also update the
-          profile directly as a backup.
+          throw new Error(
+            "Supabase did not return a new user."
+          );
+
+        }
+
+
+        /*
+          If Supabase immediately creates
+          a session, update supplemental
+          profile information as backup.
         */
 
-        if(
-          data &&
-          data.user &&
-          data.session
-        ){
+        if(data.session){
 
           const {
             error:profileError
@@ -636,6 +783,12 @@
             await sb
               .from("profiles")
               .update({
+
+                full_name:
+                  values.full_name,
+
+                phone:
+                  values.phone,
 
                 address_line1:
                   values.address_line1 || null,
@@ -671,7 +824,7 @@
           if(profileError){
 
             console.warn(
-              "Profile supplemental update:",
+              "Supplemental profile update:",
               profileError
             );
 
@@ -680,18 +833,15 @@
         }
 
 
-        msg.textContent =
-          "Registration received. " +
-          "Your Member ID has been assigned automatically. " +
-          "Check your email if confirmation is required. " +
-          "Your account is waiting for approval; " +
-          "after approval your 7-day free trial begins.";
+        showMessage(
+          "Registration successful. " +
+          "Your synagogue account has been created and is waiting for approval. " +
+          "Your Member ID is assigned automatically. " +
+          "If email confirmation is enabled, check your email. " +
+          "After approval, your 7-day free trial begins.",
+          "success"
+        );
 
-
-        /*
-          Optional:
-          Clear password after successful signup.
-        */
 
         document
           .getElementById("password")
@@ -707,14 +857,28 @@
         );
 
 
-        /*
-          Display Supabase's real error message.
-        */
-
-        msg.textContent =
+        let errorText =
           e && e.message
             ? e.message
             : String(e);
+
+
+        if(
+          errorText
+            .toLowerCase()
+            .includes("already registered")
+        ){
+
+          errorText =
+            "This email already has an account. Please use Login instead.";
+
+        }
+
+
+        showMessage(
+          errorText,
+          "error"
+        );
 
       }
       finally{
