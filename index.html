@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="mb-build" content="new-marble-board-v2-slow-prayer-scroll">
+<meta name="mb-build" content="new-marble-board-v3-holiday-integrated-utf8">
 <title>לוח בית הכנסת</title>
 <style>
 :root{--navy:#101b43;--navy2:#17285e;--gold:#c79b43;--gold2:#f0d48a;--ink:#33240f;--cream:#fffaf0;--line:#b98a36}
@@ -250,6 +250,191 @@ textarea{resize:vertical;min-height:85px}
 .creator-ticker{width:100%;min-height:30px;overflow:hidden;display:flex;align-items:center;background:#07132d;border:2px ridge #c79b43;border-radius:8px;direction:ltr}
 .creator-ticker-text{display:inline-block;min-width:100%;white-space:nowrap;text-align:center;color:#39ff64;font-size:clamp(14px,1vw,19px);font-weight:1000;text-shadow:0 0 5px #39ff64;animation:creatorScroll 18s linear infinite}
 @keyframes creatorScroll{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+
+/* ===== Integrated automatic holiday page ===== */
+
+/* =========================================================
+   AUTOMATIC HOLIDAY PAGE — SAME NAVY / GOLD SYNAGOGUE STYLE
+   ========================================================= */
+.holiday-auto-page{
+  position:fixed;
+  inset:0;
+  z-index:85000;
+  display:none;
+  direction:ltr;
+  overflow:hidden;
+  color:#33240f;
+  padding:2.2vh 2.2vw 5.2vh;
+  background:
+    radial-gradient(circle at 50% 5%,rgba(255,255,255,.97),rgba(247,238,207,.97) 52%,rgba(203,169,91,.96)),
+    repeating-linear-gradient(105deg,transparent 0 35px,rgba(135,116,80,.07) 36px 37px);
+  border:clamp(5px,.65vw,12px) ridge #c79b43;
+}
+.holiday-auto-page.active{display:block}
+.holiday-auto-shell{
+  height:100%;
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  gap:1.4vh;
+}
+.holiday-auto-head{
+  display:grid;
+  grid-template-columns:minmax(90px,8vw) 1fr minmax(180px,20vw);
+  gap:1vw;
+  align-items:center;
+}
+.holiday-auto-icon{
+  width:clamp(72px,7vw,120px);
+  aspect-ratio:1;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:clamp(38px,4vw,72px);
+  background:radial-gradient(circle,#263c7a,#111c45);
+  border:5px ridge #c79b43;
+  box-shadow:0 0 0 6px #e6c875;
+}
+.holiday-auto-title-wrap{text-align:center;min-width:0}
+.holiday-auto-title{
+  margin:0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(38px,4.4vw,86px);
+  line-height:1;
+  color:#101b43;
+  text-shadow:0 2px 0 #fff,0 4px 10px #0002;
+}
+.holiday-auto-subtitle{
+  margin-top:.5vh;
+  font-size:clamp(18px,1.55vw,31px);
+  font-weight:1000;
+  color:#7a5519;
+}
+.holiday-auto-place{
+  text-align:right;
+  background:linear-gradient(180deg,#17285e,#0b1431);
+  color:#fff;
+  border:3px ridge #c79b43;
+  border-radius:16px;
+  padding:1vh 1vw;
+  overflow:hidden;
+}
+.holiday-auto-place strong{
+  display:block;
+  color:#f0d48a;
+  font-size:clamp(16px,1.2vw,24px);
+}
+.holiday-auto-place span{
+  display:block;
+  margin-top:.25vh;
+  font-size:clamp(12px,.95vw,18px);
+  font-weight:900;
+}
+.holiday-auto-grid-wrap{
+  position:relative;
+  min-height:0;
+  overflow:hidden;
+  border:5px double #9c762f;
+  border-radius:28px;
+  padding:1.4vh 1vw;
+  background:radial-gradient(circle at 50% 20%,#fffdf6,#f6e8bd 72%,#d5b871);
+  box-shadow:inset 0 0 30px #8d672733;
+}
+.holiday-auto-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1.2vh 1vw;
+  align-content:start;
+  animation:holidayGridScroll var(--holiday-grid-scroll,70s) linear infinite;
+  will-change:transform;
+}
+@keyframes holidayGridScroll{
+  from{transform:translateY(0)}
+  to{transform:translateY(calc(-100% + 60vh))}
+}
+.holiday-day-card{
+  min-width:0;
+  border:3px solid #b98a36;
+  border-radius:18px;
+  background:rgba(255,253,244,.94);
+  overflow:hidden;
+  box-shadow:0 3px 12px #0002;
+}
+.holiday-day-head{
+  padding:.7vh .8vw;
+  background:linear-gradient(180deg,#17285e,#101b43);
+  color:#f0d48a;
+  font-size:clamp(17px,1.35vw,27px);
+  font-weight:1000;
+}
+.holiday-day-event{
+  padding:.5vh .8vw;
+  background:linear-gradient(180deg,#ffe9a8,#d3a349);
+  color:#4a3210;
+  font-size:clamp(15px,1.1vw,22px);
+  font-weight:1000;
+}
+.holiday-day-rows{padding:.45vh .75vw}
+.holiday-row{
+  display:grid;
+  grid-template-columns:2.1em 8.2em 1fr;
+  align-items:center;
+  gap:.45vw;
+  padding:.33vh 0;
+  border-bottom:1px dotted #ad8a4c;
+  font-size:clamp(13px,1vw,20px);
+  line-height:1.25;
+}
+.holiday-row:last-child{border-bottom:0}
+.holiday-row-icon{text-align:center}
+.holiday-row-time{white-space:nowrap;color:#101b43}
+.holiday-row-label{font-weight:900}
+.holiday-auto-bottom{
+  overflow:hidden;
+  border:3px ridge #c79b43;
+  border-radius:12px;
+  background:linear-gradient(180deg,#17285e,#0a1230);
+  color:#fff6ba;
+  min-height:4.7vh;
+  display:flex;
+  align-items:center;
+}
+.holiday-auto-scroll-text{
+  display:inline-block;
+  min-width:100%;
+  white-space:nowrap;
+  font-size:clamp(16px,1.35vw,27px);
+  font-weight:1000;
+  animation:holidayBottomTicker 26s linear infinite;
+}
+@keyframes holidayBottomTicker{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
+}
+.holiday-auto-close{
+  position:absolute;
+  top:1.2vh;
+  left:1vw;
+  z-index:2;
+  border:2px solid #c79b43;
+  border-radius:999px;
+  background:#101b43;
+  color:white;
+  padding:.5vh .8vw;
+  font-weight:1000;
+  cursor:pointer;
+}
+@media(max-width:700px){
+  .holiday-auto-page{padding:10px 8px 56px;overflow:auto}
+  .holiday-auto-shell{height:auto;min-height:100vh}
+  .holiday-auto-head{grid-template-columns:64px 1fr}
+  .holiday-auto-place{grid-column:1/-1;text-align:center}
+  .holiday-auto-title{font-size:38px}
+  .holiday-auto-subtitle{font-size:17px}
+  .holiday-auto-grid-wrap{overflow:auto;min-height:65vh}
+  .holiday-auto-grid{grid-template-columns:1fr;animation:none}
+  .holiday-row{grid-template-columns:2em 7.2em 1fr;font-size:14px}
+}
+
 </style>
 </head>
 <body>
@@ -298,6 +483,34 @@ textarea{resize:vertical;min-height:85px}
   </div>
   <div class="rotate-progress" style="color:#fff">לוח בית הכנסת • שיעור יומי</div>
 </section>
+
+
+<section class="holiday-auto-page" id="holidayAutoPage" aria-hidden="true">
+  <button class="holiday-auto-close" type="button" onclick="hideHolidayPage();startHolidayPageRotation()">✕ Return to Board</button>
+  <div class="holiday-auto-shell">
+    <header class="holiday-auto-head">
+      <div class="holiday-auto-icon" id="holidayAutoIcon">✡️</div>
+      <div class="holiday-auto-title-wrap">
+        <h1 class="holiday-auto-title" id="holidayAutoTitle">Jewish Holiday</h1>
+        <div class="holiday-auto-subtitle" id="holidayAutoSubtitle">Synagogue Holiday Schedule</div>
+      </div>
+      <div class="holiday-auto-place">
+        <strong id="holidayAutoSynagogue">Synagogue</strong>
+        <span id="holidayAutoRabbi"></span>
+        <span>New York Time</span>
+      </div>
+    </header>
+
+    <div class="holiday-auto-grid-wrap">
+      <div class="holiday-auto-grid" id="holidayAutoGrid"></div>
+    </div>
+
+    <footer class="holiday-auto-bottom">
+      <div class="holiday-auto-scroll-text" id="holidayAutoScrollText"></div>
+    </footer>
+  </div>
+</section>
+
 
 <dialog id="adminDialog">
   <div class="admin-head"><h2>⚙️ ניהול לוח בית הכנסת</h2><div class="actions"><button class="action" id="saveAll" type="button">💾 שמור הכול</button><button class="action close" id="closeAdmin" type="button">סגור</button></div></div>
@@ -742,6 +955,301 @@ document.querySelectorAll('.subject-start').forEach(b=>b.addEventListener('click
 document.querySelectorAll('.subject-stop').forEach(b=>b.addEventListener('click',()=>stopSubject(b.dataset.subject)));
 refreshSubjectStatuses();
 render();updateClocks();updateJewishCalendar();startShiurScheduler();setInterval(updateClocks,1000);setInterval(updateJewishCalendar,15*60*1000);
+
+/* ===== Integrated automatic holiday page ===== */
+
+/* =========================================================
+   AUTOMATIC JEWISH HOLIDAY / EVENT POPUP
+   New York time • 60 sec holiday page / 60 sec main board
+   Uses the existing `state`, `esc`, `fmt`, `localYMD`,
+   `addGregorianDays`, `getHebrewDate`, and Hebcal setup.
+   ========================================================= */
+
+const HOLIDAY_PAGE_SHOW_MS = 60000;   // holiday page stays visible 60 sec
+const HOLIDAY_PAGE_HIDE_MS = 60000;   // main board stays visible 60 sec
+
+let holidayPageTimer = null;
+let holidayPageSwapTimer = null;
+let holidayPageEnabledForToday = false;
+let holidayPageData = null;
+
+function normalizeHolidayTitle(t=''){
+  return String(t).toLowerCase()
+    .replace(/[’']/g,"'")
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function holidayGroupFromTitle(title=''){
+  const t = normalizeHolidayTitle(title);
+
+  if (t.includes('sukkot') || t.includes('shmini atzeret') || t.includes('simchat torah')) {
+    return { key:'sukkot-season', title:'חג סוכות שמח', subtitle:'מועדים לשמחה • Sukkot • Shemini Atzeret • Simchat Torah' };
+  }
+  if (t.includes('rosh hashana')) return { key:'rosh-hashanah', title:'Shanah Tovah!', subtitle:'Rosh Hashanah' };
+  if (t.includes('yom kippur')) return { key:'yom-kippur', title:'Gmar Chatimah Tovah', subtitle:'Yom Kippur' };
+  if (t.includes('chanukah')) return { key:'chanukah', title:'Happy Chanukah!', subtitle:'Festival of Lights' };
+  if (t.includes('purim')) return { key:'purim', title:'Happy Purim!', subtitle:'Purim' };
+  if (t.includes('pesach') || t.includes('passover')) return { key:'pesach', title:'Happy Passover!', subtitle:'Pesach' };
+  if (t.includes('shavuot')) return { key:'shavuot', title:'Happy Shavuot!', subtitle:'Shavuot' };
+  if (t.includes('rosh chodesh')) return { key:'rosh-chodesh', title:'Rosh Chodesh', subtitle:'A New Hebrew Month' };
+  if (t.includes('fast') || t.includes('tzom') || t.includes("tish'a b'av") || t.includes('tisha b’av')) {
+    return { key:'fast-day', title:'Fast Day', subtitle:title };
+  }
+  if (t.includes("tu bishvat") || t.includes("tu b'shvat")) return { key:'tu-bishvat', title:"Tu BiShvat", subtitle:'New Year of the Trees' };
+  if (t.includes("lag baomer") || t.includes("lag b'omer")) return { key:'lag-baomer', title:"Lag BaOmer", subtitle:'Jewish Holiday' };
+  if (t.includes("tu b'av") || t.includes("tu bav")) return { key:'tu-bav', title:"Tu B'Av", subtitle:'Jewish Holiday' };
+
+  return { key:'event', title:title || 'Jewish Holiday', subtitle:'Synagogue Event' };
+}
+
+function isDisplayHolidayEvent(e){
+  const cat = String(e?.category || '').toLowerCase();
+  const title = normalizeHolidayTitle(e?.title || '');
+  if (['holiday','fast','roshchodesh'].includes(cat)) return true;
+
+  return [
+    'rosh hashana','yom kippur','sukkot','shmini atzeret','simchat torah',
+    'chanukah','purim','pesach','passover','shavuot','tu bishvat',
+    "tu b'shvat",'lag baomer',"lag b'omer","tu b'av",'rosh chodesh',
+    'fast of','tzom',"tish'a b'av",'tisha b’av'
+  ].some(x => title.includes(x));
+}
+
+function isSameHolidayFamily(eventTitle, groupKey){
+  const g = holidayGroupFromTitle(eventTitle);
+  if (groupKey === 'sukkot-season') return g.key === 'sukkot-season';
+  return g.key === groupKey;
+}
+
+function holidayIcon(groupKey){
+  return ({
+    'sukkot-season':'🌿',
+    'rosh-hashanah':'🍎',
+    'yom-kippur':'📖',
+    'chanukah':'🕎',
+    'purim':'🎭',
+    'pesach':'🍷',
+    'shavuot':'🌸',
+    'rosh-chodesh':'🌙',
+    'fast-day':'🕯️',
+    'tu-bishvat':'🌳',
+    'lag-baomer':'🔥',
+    'tu-bav':'❤️',
+    'event':'✡️'
+  })[groupKey] || '✡️';
+}
+
+function holidayEnglishName(title=''){
+  const t = String(title || '');
+  return t
+    .replace(/Sukkot I/gi,'Sukkot — 1st Day')
+    .replace(/Sukkot II/gi,'Sukkot — 2nd Day')
+    .replace(/Shmini Atzeret/gi,'Shemini Atzeret')
+    .replace(/Simchat Torah/gi,'Simchat Torah');
+}
+
+function holidayScheduleRowsForDate(dateStr, eventsForDate){
+  const [yy,mm,dd] = dateStr.split('-').map(Number);
+  const weekday = new Date(Date.UTC(yy,mm-1,dd,12)).getUTCDay();
+  const rows = [];
+
+  // Weekday / Shabbat services from current synagogue settings
+  if (weekday === 6) {
+    if (state.shabbatShacharit) rows.push(['🕍', fmt(state.shabbatShacharit), 'Shacharit']);
+    if (state.shabbatMincha) rows.push(['🕍', fmt(state.shabbatMincha), 'Mincha']);
+    if (state.shabbatMaariv) rows.push(['🌙', fmt(state.shabbatMaariv), 'Maariv']);
+    if (state.shabbatHavdalah) rows.push(['✨', fmt(state.shabbatHavdalah), 'Havdalah']);
+  } else {
+    if (state.shacharit) rows.push(['☀️', fmt(state.shacharit), 'Shacharit']);
+    if (state.mincha) rows.push(['🕍', fmt(state.mincha), 'Mincha']);
+    if (state.maariv) rows.push(['🌙', fmt(state.maariv), 'Maariv']);
+  }
+
+  // Candle lighting if supplied in the board
+  if (weekday === 5 && state.manualCandles) {
+    rows.push(['🕯️', fmt(state.manualCandles), 'Candle Lighting']);
+  }
+
+  // Fast day times
+  if (eventsForDate.some(e => String(e.category).toLowerCase()==='fast' || /fast|tzom|tish/i.test(String(e.title||'')))) {
+    if (state.fastStart || state.manualAlot) rows.push(['⏱️', fmt(state.fastStart || state.manualAlot), 'Fast Begins']);
+    if (state.fastEnd || state.manualTzeit) rows.push(['⭐', fmt(state.fastEnd || state.manualTzeit), 'Fast Ends']);
+  }
+
+  // Synagogue content already stored in the app
+  if (state.shiur) rows.push(['📖', fmt(state.shiur), 'Torah Study']);
+  if (state.announcement && String(state.announcement).trim()) rows.push(['📣', '', String(state.announcement).trim()]);
+
+  return rows.slice(0,7);
+}
+
+function formatHolidayDate(dateStr){
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const dt = new Date(Date.UTC(y,m-1,d,12));
+  return new Intl.DateTimeFormat('en-US',{
+    weekday:'long', month:'long', day:'numeric', timeZone:'UTC'
+  }).format(dt);
+}
+
+function makeHolidayCard(dateStr, events){
+  const title = events.map(e=>holidayEnglishName(e.title || e.hebrew || '')).filter(Boolean).join(' • ');
+  const rows = holidayScheduleRowsForDate(dateStr,events);
+  return `
+    <article class="holiday-day-card">
+      <div class="holiday-day-head">${esc(formatHolidayDate(dateStr))}</div>
+      <div class="holiday-day-event">${esc(title || 'Jewish Holiday')}</div>
+      <div class="holiday-day-rows">
+        ${rows.map(([icon,time,label])=>`
+          <div class="holiday-row">
+            <span class="holiday-row-icon">${icon}</span>
+            <strong class="holiday-row-time">${esc(time)}</strong>
+            <span class="holiday-row-label">${esc(label)}</span>
+          </div>`).join('')}
+      </div>
+    </article>`;
+}
+
+async function loadAutomaticHolidayPage(){
+  try{
+    const today = localYMD(new Date(), state.timezone || 'America/New_York');
+    const start = addGregorianDays(today,-1);
+    const end = addGregorianDays(today,14);
+    const israel = state.calendarRegion === 'israel' ? '&i=on' : '';
+
+    const url = `https://www.hebcal.com/hebcal?cfg=json&v=1&maj=on&min=on&mod=on&nx=on&ss=on&mf=on&c=on${israel}&start=${start}&end=${end}`;
+    const cal = await fetch(url,{cache:'no-store'}).then(r=>{
+      if(!r.ok) throw new Error('Holiday calendar request failed');
+      return r.json();
+    });
+
+    const items = Array.isArray(cal.items) ? cal.items : [];
+    const todayEvents = items.filter(e=>e.date===today && isDisplayHolidayEvent(e));
+
+    // If today is not a Jewish holiday/event, stop the automatic popup.
+    if (!todayEvents.length){
+      holidayPageEnabledForToday = false;
+      holidayPageData = null;
+      stopHolidayPageRotation();
+      hideHolidayPage();
+      return;
+    }
+
+    const primary = todayEvents[0];
+    const group = holidayGroupFromTitle(primary.title || primary.hebrew || '');
+    let relevant = items.filter(e => isDisplayHolidayEvent(e) && isSameHolidayFamily(e.title || e.hebrew || '',group.key));
+
+    // Keep the Sukkot page alive through Shemini Atzeret and Simchat Torah.
+    // Other holidays use their own same-family dates only.
+    if (group.key !== 'sukkot-season') {
+      relevant = relevant.filter(e=>{
+        const delta = Math.abs(
+          (new Date(e.date+'T12:00:00Z') - new Date(today+'T12:00:00Z')) / 86400000
+        );
+        return delta <= 7;
+      });
+    }
+
+    const byDate = {};
+    relevant.forEach(e=>{
+      if(!byDate[e.date]) byDate[e.date]=[];
+      byDate[e.date].push(e);
+    });
+
+    const dates = Object.keys(byDate).sort().slice(0,10);
+    holidayPageData = {group, byDate, dates};
+    holidayPageEnabledForToday = true;
+    renderHolidayPage();
+    startHolidayPageRotation();
+  }catch(err){
+    console.error('Automatic holiday page failed:',err);
+  }
+}
+
+function renderHolidayPage(){
+  if(!holidayPageData) return;
+  const {group,byDate,dates} = holidayPageData;
+  const page = document.getElementById('holidayAutoPage');
+  if(!page) return;
+
+  document.getElementById('holidayAutoIcon').textContent = holidayIcon(group.key);
+  document.getElementById('holidayAutoTitle').textContent = group.title;
+  document.getElementById('holidayAutoSubtitle').textContent = group.subtitle;
+  document.getElementById('holidayAutoSynagogue').textContent = state.synagogue || 'Synagogue';
+  document.getElementById('holidayAutoRabbi').textContent = state.rabbi || '';
+  document.getElementById('holidayAutoGrid').innerHTML = dates.map(d=>makeHolidayCard(d,byDate[d])).join('');
+
+  const noteParts = [];
+  if(state.leftNotice) noteParts.push(state.leftNotice);
+  if(state.rightNotice) noteParts.push(state.rightNotice);
+  if(state.mainMessage) noteParts.push(state.mainMessage);
+  document.getElementById('holidayAutoScrollText').textContent = noteParts.filter(Boolean).join('   ✦   ');
+}
+
+function hideHolidayPage(){
+  const page = document.getElementById('holidayAutoPage');
+  if(!page) return;
+  page.classList.remove('active');
+  page.setAttribute('aria-hidden','true');
+}
+
+function showHolidayPage(){
+  if(!holidayPageEnabledForToday || !holidayPageData) return;
+  if(document.getElementById('prayerOverlay')?.classList.contains('active')) return;
+  if(document.getElementById('timedShiur')?.classList.contains('active')) return;
+
+  const page = document.getElementById('holidayAutoPage');
+  if(!page) return;
+  renderHolidayPage();
+  page.classList.add('active');
+  page.setAttribute('aria-hidden','false');
+}
+
+function holidayRotationStep(show){
+  if(!holidayPageEnabledForToday) return;
+  if(show){
+    showHolidayPage();
+    holidayPageSwapTimer = setTimeout(()=>holidayRotationStep(false),HOLIDAY_PAGE_SHOW_MS);
+  }else{
+    hideHolidayPage();
+    holidayPageSwapTimer = setTimeout(()=>holidayRotationStep(true),HOLIDAY_PAGE_HIDE_MS);
+  }
+}
+
+function startHolidayPageRotation(){
+  if(!holidayPageEnabledForToday) return;
+  if(holidayPageTimer) clearTimeout(holidayPageTimer);
+  if(holidayPageSwapTimer) clearTimeout(holidayPageSwapTimer);
+
+  // Main board gets the first 60 seconds, then holiday page, then alternate.
+  hideHolidayPage();
+  holidayPageTimer = setTimeout(()=>holidayRotationStep(true),HOLIDAY_PAGE_HIDE_MS);
+}
+
+function stopHolidayPageRotation(){
+  if(holidayPageTimer){clearTimeout(holidayPageTimer);holidayPageTimer=null}
+  if(holidayPageSwapTimer){clearTimeout(holidayPageSwapTimer);holidayPageSwapTimer=null}
+}
+
+/* Holiday page should not cover prayers */
+const originalShowPrayer = showPrayer;
+showPrayer = function(key){
+  hideHolidayPage();
+  return originalShowPrayer(key);
+};
+
+/* Restart the holiday cycle after prayer closes */
+const originalHidePrayer = hidePrayer;
+hidePrayer = function(){
+  const out = originalHidePrayer();
+  if(holidayPageEnabledForToday) startHolidayPageRotation();
+  return out;
+};
+
+/* Run now and refresh every 15 minutes */
+loadAutomaticHolidayPage();
+setInterval(loadAutomaticHolidayPage,15*60*1000);
+
 </script>
 
 <script id="three-role-login-redirect">

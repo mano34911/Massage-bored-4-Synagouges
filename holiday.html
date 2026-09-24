@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>חג סוכות שמח</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  min-height:100%;
+  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+  background:#fffdf7;
+  color:#1d1d1d;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* TOP BAR */
+.topbar{
+  width:100%;
+  min-height:115px;
+  background:#000;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 22px;
+  direction:ltr;
+}
+
+.close-button{
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  border:none;
+  background:#c9c9c9;
+  color:#000;
+  font-size:62px;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+}
+
+.page-name{
+  font-size:58px;
+  font-weight:700;
+  text-transform:lowercase;
+}
+
+/* MAIN */
+main{
+  width:min(100%,900px);
+  padding:28px 18px 60px;
+}
+
+/* HOLIDAY FRAME */
+.holiday-frame{
+  position:relative;
+  border:8px solid #d8a22e;
+  border-radius:30px;
+  padding:34px 20px;
+  background:
+    linear-gradient(rgba(255,255,255,.94),rgba(255,255,255,.94)),
+    repeating-linear-gradient(
+      45deg,
+      #f4d27a 0,
+      #f4d27a 8px,
+      #fff6d5 8px,
+      #fff6d5 16px
+    );
+  box-shadow:0 8px 24px rgba(0,0,0,.15);
+  overflow:hidden;
+}
+
+.holiday-frame::before,
+.holiday-frame::after{
+  content:"✡";
+  position:absolute;
+  color:#d19c26;
+  font-size:52px;
+  opacity:.8;
+}
+
+.holiday-frame::before{
+  top:8px;
+  right:14px;
+}
+
+.holiday-frame::after{
+  bottom:8px;
+  left:14px;
+}
+
+/* BACK BUTTON */
+.back-row{
+  direction:ltr;
+  margin-bottom:24px;
+}
+
+.back-button{
+  display:inline-block;
+  text-decoration:none;
+  background:#eeeeee;
+  color:#006ee6;
+  padding:8px 16px;
+  border-radius:18px;
+  font-size:18px;
+}
+
+/* HEBREW HOLIDAY TITLE */
+.hebrew-title{
+  margin:10px 0 8px;
+  text-align:center;
+  direction:rtl;
+  font-size:48px;
+  font-weight:900;
+  color:#135c2c;
+  text-shadow:0 2px 0 #f4d36c;
+}
+
+.sub-hebrew{
+  text-align:center;
+  font-size:25px;
+  color:#8a6415;
+  margin-bottom:30px;
+}
+
+/* ENGLISH */
+.english-title{
+  margin:18px 0 28px;
+  text-align:center;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:42px;
+  font-weight:700;
+}
+
+.schedule-box{
+  border:3px solid #d3af58;
+  border-radius:20px;
+  padding:24px;
+  background:#fffaf0;
+}
+
+.schedule-title{
+  text-align:center;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:31px;
+  margin:0 0 12px;
+}
+
+.time-title{
+  text-align:center;
+  font-size:28px;
+  font-weight:700;
+  margin:0;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+  .topbar{
+    min-height:112px;
+    padding:10px 14px;
+  }
+
+  .close-button{
+    width:90px;
+    height:90px;
+    font-size:58px;
+  }
+
+  .page-name{
+    font-size:53px;
+  }
+
+  main{
+    padding:26px 10px 50px;
+  }
+
+  .holiday-frame{
+    padding:28px 14px;
+    border-width:6px;
+  }
+
+  .hebrew-title{
+    font-size:40px;
+  }
+
+  .english-title{
+    font-size:31px;
+  }
+
+  .schedule-title{
+    font-size:28px;
+  }
+
+  .time-title{
+    font-size:25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <button class="close-button" onclick="goBack()" aria-label="Close">×</button>
+  <div class="page-name">holiday</div>
+</header>
+
+<main>
+
+  <section class="holiday-frame">
+
+    <div class="back-row">
+      <a class="back-button" href="index.html">
+        ← Return to Board
+      </a>
+    </div>
+
+    <h1 class="hebrew-title" lang="he" dir="rtl">
+      חג סוכות שמח
+    </h1>
+
+    <div class="sub-hebrew" lang="he" dir="rtl">
+      מועדים לשמחה
+    </div>
+
+    <h2 class="english-title">
+      Jewish Holiday
+    </h2>
+
+    <div class="schedule-box">
+
+      <div class="schedule-title">
+        Synagogue Holiday Schedule
+      </div>
+
+      <div class="time-title">
+        Synagogue New York Time
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+function goBack(){
+  if(window.history.length > 1){
+    window.history.back();
+  }else{
+    window.location.href = "index.html";
+  }
+}
+</script>
+
+</body>
+</html>
